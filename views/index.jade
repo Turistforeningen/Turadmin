@@ -1,0 +1,36 @@
+extends layout
+
+block extreHeadContent
+    link(rel='stylesheet', href='/leaflet-0.7.1/leaflet.css')
+    script(src='http://documentcloud.github.com/underscore/underscore-min.js')
+    script(src='/backbone/backbone-min.js')
+    script(src='/leaflet-0.7.1/leaflet.js')
+    script(src='javascripts/map.js')
+
+block content
+
+    div.container
+        div.masthead
+            h3.text-muted Tur uten navn
+            ul.nav.nav-tabs
+                li.active
+                    a(href='#') Fakta
+                li
+                    a(href='#') Inntegning
+                li
+                    a(href='#') Bilder
+        div
+            h1 Overskrift
+            p.lead Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet
+            p.btn.btn-lg.btn-success Lagre
+
+        script(type="template" id="map-template")
+            div#map(style="height:500px;width:500px")
+
+
+        div#mapContainer(style="height:500px;width:500px")
+
+
+        div.footer
+            p &copy; Den Norske Turistforening 2014
+
