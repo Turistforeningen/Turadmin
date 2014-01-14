@@ -1,0 +1,49 @@
+extends header
+block extraHeadContent
+    link(rel='stylesheet', href='/leaflet-0.7.1/leaflet.css')
+    script(src='/underscore/underscore-min.js')
+    script(src='/backbone/backbone-min.js')
+    script(src='/leaflet-0.7.1/leaflet.js')
+    script(src='javascripts/map.js')
+    script
+        | $(document).ready(function () {
+        |   var map = new DNT.MapView();
+        | });
+block content
+    div.container
+        div.masthead
+            h2.page-header Tur uten navn
+                small
+                    span.label.label-danger Ikke lagret
+                small.pull-right Sist lagret:
+                    span.label.label-danger Aldri
+            ul.nav.nav-tabs
+                li.active
+                    a(href='#') Fakta
+                li
+                    a(href='#') Inntegning
+                li
+                    a(href='#') Bilder
+        div.clearfix(style="margin-top:10px")
+            div.panel.panel-default.pull-right
+                div.panel-body
+                    form(method="post", enctype="multipart/form-data")
+                        label Last opp GPX:
+                        p.btn.btn-sm.btn-default
+                            span.glyphicon.glyphicon-upload
+                            | Velg fil...
+        div.clearfix
+            p.btn.btn-default.btn-sm.btn-group.pull-left
+                span.glyphicon.glyphicon-pencil
+                | Start inntegning
+            p.btn.btn-default.btn-sm.btn-group.pull-left.hidden
+                span.glyphicon.glyphicon-move
+                | Endre inntegning
+            p.btn.btn-sm.btn-danger.pull-right
+                span.glyphicon.glyphicon-trash
+                | Slett inntegning
+            //script(type="template" id="map-template")
+            //  div#map(style="height:500px;width:500px")
+        div#mapContainer(style="height:500px;width:100%;margin-top:10px")
+        div.footer(style="margin-top:10px")
+            p &copy; Den Norske Turistforening
