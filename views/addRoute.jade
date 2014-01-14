@@ -1,4 +1,4 @@
-extends header
+extends layout
 block extraHeadContent
     link(rel='stylesheet', href='/leaflet-0.7.1/leaflet.css')
     script(src='/underscore/underscore-min.js')
@@ -57,5 +57,3 @@ block content
             //script(type="template" id="map-template")
             //  div#map(style="height:500px;width:500px")
         div#mapContainer(style="height:500px;width:100%;margin-top:10px")
-        div.footer(style="margin-top:10px")
-            p &copy; Den Norske Turistforening

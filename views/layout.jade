@@ -1,12 +1,29 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='jquery/jquery-1.10.2.min.js')
-    script(src='/bootstrap/js/bootstrap.min.js')
-    block extraHeadContent
-  body
-    block header
-    block content
+    head
+        title= title
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src='jquery/jquery-1.10.2.min.js')
+        script(src='/bootstrap/js/bootstrap.min.js')
+        block extraHeadContent
+    body
+        div.navbar.navbar-fixed-top.navbar-inverse(style="height:52px")
+            div.container
+                div.navbar-header
+                    a.navbar-brand(href="http://www.ut.no" alt="Til ut.no")
+                        img(src="images/ut.no-logo_hvit.png" style="height:24px")
+                div.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href="index") Mine turer
+                        li
+                            a(href="addRoute") Opprett ny tur
+
+                    block saveAndPublish
+
+        block content
+
+        div.footer(style="margin-top:10px")
+            div.container
+                p &copy; Den Norske Turistforeningteest
