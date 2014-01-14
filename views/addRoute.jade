@@ -9,6 +9,18 @@ block extraHeadContent
         | $(document).ready(function () {
         |   var map = new DNT.MapView();
         | });
+
+
+block saveAndPublish
+    div.navbar-form.pull-right
+        a.btn.btn-sm.btn-primary
+            i.glyphicon.glyphicon-share
+            |Publiser
+        a.btn.btn-sm.btn-default
+            i.glyphicon.glyphicon-check
+            |Lagre
+
+
 block content
     div.container
         div.masthead

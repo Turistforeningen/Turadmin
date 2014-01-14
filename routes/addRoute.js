@@ -1,8 +1,14 @@
 
 /*
+ * Copyright (c) $year, Den Norske Turistforening (DNT)
+ *
+ * https://github.com/Turistforeningen/turadmin
+ */
+
+/*
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+exports.addRoute = function(req, res){
+  res.render('addRoute', { title: 'Opprett ny tur' });
 };
