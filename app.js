@@ -4,11 +4,9 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var addRoute = require('./routes/addRoute');
 var http = require('http');
 var path = require('path');
-
+var restler = require('restler');
 var app = express();
 
 // all environments
@@ -24,14 +22,38 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+if ('development' === app.get('env')) {
+    app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/index', routes.index);
-app.get('/addRoute', addRoute.addRoute);
+var routes = require('./routes')(app);
+var addRoute = require('./routes/addRoute')(app);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+
+http.createServer(app).listen(app.get('port'), function () {
+    "use strict";
+    console.log('Express server listening on port ' + app.get('port'));
 });
+
+
+app.all('/restProxy/*', function (req, res) {
+    "use strict";
+    var path = req.url;
+    path = path.replace("restProxy/", "");
+    var url = 'http://api.turistforeningen.no' + path;
+    console.log(url);
+    restler.get(url, {
+
+    }).on('complete', function (data) {
+        console.log(data);
+        res.json(data);
+    });
+
+});
+
+
+
+
+
+
+

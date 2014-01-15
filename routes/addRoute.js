@@ -5,10 +5,17 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-/*
- * GET home page.
- */
+module.exports = function (app, options) {
+    "use strict";
 
-exports.addRoute = function(req, res){
-  res.render('addRoute', { title: 'Opprett ny tur' });
+    /*
+     * GET add new route page.
+     */
+    var addRoute = function (req, res) {
+        res.render('addRoute', { title: 'Opprett ny tur' });
+    };
+
+    app.get('/addRoute', addRoute);
 };
+
+
