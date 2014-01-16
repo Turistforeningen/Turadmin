@@ -12,7 +12,7 @@ module.exports = function (app, options) {
      * GET add new route page.
      */
     var addRoute = function (req, res) {
-        res.render('addRoute', { title: 'Opprett ny tur' });
+        res.render('addRoute', { title: 'Opprett ny tur', apiUri: options.apiUri });
     };
 
     app.get('/addRoute', addRoute);

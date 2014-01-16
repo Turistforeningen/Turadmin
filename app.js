@@ -9,6 +9,9 @@ var path = require('path');
 var restler = require('restler');
 var app = express();
 
+var apiUri = process.env.ROUTING_API_URL;
+
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +30,7 @@ if ('development' === app.get('env')) {
 }
 
 var routes = require('./routes')(app);
-var addRoute = require('./routes/addRoute')(app);
+var addRoute = require('./routes/addRoute')(app, {apiUri: apiUri});
 
 
 http.createServer(app).listen(app.get('port'), function () {

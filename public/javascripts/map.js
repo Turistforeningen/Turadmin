@@ -10,9 +10,6 @@ var DNT = window.DNT || {};
     "use strict";
     var mapView, MapView;
 
-    //var restUri = "http://localhost:3000/restProxy/route/?coords=";
-    var restUri = "http://api.turistforeningen.no/route/?coords=";
-
     function createMapLayers() {
         var topo, summer, winter, cabin, baseLayerConf, overlayConf;
 
@@ -55,6 +52,8 @@ var DNT = window.DNT || {};
           //  console.log("l1: " + l1 + "\nl2: " + l2);
         //};
         var myRouter = function (l1, l2, cb) {
+            var apiUri = $('body').data("apiuri");
+            var restUri = apiUri + "/route/?coords=";
             var routeUri = restUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',') + '&callback=?';
             var req = $.getJSON(routeUri);
             req.always(function (data, status) {
@@ -65,7 +64,7 @@ var DNT = window.DNT || {};
                             var d1 = l1.distanceTo(layer._latlngs[0]);
                             var d2 = l2.distanceTo(layer._latlngs[layer._latlngs.length - 1]);
 
-                            if (d1 < 10 && d2 < 10) {
+                            if (d1 < 100 && d2 < 100) {
                                 return cb(null, layer);
                             }
                             return cb(new Error('This has been discarded'));
