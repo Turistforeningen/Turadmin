@@ -1,0 +1,9 @@
+api:
+  type: custom
+  buildscript: config/builder
+  ports:
+    www: http
+  process: node app.js
+  approot: .
+  node_version: v0.10.24
+
