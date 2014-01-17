@@ -14,7 +14,7 @@ block extraHeadContent
     script(src='javascripts/mapView.js')
     script
         | $(document).ready(function () {
-        |   var map = new DNT.MapView();
+        |   var map = new DNT.MapView().render();
         | });
 
 
@@ -29,7 +29,7 @@ block saveAndPublish
 
 
 block content
-    div.container
+    div#routePage.container
         div.masthead
             h2.page-header Tur uten navn
                 small
@@ -52,12 +52,12 @@ block content
                             span.glyphicon.glyphicon-upload
                             | Velg fil...
         div.clearfix
-            p.btn.btn-default.btn-sm.btn-group.pull-left
+            p#startDraw.btn.btn-default.btn-sm.btn-group.pull-left
                 span.glyphicon.glyphicon-pencil
                 | Start inntegning
-            p.btn.btn-default.btn-sm.btn-group.pull-left.hidden
-                span.glyphicon.glyphicon-move
-                | Endre inntegning
+            p#toggleSnap.btn.btn-default.btn-sm.btn-group.pull-left
+                span.glyphicon.glyphicon-pushpin
+                | Snapping
             p.btn.btn-sm.btn-danger.pull-right
                 span.glyphicon.glyphicon-trash
                 | Slett inntegning

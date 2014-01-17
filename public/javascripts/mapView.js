@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     function createMapLayers() {
-        var topo, summer, winter, cabin, baseLayerConf, overlayConf;
+        var topo, summer, winter, cabin, baseLayerConf, overlayConf, routing;
 
         topo =  L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
             maxZoom: 16,
@@ -48,33 +48,47 @@ var DNT = window.DNT || {};
     function addRouting(map, snappingLayer) {
         var routing = new DNT.Routing(map, snappingLayer);
         routing.addRouting();
-        routing.enable();
+        routing.enableSnapping(true);
+        return routing;
     }
 
     ns.MapView = Backbone.View.extend({
 
-        el: "#mapContainer",
+        el: "#routePage",
 
-        mapLayers: createMapLayers(),
+        snapping: true,
 
-        snapping: new L.geoJson(null, {
-            style: {
-                opacity: 0,
-                clickable: false
-            }
-        }),
+        events: {
+            'click #startDraw': 'startDraw',
+            'click #toggleSnap': 'toggleSnap'
+        },
 
         initialize: function () {
-            this.render();
+            this.mapLayers = createMapLayers();
+            this.snapping = new L.geoJson(null, {
+                style: {
+                    opacity: 0,
+                    clickable: false
+                }
+            });
+        },
+
+        startDraw: function (e) {
+            this.routing.enable(true);
+        },
+
+        toggleSnap: function (e) {
+            this.snapping = !this.snapping;
+            this.routing.enableSnapping(this.snapping);
         },
 
         render: function () {
-            var map = L.map(this.el, {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
+            var map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
             }).addTo(map);
             this.snapping.addTo(map);
-            addRouting(map, this.snapping);
+            this.routing = addRouting(map, this.snapping);
             return this;
         }
     });
