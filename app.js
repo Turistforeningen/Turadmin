@@ -7,7 +7,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var restler = require('restler');
-var app = express();
+var app = module.exports = express();
 
 var apiUri = process.env.ROUTING_API_URL;
 
