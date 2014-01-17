@@ -58,8 +58,10 @@ var DNT = window.DNT || {};
 
         snapping: true,
 
+        draw: false,
+
         events: {
-            'click #startDraw': 'startDraw',
+            'click #startDraw': 'toggleDraw',
             'click #toggleSnap': 'toggleSnap'
         },
 
@@ -73,13 +75,26 @@ var DNT = window.DNT || {};
             });
         },
 
-        startDraw: function (e) {
-            this.routing.enable(true);
+        toggleDraw: function (e) {
+            this.draw = !this.draw;
+            this.routing.enable(this.draw);
+            if (this.draw === true) {
+                $(e.currentTarget).addClass("active");
+                $(e.currentTarget).find(".buttonText").html("Avslutt inntegning");
+            } else {
+                $(e.target).removeClass("active");
+                $(e.currentTarget).find(".buttonText").html("Start inntegning");
+            }
         },
 
         toggleSnap: function (e) {
             this.snapping = !this.snapping;
             this.routing.enableSnapping(this.snapping);
+            if (this.snapping) {
+                $(e.currentTarget).addClass("active");
+            } else {
+                $(e.currentTarget).removeClass("active");
+            }
         },
 
         render: function () {
