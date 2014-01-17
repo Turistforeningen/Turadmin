@@ -11,9 +11,7 @@
     "express": "3.4.7",
     "jade": "*",
     "http-proxy-caronte": "*",
-    "restler": "*"
-  },
-  "devDependencies": {
+    "restler": "*",
     "supertest": "~0",
     "mocha": "~1"
   }
