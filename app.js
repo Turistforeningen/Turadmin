@@ -4,7 +4,6 @@
  */
 
 var express = require('express');
-var http = require('http');
 var path = require('path');
 var restler = require('restler');
 var app = module.exports = express();
@@ -32,11 +31,14 @@ if ('development' === app.get('env')) {
 var routes = require('./routes')(app);
 var addRoute = require('./routes/addRoute')(app, {apiUri: apiUri});
 
-
-http.createServer(app).listen(app.get('port'), function () {
-    "use strict";
-    console.log('Express server listening on port ' + app.get('port'));
-});
+// Only listen for port if the application is not included by another module.
+// Eg. the test runner.
+if (!module.parent) {
+    app.listen(app.get('port'), function () {
+        "use strict";
+        console.log('Express server listening on port ' + app.get('port'));
+    });
+}
 
 
 app.all('/restProxy/*', function (req, res) {
