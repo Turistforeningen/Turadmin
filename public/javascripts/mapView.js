@@ -8,7 +8,6 @@ var DNT = window.DNT || {};
 
 (function (ns) {
     "use strict";
-    var mapView, MapView;
 
     function createMapLayers() {
         var topo, summer, winter, cabin, baseLayerConf, overlayConf;
@@ -46,52 +45,10 @@ var DNT = window.DNT || {};
         };
     }
 
-    function addRouting(map, router, snappingLayer) {
-
-        //var myRouter = function (l1, l2, cb) {
-          //  console.log("l1: " + l1 + "\nl2: " + l2);
-        //};
-        var myRouter = function (l1, l2, cb) {
-            var apiUri = $('body').data("apiuri");
-            var restUri = apiUri + "/route/?coords=";
-            var routeUri = restUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',') + '&callback=?';
-            var req = $.getJSON(routeUri);
-            req.always(function (data, status) {
-                if (status === 'success') {
-                    try {
-                        L.GeoJSON.geometryToLayer(JSON.parse(data)).eachLayer(function (layer) {
-                            // 14026
-                            var d1 = l1.distanceTo(layer._latlngs[0]);
-                            var d2 = l2.distanceTo(layer._latlngs[layer._latlngs.length - 1]);
-
-                            if (d1 < 100 && d2 < 100) {
-                                return cb(null, layer);
-                            }
-                            return cb(new Error('This has been discarded'));
-                        });
-                    } catch (e) {
-                        return cb(new Error('Invalid JSON'));
-                    }
-                } else {
-                    return cb(new Error('Routing failed'));
-                }
-            });
-        };
-
-        var routing = new L.Routing({
-            position: 'topleft',
-            routing: {
-                router: myRouter
-            },
-            snapping: {
-                layers: [snappingLayer],
-                sensitivity: 15,
-                vertexonly: false
-            }
-        });
-
-        map.addControl(routing);
-        routing.draw(true);
+    function addRouting(map, snappingLayer) {
+        var routing = new DNT.Routing(map, snappingLayer);
+        routing.addRouting();
+        routing.enable();
     }
 
     ns.MapView = Backbone.View.extend({
@@ -117,7 +74,7 @@ var DNT = window.DNT || {};
                 position: 'topleft'
             }).addTo(map);
             this.snapping.addTo(map);
-            addRouting(map, undefined, this.snapping);
+            addRouting(map, this.snapping);
             return this;
         }
     });
