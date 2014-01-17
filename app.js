@@ -8,8 +8,9 @@ var path = require('path');
 var restler = require('restler');
 var app = module.exports = express();
 
-var apiUri = process.env.ROUTING_API_URL;
-
+var routeApiUri = process.env.ROUTING_API_URL;
+var ntbApiUri = process.env.NTB_API_URL;
+var ntbApiKey = process.env.NTB_API_KEY;
 
 // all environments
 app.set('port', process.env.PORT_WWW || 3000);
@@ -29,7 +30,7 @@ if ('development' === app.get('env')) {
 }
 
 var routes = require('./routes')(app);
-var addRoute = require('./routes/addRoute')(app, {apiUri: apiUri});
+var addRoute = require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
 
 // Only listen for port if the application is not included by another module.
 // Eg. the test runner.
@@ -40,12 +41,11 @@ if (!module.parent) {
     });
 }
 
-
-app.all('/restProxy/*', function (req, res) {
+app.all('/apiProxy/*', function (req, res) {
     "use strict";
     var path = req.url;
-    path = path.replace("restProxy/", "");
-    var url = apiUri + path;
+    path = path.replace("apiProxy/?", "");
+    var url = ntbApiUri + "?api_key=" + ntbApiKey + "&" + path;
     console.log(url);
     restler.get(url, {
 
@@ -55,10 +55,3 @@ app.all('/restProxy/*', function (req, res) {
     });
 
 });
-
-
-
-
-
-
-
