@@ -3,12 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha -b -c --check-leaks test/suite.js -R progress",
+    "test-drone": "node_modules/.bin/mocha test/suite.js -R spec"
   },
   "dependencies": {
     "express": "3.4.7",
     "jade": "*",
-    "http-proxy-caronte" : "*",
-    "restler" : "*"
+    "http-proxy-caronte": "*",
+    "restler": "*"
+  },
+  "devDependencies": {
+    "supertest": "~0",
+    "mocha": "~1"
   }
 }
