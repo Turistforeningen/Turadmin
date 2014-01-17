@@ -8,12 +8,15 @@ lib-cov
 *.gz
 *.swp
 
-pids
-logs
-results
+.dotcloudignore
+.gitignore
+LISENCE
+README.md
+Vagrantfile
 
-node_modules/
+.git/
 .vagrant/
 env/
+node_modules/
 
 .DS_Store
