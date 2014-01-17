@@ -51,6 +51,8 @@ var DNT = window.DNT || {};
     };
 
     ns.Routing = function (map, snappingLayer) {
+        var routing;
+
         this.addRouting = function () {
             routing = new L.Routing({
                 position: 'topleft',
@@ -72,6 +74,10 @@ var DNT = window.DNT || {};
 
         this.enableSnapping = function (enable) {
             enableSnapping = enable;
+        };
+
+        this.getGeojson = function () {
+            return routing.toGeoJSON();
         };
     };
 

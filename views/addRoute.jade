@@ -11,15 +11,16 @@ block extraHeadContent
     script(src='/routing/L.Routing.Draw.js')
     script(src='/routing/L.Routing.Edit.js')
     script(src='javascripts/routing.js')
+    script(src='javascripts/routeModel.js')
     script(src='javascripts/mapView.js')
     script
         | $(document).ready(function () {
-        |   var map = new DNT.MapView().render();
+        |   var map = new DNT.MapView({model: new DNT.Route()}).render();
         | });
 
 
 block saveAndPublish
-    div.navbar-form.pull-right
+    div#commonRouteNav.navbar-form.pull-right
         a.btn.btn-sm.btn-primary
             i.glyphicon.glyphicon-share
             |Publiser

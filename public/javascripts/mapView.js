@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     function createMapLayers() {
-        var topo, summer, winter, cabin, baseLayerConf, overlayConf, routing;
+        var topo, summer, winter, cabin, baseLayerConf, overlayConf;
 
         topo =  L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
             maxZoom: 16,
@@ -52,6 +52,15 @@ var DNT = window.DNT || {};
         return routing;
     }
 
+    function createSnapLayer() {
+        return new L.geoJson(null, {
+            style: {
+                opacity: 0,
+                clickable: false
+            }
+        });
+    }
+
     ns.MapView = Backbone.View.extend({
 
         el: "#routePage",
@@ -67,12 +76,7 @@ var DNT = window.DNT || {};
 
         initialize: function () {
             this.mapLayers = createMapLayers();
-            this.snapping = new L.geoJson(null, {
-                style: {
-                    opacity: 0,
-                    clickable: false
-                }
-            });
+            this.snapping = createSnapLayer();
         },
 
         toggleDraw: function (e) {
@@ -84,6 +88,7 @@ var DNT = window.DNT || {};
             } else {
                 $(e.target).removeClass("active");
                 $(e.currentTarget).find(".buttonText").html("Start inntegning");
+                this.model.geojson = this.routing.getGeojson();
             }
         },
 
@@ -98,12 +103,12 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-            var map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
+            this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
-            }).addTo(map);
-            this.snapping.addTo(map);
-            this.routing = addRouting(map, this.snapping);
+            }).addTo(this.map);
+            this.snapping.addTo(this.map);
+            this.routing = addRouting(this.map, this.snapping);
             return this;
         }
     });
