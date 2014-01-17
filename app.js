@@ -43,7 +43,7 @@ app.all('/restProxy/*', function (req, res) {
     "use strict";
     var path = req.url;
     path = path.replace("restProxy/", "");
-    var url = 'http://api.turistforeningen.no' + path;
+    var url = apiUri + path;
     console.log(url);
     restler.get(url, {
 
