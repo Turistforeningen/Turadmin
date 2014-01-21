@@ -61,6 +61,30 @@ var DNT = window.DNT || {};
         });
     }
 
+    function createDrawControl() {
+        var drawControl = new L.Control.Draw({
+            draw: {
+                position  : 'topleft',
+                polyline  : null,
+                circle    : null,
+                rectangle : null,
+                polygon   : null,
+                marker : {
+                    icon: L.icon({
+                        iconUrl: 'images/poi/21.png',
+                        iconRetinaUrl: 'images/poi/21@2x.png',
+                        iconSize: [26, 32],
+                        iconAnchor: [13, 32],
+                        popupAnchor: [-0, -30]
+                    })
+                }
+            },
+            edit: null
+        });
+        return drawControl;
+    }
+
+
     ns.MapView = Backbone.View.extend({
 
         el: "#routePage",
@@ -78,6 +102,7 @@ var DNT = window.DNT || {};
         initialize: function () {
             this.mapLayers = createMapLayers();
             this.snapping = createSnapLayer();
+            this.drawControl = createDrawControl();
         },
 
         toggleDraw: function (e) {
@@ -114,6 +139,7 @@ var DNT = window.DNT || {};
             }).addTo(this.map);
             this.snapping.addTo(this.map);
             this.routing = addRouting(this.map, this.snapping);
+            this.map.addControl(this.drawControl);
             return this;
         }
     });
