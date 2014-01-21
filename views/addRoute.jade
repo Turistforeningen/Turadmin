@@ -12,19 +12,21 @@ block extraHeadContent
     script(src='/routing/L.Routing.Edit.js')
     script(src='javascripts/routing.js')
     script(src='javascripts/routeModel.js')
+    script(src='javascripts/routeView.js')
     script(src='javascripts/mapView.js')
     script
         | $(document).ready(function () {
-        |   var map = new DNT.MapView({model: new DNT.Route()}).render();
+        |   var routeView = new DNT.RouteView({model: new DNT.Route()}).render();
+        |   //var map = new DNT.MapView({model: new DNT.Route()}).render();
         | });
 
 
 block saveAndPublish
     div#commonRouteNav.navbar-form.pull-right
-        a.btn.btn-sm.btn-primary
+        a#publish.btn.btn-sm.btn-primary.disabled
             i.glyphicon.glyphicon-share
             |Publiser
-        a.btn.btn-sm.btn-default
+        a#save.btn.btn-sm.btn-default.disabled
             i.glyphicon.glyphicon-check
             |Lagre
 

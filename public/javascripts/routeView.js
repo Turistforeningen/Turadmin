@@ -11,8 +11,34 @@ var DNT = window.DNT || {};
 
     ns.RouteView = Backbone.View.extend({
 
-        el: "#commonRouteNav"
+        el: "#commonRouteNav",
 
+        initialize : function () {
+            this.mapView = new DNT.MapView({model: this.model});
+            this.model.on("change", this.unsavedChanges, this);
+        },
+
+        events: {
+            'click #save': 'save'
+        },
+
+        render: function () {
+            this.mapView.render();
+        },
+
+        unsavedChanges : function () {
+            this.$(".disabled").removeClass("disabled");
+        },
+
+        save : function () {
+            this.model.save(undefined, undefined, {
+                success: function () {
+                    console.log("success");
+                },
+                error: function (e) {
+                    console.log("error", e);
+                }
+            });
+        }
     });
 }(DNT));
-

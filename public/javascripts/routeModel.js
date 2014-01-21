@@ -9,7 +9,17 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
+    var apiUri = function () {
+        return "/apiProxy/turer";
+    };
+
     ns.Route = Backbone.Model.extend({
+        idAttribute: "_id",
+
+        urlRoot: function () {
+            return apiUri();
+        },
+
         defaults : {
             geojson: null,
             retning: "AB",
@@ -19,11 +29,15 @@ var DNT = window.DNT || {};
                     id: "someId"
                 }
             }
+        },
+        initialize: function () {
         }
     });
 
     ns.RouteList = Backbone.Collection.extend({
-        url: "apiUrl",
+        url: function () {
+            return apiUri();
+        },
         model: ns.Route
     });
 }(DNT));

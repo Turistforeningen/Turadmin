@@ -88,7 +88,7 @@ var DNT = window.DNT || {};
             } else {
                 $(e.target).removeClass("active");
                 $(e.currentTarget).find(".buttonText").html("Start inntegning");
-                this.model.geojson = this.routing.getGeojson();
+                this.model.set({geojson: this.routing.getGeojson()});
             }
         },
 
