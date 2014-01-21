@@ -71,7 +71,8 @@ var DNT = window.DNT || {};
 
         events: {
             'click #startDraw': 'toggleDraw',
-            'click #toggleSnap': 'toggleSnap'
+            'click #toggleSnap': 'toggleSnap',
+            'click #deleteRoute': 'deleteRoute'
         },
 
         initialize: function () {
@@ -100,6 +101,10 @@ var DNT = window.DNT || {};
             } else {
                 $(e.currentTarget).removeClass("active");
             }
+        },
+
+        deleteRoute: function (e) {
+
         },
 
         render: function () {

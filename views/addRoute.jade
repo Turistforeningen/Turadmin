@@ -1,15 +1,15 @@
 extends layout
 block extraHeadContent
-    link(rel='stylesheet', href='/leaflet-0.7.1/leaflet.css')
-    script(src='/underscore/underscore-min.js')
-    script(src='/backbone/backbone-min.js')
-    script(src='/leaflet-0.7.1/leaflet.js')
-    script(src='/routing/utils/LineUtil.Snapping.js')
-    script(src='/routing/utils/Marker.Snapping.js')
-    script(src='/routing/L.Routing.js')
-    script(src='/routing/L.Routing.Storage.js')
-    script(src='/routing/L.Routing.Draw.js')
-    script(src='/routing/L.Routing.Edit.js')
+    link(rel='stylesheet', href='lib/leaflet-0.7.1/leaflet.css')
+    script(src='lib/underscore/underscore-min.js')
+    script(src='lib/backbone/backbone-min.js')
+    script(src='lib/leaflet-0.7.1/leaflet.js')
+    script(src='lib/routing/utils/LineUtil.Snapping.js')
+    script(src='lib/routing/utils/Marker.Snapping.js')
+    script(src='lib/routing/L.Routing.js')
+    script(src='lib/routing/L.Routing.Storage.js')
+    script(src='lib/routing/L.Routing.Draw.js')
+    script(src='lib/routing/L.Routing.Edit.js')
     script(src='javascripts/routing.js')
     script(src='javascripts/routeModel.js')
     script(src='javascripts/routeView.js')
@@ -62,7 +62,7 @@ block content
             p#toggleSnap.btn.btn-default.btn-sm.btn-group.pull-left.active
                 span.glyphicon.glyphicon-pushpin
                 | Snapping
-            p.btn.btn-sm.btn-danger.pull-right
+            p#deleteRoute.btn.btn-sm.btn-danger.pull-right
                 span.glyphicon.glyphicon-trash
                 | Slett inntegning
             //script(type="template" id="map-template")
