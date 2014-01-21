@@ -5,9 +5,8 @@
 
 var express = require('express');
 var path = require('path');
-var restler = require('restler');
+
 var app = module.exports = express();
-var util = require('util');
 
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
@@ -30,8 +29,9 @@ if ('development' === app.get('env')) {
     app.use(express.errorHandler());
 }
 
-var routes = require('./routes')(app);
-var addRoute = require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
+require('./routes')(app);
+require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
+require('./routes/apiProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 // Only listen for port if the application is not included by another module.
 // Eg. the test runner.
@@ -42,41 +42,3 @@ if (!module.parent) {
     });
 }
 
-app.all('/apiProxy/*', function (req, res) {
-    "use strict";
-    var path = req.url;
-    path = path.replace("apiProxy/", "");
-    var apiKey = "?api_key=" + ntbApiKey;
-    var url = ntbApiUri + path;
-
-    var onComplete = function (data) {
-        console.log(data);
-        res.json(data);
-    };
-
-    var onCompletePost = function (data) {
-        data._id = data.document._id;
-        console.log("id: " + data._id);
-        res.json(data);
-    };
-
-    var method = req.method;
-    if (method === "GET") {
-        var getUrl = url + apiKey;
-        console.log("getUrl = " + getUrl);
-        restler.get(getUrl, {})
-            .on('complete', onComplete);
-    } else if (method === "POST") {
-        var postUrl = url + apiKey;
-        console.log("Posting: " + util.inspect(req.body));
-        restler.postJson(postUrl, req.body)
-            .on('complete', onCompletePost);
-    } else if (method === "PUT") {
-        var putUrl = url + apiKey;
-        var json = JSON.stringify(req.body);
-        console.log("putUrl = " + putUrl);
-        console.log("Puting: " + json);
-        restler.put(putUrl, {data: json})
-            .on('complete', onComplete);
-    }
-});
