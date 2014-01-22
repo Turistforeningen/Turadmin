@@ -103,6 +103,7 @@ var DNT = window.DNT || {};
             this.mapLayers = createMapLayers();
             this.snapping = createSnapLayer();
             this.drawControl = createDrawControl();
+            this.poiCollection = new DNT.PoiCollection();
         },
 
         toggleDraw: function (e) {
@@ -132,6 +133,20 @@ var DNT = window.DNT || {};
 
         },
 
+        addOnDrawCreatedEventHandler: function () {
+            this.map.on('draw:created',
+                function (e) {
+                    var poi = new DNT.Poi();
+                    /*
+                    this.poiCollection.addData({
+                        type: "Point",
+                        coordinates: [e.layer._latlng.lng, e.layer._latlng.lat],
+                        properties: {}
+                    });*/
+                },
+                this);
+        },
+
         render: function () {
             this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
@@ -140,7 +155,9 @@ var DNT = window.DNT || {};
             this.snapping.addTo(this.map);
             this.routing = addRouting(this.map, this.snapping);
             this.map.addControl(this.drawControl);
+            //new L.Draw.Marker(this.map, this.drawControl.options.marker).enable();
             return this;
         }
+
     });
 }(DNT));

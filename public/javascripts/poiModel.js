@@ -30,14 +30,8 @@ var DNT = window.DNT || {};
                 }
             }
         },
-        initialize: function () {
+        initialize: function (attributes, options) {
         }
     });
 
-    ns.PoiList = Backbone.Collection.extend({
-        url: function () {
-            return apiUri();
-        },
-        model: ns.Poi
-    });
 }(DNT));

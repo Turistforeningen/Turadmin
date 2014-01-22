@@ -34,7 +34,7 @@ var DNT = window.DNT || {};
         }
     });
 
-    ns.RouteList = Backbone.Collection.extend({
+    ns.RouteCollection = Backbone.Collection.extend({
         url: function () {
             return apiUri();
         },
