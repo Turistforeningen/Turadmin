@@ -16,6 +16,7 @@ block extraHeadContent
     script(src='javascripts/routeModel.js')
     script(src='javascripts/poiCollection.js')
     script(src='javascripts/poiModel.js')
+    script(src='javascripts/popupView.js')
     script(src='javascripts/routeView.js')
     script(src='javascripts/mapView.js')
     script
@@ -23,6 +24,11 @@ block extraHeadContent
         |   var routeView = new DNT.RouteView({model: new DNT.Route()}).render();
         |   //var map = new DNT.MapView({model: new DNT.Route()}).render();
         | });
+    script(type="text/template" id="popupTemplate")
+        |   <p> Poi info goes here </p>
+        |   <a href="#" class="poi-move">Flytt</a>
+        |   <a href="#" class="poi-edit">Endre</a>
+        |   <a href="#" class="poi-delete">Slett</a>
 
 
 block saveAndPublish

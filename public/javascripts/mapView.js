@@ -135,26 +135,23 @@ var DNT = window.DNT || {};
 
         addOnDrawCreatedEventHandler: function () {
             this.map.on('draw:created',
-                function (e) {
-                    var geojson = {
-                        type: "Point",
-                            coordinates: [e.layer._latlng.lng, e.layer._latlng.lat],
-                        properties: {}
-                    };
-                    var poi = new DNT.Poi({ geojson: geojson });
-                    this.poiCollection.add(poi);
-                },
+                this.createPoi,
                 this);
         },
 
-        addOnPopupOpenEventHandler: function () {
-            this.map.on('popupopen', function (e) {
-                $('div.leaflet-popup .poi-move').on('click', function (event) {
-                    event.preventDefault();
-                    e.popup._source.dragging.enable();
-                    e.popup._source.closePopup();
-                });
-            });
+        createPoi: function (coordinates) {
+            var geojson = {
+                type: "Point",
+                coordinates: [coordinates.layer._latlng.lng, coordinates.layer._latlng.lat],
+                properties: {}
+            };
+            var poi = new DNT.Poi({ geojson: geojson });
+            this.listenTo(poi, "showPopup", this.showPopup);
+            this.poiCollection.add(poi);
+        },
+
+        showPopup: function (poi) {
+            var popupView = new DNT.PopupView({model: poi}).render();
         },
 
         render: function () {
@@ -167,7 +164,6 @@ var DNT = window.DNT || {};
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
-            this.addOnPopupOpenEventHandler();
             //new L.Draw.Marker(this.map, this.drawControl.options.marker).enable();
             return this;
         }
