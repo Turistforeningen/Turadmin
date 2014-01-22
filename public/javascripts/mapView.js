@@ -136,13 +136,13 @@ var DNT = window.DNT || {};
         addOnDrawCreatedEventHandler: function () {
             this.map.on('draw:created',
                 function (e) {
-                    var poi = new DNT.Poi();
-                    /*
-                    this.poiCollection.addData({
+                    var geojson = {
                         type: "Point",
-                        coordinates: [e.layer._latlng.lng, e.layer._latlng.lat],
+                            coordinates: [e.layer._latlng.lng, e.layer._latlng.lat],
                         properties: {}
-                    });*/
+                    };
+                    var poi = new DNT.Poi({ geojson: geojson });
+                    this.poiCollection.add(poi);
                 },
                 this);
         },
@@ -155,6 +155,8 @@ var DNT = window.DNT || {};
             this.snapping.addTo(this.map);
             this.routing = addRouting(this.map, this.snapping);
             this.map.addControl(this.drawControl);
+            this.poiCollection.getGeoJsonLayer().addTo(this.map);
+            this.addOnDrawCreatedEventHandler();
             //new L.Draw.Marker(this.map, this.drawControl.options.marker).enable();
             return this;
         }

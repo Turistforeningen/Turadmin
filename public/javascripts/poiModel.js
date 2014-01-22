@@ -31,6 +31,10 @@ var DNT = window.DNT || {};
             }
         },
         initialize: function (attributes, options) {
+        },
+
+        getGeoJson: function () {
+            return this.get("geojson");
         }
     });
 

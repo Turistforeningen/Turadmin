@@ -13,7 +13,7 @@ var DNT = window.DNT || {};
         return "/apiProxy/steder";
     };
 
-    ns.PoiList = Backbone.Collection.extend({
+    ns.PoiCollection = Backbone.Collection.extend({
 
         url: function () {
             return apiUri();
@@ -25,6 +25,11 @@ var DNT = window.DNT || {};
             this.geojsonLayer = new L.GeoJSON(null, {
                 onEachFeature: this.onEachFeature
             });
+            this.on("add", this.modelAdded, this);
+        },
+
+        getGeoJsonLayer: function () {
+            return this.geojsonLayer;
         },
 
         onEachFeature : function (feature, layer) {
@@ -32,6 +37,8 @@ var DNT = window.DNT || {};
         },
 
         modelAdded: function (model) {
+            var geoJson = model.getGeoJson();
+            this.geojsonLayer.addData(geoJson);
         }
     });
 }(DNT));
