@@ -147,6 +147,16 @@ var DNT = window.DNT || {};
                 this);
         },
 
+        addOnPopupOpenEventHandler: function () {
+            this.map.on('popupopen', function (e) {
+                $('div.leaflet-popup .poi-move').on('click', function (event) {
+                    event.preventDefault();
+                    e.popup._source.dragging.enable();
+                    e.popup._source.closePopup();
+                });
+            });
+        },
+
         render: function () {
             this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
@@ -157,6 +167,7 @@ var DNT = window.DNT || {};
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
+            this.addOnPopupOpenEventHandler();
             //new L.Draw.Marker(this.map, this.drawControl.options.marker).enable();
             return this;
         }
