@@ -109,9 +109,14 @@ var DNT = window.DNT || {};
                 $(e.currentTarget).addClass("active");
                 $(e.currentTarget).find(".buttonText").html("Avslutt inntegning");
             } else {
+                var geojson = this.routing.getGeojson();
                 $(e.target).removeClass("active");
-                $(e.currentTarget).find(".buttonText").html("Start inntegning");
-                this.model.set({geojson: this.routing.getGeojson()});
+                var label = "Start inntegning";
+                if (geojson.coordinates.length > 0) {
+                    label = "Fortsett inntegning";
+                }
+                $(e.currentTarget).find(".buttonText").html(label);
+                this.model.set({geojson: geojson});
             }
         },
 
