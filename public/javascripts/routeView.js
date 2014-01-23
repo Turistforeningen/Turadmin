@@ -15,7 +15,7 @@ var DNT = window.DNT || {};
 
         initialize : function () {
             this.mapView = new DNT.MapView({model: this.model});
-            this.model.on("change", this.unsavedChanges, this);
+            this.model.get("route").on("change", this.unsavedChanges, this);
         },
 
         events: {

@@ -88,6 +88,8 @@ var DNT = window.DNT || {};
 
         draw: false,
 
+        routeModel: undefined,
+
         events: {
             'click #startDraw': 'toggleDraw',
             'click #toggleSnap': 'toggleSnap',
@@ -99,7 +101,8 @@ var DNT = window.DNT || {};
             this.mapLayers = createMapLayers();
             this.snapping = createSnapLayer();
             this.drawControl = createDrawControl();
-            this.poiCollection = new DNT.PoiCollection();
+            this.poiCollection = this.model.get("poiCollection");
+            this.routeModel = this.model.get("route");
         },
 
         toggleDraw: function (e) {
@@ -116,7 +119,7 @@ var DNT = window.DNT || {};
                     label = "Fortsett inntegning";
                 }
                 $(e.currentTarget).find(".buttonText").html(label);
-                this.model.set({geojson: geojson});
+                this.routeModel.set({geojson: geojson});
             }
         },
 
