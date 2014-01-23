@@ -57,10 +57,21 @@ var DNT = window.DNT || {};
                 popupAnchor: [-0, -30]
             });
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
-            marker.setIcon(icon);
-            var that = this;
             this.marker = marker;
-            this.trigger('showPopup', this);
+            marker.setIcon(icon);
+            this.trigger('registerPopup', this);
+            console.log(this.getGeoJson());
+            marker.on("dragend", function () {
+                var lat = marker.getLatLng().lat;
+                var lng = marker.getLatLng().lng;
+                this.updateGeojson(lat, lng);
+            }, this);
+        },
+
+        updateGeojson: function (lat, lng) {
+            var geoJson = this.getGeoJson();
+            geoJson.coordinates = [lng, lat];
+            this.set("geojson", geoJson);
         }
     });
 

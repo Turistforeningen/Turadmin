@@ -146,7 +146,7 @@ var DNT = window.DNT || {};
                 properties: {}
             };
             var poi = new DNT.Poi({ geojson: geojson });
-            this.listenTo(poi, "showPopup", this.showPopup);
+            this.listenTo(poi, "registerPopup", this.showPopup);
             this.poiCollection.add(poi);
         },
 
