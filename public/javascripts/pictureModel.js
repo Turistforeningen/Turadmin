@@ -21,6 +21,7 @@ var DNT = window.DNT || {};
         },
 
         defaults : {
+            navn: "",
             geojson: null,
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",

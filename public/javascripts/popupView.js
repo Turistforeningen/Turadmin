@@ -12,7 +12,7 @@ var DNT = window.DNT || {};
     ns.PopupView = Backbone.View.extend({
 
         initialize : function () {
-            this.template = $('#popupTemplate').html();
+            this.templateElement = $('#popupTemplate').html();
         },
 
         events: {
@@ -20,7 +20,8 @@ var DNT = window.DNT || {};
 
         render: function () {
             var marker = this.model.getMarker();
-            marker.bindPopup(this.template);
+            var template = _.template(this.templateElement, this.model.toJSON());
+            marker.bindPopup(template);
         }
     });
 }(DNT));

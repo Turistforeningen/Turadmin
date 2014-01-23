@@ -25,7 +25,7 @@ block extraHeadContent
         |   //var map = new DNT.MapView({model: new DNT.Route()}).render();
         | });
     script(type="text/template" id="popupTemplate")
-        |   <p> Poi info goes here </p>
+        |   <strong class="poi-navn"><%= navn %></strong><br>
         |   <a href="#" class="poi-edit">Endre</a>
         |   <a href="#" class="poi-delete">Slett</a>
 
