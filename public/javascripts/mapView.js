@@ -45,13 +45,6 @@ var DNT = window.DNT || {};
         };
     }
 
-    function addRouting(map, snappingLayer) {
-        var routing = new DNT.Routing(map, snappingLayer);
-        routing.addRouting();
-        routing.enableSnapping(true);
-        return routing;
-    }
-
     function createSnapLayer() {
         return new L.geoJson(null, {
             style: {
@@ -64,24 +57,24 @@ var DNT = window.DNT || {};
     function createDrawControl() {
         var drawControl = new L.Control.Draw({
             draw: {
-                position  : 'topleft',
                 polyline  : null,
                 circle    : null,
                 rectangle : null,
                 polygon   : null,
-                marker : {
-                    icon: L.icon({
-                        iconUrl: 'images/poi/21.png',
-                        iconRetinaUrl: 'images/poi/21@2x.png',
-                        iconSize: [26, 32],
-                        iconAnchor: [13, 32],
-                        popupAnchor: [-0, -30]
-                    })
-                }
-            },
-            edit: null
+                marker : null
+            }
         });
         return drawControl;
+    }
+
+    function createIconConfig() {
+        return new L.icon({
+            iconUrl: 'images/poi/21.png',
+            iconRetinaUrl: 'images/poi/21@2x.png',
+            iconSize: [26, 32],
+            iconAnchor: [13, 32],
+            popupAnchor: [-0, -30]
+        })
     }
 
 
@@ -91,12 +84,15 @@ var DNT = window.DNT || {};
 
         snapping: true,
 
+        drawMarkerTool: undefined,
+
         draw: false,
 
         events: {
             'click #startDraw': 'toggleDraw',
             'click #toggleSnap': 'toggleSnap',
-            'click #deleteRoute': 'deleteRoute'
+            'click #deleteRoute': 'deleteRoute',
+            'click #newPoi': 'addNewPoi'
         },
 
         initialize: function () {
@@ -133,6 +129,20 @@ var DNT = window.DNT || {};
 
         },
 
+        addNewPoi: function (e) {
+            if ($(e.currentTarget).hasClass("active")) {
+                this.disableDrawNewPoi();
+            } else {
+                $(e.currentTarget).addClass("active");
+                this.drawMarkerTool.enable();
+            }
+        },
+
+        disableDrawNewPoi: function (e) {
+            this.$("#newPoi").removeClass("active");
+            this.drawMarkerTool.disable();
+        },
+
         addOnDrawCreatedEventHandler: function () {
             this.map.on('draw:created',
                 this.createPoi,
@@ -140,6 +150,7 @@ var DNT = window.DNT || {};
         },
 
         createPoi: function (coordinates) {
+            this.disableDrawNewPoi();
             var geojson = {
                 type: "Point",
                 coordinates: [coordinates.layer._latlng.lng, coordinates.layer._latlng.lat],
@@ -151,7 +162,21 @@ var DNT = window.DNT || {};
         },
 
         showPopup: function (poi) {
-            var popupView = new DNT.PopupView({model: poi}).render();
+            new DNT.PopupView({model: poi}).render();
+        },
+
+        addRouting: function () {
+            var routing = new DNT.Routing(this.map, this.snapping);
+            routing.addRouting();
+            routing.enableSnapping(true);
+            this.routing = routing;
+        },
+
+        createDrawMarkerTool: function () {
+            this.drawMarkerTool = new L.Draw.Marker(this.map,
+                {
+                    icon : createIconConfig()
+                });
         },
 
         render: function () {
@@ -160,13 +185,12 @@ var DNT = window.DNT || {};
                 position: 'topleft'
             }).addTo(this.map);
             this.snapping.addTo(this.map);
-            this.routing = addRouting(this.map, this.snapping);
+            this.addRouting();
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
-            //new L.Draw.Marker(this.map, this.drawControl.options.marker).enable();
+            this.createDrawMarkerTool();
             return this;
         }
-
     });
 }(DNT));
