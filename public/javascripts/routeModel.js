@@ -23,6 +23,7 @@ var DNT = window.DNT || {};
         defaults : {
             geojson: null,
             retning: "AB",
+            lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
             privat: {
                 opprettet_av: {
