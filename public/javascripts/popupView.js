@@ -22,6 +22,7 @@ var DNT = window.DNT || {};
             var marker = this.model.getMarker();
             var template = _.template(this.templateElement, this.model.toJSON());
             marker.bindPopup(template);
+            return this;
         }
     });
 }(DNT));
