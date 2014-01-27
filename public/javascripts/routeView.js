@@ -15,7 +15,10 @@ var DNT = window.DNT || {};
 
         initialize : function () {
             this.mapView = new DNT.MapView({model: this.model});
-            this.model.get("route").on("change", this.unsavedChanges, this);
+            this.route = this.model.get("route");
+            this.route.on("change", this.unsavedChanges, this);
+            this.poiCollection = this.model.get("poiCollection");
+            this.poiCollection.on("add", this.unsavedChanges, this);
         },
 
         events: {
@@ -31,14 +34,15 @@ var DNT = window.DNT || {};
         },
 
         save : function () {
-            this.model.save(undefined, undefined, {
+            /*this.route.save(undefined, {
                 success: function () {
-                    console.log("success");
+                    console.log("saved route");
                 },
                 error: function (e) {
                     console.log("error", e);
                 }
-            });
+            });*/
+            this.poiCollection.save();
         }
     });
 }(DNT));

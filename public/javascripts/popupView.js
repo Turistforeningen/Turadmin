@@ -11,17 +11,31 @@ var DNT = window.DNT || {};
 
     ns.PopupView = Backbone.View.extend({
 
+        template: _.template($('#popupTemplate').html()),
+
         initialize : function () {
-            this.templateElement = $('#popupTemplate').html();
         },
 
         events: {
+            'click .poi-delete': 'deletePoi',
+            'click .poi-edit': 'editPoi'
+        },
+
+        deletePoi: function () {
+            this.model.deleteFromMap();
+            return false;
+        },
+
+        editPoi: function () {
+            console.log("todo: edit poi");
+            return false;
         },
 
         render: function () {
             var marker = this.model.getMarker();
-            var template = _.template(this.templateElement, this.model.toJSON());
-            marker.bindPopup(template);
+            var html =  this.template(this.model.toJSON());
+            $(this.el).append(html);
+            marker.bindPopup(this.el);
             return this;
         }
     });

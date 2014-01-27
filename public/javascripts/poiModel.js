@@ -10,11 +10,15 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/apiProxy/steder";
+        return "/apiProxy/poi/steder";
     };
 
     ns.Poi = Backbone.Model.extend({
         idAttribute: "_id",
+
+        hasChanged : false,
+
+        isDeleted: false,
 
         urlRoot: function () {
             return apiUri();
@@ -22,7 +26,7 @@ var DNT = window.DNT || {};
 
         defaults : {
             navn: "",
-            geojson: null,
+            geojson: {},
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
             privat: {
@@ -32,10 +36,17 @@ var DNT = window.DNT || {};
             }
         },
         initialize: function (attributes, options) {
+            this.on("change", function () {
+                this.hasChanged = true;
+            });
+        },
+
+        resetHasChanged: function () {
+            this.hasChanged = false;
         },
 
         getGeoJson: function () {
-            return this.get("geojson");
+            return _.clone(this.get("geojson"));
         },
 
         getMarker: function () {
@@ -47,6 +58,11 @@ var DNT = window.DNT || {};
 
         hasMarker: function () {
             return !!this.marker;
+        },
+
+        deleteFromMap: function () {
+            this.isDeleted = true;
+            this.trigger("removePoi");
         },
 
         createMarker: function () {

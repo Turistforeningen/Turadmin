@@ -74,7 +74,7 @@ var DNT = window.DNT || {};
             iconSize: [26, 32],
             iconAnchor: [13, 32],
             popupAnchor: [-0, -30]
-        })
+        });
     }
 
 
