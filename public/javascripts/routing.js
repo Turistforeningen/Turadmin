@@ -77,7 +77,7 @@ var DNT = window.DNT || {};
         };
 
         this.getGeojson = function () {
-            return routing.toGeoJSON();
+            return routing.toGeoJSON(true);
         };
     };
 
