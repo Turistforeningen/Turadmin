@@ -34,14 +34,14 @@ var DNT = window.DNT || {};
         },
 
         save : function () {
-            /*this.route.save(undefined, {
+            this.route.save(undefined, {
                 success: function () {
                     console.log("saved route");
                 },
                 error: function (e) {
                     console.log("error", e);
                 }
-            });*/
+            });
             this.poiCollection.save();
         }
     });
