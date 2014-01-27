@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/apiProxy/turer";
+        return "/apiProxy/route/turer";
     };
 
     ns.Route = Backbone.Model.extend({

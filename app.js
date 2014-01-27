@@ -31,7 +31,8 @@ if ('development' === app.get('env')) {
 
 require('./routes')(app);
 require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
-require('./routes/apiProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
+require('./routes/routeProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
+require('./routes/poiProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 // Only listen for port if the application is not included by another module.
 // Eg. the test runner.

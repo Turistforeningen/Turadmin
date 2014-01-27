@@ -12,32 +12,42 @@ module.exports = function (app, options) {
     var restler = require('restler');
     var util = require('util');
 
-    app.all('/apiProxy/*', function (req, res) {
+    app.all('/apiProxy/poi/*', function (req, res) {
         var path = req.url;
-        path = path.replace("apiProxy/", "");
+        path = path.replace("apiProxy/poi/", "");
         var apiKey = "?api_key=" + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
+        console.log("url " + url);
 
         var onComplete = function (data) {
             console.log(data);
+            if (data.document !== undefined) {
+                data.document = undefined;
+            }
             res.json(data);
         };
 
         var onCompletePost = function (data) {
+            console.log(data);
             data._id = data.document._id;
             console.log("id: " + data._id);
+            data.document = undefined;
             res.json(data);
         };
 
         var method = req.method;
+
         if (method === "GET") {
             console.log("getUrl = " + url);
             restler.get(url, {})
                 .on('complete', onComplete);
+
         } else if (method === "POST") {
+            console.log(url);
             console.log("Posting: " + util.inspect(req.body));
             restler.postJson(url, req.body)
                 .on('complete', onCompletePost);
+
         } else if (method === "PUT") {
             var json = JSON.stringify(req.body);
             console.log("putUrl = " + url);
@@ -45,6 +55,7 @@ module.exports = function (app, options) {
             options.headers['content-type'] = 'application/json';
             restler.put(url, options)
                 .on('complete', onComplete);
+
         } else if (method === "DELETE") {
             console.log("Deleting: " + url);
             restler.del(url, {})
