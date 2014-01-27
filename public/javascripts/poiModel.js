@@ -16,9 +16,9 @@ var DNT = window.DNT || {};
     ns.Poi = Backbone.Model.extend({
         idAttribute: "_id",
 
-        hasChanged : false,
+        changed : false,
 
-        isDeleted: false,
+        deleted: false,
 
         urlRoot: function () {
             return apiUri();
@@ -37,12 +37,20 @@ var DNT = window.DNT || {};
         },
         initialize: function (attributes, options) {
             this.on("change", function () {
-                this.hasChanged = true;
+                this.changed = true;
             });
         },
 
+        hasChanged: function () {
+            return this.changed;
+        },
+
         resetHasChanged: function () {
-            this.hasChanged = false;
+            this.changed = false;
+        },
+
+        isDeleted: function () {
+            return this.deleted;
         },
 
         getGeoJson: function () {
@@ -61,7 +69,7 @@ var DNT = window.DNT || {};
         },
 
         deleteFromMap: function () {
-            this.isDeleted = true;
+            this.deleted = true;
             this.trigger("removePoi");
         },
 
@@ -77,7 +85,6 @@ var DNT = window.DNT || {};
             this.marker = marker;
             marker.setIcon(icon);
             this.trigger('registerPopup', this);
-            console.log(this.getGeoJson());
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;

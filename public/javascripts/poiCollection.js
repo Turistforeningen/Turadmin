@@ -41,7 +41,12 @@ var DNT = window.DNT || {};
         },
 
         removeFromLayer: function (model) {
-            console.log(model.isDeleted);
+            if (model.isDeleted) {
+                this.getGeoJsonLayer().removeLayer(model.getMarker());
+            }
+            if (model.isNew()) {
+                this.remove(model, {silent: true});
+            }
         },
 
         save: function () {
@@ -54,22 +59,35 @@ var DNT = window.DNT || {};
             };
 
             var newAndChangedPois = this.filter(function (poi) {
-                return poi.isNew() || poi.hasChanged;
+                return poi.isNew() || poi.hasChanged() || poi.isDeleted();
             });
 
             var saveDone = _.after(newAndChangedPois.length, doSomething);
 
             _.each(newAndChangedPois, function (poi) {
-                poi.save(undefined, {
-                    success : function () {
-                        poi.resetHasChanged();
-                        saveDone();
-                    },
-                    error: function () {
-                        saveErrorCount += 1;
-                        saveDone();
-                    }
-                });
+                if (poi.isDeleted()) {
+                    poi.destroy({
+                        wait: true,
+                        success : function () {
+                            saveDone();
+                        },
+                        error: function () {
+                            saveErrorCount += 1;
+                            saveDone();
+                        }
+                    });
+                } else {
+                    poi.save(undefined, {
+                        success : function () {
+                            poi.resetHasChanged();
+                            saveDone();
+                        },
+                        error: function () {
+                            saveErrorCount += 1;
+                            saveDone();
+                        }
+                    });
+                }
             });
         }
     });
