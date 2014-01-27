@@ -113,7 +113,7 @@ var DNT = window.DNT || {};
                 $(e.currentTarget).find(".buttonText").html("Avslutt inntegning");
             } else {
                 var geojson = this.routing.getGeojson();
-                $(e.target).removeClass("active");
+                $(e.currentTarget).removeClass("active");
                 var label = "Start inntegning";
                 if (geojson.coordinates.length > 0) {
                     label = "Fortsett inntegning";
