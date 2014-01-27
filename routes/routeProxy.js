@@ -25,9 +25,13 @@ module.exports = function (app, options) {
         };
 
         var onCompletePost = function (data) {
-            console.log(data);
-            data._id = data.document._id;
-            console.log("id: " + data._id);
+            console.log("Response: ", data);
+            if (data.document && data.document._id) {
+                data._id = data.document._id;
+                console.log("id: ", data._id);
+            } else {
+                console.error("id is missing in result after post!");
+            }
             res.json(data);
         };
 
