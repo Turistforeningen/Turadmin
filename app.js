@@ -5,12 +5,13 @@
 
 var express = require('express');
 var path = require('path');
+var upload = require('jquery-file-upload-middleware');
 
 var app = module.exports = express();
-
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
+var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
 // all environments
 app.set('port', process.env.PORT_WWW || 3000);
@@ -23,16 +24,26 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.cookieParser());
+app.use(express.session({secret: sessionSecret}));
+
 
 // development only
-if ('development' === app.get('env')) {
-    app.use(express.errorHandler());
-}
+app.configure('development', function () {
+    "use strict";
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    app.set('view cache', false);
+});
+
+app.configure('production', function () {
+    "use strict";
+});
 
 require('./routes')(app);
 require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
 require('./routes/routeProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 require('./routes/poiProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
+require('./routes/pictureUpload')(app, express, {dirname: __dirname});
 
 // Only listen for port if the application is not included by another module.
 // Eg. the test runner.
@@ -42,4 +53,5 @@ if (!module.parent) {
         console.log('Express server listening on port ' + app.get('port'));
     });
 }
+
 

@@ -2,17 +2,16 @@ extends layout
 block extraHeadContent
     link(rel='stylesheet', href='lib/leaflet-0.7.1/leaflet.css')
     link(rel='stylesheet', href='lib/LeafletDraw/leaflet.draw.css')
+    link(rel='stylesheet', href='lib/jquery.fileupload/css/jquery.fileupload.css')
     script(src='lib/underscore/underscore-min.js')
     script(src='lib/backbone/backbone-min.js')
     script(src='lib/leaflet-0.7.1/leaflet.js')
-    script(src='lib/jquery.fileupload/js/vendor/jquery.ui.widget')
-    script(src='lib/jquery.fileupload/js/external/canvas-to-blob.min.js')
-    script(src='lib/jquery.fileupload/js/external/load-image.min.js')
-    script(src='lib/jquery.fileupload/js/jquery.iframe-transport.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload-process.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload-image.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload-validate.js')
+    script(src='lib/jquery.fileupload/js/vendor/jquery.ui.widget.js')
+    //script(src='lib/jquery.fileupload/js/external/canvas-to-blob.min.js')
+    //script(src='lib/jquery.fileupload/js/external/load-image.min.js')
+    //script(src='lib/jquery.fileupload/js/jquery.fileupload-process.js')
+    //script(src='lib/jquery.fileupload/js/jquery.fileupload-image.js')
+    //script(src='lib/jquery.fileupload/js/jquery.fileupload-validate.js')
     script(src='lib/routing/utils/LineUtil.Snapping.js')
     script(src='lib/routing/utils/Marker.Snapping.js')
     script(src='lib/routing/L.Routing.js')
@@ -89,3 +88,18 @@ block content
                 span.glyphicon.glyphicon-trash
                 | Slett inntegning
         div#mapContainer(style="height:500px;width:100%;margin-top:10px")
+
+        div#pictureContainer
+            span.btn.btn-success.fileinput-button
+                i.glyphicon.glyphicon-plus
+                span Select files...
+                input#fileupload(type="file" name="files[]" data-url="/upload" multiple)
+            div#progress.progress
+                div.progress-bar.progress-bar-success
+            div#files.files
+
+        script(src='lib/jquery.fileupload/js/jquery.iframe-transport.js')
+        script(src='lib/jquery.fileupload/js/jquery.fileupload.js')
+
+        script
+            |$('#fileupload').fileupload({ dataType: 'json' })
