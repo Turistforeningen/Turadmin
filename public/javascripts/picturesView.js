@@ -12,7 +12,7 @@ var DNT = window.DNT || {};
         uploadUrl: "/upload",
 
         initialize : function () {
-            this.pictureCollection = this.model.pictureCollection;
+            this.pictureCollection = this.model.get("pictureCollection");
             this.setupFileupload();
         },
 
@@ -42,7 +42,7 @@ var DNT = window.DNT || {};
         },
 
         addNewFile: function (file) {
-            this.picturesCollection.add(file);
+            this.pictureCollection.add(file);
             $(this.el).append("<p>" + file.navn + "</p>");
         },
 
