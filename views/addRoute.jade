@@ -8,9 +8,7 @@ block extraHeadContent
     script(src='lib/leaflet-0.7.1/leaflet.js')
     //script(src='lib/jquery.fileupload/js/external/canvas-to-blob.min.js')
     //script(src='lib/jquery.fileupload/js/external/load-image.min.js')
-    //script(src='lib/jquery.fileupload/js/jquery.fileupload-process.js')
     //script(src='lib/jquery.fileupload/js/jquery.fileupload-image.js')
-    //script(src='lib/jquery.fileupload/js/jquery.fileupload-validate.js')
     script(src='lib/routing/utils/LineUtil.Snapping.js')
     script(src='lib/routing/utils/Marker.Snapping.js')
     script(src='lib/routing/L.Routing.js')
@@ -31,8 +29,10 @@ block extraHeadContent
     script(src='javascripts/pictureModel.js')
     script(src='javascripts/appModel.js')
     script(src='javascripts/popupView.js')
-    script(src='javascripts/routeView.js')
     script(src='javascripts/mapView.js')
+    script(src='javascripts/picturesView.js')
+    script(src='javascripts/routeView.js')
+
     script
         |   $(document).ready(function () {
         |       var model = new DNT.App();
@@ -91,11 +91,8 @@ block content
                 input#fileupload(type="file" name="files[]" data-url="/upload" multiple)
             div#progress.progress
                 div.progress-bar.progress-bar-success
-            div#files.files
+            div#pictureTemplateContainer
 
         script(src='lib/jquery.fileupload/js/vendor/jquery.ui.widget.js')
         script(src='lib/jquery.fileupload/js/jquery.iframe-transport.js')
         script(src='lib/jquery.fileupload/js/jquery.fileupload.js')
-
-        script.
-            $('#fileupload').fileupload({ dataType: 'json' })
