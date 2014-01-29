@@ -35,7 +35,7 @@ var DNT = window.DNT || {};
         }
     });
 
-    ns.PictureList = Backbone.Collection.extend({
+    ns.PictureCollection = Backbone.Collection.extend({
         url: function () {
             return apiUri();
         },
