@@ -22,9 +22,7 @@ var DNT = window.DNT || {};
         model: ns.Poi,
 
         initialize: function () {
-            this.geojsonLayer = new L.GeoJSON(null, {
-                onEachFeature: this.onEachFeature
-            });
+            this.geojsonLayer = new L.GeoJSON(null);
             this.on("add", this.modelAdded, this);
         },
 
@@ -32,18 +30,16 @@ var DNT = window.DNT || {};
             return this.geojsonLayer;
         },
 
-        onEachFeature : function (feature, layer) {
-        },
-
         modelAdded: function (model) {
-            model.on("removePoi", function () { this.removeFromLayer(model); }, this);
+            model.on("deletePoi", function () { this.deletePoi(model); }, this);
             this.geojsonLayer.addLayer(model.getMarker());
         },
 
-        removeFromLayer: function (model) {
+        deletePoi: function (model) {
             if (model.isDeleted) {
                 this.getGeoJsonLayer().removeLayer(model.getMarker());
             }
+            //If model is new (not synced with server) - silently remove it from the collection
             if (model.isNew()) {
                 this.remove(model, {silent: true});
             }
@@ -66,13 +62,13 @@ var DNT = window.DNT || {};
                 }
             };
 
-            var newAndChangedPois = this.filter(function (poi) {
+            var unsyncedPois = this.filter(function (poi) {
                 return poi.isNew() || poi.hasChanged() || poi.isDeleted();
             });
 
-            var saveDone = _.after(newAndChangedPois.length, afterSave);
+            var saveDone = _.after(unsyncedPois.length, afterSave);
 
-            _.each(newAndChangedPois, function (poi) {
+            _.each(unsyncedPois, function (poi) {
                 if (poi.isDeleted()) {
                     poi.destroy({
                         wait: true,

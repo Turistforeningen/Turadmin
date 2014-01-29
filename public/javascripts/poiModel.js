@@ -68,9 +68,9 @@ var DNT = window.DNT || {};
             return !!this.marker;
         },
 
-        deleteFromMap: function () {
+        deletePoi: function () {
             this.deleted = true;
-            this.trigger("removePoi");
+            this.trigger("deletePoi");
         },
 
         createMarker: function () {

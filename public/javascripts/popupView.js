@@ -22,7 +22,7 @@ var DNT = window.DNT || {};
         },
 
         deletePoi: function () {
-            this.model.deleteFromMap();
+            this.model.deletePoi();
             return false;
         },
 
