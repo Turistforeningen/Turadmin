@@ -15,7 +15,7 @@ var DNT = window.DNT || {};
 
         setupFileupload: function () {
             var that = this;
-            $('#fileupload').fileupload({
+            var fileUpload = $('#fileupload').fileupload({
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 url: this.uploadUrl,
                 dataType: 'json',
@@ -23,8 +23,6 @@ var DNT = window.DNT || {};
                     $.each(data.result.files, function (index, file) {
                         that.addNewFile(file);
                     });
-                },
-                submit: function (e, data) {
                 },
                 progressall: function (e, data) {
                     that.renderProgressBar(data);
@@ -34,6 +32,10 @@ var DNT = window.DNT || {};
                 }
             }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+            fileUpload.on("fileuploadprocessfail", function (e, data) {
+                console.log(data.files[0].error);
+            });
         },
 
         addNewFile: function (file) {
