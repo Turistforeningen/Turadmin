@@ -20,6 +20,11 @@ var DNT = window.DNT || {};
             return apiUri();
         },
 
+        isValid: function () {
+            var geojson = this.get("geojson");
+            return !_.isNull(geojson) && !_.isUndefined(geojson);
+        },
+
         defaults : {
             geojson: null,
             retning: "AB",

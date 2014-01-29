@@ -47,16 +47,26 @@ var DNT = window.DNT || {};
                 this
             );
 
-            this.pictureCollection.save();
-
-            this.route.save(undefined, {
-                success: function () {
-                    console.log("saved route");
+            this.pictureCollection.save(
+                function () {
+                    console.log("All pois synced with server");
                 },
-                error: function (e) {
-                    console.log("error", e);
-                }
-            });
+                function (errorCount) {
+                    console.error("Failed to sync " + errorCount + " pois");
+                },
+                this
+            );
+
+            if (this.route.isValid()) {
+                this.route.save(undefined, {
+                    success: function () {
+                        console.log("saved route");
+                    },
+                    error: function (e) {
+                        console.log("error", e);
+                    }
+                });
+            }
         }
     });
 }(DNT));
