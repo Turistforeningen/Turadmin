@@ -7,9 +7,12 @@ var DNT = window.DNT || {};
 
         el: "#pictureContainer",
 
+        picturesCollection: undefined,
+
         uploadUrl: "/upload",
 
         initialize : function () {
+            this.pictureCollection = this.model.pictureCollection;
             this.setupFileupload();
         },
 
@@ -39,6 +42,7 @@ var DNT = window.DNT || {};
         },
 
         addNewFile: function (file) {
+            this.picturesCollection.add(file);
             $(this.el).append("<p>" + file.navn + "</p>");
         },
 
@@ -48,6 +52,7 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
+            //loop through poiCollection and append pictureTemplateViews
             return this;
         }
     });

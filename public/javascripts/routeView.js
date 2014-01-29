@@ -20,6 +20,8 @@ var DNT = window.DNT || {};
             this.route.on("change", this.unsavedChanges, this);
             this.poiCollection = this.model.get("poiCollection");
             this.poiCollection.on("add", this.unsavedChanges, this);
+            this.pictureCollection = this.model.get("pictureCollection");
+            this.pictureCollection.on("add", this.unsavedChanges, this);
         },
 
         events: {
@@ -44,6 +46,8 @@ var DNT = window.DNT || {};
                 },
                 this
             );
+
+            this.pictureCollection.save();
 
             this.route.save(undefined, {
                 success: function () {
