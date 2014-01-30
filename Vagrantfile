@@ -24,7 +24,8 @@ export HOME=/home/root
 echo "Installing NPM packages..."
 echo "PATH=$PATH:/vagrant/node_modules/.bin" >> /home/vagrant/.bashrc
 PATH=$PATH:/vagrant/node_modules/.bin
-cd /vagrant/ && npm install
+cd /vagrant/ && rm -rf node_modules
+[ -f package.json ] && npm install
 
 # Read secret environment variables
 NTB_API_KEY=`cat ./env/NTB_API_KEY`
