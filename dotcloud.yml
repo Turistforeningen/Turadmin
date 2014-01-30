@@ -6,4 +6,6 @@ api:
   process: node app.js
   approot: .
   node_version: v0.10.25
+  systempackages:
+    - imagemagick
 
