@@ -13,6 +13,8 @@
     "http-proxy-caronte": "*",
     "restler": "*",
     "supertest": "~0",
-    "mocha": "~1"
+    "mocha": "~1",
+    "jquery-file-upload-middleware": "*",
+    "underscore": "*"
   }
 }

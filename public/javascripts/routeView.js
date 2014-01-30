@@ -15,6 +15,7 @@ var DNT = window.DNT || {};
 
         initialize : function () {
             this.mapView = new DNT.MapView({model: this.model});
+            this.pictureView = new DNT.PicturesView({model: this.model});
             this.route = this.model.get("route");
             this.route.on("change", this.unsavedChanges, this);
             this.poiCollection = this.model.get("poiCollection");
@@ -34,6 +35,16 @@ var DNT = window.DNT || {};
         },
 
         save : function () {
+            this.poiCollection.save(
+                function () {
+                    console.log("All pois synced with server");
+                },
+                function (errorCount) {
+                    console.error("Failed to sync " + errorCount + " pois");
+                },
+                this
+            );
+
             this.route.save(undefined, {
                 success: function () {
                     console.log("saved route");
@@ -42,7 +53,6 @@ var DNT = window.DNT || {};
                     console.log("error", e);
                 }
             });
-            this.poiCollection.save();
         }
     });
 }(DNT));

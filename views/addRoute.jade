@@ -2,9 +2,13 @@ extends layout
 block extraHeadContent
     link(rel='stylesheet', href='lib/leaflet-0.7.1/leaflet.css')
     link(rel='stylesheet', href='lib/LeafletDraw/leaflet.draw.css')
+    link(rel='stylesheet', href='lib/jquery.fileupload/css/jquery.fileupload.css')
     script(src='lib/underscore/underscore-min.js')
     script(src='lib/backbone/backbone-min.js')
     script(src='lib/leaflet-0.7.1/leaflet.js')
+    //script(src='lib/jquery.fileupload/js/external/canvas-to-blob.min.js')
+    //script(src='lib/jquery.fileupload/js/external/load-image.min.js')
+    //script(src='lib/jquery.fileupload/js/jquery.fileupload-image.js')
     script(src='lib/routing/utils/LineUtil.Snapping.js')
     script(src='lib/routing/utils/Marker.Snapping.js')
     script(src='lib/routing/L.Routing.js')
@@ -13,18 +17,22 @@ block extraHeadContent
     script(src='lib/routing/L.Routing.Edit.js')
     script(src='lib/LeafletDraw/leaflet.draw.js')
     script(src='javascripts/routing.js')
-    script(type="text/template" id="popupTemplate")
-        |   <strong class="poi-navn"><%= navn %></strong><br>
-        |   <p class="poi-edit btn btn-default">Endre</p>
-        |   <p class="poi-delete btn btn-default">Slett</p>
+
+    script(type="text/template" id="popupTemplate").
+           <strong class="poi-navn"><%= navn %></strong><br>
+           <p class="poi-edit btn btn-default">Endre</p>
+           <p class="poi-delete btn btn-default">Slett</p>
+
     script(src='javascripts/routeModel.js')
     script(src='javascripts/poiCollection.js')
     script(src='javascripts/poiModel.js')
     script(src='javascripts/pictureModel.js')
     script(src='javascripts/appModel.js')
     script(src='javascripts/popupView.js')
-    script(src='javascripts/routeView.js')
     script(src='javascripts/mapView.js')
+    script(src='javascripts/picturesView.js')
+    script(src='javascripts/routeView.js')
+
     script
         |   $(document).ready(function () {
         |       var model = new DNT.App();
@@ -51,13 +59,7 @@ block content
                     span.label.label-danger Ikke lagret
                 small.pull-right Sist lagret:
                     span.label.label-danger Aldri
-            //ul.nav.nav-tabs
-                li.active
-                    a(href='#') Fakta
-                li
-                    a(href='#') Inntegning
-                li
-                    a(href='#') Bilder
+
         div.clearfix(style="margin-top:10px")
             div.panel.panel-default.pull-right
                 div.panel-body
@@ -81,3 +83,16 @@ block content
                 span.glyphicon.glyphicon-trash
                 | Slett inntegning
         div#mapContainer(style="height:500px;width:100%;margin-top:10px")
+
+        div#pictureContainer
+            span.btn.btn-success.fileinput-button
+                i.glyphicon.glyphicon-plus
+                span Select files...
+                input#fileupload(type="file" name="files[]" data-url="/upload" multiple)
+            div#progress.progress
+                div.progress-bar.progress-bar-success
+            div#pictureTemplateContainer
+
+        script(src='lib/jquery.fileupload/js/vendor/jquery.ui.widget.js')
+        script(src='lib/jquery.fileupload/js/jquery.iframe-transport.js')
+        script(src='lib/jquery.fileupload/js/jquery.fileupload.js')

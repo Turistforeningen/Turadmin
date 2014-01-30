@@ -49,12 +49,20 @@ var DNT = window.DNT || {};
             }
         },
 
-        save: function () {
+        save: function (success, error, self) {
             var saveErrorCount = 0;
 
-            var doSomething = function () {
+            var afterSave = function () {
                 if (saveErrorCount > 0) {
-                    alert(saveErrorCount + " poier ble ikke lagret - prøv igjen!");
+                    if (error) {
+                        error.call(self, saveErrorCount);
+                    } else {
+                        console.error("Error saving pois! " + saveErrorCount + " pois could not saved");
+                    }
+                } else {
+                    if (success) {
+                        success.call(self);
+                    }
                 }
             };
 
@@ -62,7 +70,7 @@ var DNT = window.DNT || {};
                 return poi.isNew() || poi.hasChanged() || poi.isDeleted();
             });
 
-            var saveDone = _.after(newAndChangedPois.length, doSomething);
+            var saveDone = _.after(newAndChangedPois.length, afterSave);
 
             _.each(newAndChangedPois, function (poi) {
                 if (poi.isDeleted()) {
