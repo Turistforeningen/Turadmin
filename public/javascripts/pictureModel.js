@@ -41,6 +41,11 @@ var DNT = window.DNT || {};
             this.on("change", function () {
                 this.changed = true;
             });
+            this.on("add:geojson", function () {
+                if (this.hasPosition() && this.getMarker() === undefined) {
+                    this.createMarker(this.get("geojson"));
+                }
+            });
         },
 
         hasChanged: function () {
@@ -60,14 +65,12 @@ var DNT = window.DNT || {};
         },
 
         getMarker: function () {
-            if (this.marker() === undefined && this.hasPosition()) {
-                this.createMarker();
-            }
             return this.marker;
         },
 
         hasPosition: function () {
-            return this.get("geojson") !== undefined;
+            var geojson = this.get("geojson");
+            return !!geojson && !!geojson.coordinates;
         },
 
         deletePicture: function () {
@@ -75,7 +78,7 @@ var DNT = window.DNT || {};
             this.trigger("deletePicture");
         },
 
-        createMarker: function () {
+        createMarker: function (geojson) {
             var icon = new L.icon({
                 iconUrl: 'images/poi/21.png',
                 iconRetinaUrl: 'images/poi/21@2x.png',
@@ -92,6 +95,7 @@ var DNT = window.DNT || {};
                 var lng = marker.getLatLng().lng;
                 this.updateGeojson(lat, lng);
             }, this);
+            this.trigger("picture:markerCreated", this);
         },
 
         updateGeojson: function (lat, lng) {

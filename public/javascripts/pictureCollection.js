@@ -25,6 +25,11 @@ var DNT = window.DNT || {};
             this.geojsonLayer = new L.GeoJSON(null, {
             });
             this.on("add", this.modelAdded, this);
+            this.on("picture:markerCreated", this.addMarker, this);
+        },
+
+        getGeoJsonLayer: function () {
+            return this.geojsonLayer;
         },
 
         modelAdded: function (model) {
@@ -32,6 +37,12 @@ var DNT = window.DNT || {};
                 this.geojsonLayer.addLayer(model.getMarker());
             }
             model.on("deletePicture", function () { this.removePicture(model); }, this);
+        },
+
+        addMarker: function (model) {
+            if (model.hasPosition()) {
+                this.geojsonLayer.addLayer(model.getMarker());
+            }
         },
 
         removePicture: function (model) {

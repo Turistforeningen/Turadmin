@@ -42,8 +42,10 @@ var DNT = window.DNT || {};
         },
 
         addNewFile: function (file) {
-            this.pictureCollection.add(file);
-            $(this.el).append("<p>" + file.navn + "</p>");
+            var picture = new DNT.Picture(file);
+            this.pictureCollection.add(picture);
+            var view = new DNT.PictureView({ model: picture });
+            this.$("#pictureTemplateContainer").append(view.render().el);
         },
 
         renderProgressBar: function (data) {

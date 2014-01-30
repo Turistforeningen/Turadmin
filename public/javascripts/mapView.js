@@ -76,6 +76,14 @@ var DNT = window.DNT || {};
             popupAnchor: [-0, -30]
         });
     }
+    function createGeojson(coordinates) {
+        var geojson = {
+            type: "Point",
+            coordinates: [coordinates.layer._latlng.lng, coordinates.layer._latlng.lat],
+            properties: {}
+        };
+        return geojson;
+    }
 
 
     ns.MapView = Backbone.View.extend({
@@ -90,6 +98,8 @@ var DNT = window.DNT || {};
 
         routeModel: undefined,
 
+        pictureToPosition: undefined,
+
         events: {
             'click #startDraw': 'toggleDraw',
             'click #toggleSnap': 'toggleSnap',
@@ -102,7 +112,10 @@ var DNT = window.DNT || {};
             this.snapping = createSnapLayer();
             this.drawControl = createDrawControl();
             this.poiCollection = this.model.get("poiCollection");
+            this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
+            _.bindAll(this, "startPicturePositioning");
+            this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
         },
 
         toggleDraw: function (e) {
@@ -141,6 +154,7 @@ var DNT = window.DNT || {};
             if ($(e.currentTarget).hasClass("active")) {
                 this.disableDrawNewPoi();
             } else {
+                delete this.pictureToPositon;
                 $(e.currentTarget).addClass("active");
                 this.drawMarkerTool.enable();
             }
@@ -153,20 +167,33 @@ var DNT = window.DNT || {};
 
         addOnDrawCreatedEventHandler: function () {
             this.map.on('draw:created',
-                this.createPoi,
+                this.createPoiOrPositionPicture,
                 this);
+        },
+
+        createPoiOrPositionPicture: function (coordinates) {
+            if (this.pictureToPosition) {
+                this.positionPicture(coordinates);
+            } else {
+                this.createPoi(coordinates);
+            }
         },
 
         createPoi: function (coordinates) {
             this.disableDrawNewPoi();
-            var geojson = {
-                type: "Point",
-                coordinates: [coordinates.layer._latlng.lng, coordinates.layer._latlng.lat],
-                properties: {}
-            };
+            var geojson = createGeojson(coordinates);
             var poi = new DNT.Poi({ geojson: geojson });
             this.listenTo(poi, "registerPopup", this.showPopup);
             this.poiCollection.add(poi);
+        },
+
+        positionPicture: function (coordinates) {
+            this.drawMarkerTool.disable();
+            var geojson = createGeojson(coordinates);
+            var picture = this.pictureToPosition;
+            picture.set("geojson", geojson);
+            picture.createMarker();
+            delete this.pictureToPositon;
         },
 
         showPopup: function (poi) {
@@ -187,6 +214,11 @@ var DNT = window.DNT || {};
                 });
         },
 
+        startPicturePositioning: function (picture) {
+            this.pictureToPosition = picture;
+            this.drawMarkerTool.enable();
+        },
+
         render: function () {
             this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
@@ -196,6 +228,7 @@ var DNT = window.DNT || {};
             this.addRouting();
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
+            this.pictureCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
             this.createDrawMarkerTool();
             return this;
