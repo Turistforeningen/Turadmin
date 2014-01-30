@@ -18,7 +18,12 @@ block extraHeadContent
     script(src='lib/LeafletDraw/leaflet.draw.js')
     script(src='javascripts/routing.js')
 
-    script(type="text/template" id="popupTemplate").
+    script(type="text/template" id="picturePopupTemplate").
+       <strong class="poi-navn"><%= navn %></strong>
+       <br>
+       <img src=<%= url %> width="200">
+
+    script(type="text/template" id="poiPopupTemplate").
        <strong class="poi-navn"><%= navn %></strong><br>
        <p class="poi-edit btn btn-default">Endre</p>
        <p class="poi-delete btn btn-default">Slett</p>

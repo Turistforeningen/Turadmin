@@ -11,9 +11,9 @@ var DNT = window.DNT || {};
 
     ns.PopupView = Backbone.View.extend({
 
-        template: _.template($('#popupTemplate').html()),
-
-        initialize : function () {
+        initialize : function (options) {
+            var templateId = options.templateId;
+            this.template =  _.template($(templateId).html());
         },
 
         events: {

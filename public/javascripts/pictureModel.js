@@ -89,7 +89,7 @@ var DNT = window.DNT || {};
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
             this.marker = marker;
             marker.setIcon(icon);
-            this.trigger('registerPopup', this);
+            this.trigger('registerPopup', {model: this.createPicturePopupModel(), templateId: "#picturePopupTemplate"});
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;
@@ -102,7 +102,39 @@ var DNT = window.DNT || {};
             var geoJson = this.getGeoJson();
             geoJson.coordinates = [lng, lat];
             this.set("geojson", geoJson);
+        },
+
+        createPicturePopupModel: function () {
+            var imageArray = this.get("img");
+            var json = {url: "", navn: this.get("navn")};
+            if (!!imageArray) {
+                _.each(imageArray, function (image) {
+                    if (!!image.width && !!image.height) {
+                        json.url = image.url;
+                    }
+                });
+            }
+            return new ns.PicturePopupModel(json, {marker: this.getMarker()});
         }
     });
+
+    /*
+        Small model for picture popup - used to set url more accessible for popup
+     */
+    ns.PicturePopupModel = Backbone.Model.extend({
+
+        defaults : {
+            navn: ""
+        },
+
+        initialize : function (arg, opt) {
+            this.marker = opt.marker;
+        },
+
+        getMarker: function () {
+            return this.marker;
+        }
+    });
+
 }(DNT));
 

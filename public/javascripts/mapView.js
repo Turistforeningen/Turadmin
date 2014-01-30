@@ -115,7 +115,9 @@ var DNT = window.DNT || {};
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
             _.bindAll(this, "startPicturePositioning");
+            _.bindAll(this, "registerPopup");
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
+            this.event_aggregator.on("map:showPopup", this.registerPopup);
         },
 
         toggleDraw: function (e) {
@@ -183,7 +185,7 @@ var DNT = window.DNT || {};
             this.disableDrawNewPoi();
             var geojson = createGeojson(coordinates);
             var poi = new DNT.Poi({ geojson: geojson });
-            this.listenTo(poi, "registerPopup", this.showPopup);
+            this.listenTo(poi, "registerPopup", this.registerPopup);
             this.poiCollection.add(poi);
         },
 
@@ -192,12 +194,13 @@ var DNT = window.DNT || {};
             var geojson = createGeojson(coordinates);
             var picture = this.pictureToPosition;
             picture.set("geojson", geojson);
+            this.listenTo(picture, "registerPopup", this.registerPopup);
             picture.createMarker();
             delete this.pictureToPositon;
         },
 
-        showPopup: function (poi) {
-            new DNT.PopupView({model: poi}).render();
+        registerPopup: function (options) {
+            new DNT.PopupView(options).render();
         },
 
         addRouting: function () {
