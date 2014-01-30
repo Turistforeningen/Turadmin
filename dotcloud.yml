@@ -5,5 +5,5 @@ api:
     www: http
   process: node app.js
   approot: .
-  node_version: v0.10.24
+  node_version: v0.10.25
 
