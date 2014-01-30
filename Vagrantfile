@@ -7,7 +7,7 @@ $script = <<SCRIPT
 # Update & Install
 echo 'Updating and installing ubuntu packages...'
 apt-get update
-apt-get install -y build-essential git curl
+apt-get install -y build-essential git curl imagemagick
 
 # NodeJS via NVM
 echo "Installing Node Version Manager..."
@@ -24,7 +24,8 @@ export HOME=/home/root
 echo "Installing NPM packages..."
 echo "PATH=$PATH:/vagrant/node_modules/.bin" >> /home/vagrant/.bashrc
 PATH=$PATH:/vagrant/node_modules/.bin
-cd /vagrant/ && npm install
+cd /vagrant/ && rm -rf node_modules
+[ -f package.json ] && npm install
 
 # Read secret environment variables
 NTB_API_KEY=`cat ./env/NTB_API_KEY`
