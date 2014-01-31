@@ -1,0 +1,140 @@
+div.row.page-block.route-pois(id="route-pois")
+    div.col-lg-12
+        h3 Steder
+
+        div.alert.alert-info
+            strong Ingen steder!
+            | &nbsp;Husk å legge inn steder fra turen din, som kan være nyttige å vite om for andre som skal gå denne turen
+
+        div#route-pois-accordion.panel-group.route-pois-accordion
+
+            // TODO: Templatify the following...
+            // NOTE: Add .in to panel that should be expanded by default
+
+            div.panel.panel-default
+                div.panel-heading
+                    h4.panel-title
+                        a(data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-1") Utsikten
+
+                div#route-pois-accordion-1.panel-collapse.collapse
+                    div.panel-body Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+
+            div.panel.panel-default
+                div.panel-heading
+                    h4.panel-title
+                        a(data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-2") Bekken
+
+                div#route-pois-accordion-2.panel-collapse.collapse.in
+                    div.panel-body.
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                <h5>Om stedet</h5>
+
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">Navn</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" id="inputEmail3" placeholder="Navn på sted">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">Kategori</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control">
+                                                <option value="0">Velg en</option>
+                                                <option value="1">Fjelltopp</option>
+                                                <option value="2">Bro</option>
+                                                <option value="3">Bekk</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">Er også</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" id="inputEmail3" placeholder="Replace with multiselect">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 control-label">Beskrivelse</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                <h5>Bilder</h5>
+
+                                <div class="alert alert-info">
+                                    <strong>Ingen bilder!</strong>
+                                    Du har ikke lagt inn noen bilder for denne turen.
+                                </div>
+
+                                <div class="currentRouteImages selectableImages">
+                                    <h6>Dine bilder fra denne turen</h6>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail selected">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="otherRouteImages">
+                                    <h6>Dine bilder fra andre turer i nærheten</h6>
+
+                                    <div class="row selectableImages">
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail selected">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail selected">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="thumbnail">
+                                                <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <p class="help-block">Dersom noen av bildene du har lagt ut til turen kan relateres til stedet kan du knytte bilder til stedet her. Velg blant bilder du har lagt ut til turen og bilder som er lagt ut i nærheten av stedet.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+        div.form-group
+            button#newPoi.btn.btn-success.btn.btn-group
+                span.glyphicon.glyphicon-plus
+                | &nbsp;Legg til flere steder
+
+

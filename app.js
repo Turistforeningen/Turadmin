@@ -41,6 +41,7 @@ app.configure('production', function () {
 
 require('./routes')(app);
 require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
+require('./routes/route')(app, {routeApiUri: routeApiUri});
 require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 require('./routes/pictureUpload')(app, express, {dirname: __dirname});
 
