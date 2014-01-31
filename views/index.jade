@@ -13,4 +13,47 @@ block content
 
 
         div#listContainer
-            |Her kommer liste over alle turer
+            p Her er alle turene du har lagt inn. Klikk på de enkelte turene for å gjøre endringer.
+            table.table.table-bordered.table-hover
+                thead
+                    tr
+                        th Tittel
+                        th Område
+                        th Publisert
+                        th Lagret
+                        th Mangler
+                        th(colspan="2") Valg
+                tbody
+                    tr.clickable
+                        td
+                            span Tur uten navn
+                        td
+                            span N/A
+                        td
+                            span.label.label-info Nei
+                        td
+                            span 31.01.14
+                        td
+                            span Inntegning, Bilder, Beskrivelse, Adkomst, Passer for, Vanskelighetsgrad, Sesong
+                        td
+                            a Publiser
+                        td
+                            a Slett
+                    tr.clickable
+                        td
+                            span Langskogen til krokhaugen
+                        td
+                            span Slettelia
+                        td
+                            span.label.label-success Ja
+                        td
+                            span 31.01.14
+                        td
+                            span Bilder
+                        td
+                            a Avpubliser
+                        td
+                            a Slett
+
+    script.
+        $(document).on('click', 'td', function(){ location = '/tur'; });

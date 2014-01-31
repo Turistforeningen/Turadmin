@@ -274,3 +274,7 @@ select.route-facts-field-minutes {
 .route-facts-field-kollektivtransport .checkbox {
 	margin-bottom: 10px;
 }
+
+a, .clickable {
+	cursor: pointer;
+}
