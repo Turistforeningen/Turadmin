@@ -5,7 +5,7 @@ var DNT = window.DNT || {};
 
     ns.PicturesView = Backbone.View.extend({
 
-        el: "#pictureContainer",
+        el: "#route-images",
 
         picturesCollection: undefined,
 
@@ -14,11 +14,15 @@ var DNT = window.DNT || {};
         initialize : function () {
             this.pictureCollection = this.model.get("pictureCollection");
             this.setupFileupload();
+            if (this.pictureCollection.length > 0) {
+                this.$("#noPictures").addClass("hidden");
+                this.$("#hintInfo").removeClass("hidden");
+            }
         },
 
         setupFileupload: function () {
             var that = this;
-            var fileUpload = $('#fileupload').fileupload({
+            var fileUpload = this.$('#fileupload').fileupload({
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 url: this.uploadUrl,
                 dataType: 'json',
@@ -39,18 +43,30 @@ var DNT = window.DNT || {};
             fileUpload.on("fileuploadprocessfail", function (e, data) {
                 console.log(data.files[0].error);
             });
+
+            fileUpload.on("fileuploadprocessdone", function (e, data) {
+                that.$($("#progress").removeClass("hidden"));
+            });
         },
 
         addNewFile: function (file) {
             var picture = new DNT.Picture(file);
             this.pictureCollection.add(picture);
             var view = new DNT.PictureView({ model: picture });
-            this.$("#pictureTemplateContainer").append(view.render().el);
+            this.$("#route-images-all-container").append(view.render().el);
+            this.$("#noPictures").addClass("hidden");
+            this.$("#hintInfo").removeClass("hidden");
+            setTimeout(this.hideAndResetProgressBar, 1500);
         },
 
         renderProgressBar: function (data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            this.$("#progress").css('width', progress + '%');
+            this.$("#progress .progress-bar").css('width', progress + '%');
+        },
+
+        hideAndResetProgressBar: function () {
+            this.$($("#progress").addClass("hidden"));
+            this.$("#progress .progress-bar").css('width', 0);
         },
 
         render: function () {

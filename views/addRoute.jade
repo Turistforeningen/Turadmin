@@ -83,30 +83,31 @@ block content
                         p.btn.btn-sm.btn-default
                             span.glyphicon.glyphicon-upload
                             | Velg fil...
-        div.clearfix
-            p#startDraw.btn.btn-default.btn-sm.btn-group.pull-left
-                span
-                    span.glyphicon.glyphicon-pencil
-                    span.buttonText Start inntegning
-            p#toggleSnap.btn.btn-default.btn-sm.btn-group.pull-left.active
-                span.glyphicon.glyphicon-pushpin
-                | Snapping
-            p#newPoi.btn.btn-default.btn-sm.btn-group.pull-left
-                span.glyphicon.glyphicon-pushpin
-                | Legg til Poi eller bilde
-            p#deleteRoute.btn.btn-sm.btn-danger.pull-right
-                span.glyphicon.glyphicon-trash
-                | Slett inntegning
-        div#mapContainer(style="height:500px;width:100%;margin-top:10px")
+        div#mapAndControls
+            div.clearfix
+                p#startDraw.btn.btn-default.btn-sm.btn-group.pull-left
+                    span
+                        span.glyphicon.glyphicon-pencil
+                        span.buttonText Start inntegning
+                p#toggleSnap.btn.btn-default.btn-sm.btn-group.pull-left.active
+                    span.glyphicon.glyphicon-pushpin
+                    | Snapping
+                p#newPoi.btn.btn-default.btn-sm.btn-group.pull-left
+                    span.glyphicon.glyphicon-pushpin
+                    | Legg til Poi eller bilde
+                p#deleteRoute.btn.btn-sm.btn-danger.pull-right
+                    span.glyphicon.glyphicon-trash
+                    | Slett inntegning
+            div#mapContainer(style="height:500px;width:100%;margin-top:10px")
 
-        div#pictureContainer
+        div#route-images
             span.btn.btn-success.fileinput-button
                 i.glyphicon.glyphicon-plus
                 span Select files...
                 input#fileupload(type="file" name="files[]" data-url="/upload" multiple)
             div#progress.progress
                 div.progress-bar.progress-bar-success
-            div#pictureTemplateContainer
+            div#route-images-all-container
 
         script(src='lib/jquery.fileupload/js/vendor/jquery.ui.widget.js')
         script(src='lib/jquery.fileupload/js/jquery.iframe-transport.js')

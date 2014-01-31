@@ -17,7 +17,7 @@ var DNT = window.DNT || {};
         },
 
         events: {
-            'click .positionPicture': 'positionPicture'
+            'click #positionPicture': 'positionPicture'
         },
 
         positionPicture: function () {

@@ -1,0 +1,38 @@
+script(type="text/template" id="pictureTemplate").
+    <div class="col-sm-4">
+        <div class="thumbnail removable">
+            <a href="#" class="removeItem">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            <img src=<%= url %> alt="">
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-picture"></span>
+                </span>
+                <input type="text" placeholder="Beskrivelse av bildet" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-camera"></span>
+                </span>
+                <input type="text" placeholder="Fotograf" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <button id="positionPicture" class="btn btn-default">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    &nbsp;Posisjonér i kart
+                </button>
+            </div>
+        </div>
+    </div>
+
+script(type="text/template" id="picturePopupTemplate").
+   <strong class="poi-navn"><%= navn %></strong>
+   <br>
+   <img src=<%= url %> width="200">

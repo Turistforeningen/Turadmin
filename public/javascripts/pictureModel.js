@@ -46,6 +46,7 @@ var DNT = window.DNT || {};
                     this.createMarker(this.get("geojson"));
                 }
             });
+            this.set("url", this.getThumbnailImageUrl());
         },
 
         hasChanged: function () {
@@ -109,16 +110,21 @@ var DNT = window.DNT || {};
         },
 
         createPicturePopupModel: function () {
+            var json = {url: this.getThumbnailImageUrl(), navn: this.get("navn")};
+            return new ns.PicturePopupModel(json, {marker: this.getMarker()});
+        },
+
+        getThumbnailImageUrl: function () {
+            var url = "";
             var imageArray = this.get("img");
-            var json = {url: "", navn: this.get("navn")};
             if (!!imageArray) {
                 _.each(imageArray, function (image) {
                     if (!!image.width && !!image.height) {
-                        json.url = image.url;
+                        url = image.url;
                     }
                 });
             }
-            return new ns.PicturePopupModel(json, {marker: this.getMarker()});
+            return url;
         }
     });
 
