@@ -107,6 +107,11 @@ a {
 	text-indent: -1px;
 }
 
+.route-images-all-container .thumbnail img{
+    max-height: 260px;
+}
+
+
 .route-pois-accordion {
 	margin-bottom: 20px;
 }

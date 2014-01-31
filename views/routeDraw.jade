@@ -21,51 +21,52 @@ div.row.page-block.route-draw(id="route-draw")
                         span.glyphicon.glyphicon-folder-open
                         | &nbsp;&nbsp;Last opp GPX-fil
 
-        div.row
-            div.col-lg-8.col-md-8.col-sm-8
-                div.mapControls
-                    div.startStopDraw
-                        button#startDraw.btn.btn-success.btn-group.pull-left
-                            span.glyphicon.glyphicon-pencil
-                            span.buttonText &nbsp;Tegn rute
+        div#mapAndControls
 
-                    div.deleteRoute
-                        button#deleteRoute.btn.btn-danger.btn-outline
-                            span.glyphicon.glyphicon-trash
-                            span.buttonText &nbsp;Slett rute
+            div.row
+                div.col-lg-8.col-md-8.col-sm-8
+                    div.mapControls
+                        div.startStopDraw
+                            button#startDraw.btn.btn-success.btn-group.pull-left
+                                span.glyphicon.glyphicon-pencil
+                                span.buttonText &nbsp;Tegn rute
 
-                    div.dropdown
-                        button.btn.btn-link(data-toggle="dropdown" data-target="#")
-                            span.glyphicon.glyphicon-cog
-                            | &nbsp; Alternativer &nbsp;
+                        div.deleteRoute
+                            button#deleteRoute.btn.btn-danger.btn-outline
+                                span.glyphicon.glyphicon-trash
+                                span.buttonText &nbsp;Slett rute
+
+                        div.dropdown
+                            button.btn.btn-link(data-toggle="dropdown" data-target="#")
+                                span.glyphicon.glyphicon-cog
+                                | &nbsp; Alternativer &nbsp;
+                                span.caret
+                            ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                                li
+                                    a#toggleSnap(href="#") Magnetisk markør
+                                li
+
+                div.col-lg-4.col-md-4.col-sm-4
+                    div.dropdown.dropdown-select.pull-right.route-field-facts-retning
+                        button.btn.btn-default(data-toggle="dropdown" data-target="#")
+                            span.glyphicon.glyphicon-arrow-right
+                            | &nbsp; Turens retning: A-B-A &nbsp;
                             span.caret
                         ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                            li.selected
+                                a#route-retning-a-b-a(href="#")
+                                    label A-B-A
+                                    p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
                             li
-                                a#toggleSnap(href="#") Magnetisk markør
+                                a#route-retning-a-b(href="#")
+                                    label A-B
+                                    p.help-block Turen går fra startpunktet til endepunktet av inntegning.
                             li
+                                a#route-retning-b-a(href="#")
+                                    label B-A
+                                    p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 
-            div.col-lg-4.col-md-4.col-sm-4
-                div.dropdown.dropdown-select.pull-right.route-field-facts-retning
-                    button.btn.btn-default(data-toggle="dropdown" data-target="#")
-                        span.glyphicon.glyphicon-arrow-right
-                        | &nbsp; Turens retning: A-B-A &nbsp;
-                        span.caret
-                    ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
-                        li.selected
-                            a#route-retning-a-b-a(href="#")
-                                label A-B-A
-                                p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
-                        li
-                            a#route-retning-a-b(href="#")
-                                label A-B
-                                p.help-block Turen går fra startpunktet til endepunktet av inntegning.
-                        li
-                            a#route-retning-b-a(href="#")
-                                label B-A
-                                p.help-block Turen går fra endepunktet til startpunktet av inntegning.
-
-
-        div.row
-            div.col-lg-12
-                // TODO: Move styles to CSS
-                #mapContainer(style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;")
+            div.row
+                div.col-lg-12
+                    // TODO: Move styles to CSS
+                    #mapContainer(style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;")

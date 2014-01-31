@@ -1,64 +1,22 @@
-div.row.page-block.route-images(id="route-images")
+div.row.page-block.route-images#route-images
     div.col-lg-12
 
         h3 Bilder
 
-        div.alert.alert-info
+        div#noPictures.alert.alert-info
             strong Ingen bilder!
             | &nbsp;Husk å legge inn bilder fra turen din, slik at det blir synlig på forsiden av UT.no
 
         div.row
-            div(id="route-images-all-container")
-                div.col-sm-4
-                    div.thumbnail.removable
-                        a.removeItem(href="#")
-                            span.glyphicon.glyphicon-remove
-                        img(src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" alt="")
-                    div.form-group
-                        div.input-group
-                            span.input-group-addon
-                                span.glyphicon.glyphicon-picture
-                            input.form-control(type="text" placeholder="Beskrivelse av bildet")
-                    div.form-group
-                        div.input-group
-                            span.input-group-addon
-                                span.glyphicon.glyphicon-camera
-                            input.form-control(type="text" placeholder="Fotograf")
-                    div.form-group
-                        div.input-group
-                            button.btn.btn-default
-                                span.glyphicon.glyphicon-map-marker
-                                | &nbsp;Posisjonér i kart
-
-                div.col-sm-4
-                    div.thumbnail.removable
-                        a.removeItem(href="#")
-                            span.glyphicon.glyphicon-remove
-                        img.img-responsive(src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" alt="")
-                    div.form-group
-                        div.input-group
-                            span.input-group-addon
-                                span.glyphicon.glyphicon-picture
-                            input.form-control(type="text" placeholder="Beskrivelse av bildet")
-                    div.form-group
-                        div.input-group
-                            span.input-group-addon
-                                span.glyphicon.glyphicon-camera
-                            input.form-control(type="text" placeholder="Fotograf")
-                    div.form-group
-                        div.input-group
-                            button.btn.btn-default
-                                span.glyphicon.glyphicon-map-marker
-                                | &nbsp;Posisjonér i kart
-        div.alert.alert-info
+            div#route-images-all-container.route-images-all-container
+        div#hintInfo.alert.alert-info.hidden
             strong Hint!
             | &nbsp;Du kan endre på rekkefølgen ved å dra i bildene. Det første bildet vil bli bruk som forsidebilde for turforslaget ditt på UT.no.
         span.btn.btn-success.fileinput-button
             span.glyphicon.glyphicon-plus
             span &nbsp;Legg til bilder
             input#fileupload(type="file" name="files[]" multiple="")
-
-        div#progress.progress
+        div#progress.progress.hidden
             div.progress-bar.progress-bar-success
 
 
