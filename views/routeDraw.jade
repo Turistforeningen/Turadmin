@@ -1,0 +1,50 @@
+div.row.page-block.route-draw(id="route-draw")
+    div.col-lg-12
+        h3 Rute
+        div.routeLocate
+            form.form-horizontal
+                div.col-lg-4.col-md-4.col-sm-5
+                    div.form-group
+                        // TODO: Move styles to CSS
+                        label.control-label(for="",style="float: left; margin-left: 15px;")
+                            span.glyphicon.glyphicon-map-marker
+                            | &nbsp;Finn sted
+                        div.col-sm-8
+                            input.form-control(placeholder="søk")
+                div.col-lg-1.col-md-1.col-sm-1
+                        div.form-group
+                            // TODO: Move styles to CSS
+                            p.form-control-static(style="text-align: center;") eller
+            form.form-horizontal(method="post", enctype="multipart/form-data")
+                div.col-lg-4.col-md-4.col-sm-3.col-xs-12
+                    button.btn.btn-success
+                        span.glyphicon.glyphicon-folder-open
+                        | &nbsp;&nbsp;Last opp GPX-fil
+
+        div.row
+            div.col-sm-12
+                div.mapControls
+                    div.startStopDraw
+                        button#startDraw.btn.btn-primary.btn-group.pull-left
+                            span.glyphicon.glyphicon-pencil
+                            span.buttonText &nbsp;Tegn rute
+
+                    div.deleteRoute
+                        button#deleteRoute.btn.btn-danger
+                            span.glyphicon.glyphicon-trash
+                            span.buttonText &nbsp;Slett rute
+
+                    div.dropdown
+                        button.btn.btn-link(data-toggle="dropdown" data-target="#")
+                            span.glyphicon.glyphicon-cog
+                            | &nbsp; Alternativer &nbsp;
+                            span.caret
+                        ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                            li
+                                a#toggleSnap(href="#") Magnetisk markør
+                            li
+                                a#direction(href="#") Retning A-B-A
+        div.row
+            div.col-lg-12
+                // TODO: Move styles to CSS
+                #mapContainer(style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;")
