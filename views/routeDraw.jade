@@ -20,31 +20,31 @@ div.row.page-block.route-draw(id="route-draw")
                     button.btn.btn-success
                         span.glyphicon.glyphicon-folder-open
                         | &nbsp;&nbsp;Last opp GPX-fil
+        div#mapAndControls
+            div.row
+                div.col-sm-12
+                    div.mapControls
+                        div.startStopDraw
+                            button#startDraw.btn.btn-primary.btn-group.pull-left
+                                span.glyphicon.glyphicon-pencil
+                                span.buttonText &nbsp;Tegn rute
 
-        div.row
-            div.col-sm-12
-                div.mapControls
-                    div.startStopDraw
-                        button#startDraw.btn.btn-primary.btn-group.pull-left
-                            span.glyphicon.glyphicon-pencil
-                            span.buttonText &nbsp;Tegn rute
+                        div.deleteRoute
+                            button#deleteRoute.btn.btn-danger
+                                span.glyphicon.glyphicon-trash
+                                span.buttonText &nbsp;Slett rute
 
-                    div.deleteRoute
-                        button#deleteRoute.btn.btn-danger
-                            span.glyphicon.glyphicon-trash
-                            span.buttonText &nbsp;Slett rute
-
-                    div.dropdown
-                        button.btn.btn-link(data-toggle="dropdown" data-target="#")
-                            span.glyphicon.glyphicon-cog
-                            | &nbsp; Alternativer &nbsp;
-                            span.caret
-                        ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
-                            li
-                                a#toggleSnap(href="#") Magnetisk markør
-                            li
-                                a#direction(href="#") Retning A-B-A
-        div.row
-            div.col-lg-12
-                // TODO: Move styles to CSS
-                #mapContainer(style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;")
+                        div.dropdown
+                            button.btn.btn-link(data-toggle="dropdown" data-target="#")
+                                span.glyphicon.glyphicon-cog
+                                | &nbsp; Alternativer &nbsp;
+                                span.caret
+                            ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                                li.active
+                                    a#toggleSnap(href="#") Magnetisk markør
+                                li
+                                    a#direction(href="#") Retning A-B-A
+            div.row
+                div.col-lg-12
+                    // TODO: Move styles to CSS
+                    #mapContainer(style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;")

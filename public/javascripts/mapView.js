@@ -88,7 +88,7 @@ var DNT = window.DNT || {};
 
     ns.MapView = Backbone.View.extend({
 
-        el: "#routePage",
+        el: "#mapAndControls",
 
         snapping: true,
 
@@ -142,9 +142,9 @@ var DNT = window.DNT || {};
             this.snapping = !this.snapping;
             this.routing.enableSnapping(this.snapping);
             if (this.snapping) {
-                $(e.currentTarget).addClass("active");
+                $(e.currentTarget).parent().addClass("active");
             } else {
-                $(e.currentTarget).removeClass("active");
+                $(e.currentTarget).parent().removeClass("active");
             }
         },
 
