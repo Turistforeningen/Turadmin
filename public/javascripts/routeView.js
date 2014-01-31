@@ -37,36 +37,51 @@ var DNT = window.DNT || {};
         },
 
         save : function () {
+
+            var that = this;
+
+            var afterPictureAndPoiSync = function () {
+                if (that.route.isValid()) {
+                    that.route.save(undefined, {
+                        success: function () {
+                            console.log("saved route");
+                        },
+                        error: function (e) {
+                            console.log("error", e);
+                        }
+                    });
+                }
+            };
+
+            var saveDone = _.after(2, afterPictureAndPoiSync);
+
             this.poiCollection.save(
-                function () {
+                function (newIds) {
+                    this.route.addPois(newIds);
+                    saveDone();
                     console.log("All pois synced with server");
                 },
                 function (errorCount) {
+                    saveDone();
                     console.error("Failed to sync " + errorCount + " pois");
                 },
                 this
             );
 
             this.pictureCollection.save(
-                function () {
-                    console.log("All pois synced with server");
+                function (newIds) {
+                    this.route.addPictures(newIds);
+                    saveDone();
+                    console.log("All pictures synced with server");
                 },
                 function (errorCount) {
-                    console.error("Failed to sync " + errorCount + " pois");
+                    saveDone();
+                    console.error("Failed to sync " + errorCount + " pictures");
                 },
                 this
             );
 
-            if (this.route.isValid()) {
-                this.route.save(undefined, {
-                    success: function () {
-                        console.log("saved route");
-                    },
-                    error: function (e) {
-                        console.log("error", e);
-                    }
-                });
-            }
+
         }
     });
 }(DNT));

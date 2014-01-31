@@ -57,6 +57,7 @@ var DNT = window.DNT || {};
 
         save: function (success, error, self) {
             var saveErrorCount = 0;
+            var newIds = [];
 
             var afterSave = function () {
                 if (saveErrorCount > 0) {
@@ -67,7 +68,7 @@ var DNT = window.DNT || {};
                     }
                 } else {
                     if (success) {
-                        success.call(self);
+                        success.call(self, newIds);
                     }
                 }
             };
@@ -77,6 +78,10 @@ var DNT = window.DNT || {};
             });
 
             var saveDone = _.after(syncablePictures.length, afterSave);
+
+            if (syncablePictures.length === 0) {
+                afterSave();
+            }
 
             _.each(syncablePictures, function (picture) {
                 if (picture.isDeleted()) {
@@ -91,9 +96,13 @@ var DNT = window.DNT || {};
                         }
                     });
                 } else {
+                    var isNew = picture.isNew();
                     picture.save(undefined, {
                         success : function () {
                             picture.resetHasChanged();
+                            if (isNew) {
+                                newIds.push(picture.get("_id"));
+                            }
                             saveDone();
                         },
                         error: function () {

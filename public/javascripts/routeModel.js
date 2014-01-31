@@ -16,15 +16,6 @@ var DNT = window.DNT || {};
     ns.Route = Backbone.Model.extend({
         idAttribute: "_id",
 
-        urlRoot: function () {
-            return apiUri();
-        },
-
-        isValid: function () {
-            var geojson = this.get("geojson");
-            return !_.isNull(geojson) && !_.isUndefined(geojson);
-        },
-
         defaults : {
             geojson: null,
             retning: "AB",
@@ -37,6 +28,31 @@ var DNT = window.DNT || {};
             }
         },
         initialize: function () {
+        },
+
+        urlRoot: function () {
+            return apiUri();
+        },
+
+        isValid: function () {
+            var geojson = this.get("geojson");
+            return !_.isNull(geojson) && !_.isUndefined(geojson);
+        },
+
+        addPois: function (ids) {
+            if (!!ids && ids.length > 0) {
+                var poiArray = this.get("steder") || [];
+                poiArray = _.union(poiArray, ids);
+                this.set("steder", poiArray);
+            }
+        },
+
+        addPictures: function (ids) {
+            if (!!ids && ids.length > 0) {
+                var pictureArray = this.get("bilder") || [];
+                pictureArray = _.union(pictureArray, ids);
+                this.set("bilder", pictureArray);
+            }
         }
     });
 
