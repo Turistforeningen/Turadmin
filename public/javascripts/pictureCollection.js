@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/apiProxy/bilder";
+        return "/restProxy/bilder";
     };
 
     ns.PictureCollection = Backbone.Collection.extend({

@@ -28,9 +28,12 @@ module.exports = function (app, options) {
         };
 
         var onCompletePost = function (data) {
-            console.log(data);
-            data._id = data.document._id;
-            console.log("id: " + data._id);
+            console.log("Response: ", data);
+            if (data.document && data.document._id) {
+                data._id = data.document._id;
+            } else {
+                console.error("id is missing in result after post!");
+            }
             data.document = undefined;
             res.json(data);
         };
@@ -43,7 +46,6 @@ module.exports = function (app, options) {
                 .on('complete', onComplete);
 
         } else if (method === "POST") {
-            console.log(url);
             console.log("Posting: " + util.inspect(req.body));
             restler.postJson(url, req.body)
                 .on('complete', onCompletePost);

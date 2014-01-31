@@ -21,7 +21,10 @@ var DNT = window.DNT || {};
         },
 
         positionPicture: function () {
-            this.event_aggregator.trigger("map:positionPicture", this.model);
+            if (!this.model.hasMarker()) {
+                this.event_aggregator.trigger("map:positionPicture", this.model);
+            }
+            //scroll to map / show map
         },
 
         render: function () {

@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/apiProxy/poi/steder";
+        return "/restProxy/steder";
     };
 
     ns.Poi = Backbone.Model.extend({

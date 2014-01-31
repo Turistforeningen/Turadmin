@@ -41,8 +41,7 @@ app.configure('production', function () {
 
 require('./routes')(app);
 require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
-require('./routes/routeProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
-require('./routes/poiProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
+require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 require('./routes/pictureUpload')(app, express, {dirname: __dirname});
 
 // Only listen for port if the application is not included by another module.

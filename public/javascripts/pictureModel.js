@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/apiProxy/bilder";
+        return "/restProxy/bilder";
     };
 
     ns.Picture = Backbone.Model.extend({
@@ -66,6 +66,10 @@ var DNT = window.DNT || {};
 
         getMarker: function () {
             return this.marker;
+        },
+
+        hasMarker: function () {
+            return !!this.getMarker();
         },
 
         hasPosition: function () {
