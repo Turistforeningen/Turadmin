@@ -185,18 +185,19 @@ var DNT = window.DNT || {};
             this.disableDrawNewPoi();
             var geojson = createGeojson(coordinates);
             var poi = new DNT.Poi({ geojson: geojson });
-            this.listenTo(poi, "registerPopup", this.registerPopup);
+            this.listenTo(poi, "registerPoiPopup", this.registerPopup);
             this.poiCollection.add(poi);
         },
 
         positionPicture: function (coordinates) {
+            var picture = this.pictureToPosition;
+            delete this.pictureToPosition;
             this.drawMarkerTool.disable();
             var geojson = createGeojson(coordinates);
-            var picture = this.pictureToPosition;
             picture.set("geojson", geojson);
-            this.listenTo(picture, "registerPopup", this.registerPopup);
+            this.listenTo(picture, "registerPicturePopup", this.registerPopup);
             picture.createMarker();
-            delete this.pictureToPositon;
+
         },
 
         registerPopup: function (options) {
