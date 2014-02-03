@@ -11,7 +11,7 @@ var DNT = window.DNT || {};
 
     ns.RouteView = Backbone.View.extend({
 
-        el: "#commonRouteNav",
+        el: "#route-navigation-collapse",
 
         initialize : function () {
             this.mapView = new DNT.MapView({model: this.model});
@@ -25,7 +25,7 @@ var DNT = window.DNT || {};
         },
 
         events: {
-            'click #save': 'save'
+            'click a[data-action="route-save"]': 'save'
         },
 
         render: function () {
@@ -56,8 +56,9 @@ var DNT = window.DNT || {};
             var saveDone = _.after(2, afterPictureAndPoiSync);
 
             this.poiCollection.save(
-                function (newIds) {
+                function (newIds, removedIds) {
                     this.route.addPois(newIds);
+                    this.route.removePois(removedIds);
                     saveDone();
                     console.log("All pois synced with server");
                 },
@@ -69,8 +70,9 @@ var DNT = window.DNT || {};
             );
 
             this.pictureCollection.save(
-                function (newIds) {
+                function (newIds, removedPictures) {
                     this.route.addPictures(newIds);
+                    this.route.removePictures(removedPictures);
                     saveDone();
                     console.log("All pictures synced with server");
                 },

@@ -65,6 +65,7 @@ var DNT = window.DNT || {};
         save: function (success, error, self) {
             var saveErrorCount = 0;
             var newIds = [];
+            var removedIds = [];
 
             var afterSave = function () {
                 if (saveErrorCount > 0) {
@@ -75,7 +76,7 @@ var DNT = window.DNT || {};
                     }
                 } else {
                     if (success) {
-                        success.call(self, newIds);
+                        success.call(self, newIds, removedIds);
                     }
                 }
             };
@@ -92,6 +93,7 @@ var DNT = window.DNT || {};
 
             _.each(syncablePictures, function (picture) {
                 if (picture.isDeleted()) {
+                    removedIds.push(picture.get("_id"));
                     picture.destroy({
                         wait: true,
                         success : function () {

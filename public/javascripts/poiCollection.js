@@ -48,6 +48,7 @@ var DNT = window.DNT || {};
         save: function (success, error, self) {
             var saveErrorCount = 0;
             var newIds = [];
+            var removedIds = [];
 
             var afterSave = function () {
                 if (saveErrorCount > 0) {
@@ -58,7 +59,7 @@ var DNT = window.DNT || {};
                     }
                 } else {
                     if (success) {
-                        success.call(self, newIds);
+                        success.call(self, newIds, removedIds);
                     }
                 }
             };
@@ -75,6 +76,7 @@ var DNT = window.DNT || {};
 
             _.each(unsyncedPois, function (poi) {
                 if (poi.isDeleted()) {
+                    removedIds.push(poi.get("_id"));
                     poi.destroy({
                         wait: true,
                         success : function () {

@@ -47,13 +47,33 @@ var DNT = window.DNT || {};
             }
         },
 
+        removePois: function (ids) {
+            if (!!ids && ids.length > 0) {
+                var poiArray = this.get("steder") || [];
+                _.each(ids, function (id) {
+                    poiArray = _.without(poiArray, id);
+                });
+                this.set("steder", poiArray);
+            }
+        },
+
         addPictures: function (ids) {
             if (!!ids && ids.length > 0) {
                 var pictureArray = this.get("bilder") || [];
                 pictureArray = _.union(pictureArray, ids);
                 this.set("bilder", pictureArray);
             }
-        }
+        },
+
+        removePictures: function (ids) {
+            if (!!ids && ids.length > 0) {
+                var pictureArray = this.get("bilder") || [];
+                _.each(ids, function (id) {
+                    pictureArray = _.without(pictureArray, id);
+                });
+                this.set("bilder", pictureArray);
+            }
+        },
     });
 
     ns.RouteCollection = Backbone.Collection.extend({
