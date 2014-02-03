@@ -18,6 +18,12 @@ var DNT = window.DNT || {};
                 this.$("#noPictures").addClass("hidden");
                 this.$("#hintInfo").removeClass("hidden");
             }
+            this.pictureCollection.on("change:deleted", function () {
+                //Render view when all pictures are removed
+                if (this.pictureCollection.countPictures() === 0) {
+                    this.render();
+                }
+            }, this);
         },
 
         setupFileupload: function () {
@@ -70,6 +76,10 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
+            if (this.pictureCollection.countPictures() === 0) {
+                this.$("#noPictures").removeClass("hidden");
+                this.$("#hintInfo").addClass("hidden");
+            }
             //loop through poiCollection and append pictureTemplateViews
             return this;
         }

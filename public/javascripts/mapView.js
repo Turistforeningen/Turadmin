@@ -121,6 +121,7 @@ var DNT = window.DNT || {};
         },
 
         toggleDraw: function (e) {
+            e.preventDefault();
             this.draw = !this.draw;
             this.routing.enable(this.draw);
             if (this.draw === true) {
@@ -139,6 +140,7 @@ var DNT = window.DNT || {};
         },
 
         toggleSnap: function (e) {
+            e.preventDefault();
             this.snapping = !this.snapping;
             this.routing.enableSnapping(this.snapping);
             if (this.snapping) {
@@ -149,10 +151,11 @@ var DNT = window.DNT || {};
         },
 
         deleteRoute: function (e) {
-
+            e.preventDefault();
         },
 
         addNewPoi: function (e) {
+            e.preventDefault();
             if ($(e.currentTarget).hasClass("active")) {
                 this.disableDrawNewPoi();
             } else {

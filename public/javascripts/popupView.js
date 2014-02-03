@@ -17,18 +17,18 @@ var DNT = window.DNT || {};
         },
 
         events: {
-            'click .poi-delete': 'deletePoi',
-            'click .poi-edit': 'editPoi'
+            'click .popup-delete': 'deleteModel',
+            'click .popup-edit': 'editModel'
         },
 
-        deletePoi: function () {
+        deleteModel: function (e) {
+            e.preventDefault();
             this.model.deletePoi();
-            return false;
         },
 
-        editPoi: function () {
+        editModel: function (e) {
+            e.preventDefault();
             console.log("todo: edit poi");
-            return false;
         },
 
         render: function () {

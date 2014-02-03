@@ -17,20 +17,32 @@ var DNT = window.DNT || {};
         },
 
         events: {
-            'click #positionPicture': 'positionPicture'
+            'click #positionPicture': 'positionPicture',
+            'click #deletePicture': 'deletePicture'
         },
 
-        positionPicture: function () {
+        positionPicture: function (e) {
+            e.preventDefault();
             if (!this.model.hasMarker()) {
                 this.event_aggregator.trigger("map:positionPicture", this.model);
             }
             //scroll to map / show map
         },
 
+        deletePicture: function (e) {
+            e.preventDefault();
+            this.model.deletePicture();
+            this.render();
+        },
+
         render: function () {
-            var html =  this.template(this.model.toJSON());
-            $(this.el).html(html);
-            return this;
+            if (this.model.isDeleted()) {
+                this.remove();
+            } else {
+                var html =  this.template(this.model.toJSON());
+                $(this.el).html(html);
+                return this;
+            }
         }
     });
 }(DNT));

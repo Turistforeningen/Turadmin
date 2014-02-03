@@ -58,7 +58,7 @@ var DNT = window.DNT || {};
         },
 
         isDeleted: function () {
-            return this.deleted;
+            return !!this.get("deleted") && this.get("deleted");
         },
 
         getGeoJson: function () {
@@ -79,7 +79,7 @@ var DNT = window.DNT || {};
         },
 
         deletePicture: function () {
-            this.deleted = true;
+            this.set("deleted", true);
             this.trigger("deletePicture");
         },
 

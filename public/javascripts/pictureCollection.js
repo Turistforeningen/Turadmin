@@ -55,6 +55,13 @@ var DNT = window.DNT || {};
             }
         },
 
+        countPictures: function () {
+            var count  = this.filter(function (picture) {
+                return !picture.isDeleted();
+            });
+            return count.length;
+        },
+
         save: function (success, error, self) {
             var saveErrorCount = 0;
             var newIds = [];
