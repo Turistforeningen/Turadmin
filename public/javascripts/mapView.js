@@ -227,7 +227,7 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-            this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]]}).setView([61.5, 9], 13);
+            this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]], scrollWheelZoom: false}).setView([61.5, 9], 13);
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
             }).addTo(this.map);
