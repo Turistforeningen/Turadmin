@@ -12,6 +12,7 @@ module.exports = function (app, options) {
      * GET add new route page.
      */
     var route = function (req, res) {
+        req.session.userId = "testUserId";
         res.render('route', { title: 'Opprett ny tur', routeApiUri: options.routeApiUri });
     };
 

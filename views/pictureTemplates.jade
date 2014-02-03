@@ -4,7 +4,7 @@ script(type="text/template" id="pictureTemplate").
             <a id="deletePicture" href="#" class="removeItem">
                 <span class="glyphicon glyphicon-remove"></span>
             </a>
-            <img src=<%= url %> alt="">
+            <img src=<%= thumbnailUrl %> alt="">
         </div>
         <div class="form-group">
             <div class="input-group">
@@ -35,4 +35,4 @@ script(type="text/template" id="pictureTemplate").
 script(type="text/template" id="picturePopupTemplate").
    <strong class="poi-navn"><%= navn %></strong>
    <br>
-   <img src=<%= url %> width="200">
+   <img src=<%= thumbnailUrl %> width="200">

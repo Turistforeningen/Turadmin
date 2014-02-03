@@ -12,6 +12,8 @@ module.exports = function (app, options) {
      * GET add new route page.
      */
     var addRoute = function (req, res) {
+        // Todo: Add autentication
+        req.session.userId = "testUserId";
         res.render('addRoute', { title: 'Opprett ny tur', routeApiUri: options.routeApiUri });
     };
 

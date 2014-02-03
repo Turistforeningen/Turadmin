@@ -12,6 +12,16 @@ module.exports = function (app, express, options) {
     var underscore = require('underscore');
     var width = 380;
     var height = 260;
+    var createOptions =  function (userId) {
+        return {
+            uploadDir: function () {
+                return options.dirname + '/public/uploads/' + userId + '/tmp';
+            },
+            uploadUrl: function () {
+                return '/uploads/' + userId + '/tmp';
+            }
+        };
+    };
 
     upload.configure({
         imageVersions: {
@@ -23,7 +33,18 @@ module.exports = function (app, express, options) {
     });
 
     /*
-        Listen to end processing event and change fileInfo object to match Nasjonal Turbase Bilde API, and client side backbone Picture-model.
+        Register fileHandler to listen to /uploads and to store images on server
+     */
+    app.use('/upload', function (req, res, next) {
+        var options = createOptions(req.session.userId);
+        var fileHandler = upload.fileHandler(options);
+        fileHandler(req, res, next);
+    });
+
+    app.use('/upload', express.bodyParser());
+
+    /*
+     Listen to end processing event and change fileInfo object to match Nasjonal Turbase Bilde API, and client side backbone Picture-model.
      */
     upload.on('end', function (fileInfo) {
         var res = {
@@ -55,21 +76,17 @@ module.exports = function (app, express, options) {
 
     });
 
-    /*
-        Register fileHandler to listen to /uploads and to store images on server
-     */
-    app.use('/upload', function (req, res, next) {
-        upload.fileHandler({
-            uploadDir: function () {
-                return options.dirname + '/public/uploads/' + req.sessionID;
-            },
-            uploadUrl: function () {
-                return '/uploads/' + req.sessionID;
-            }
-        })(req, res, next);
-    });
+    var movePictureToPermanentStorage = function (url, userId, cb) {
+        var options = createOptions(userId);
+        var fileManager = upload.fileManager(options);
+        fileManager.move(url, "../permanent", function (error, result) {
+            result.url = result.url.replace("tmp/../", "");
+            result.thumbnailUrl = result.thumbnailUrl.replace("tmp/../", "");
+            cb(error, result);
+        });
+    };
 
-    app.use('/upload', express.bodyParser());
+    return {movePictureToPermanentStorage: movePictureToPermanentStorage};
 };
 
 

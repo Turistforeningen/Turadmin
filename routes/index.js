@@ -11,6 +11,8 @@ module.exports = function (app, options) {
         GET list of routes (index page)
      */
     var getIndex = function (req, res) {
+        // Todo: Add autentication
+        req.session.userId = "testUserId";
         res.render('index', { title: 'Mine turer' });
     };
 

@@ -46,7 +46,9 @@ var DNT = window.DNT || {};
                     this.createMarker(this.get("geojson"));
                 }
             });
-            this.set("url", this.getThumbnailImageUrl());
+            var urls = this.getUrls();
+            this.set("thumbnailUrl", urls.thumbnail);
+            this.set("url", urls.url);
         },
 
         hasChanged: function () {
@@ -94,7 +96,7 @@ var DNT = window.DNT || {};
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
             this.marker = marker;
             marker.setIcon(icon);
-            this.trigger('registerPicturePopup', {model: this.createPicturePopupModel(), templateId: "#picturePopupTemplate"});
+            this.trigger('registerPicturePopup', {model: this, templateId: "#picturePopupTemplate"});
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;
@@ -109,40 +111,19 @@ var DNT = window.DNT || {};
             this.set("geojson", geoJson);
         },
 
-        createPicturePopupModel: function () {
-            var json = {url: this.getThumbnailImageUrl(), navn: this.get("navn")};
-            return new ns.PicturePopupModel(json, {marker: this.getMarker()});
-        },
-
-        getThumbnailImageUrl: function () {
-            var url = "";
+        getUrls: function () {
+            var urls = {thumbnail: "", url: ""};
             var imageArray = this.get("img");
             if (!!imageArray) {
                 _.each(imageArray, function (image) {
                     if (!!image.width && !!image.height) {
-                        url = image.url;
+                        urls.thumbnail = image.url;
+                    } else {
+                        urls.url = image.url;
                     }
                 });
             }
-            return url;
-        }
-    });
-
-    /*
-        Small model for picture popup - used to set url more accessible for popup
-     */
-    ns.PicturePopupModel = Backbone.Model.extend({
-
-        defaults : {
-            navn: ""
-        },
-
-        initialize : function (arg, opt) {
-            this.marker = opt.marker;
-        },
-
-        getMarker: function () {
-            return this.marker;
+            return urls;
         }
     });
 
