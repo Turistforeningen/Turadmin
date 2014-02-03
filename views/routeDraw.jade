@@ -17,20 +17,22 @@ div.row.page-block.route-draw(id="route-draw")
                             p.form-control-static(style="text-align: center;") eller
             form.form-horizontal(method="post", enctype="multipart/form-data")
                 div.col-lg-4.col-md-4.col-sm-3.col-xs-12
-                    button.btn.btn-success
+                    button.btn.btn-default
                         span.glyphicon.glyphicon-folder-open
                         | &nbsp;&nbsp;Last opp GPX-fil
+
         div#mapAndControls
+
             div.row
-                div.col-sm-12
+                div.col-lg-8.col-md-8.col-sm-8
                     div.mapControls
                         div.startStopDraw
-                            button#startDraw.btn.btn-primary.btn-group.pull-left
+                            button#startDraw.btn.btn-success.btn-group.pull-left
                                 span.glyphicon.glyphicon-pencil
                                 span.buttonText &nbsp;Tegn rute
 
                         div.deleteRoute
-                            button#deleteRoute.btn.btn-danger
+                            button#deleteRoute.btn.btn-danger.btn-outline
                                 span.glyphicon.glyphicon-trash
                                 span.buttonText &nbsp;Slett rute
 
@@ -40,10 +42,30 @@ div.row.page-block.route-draw(id="route-draw")
                                 | &nbsp; Alternativer &nbsp;
                                 span.caret
                             ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
-                                li.active
+                                li
                                     a#toggleSnap(href="#") Magnetisk markør
                                 li
-                                    a#direction(href="#") Retning A-B-A
+
+                div.col-lg-4.col-md-4.col-sm-4
+                    div.dropdown.dropdown-select.pull-right.route-field-facts-retning
+                        button.btn.btn-default(data-toggle="dropdown" data-target="#")
+                            span.glyphicon.glyphicon-arrow-right
+                            | &nbsp; Turens retning: A-B-A &nbsp;
+                            span.caret
+                        ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                            li.selected
+                                a#route-retning-a-b-a(href="#")
+                                    label A-B-A
+                                    p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
+                            li
+                                a#route-retning-a-b(href="#")
+                                    label A-B
+                                    p.help-block Turen går fra startpunktet til endepunktet av inntegning.
+                            li
+                                a#route-retning-b-a(href="#")
+                                    label B-A
+                                    p.help-block Turen går fra endepunktet til startpunktet av inntegning.
+
             div.row
                 div.col-lg-12
                     // TODO: Move styles to CSS

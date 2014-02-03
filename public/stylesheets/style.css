@@ -278,3 +278,61 @@ select.route-facts-field-minutes {
 a, .clickable {
 	cursor: pointer;
 }
+
+.dropdown-select label {
+	margin: 0;
+}
+
+.dropdown-select p.help-block {
+	margin: 0;
+	font-size: 12px;
+	max-width: 200px;
+	white-space: normal;
+}
+
+
+
+
+
+/* addon class btn-outline */
+
+.btn-outline,
+.btn-outline:focus {
+    background-color: transparent;
+    color: inherit;
+}
+
+
+
+.btn-primary.btn-outline {
+    color: #428bca;
+}
+
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+}
+
+.btn-warning.btn-outline {
+    color: #f0ad4e;
+}
+
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover,
+.btn-primary.btn-outline.active,
+.btn-success.btn-outline.active,
+.btn-info.btn-outline.active,
+.btn-warning.btn-outline.active,
+.btn-danger.btn-outline.active {
+    color: #fff;
+}

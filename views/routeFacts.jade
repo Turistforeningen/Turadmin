@@ -6,10 +6,10 @@ div.row.page-block.route-facts(id="route-facts")
             h4 Beskrivelse
 
             // Tittel
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-title") Tittel
+            div.form-group.route-facts-field-navn.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-navn") Tittel
                 div.col-lg-7.col-md-7.col-sm-7
-                    input.form-control(id="route-facts-field-title" placeholder="Tittel")
+                    input.form-control(id="route-facts-field-navn" placeholder="Tittel")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Gi turen din et beskrivende navn! (eks: Topptur til Fjelltoppen).
                     p.help-block
@@ -17,162 +17,133 @@ div.row.page-block.route-facts(id="route-facts")
                         | &nbsp;Lenken til turforslaget på UT.no er basert på tittelen og kan ikke endres etter første lagring!
 
             // Beskrivelse
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-description") Beskrivelse
+            div.form-group.route-facts-field-beskrivelse.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-beskrivelse") Beskrivelse
                 div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(id="route-facts-field-description" placeholder="Beskrivelse" rows="6")
+                    textarea.form-control(id="route-facts-field-beskrivelse" placeholder="Beskrivelse" rows="6")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Beskriv selve turen (hva man kan se og oppleve, hvor man skal gå, om det er noen partier på ruta man må være oppmerksom på og lignende).
 
             // Adkomst
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-description") Adkomst
+            div.form-group.route-facts-field-adkomst_generell.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-adkomst_generell") Adkomst
                 div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(id="route-facts-field-description" placeholder="Adkomst" rows="3")
+                    textarea.form-control(id="route-facts-field-adkomst_generell" placeholder="Adkomst" rows="3")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Beskriv hvordan man kommer seg til startpunktet for turen med egen bil. Legg også inn opplysinger om evt. bomavgifter og parkeringsmuligheter.
 
 
             // Adkomst med kollektivtransport
-            div.form-group.route-facts-field-kollektivtransport
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-kollektivtransport") Kollektivtransport
+            div.form-group.route-facts-field-adkomst_kollektivtransport
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-adkomst_kollektivtransport") Kollektivtransport
                 div.col-lg-7.col-md-7.col-sm-7
-                    div.checkbox
+                    // TODO: Move styles to CSS.
+                    div.checkbox(style="margin-bottom: 10px;")
                         label
                             input(type="checkbox")
                             | &nbsp;Det er mulighet for adkomst med kollektivtransport
 
-                    textarea.form-control(id="route-facts-field-description" placeholder="Adkomst" rows="3")
+                    textarea.form-control(id="route-facts-field-adkomst_kollektivtransport" placeholder="Adkomst" rows="3")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Beskriv hvordan man kommer seg til startpunktet for turen med kollektivtransport.
 
+
             // Lenker
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-links") Lenker
+            div.form-group.route-facts-field-lenker.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-lenker") Lenker
                 div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(id="route-facts-field-description" placeholder="Lenker" rows="3")
+                    textarea.form-control(id="route-facts-field-lenker" placeholder="Lenker" rows="3")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Her kan du skrive inn relevante lenker for turforslaget ditt. Skill hver lenke med en ny linje.
 
             h4 Fakta
 
             // Sesong
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-links") Sesong
+            div.form-group.route-facts-field-sesong.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-sesong") Sesong
                 div.col-lg-7.col-md-7.col-sm-7
                     div
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-1")
+                            input(type="checkbox" id="route-facts-field-sesong-1")
                             | Jan
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-3")
+                            input(type="checkbox" id="route-facts-field-sesong-3")
                             | Feb
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-3")
+                            input(type="checkbox" id="route-facts-field-sesong-3")
                             | Mar
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-4")
+                            input(type="checkbox" id="route-facts-field-sesong-4")
                             | Apr
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-5")
+                            input(type="checkbox" id="route-facts-field-sesong-5")
                             | Mai
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-6")
+                            input(type="checkbox" id="route-facts-field-sesong-6")
                             | Jun
 
                     div
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-7")
+                            input(type="checkbox" id="route-facts-field-sesong-7")
                             | Jul
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-8")
+                            input(type="checkbox" id="route-facts-field-sesong-8")
                             | Aug
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-9")
+                            input(type="checkbox" id="route-facts-field-sesong-9")
                             | Sep
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-10")
+                            input(type="checkbox" id="route-facts-field-sesong-10")
                             | Okt
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-11")
+                            input(type="checkbox" id="route-facts-field-sesong-11")
                             | Nov
                         label.checkbox-inline
-                            input(type="checkbox" id="route-facts-field-season-12")
+                            input(type="checkbox" id="route-facts-field-sesong-12")
                             | Des
-
-                    //- div.row
-                    //-     div.col-md-2
-                    //-         label.checkbox-inline
-                    //-             input(type="checkbox" id="route-facts-field-season-1")
-                    //-             | Jan
-                    //-     div.col-md-2
-                    //-         label.checkbox-inline
-                    //-             input(type="checkbox" id="route-facts-field-season-3")
-                    //-             | Feb
-                    //-     div.col-md-2
-                    //-         label.checkbox-inline
-                    //-             input(type="checkbox" id="route-facts-field-season-3")
-                    //-             | Mar
-                    //-     div.col-md-2
-                    //-         label.checkbox-inline
-                    //-             input(type="checkbox" id="route-facts-field-season-4")
-                    //-             | Apr
-                    //-     div.col-md-2
-                    //-         label.checkbox-inline
-                    //-             input(type="checkbox" id="route-facts-field-season-5")
-                    //-             | Mai
-                    //-     div.col-md-2
-                    //-         label.checkbox-inline
-                    //-             input(type="checkbox" id="route-facts-field-season-6")
-                    //-             | Jun
-
-                    //- div
-                    //-     label.checkbox-inline
-                    //-         input(type="checkbox" id="route-facts-field-season-7")
-                    //-         | Jul
-                    //-     label.checkbox-inline
-                    //-         input(type="checkbox" id="route-facts-field-season-8")
-                    //-         | Aug
-                    //-     label.checkbox-inline
-                    //-         input(type="checkbox" id="route-facts-field-season-9")
-                    //-         | Sep
-                    //-     label.checkbox-inline
-                    //-         input(type="checkbox" id="route-facts-field-season-10")
-                    //-         | Okt
-                    //-     label.checkbox-inline
-                    //-         input(type="checkbox" id="route-facts-field-season-11")
-                    //-         | Nov
-                    //-     label.checkbox-inline
-                    //-         input(type="checkbox" id="route-facts-field-season-12")
-                    //-         | Des
 
                 // TODO: Move style to stylesheets
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3(style="margin-top: 10px; margin-bottom: 10px;")
-                    a(data-action"route-facts-field-season-select-all") Merk alle
+                    a(data-action="route-facts-field-sesong-select-all") Merk alle
+                    a.hidden(data-action="route-facts-field-sesong-deselect-all") Avmerk alle
 
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Velg hvilke måneder det normalt er mulig å gjennomføre turen.
 
+                script.
+                    // TODO: Improve if has leftover-time
+                    $(document).on('click', 'a[data-action="route-facts-field-sesong-select-all"]', function(){
+                        $('.route-facts-field-sesong input[type="checkbox"]').prop('checked', true);
+                        $('a[data-action="route-facts-field-sesong-deselect-all"]').removeClass('hidden');
+                        $('a[data-action="route-facts-field-sesong-select-all"]').addClass('hidden');
+                    });
+
+                    $(document).on('click', 'a[data-action="route-facts-field-sesong-deselect-all"]', function(){
+                        $('.route-facts-field-sesong input[type="checkbox"]').prop('checked', false);
+                        $('a[data-action="route-facts-field-sesong-deselect-all"]').addClass('hidden');
+                        $('a[data-action="route-facts-field-sesong-select-all"]').removeClass('hidden');
+                    });
+
 
             // Antall dager
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-days") Antall dager
+            div.form-group.route-facts-field-tidsbruk-normal-dager.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tidsbruk-normal-dager") Antall dager
                 div.col-lg-7.col-md-7.col-sm-7
-                    select.form-control.route-facts-field-days
+                    select.form-control.route-facts-field-tidsbruk-normal-dager
                         option(value="1") 1 dag
                         option(value="2") 2 dager
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Angi turforslagets varighet i dager. Hvis varigheten kan variere, f.eks. ved at turen kan forlenges angis alle alternativer fra korteste til lengste varighet.
 
             // Tidsbruk
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-time") Tidsbruk
+            div.form-group.route-facts-field-tidsbruk-normal-timer-minutter.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tidsbruk-normal-timer-minutter") Tidsbruk
                 div.col-lg-7.col-md-7.col-sm-7
-                    select.form-control.route-facts-field-hours
+                    select.route-facts-field-tidsbruk-normal-timer
                         option(value="0") Timer
                         option(value="1") 1
                         option(value="2") 2
-                    select.form-control.route-facts-field-minutes
+                    select.form-control.route-facts-field-tidsbruk-normal-minutter
                         option(value="0") Minutter
                         option(value="1") 10
                         option(value="2") 20
@@ -181,68 +152,67 @@ div.row.page-block.route-facts(id="route-facts")
 
 
             // Type tur
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-typetur") Type tur
+            div.form-group.route-facts-field-tags-1.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tags-1") Type tur
                 div.col-lg-7.col-md-7.col-sm-8
                     div.btn-group(data-toggle="buttons")
-                        label.btn.btn-default.route-facts-field-typetur-gatur
-                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-typetur-1")
+                        label.btn.btn-default.route-facts-field-tags-gatur
+                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-tags-gatur")
                             | Gåtur
-                        label.btn.btn-default.route-facts-field-typetur-skitur
-                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-typetur-2")
+                        label.btn.btn-default.route-facts-field-tags-skitur
+                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-tags-skitur")
                             | Skitur
-                        label.btn.btn-default.route-facts-field-typetur-sykkeltur
-                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-typetur-3")
+                        label.btn.btn-default.route-facts-field-tags-sykkeltur
+                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-tags-sykkeltur")
                             | Sykkeltur
-                        label.btn.btn-default.route-facts-field-typetur-padletur
-                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-typetur-4")
+                        label.btn.btn-default.route-facts-field-tags-padletur
+                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-tags-padletur")
                             | Padletur
-                        label.btn.btn-default.route-facts-field-typetur-klatretur
-                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-typetur-5")
+                        label.btn.btn-default.route-facts-field-tags-klatretur
+                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-tags-klatretur")
                             | Klatretur
-                        label.btn.btn-default.route-facts-field-typetur-bretur
-                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-typetur-6")
+                        label.btn.btn-default.route-facts-field-tags-bretur
+                            input(type="radio" name="route-facts-field-typetur" id="route-facts-field-tags-bretur")
                             | Bretur
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Angi hva slags type tur dette er.
 
             // Flere turtyper
-            div.form-group
+            div.form-group.route-facts-field-tags-2
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    select.form-control.route-facts-field-grupper
+                    select.form-control.route-facts-field-tags-2
                         option(value="0") Velg flere turtyper
 
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Er det flere turtyper som beskriver denne turen? Velg alle som passer.
 
-            // Vanskelighetsgrad
-            div.form-group.required
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-vanskelighetsgrad") Vanskelighetsgrad
+            // Gradering
+            div.form-group.route-facts-field-gradering.required
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-gradering") Vanskelighetsgrad
                 div.col-lg-7.col-md-7.col-sm-7
                     div.btn-group(data-toggle="buttons")
-                        label.btn.btn-default.route-facts-field-vanskelighetsgrad-enkel
-                            input(type="radio" name="route-facts-field-vanskelighetsgrad" id="route-facts-field-vanskelighetsgrad-1")
+                        label.btn.btn-default.route-facts-field-gradering-enkel
+                            input(type="radio" name="route-facts-field-gradering" id="route-facts-field-gradering-enkel")
                             | Enkel
-                        label.btn.btn-default.route-facts-field-vanskelighetsgrad-middels
-                            input(type="radio" name="route-facts-field-vanskelighetsgrad" id="route-facts-field-vanskelighetsgrad-2")
+                        label.btn.btn-default.route-facts-field-gradering-middels
+                            input(type="radio" name="route-facts-field-gradering" id="route-facts-field-gradering-middels")
                             | Middels
-                        label.btn.btn-default.route-facts-field-vanskelighetsgrad-krevende
-                            input(type="radio" name="route-facts-field-vanskelighetsgrad" id="route-facts-field-vanskelighetsgrad-3")
+                        label.btn.btn-default.route-facts-field-gradering-krevende
+                            input(type="radio" name="route-facts-field-gradering" id="route-facts-field-gradering-krevende")
                             | Krevende
-                        label.btn.btn-default.route-facts-field-vanskelighetsgrad-ekspert
-                            input(type="radio" name="route-facts-field-vanskelighetsgrad" id="route-facts-field-vanskelighetsgrad-4")
+                        label.btn.btn-default.route-facts-field-gradering-ekspert
+                            input(type="radio" name="route-facts-field-gradering" id="route-facts-field-gradering-ekspert")
                             | Ekspert
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Angi hvor krevende turen er for en voksen person i god form.
                     p.help-block <a href="https://www.dropbox.com/sh/pyee5wsov9fiobe/p86cKq8tR6/Merkeh%C3%A5ndboka.pdf" target="_blank">Merkehåndboka</a> (side 48) skal brukes for valg av korrekt gradering.
 
 
-
             // Passer for
-            div.form-group
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-passerfor") Passer for
+            div.form-group.route-facts-field-passer_for
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-passer_for") Passer for
                 div.col-lg-7.col-md-7.col-sm-7
-                    select.form-control.route-facts-field-passerfor
+                    select.form-control.route-facts-field-passer_for
                     option(value="2") Barn
                     option(value="3") Ungdom
                     option(value="4") Fjellsportinteresserte
@@ -253,18 +223,18 @@ div.row.page-block.route-facts(id="route-facts")
                     p.help-block Angi turforslagets varighet i dager. Hvis varigheten kan variere, f.eks. ved at turen kan forlenges angis alle alternativer fra korteste til lengste varighet.
 
             // Tilrettelagt for
-            div.form-group
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tilrettelagtfor") Tilrettelagt for
+            div.form-group.route-facts-field-tilrettelagt_for
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tilrettelagt_for") Tilrettelagt for
                 div.col-lg-7.col-md-7.col-sm-7
-                    select.form-control.route-facts-field-tilrettelagtfor
+                    select.form-control.route-facts-field-tilrettelagt_for
                     option(value="0")
 
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Er turen spesielt tilrettelagt for noen grupper? Velg alle som passer.
 
             // Eiere
-            div.form-group
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-grupper") Eiere
+            div.form-group.route-facts-field-grupper
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-facts-field-grupper") Eiere
                 div.col-lg-7.col-md-7.col-sm-7
                     select.form-control.route-facts-field-grupper
                     option(value="0")
