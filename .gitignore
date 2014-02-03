@@ -20,3 +20,7 @@ env/
 .DS_Store
 .idea
 *.iml
+
+*.sublime*
+*.sublime-project
+*.sublime-workspace
