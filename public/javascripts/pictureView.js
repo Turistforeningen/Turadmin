@@ -13,6 +13,8 @@ var DNT = window.DNT || {};
 
         template: _.template($('#pictureTemplate').html()),
 
+        className: "picture-sortable col-sm-4",
+
         initialize : function () {
             //Listen to url changes (when saving, picture is moved from tmp to permanent storage)
             this.model.on("change:thumbnailUrl", this.render, this);
@@ -20,7 +22,8 @@ var DNT = window.DNT || {};
 
         events: {
             'click #positionPicture': 'positionPicture',
-            'click #deletePicture': 'deletePicture'
+            'click #deletePicture': 'deletePicture',
+            'pictureDropped': 'pictureIndexChanged'
         },
 
         positionPicture: function (e) {
@@ -35,6 +38,11 @@ var DNT = window.DNT || {};
             e.preventDefault();
             this.model.deletePicture();
             this.render();
+        },
+
+        pictureIndexChanged: function (event, index) {
+            //Trig event to tell picturesView.js instance which model has a new index
+            this.$el.trigger('updatePictureIndexes', [this.model, index]);
         },
 
         render: function () {

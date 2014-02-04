@@ -42,7 +42,7 @@ var DNT = window.DNT || {};
         },
 
         hasChanged: function () {
-            return this.changed;
+            return !!this.changed;
         },
 
         resetHasChanged: function () {

@@ -7,9 +7,12 @@ var DNT = window.DNT || {};
 
         el: "#route-images",
 
-        picturesCollection: undefined,
-
         uploadUrl: "/upload",
+
+        events : {
+            "sortstop #route-images-all-container": "picturePositionUpdated",
+            "updatePictureIndexes": "updateIndexes"
+        },
 
         initialize : function () {
             this.pictureCollection = this.model.get("pictureCollection");
@@ -24,6 +27,9 @@ var DNT = window.DNT || {};
                     this.render();
                 }
             }, this);
+            this.$("#route-images-all-container").sortable({items: ".picture-sortable"});
+            this.$("#route-images-all-container").disableSelection();
+            _.bindAll(this, "picturePositionUpdated");
         },
 
         setupFileupload: function () {
@@ -55,7 +61,18 @@ var DNT = window.DNT || {};
             });
         },
 
+        picturePositionUpdated: function (event, ui) {
+            //trigg event on ui-item so that the correct picture item listener is trigged.
+            // (In correct pictureView.js instance, which contains the model)
+            ui.item.trigger('pictureDropped', ui.item.index());
+        },
+
+        updateIndexes: function (event, picture, index) {
+            this.pictureCollection.reIndex(picture, index);
+        },
+
         addNewFile: function (file) {
+            file.ordinal = this.pictureCollection.getNextOrdinal();
             var picture = new DNT.Picture(file);
             this.pictureCollection.add(picture);
             var view = new DNT.PictureView({ model: picture });
@@ -63,6 +80,7 @@ var DNT = window.DNT || {};
             this.$("#noPictures").addClass("hidden");
             this.$("#hintInfo").removeClass("hidden");
             setTimeout(this.hideAndResetProgressBar, 1500);
+
         },
 
         renderProgressBar: function (data) {

@@ -41,6 +41,8 @@ var DNT = window.DNT || {};
             var that = this;
 
             var afterPictureAndPoiSync = function () {
+                that.route.setPoiIds(that.poiCollection.getPoiIds());
+                that.route.setPictureIds(that.pictureCollection.getPictureIds());
                 if (that.route.isValid()) {
                     that.route.save(undefined, {
                         success: function () {
@@ -56,9 +58,7 @@ var DNT = window.DNT || {};
             var saveDone = _.after(2, afterPictureAndPoiSync);
 
             this.poiCollection.save(
-                function (newIds, removedIds) {
-                    this.route.addPois(newIds);
-                    this.route.removePois(removedIds);
+                function () {
                     saveDone();
                     console.log("All pois synced with server");
                 },
@@ -70,9 +70,7 @@ var DNT = window.DNT || {};
             );
 
             this.pictureCollection.save(
-                function (newIds, removedPictures) {
-                    this.route.addPictures(newIds);
-                    this.route.removePictures(removedPictures);
+                function () {
                     saveDone();
                     console.log("All pictures synced with server");
                 },

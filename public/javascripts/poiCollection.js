@@ -45,10 +45,12 @@ var DNT = window.DNT || {};
             }
         },
 
+        getPoiIds: function () {
+            return this.pluck("_id");
+        },
+
         save: function (success, error, self) {
             var saveErrorCount = 0;
-            var newIds = [];
-            var removedIds = [];
 
             var afterSave = function () {
                 if (saveErrorCount > 0) {
@@ -59,7 +61,7 @@ var DNT = window.DNT || {};
                     }
                 } else {
                     if (success) {
-                        success.call(self, newIds, removedIds);
+                        success.call(self);
                     }
                 }
             };
@@ -76,7 +78,6 @@ var DNT = window.DNT || {};
 
             _.each(unsyncedPois, function (poi) {
                 if (poi.isDeleted()) {
-                    removedIds.push(poi.get("_id"));
                     poi.destroy({
                         wait: true,
                         success : function () {
@@ -92,9 +93,6 @@ var DNT = window.DNT || {};
                     poi.save(undefined, {
                         success : function () {
                             poi.resetHasChanged();
-                            if (isNew) {
-                                newIds.push(poi.get("_id"));
-                            }
                             saveDone();
                         },
                         error: function () {
