@@ -24,6 +24,7 @@ var DNT = window.DNT || {};
         initialize: function () {
             this.geojsonLayer = new L.GeoJSON(null);
             this.on("add", this.modelAdded, this);
+            this.on("poi:markerCreated", this.addMarker, this);
         },
 
         getGeoJsonLayer: function () {
@@ -31,8 +32,16 @@ var DNT = window.DNT || {};
         },
 
         modelAdded: function (model) {
+            if (model.hasPosition()) {
+                this.geojsonLayer.addLayer(model.getMarker());
+            }
             model.on("deletePoi", function () { this.deletePoi(model); }, this);
-            this.geojsonLayer.addLayer(model.getMarker());
+        },
+
+        addMarker: function (model) {
+            if (model.hasPosition()) {
+                this.geojsonLayer.addLayer(model.getMarker());
+            }
         },
 
         deletePoi: function (model) {
@@ -43,6 +52,13 @@ var DNT = window.DNT || {};
             if (model.isNew()) {
                 this.remove(model, {silent: true});
             }
+        },
+
+        countPois: function () {
+            var count  = this.filter(function (poi) {
+                return !poi.isDeleted();
+            });
+            return count.length;
         },
 
         getPoiIds: function () {

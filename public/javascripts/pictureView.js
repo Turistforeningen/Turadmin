@@ -28,11 +28,7 @@ var DNT = window.DNT || {};
 
         positionPicture: function (e) {
             e.preventDefault();
-            // Moving conditional to mapView.js
-            // if (!this.model.hasMarker()) {
             this.event_aggregator.trigger("map:positionPicture", this.model);
-            // }
-            //scroll to map / show map
         },
 
         deletePicture: function (e) {

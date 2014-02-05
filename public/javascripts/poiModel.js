@@ -39,6 +39,11 @@ var DNT = window.DNT || {};
             this.on("change", function () {
                 this.changed = true;
             });
+            this.on("change:geojson", function () {
+                if (this.hasPosition() && this.getMarker() === undefined) {
+                    this.createMarker(this.get("geojson"));
+                }
+            });
         },
 
         hasChanged: function () {
@@ -50,7 +55,7 @@ var DNT = window.DNT || {};
         },
 
         isDeleted: function () {
-            return this.deleted;
+            return !!this.get("deleted") && this.get("deleted");
         },
 
         getGeoJson: function () {
@@ -58,9 +63,6 @@ var DNT = window.DNT || {};
         },
 
         getMarker: function () {
-            if (!this.hasMarker()) {
-                this.createMarker();
-            }
             return this.marker;
         },
 
@@ -68,8 +70,13 @@ var DNT = window.DNT || {};
             return !!this.marker;
         },
 
+        hasPosition: function () {
+            var geojson = this.get("geojson");
+            return !!geojson && !!geojson.coordinates;
+        },
+
         deletePoi: function () {
-            this.deleted = true;
+            this.set("deleted", true);
             this.trigger("deletePoi");
         },
 
@@ -84,12 +91,13 @@ var DNT = window.DNT || {};
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
             this.marker = marker;
             marker.setIcon(icon);
-            this.trigger('registerPoiPopup', {model: this, templateId: "#poiPopupTemplate"});
+            this.trigger('registerPopup', {model: this, templateId: "#poiPopupTemplate"});
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;
                 this.updateGeojson(lat, lng);
             }, this);
+            this.trigger("poi:markerCreated", this);
         },
 
         updateGeojson: function (lat, lng) {

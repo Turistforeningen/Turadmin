@@ -98,13 +98,12 @@ var DNT = window.DNT || {};
 
         routeModel: undefined,
 
-        pictureToPosition: undefined,
+        modelToPosition: undefined,
 
         events: {
             'click #startDraw': 'toggleDraw',
             'click #toggleSnap': 'toggleSnap',
-            'click #deleteRoute': 'deleteRoute',
-            'click #newPoi': 'addNewPoi'
+            'click #deleteRoute': 'deleteRoute'
         },
 
         initialize: function () {
@@ -117,6 +116,7 @@ var DNT = window.DNT || {};
             _.bindAll(this, "startPicturePositioning");
             _.bindAll(this, "registerPopup");
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
+            this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
         },
 
@@ -153,7 +153,7 @@ var DNT = window.DNT || {};
         deleteRoute: function (e) {
             e.preventDefault();
         },
-
+/*
         addNewPoi: function (e) {
             e.preventDefault();
             if ($(e.currentTarget).hasClass("active")) {
@@ -163,12 +163,12 @@ var DNT = window.DNT || {};
                 $(e.currentTarget).addClass("active");
                 this.drawMarkerTool.enable();
             }
-        },
+        },*/
 
-        disableDrawNewPoi: function (e) {
+        /*disableDrawNewPoi: function (e) {
             this.$("#newPoi").removeClass("active");
             this.drawMarkerTool.disable();
-        },
+        },*/
 
         addOnDrawCreatedEventHandler: function () {
             this.map.on('draw:created',
@@ -177,30 +177,27 @@ var DNT = window.DNT || {};
         },
 
         createPoiOrPositionPicture: function (coordinates) {
-            if (this.pictureToPosition) {
-                this.positionPicture(coordinates);
-            } else {
-                this.createPoi(coordinates);
+            if (!!this.modelToPosition) {
+                this.setupMarker(coordinates);
             }
         },
 
-        createPoi: function (coordinates) {
-            this.disableDrawNewPoi();
+        setupMarker: function (coordinates) {
+            var model = this.modelToPosition;
+            delete this.modelToPosition;
+            this.drawMarkerTool.disable();
+            this.listenTo(model, "registerPopup", this.registerPopup);
             var geojson = createGeojson(coordinates);
-            var poi = new DNT.Poi({ geojson: geojson });
-            this.listenTo(poi, "registerPoiPopup", this.registerPopup);
-            this.poiCollection.add(poi);
+            model.set("geojson", geojson);
         },
 
         positionPicture: function (coordinates) {
             var picture = this.pictureToPosition;
             delete this.pictureToPosition;
             this.drawMarkerTool.disable();
+            this.listenTo(picture, "registerPicturePopup", this.registerPopup);
             var geojson = createGeojson(coordinates);
             picture.set("geojson", geojson);
-            this.listenTo(picture, "registerPicturePopup", this.registerPopup);
-            picture.createMarker();
-
         },
 
         registerPopup: function (options) {
@@ -221,31 +218,34 @@ var DNT = window.DNT || {};
                 });
         },
 
-        startPicturePositioning: function (picture) {
-
+        moveMap: function () {
             // Set the height of mapAndControlsContainerHeight to the height it already has,
             // but as a style attribute, to avoid collapsing when moving map to modal.
             this.$el.height(this.$el.height());
 
             this.$('#mapAndControls').appendTo('#modal-map .modal-body');
             $('#modal-map').modal('show');
-            var a = 'b';
 
-            // Using $.proxy to keep view context
-            // $('#modal-map').on('hidden.bs.modal', function (e) {
-            //     $('#mapAndControls').appendTo($('#mapAndControlsContainer'));
-            // });
-
-            $('#modal-map').on('hidden.bs.modal', $.proxy(function(e){
+            $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
                 $('#mapAndControls').appendTo(this.$el);
+                this.drawMarkerTool.disable();
             }, this));
+        },
 
+        startPicturePositioning: function (picture) {
+            this.moveMap();
             if (!picture.hasMarker()) {
-                this.pictureToPosition = picture;
+                this.modelToPosition = picture;
                 this.drawMarkerTool.enable();
             }
-
         },
+
+        startPoiPositioning: function (poi) {
+            this.moveMap();
+            this.modelToPosition = poi;
+            this.drawMarkerTool.enable();
+        },
+
 
         render: function () {
             this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]], scrollWheelZoom: false}).setView([61.5, 9], 13);

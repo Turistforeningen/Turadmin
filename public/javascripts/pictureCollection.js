@@ -46,7 +46,7 @@ var DNT = window.DNT || {};
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
             }
-            model.on("deletePicture", function () { this.removePicture(model); }, this);
+            model.on("deletePicture", function () { this.deletePicture(model); }, this);
         },
 
         addMarker: function (model) {
@@ -55,7 +55,7 @@ var DNT = window.DNT || {};
             }
         },
 
-        removePicture: function (model) {
+        deletePicture: function (model) {
             if (model.isDeleted && model.hasPosition()) {
                 this.getGeoJsonLayer().removeLayer(model.getMarker());
             }

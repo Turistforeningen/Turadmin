@@ -17,10 +17,6 @@ var DNT = window.DNT || {};
         initialize : function () {
             this.pictureCollection = this.model.get("pictureCollection");
             this.setupFileupload();
-            if (this.pictureCollection.length > 0) {
-                this.$("#noPictures").addClass("hidden");
-                this.$("#hintInfo").removeClass("hidden");
-            }
             this.pictureCollection.on("change:deleted", function () {
                 //Render view when all pictures are removed
                 if (this.pictureCollection.countPictures() === 0) {
@@ -100,6 +96,9 @@ var DNT = window.DNT || {};
             if (this.pictureCollection.countPictures() === 0) {
                 this.$("#noPictures").removeClass("hidden");
                 this.$("#hintInfo").addClass("hidden");
+            } else {
+                this.$("#noPictures").addClass("hidden");
+                this.$("#hintInfo").removeClass("hidden");
             }
             //loop through poiCollection and append pictureTemplateViews
             return this;

@@ -27,7 +27,6 @@ var DNT = window.DNT || {};
 
         defaults : {
             navn: "",
-            geojson: undefined,
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
             privat: {
@@ -41,7 +40,7 @@ var DNT = window.DNT || {};
             this.on("change", function () {
                 this.changed = true;
             });
-            this.on("add:geojson", function () {
+            this.on("change:geojson", function () {
                 if (this.hasPosition() && this.getMarker() === undefined) {
                     this.createMarker(this.get("geojson"));
                 }
@@ -96,7 +95,7 @@ var DNT = window.DNT || {};
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
             this.marker = marker;
             marker.setIcon(icon);
-            this.trigger('registerPicturePopup', {model: this, templateId: "#picturePopupTemplate"});
+            this.trigger('registerPopup', {model: this, templateId: "#picturePopupTemplate"});
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;

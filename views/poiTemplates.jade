@@ -10,7 +10,7 @@ script(type="text/template" id="poiTemplate").
                 <a data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-2">Bekken</a>
             </h4>
         </div>
-        <div class="panel-collapse collapse in">
+        <div id="route-pois-accordion-2" class="panel-collapse collapse in">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -58,7 +58,13 @@ script(type="text/template" id="poiTemplate").
                             <div class="row routePictureContainer">
                             </div>
                         </div>
-                            <p class="help-block">Dersom noen av bildene du har lagt ut til turen kan relateres til stedet kan du knytte bilder til stedet her. Velg blant bilder du har lagt ut til turen og bilder som er lagt ut i nærheten av stedet.</p>
+                        <!--<div class="otherRouteImages selectableImages">
+                            <h6>Dine bilder fra andre turer i nærheten</h6>
+                            <div class="row ">
+                            </div>
+                        </div>-->
+
+                        <p class="help-block">Dersom noen av bildene du har lagt ut til turen kan relateres til stedet kan du knytte bilder til stedet her. Velg blant bilder du har lagt ut til turen og bilder som er lagt ut i nærheten av stedet.</p>
                     </div>
                 </div>
             </div>
@@ -66,7 +72,7 @@ script(type="text/template" id="poiTemplate").
     </div>
 
 
-script(type="text/template" id="picturePopupTemplate").
+script(type="text/template" id="poiPictureTemplate").
     <div class="col-sm-3">
         <div class="thumbnail selected">
             <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
