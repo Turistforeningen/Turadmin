@@ -21,7 +21,12 @@ var DNT = window.DNT || {};
 
         model: ns.Picture,
 
+        comparator: function (model) {
+            return model.get("ordinal");
+        },
+
         initialize: function () {
+            this.nextOrdinal = 0;
             this.geojsonLayer = new L.GeoJSON(null, {
             });
             this.on("add", this.modelAdded, this);
@@ -30,6 +35,11 @@ var DNT = window.DNT || {};
 
         getGeoJsonLayer: function () {
             return this.geojsonLayer;
+        },
+
+        getNextOrdinal: function () {
+            this.nextOrdinal = this.nextOrdinal + 1;
+            return this.nextOrdinal - 1;
         },
 
         modelAdded: function (model) {
@@ -62,10 +72,26 @@ var DNT = window.DNT || {};
             return count.length;
         },
 
+        reIndex: function (picture, newPosition) {
+            this.remove(picture, {silent : true});
+            picture.set("ordinal", newPosition);
+            this.each(function (model, index) {
+                var ordinal = index;
+                if (index >= newPosition) {
+                    ordinal = ordinal + 1;
+                }
+                model.set("ordinal", ordinal);
+            });
+            this.add(picture, {silent: true, at: newPosition});
+            this.sort();
+        },
+
+        getPictureIds: function () {
+            return this.pluck("_id");
+        },
+
         save: function (success, error, self) {
             var saveErrorCount = 0;
-            var newIds = [];
-            var removedIds = [];
 
             var afterSave = function () {
                 if (saveErrorCount > 0) {
@@ -76,7 +102,8 @@ var DNT = window.DNT || {};
                     }
                 } else {
                     if (success) {
-                        success.call(self, newIds, removedIds);
+
+                        success.call(self);
                     }
                 }
             };
@@ -93,7 +120,6 @@ var DNT = window.DNT || {};
 
             _.each(syncablePictures, function (picture) {
                 if (picture.isDeleted()) {
-                    removedIds.push(picture.get("_id"));
                     picture.destroy({
                         wait: true,
                         success : function () {
@@ -109,9 +135,6 @@ var DNT = window.DNT || {};
                     picture.save(undefined, {
                         success : function () {
                             picture.resetHasChanged();
-                            if (isNew) {
-                                newIds.push(picture.get("_id"));
-                            }
                             saveDone();
                         },
                         error: function () {

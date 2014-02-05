@@ -19,7 +19,7 @@ module.exports = function (app, options) {
         Move picture to permanent storage using jquery-file-upload-middleware'filehandler
      */
     var movePicture = function (req, picture) {
-        var result = {ok: true, error: ""};
+        var status = {ok: true, error: ""};
         var userId = req.session.userId;
         fileManager.movePictureToPermanentStorage(picture.url, userId, function (error, result) {
 
@@ -39,12 +39,12 @@ module.exports = function (app, options) {
                 console.log("moved picture: ", picture);
 
             } else {
-                result.error = "Error moving file to permanent storage";
-                result.ok = false;
-                console.error(result.error);
+                status.error = "Error moving file to permanent storage";
+                status.ok = false;
+                console.error(status.error);
             }
         });
-        return result;
+        return status;
     };
 
     /*
