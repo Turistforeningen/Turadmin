@@ -1,6 +1,5 @@
 body {
   padding-top: 50px;
-  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
 }
 
 a {
@@ -66,7 +65,6 @@ a {
 .removeItem {
 	display: none;
 }
-
 
 .thumbnail.removable:hover .removeItem {
 	display: block;
@@ -259,12 +257,13 @@ a {
 }
 
 /* Tidsbruk */
-select.route-facts-field-days {
+
+select.route-facts-field-tidsbruk-normal-dager {
 	width: 210px;
 }
 
-select.route-facts-field-hours,
-select.route-facts-field-minutes {
+select.route-facts-field-tidsbruk-normal-timer,
+select.route-facts-field-tidsbruk-normal-minutter {
 	float: left;
 	width: 100px;
 	margin-right: 10px;
@@ -291,18 +290,13 @@ a, .clickable {
 }
 
 
-
-
-
-/* addon class btn-outline */
+/* Addon class btn-outline */
 
 .btn-outline,
 .btn-outline:focus {
     background-color: transparent;
     color: inherit;
 }
-
-
 
 .btn-primary.btn-outline {
     color: #428bca;
@@ -335,4 +329,91 @@ a, .clickable {
 .btn-warning.btn-outline.active,
 .btn-danger.btn-outline.active {
     color: #fff;
+}
+
+
+/* Fullwidth modal for map used for positioning images and POI's */
+
+.modal-map .modal-dialog {
+	width: 100%;
+	margin-top: 0;
+}
+
+.modal-map .modal-dialog .modal-content {
+	border-radius: 0;
+}
+
+.modal-map .modal-dialog .modal-content .mapControlsRow {
+	display: none;
+}
+
+
+/* Custom icons on primary tag selection */
+
+.form-group.route-facts-field-tags-primary .btn-group label {
+	padding-top: 50px;
+	width: 90px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-position-y: 11px;
+	background-size: 35px;
+}
+
+@media (max-width: 991px) {
+	.form-group.route-facts-field-tags-primary .btn-group label {
+		width: 79px;
+	}
+}
+
+
+.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
+	background-image: url('../images/icon-route-tag-gatur.png');
+}
+
+.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-skitur {
+	background-image: url('../images/icon-route-tag-skitur.png');
+}
+
+.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-sykkeltur {
+	background-image: url('../images/icon-route-tag-sykkeltur.png');
+}
+
+.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-padletur {
+	background-image: url('../images/icon-route-tag-padletur.png');
+}
+
+.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-klatretur {
+	background-image: url('../images/icon-route-tag-klatretur.png');
+}
+
+.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-bretur {
+	background-image: url('../images/icon-route-tag-klatretur.png');
+}
+
+/* Retina versions */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
+		background-image: url('../images/icon-route-tag-gatur@2x.png');
+	}
+
+	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-skitur {
+		background-image: url('../images/icon-route-tag-skitur@2x.png');
+	}
+
+	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-sykkeltur {
+		background-image: url('../images/icon-route-tag-sykkeltur@2x.png');
+	}
+
+	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-padletur {
+		background-image: url('../images/icon-route-tag-padletur@2x.png');
+	}
+
+	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-klatretur {
+		background-image: url('../images/icon-route-tag-klatretur@2x.png');
+	}
+
+	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-bretur {
+		background-image: url('../images/icon-route-tag-klatretur@2x.png');
+	}
+
 }
