@@ -48,8 +48,8 @@ var DNT = window.DNT || {};
             } else {
                 var html =  this.template(this.model.toJSON());
                 $(this.el).html(html);
-                return this;
             }
+            return this;
         }
     });
 }(DNT));
