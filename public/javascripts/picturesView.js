@@ -27,7 +27,10 @@ var DNT = window.DNT || {};
                     this.render();
                 }
             }, this);
-            this.$("#route-images-all-container").sortable({items: ".picture-sortable"});
+            this.$("#route-images-all-container").sortable({
+                items: ".picture-sortable",
+                placeholder: "sortable-placeholder col-sm-4"
+            });
             this.$("#route-images-all-container").disableSelection();
             _.bindAll(this, "picturePositionUpdated");
         },

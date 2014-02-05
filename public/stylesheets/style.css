@@ -334,6 +334,12 @@ a, .clickable {
 
 /* Fullwidth modal for map used for positioning images and POI's */
 
+.modal h4 {
+	border: 0;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
 .modal-map .modal-dialog {
 	width: 100%;
 	margin-top: 0;

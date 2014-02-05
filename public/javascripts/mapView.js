@@ -88,7 +88,7 @@ var DNT = window.DNT || {};
 
     ns.MapView = Backbone.View.extend({
 
-        el: "#mapAndControls",
+        el: "#mapAndControlsContainer",
 
         snapping: true,
 
@@ -222,8 +222,29 @@ var DNT = window.DNT || {};
         },
 
         startPicturePositioning: function (picture) {
-            this.pictureToPosition = picture;
-            this.drawMarkerTool.enable();
+
+            // Set the height of mapAndControlsContainerHeight to the height it already has,
+            // but as a style attribute, to avoid collapsing when moving map to modal.
+            this.$el.height(this.$el.height());
+
+            this.$('#mapAndControls').appendTo('#modal-map .modal-body');
+            $('#modal-map').modal('show');
+            var a = 'b';
+
+            // Using $.proxy to keep view context
+            // $('#modal-map').on('hidden.bs.modal', function (e) {
+            //     $('#mapAndControls').appendTo($('#mapAndControlsContainer'));
+            // });
+
+            $('#modal-map').on('hidden.bs.modal', $.proxy(function(e){
+                $('#mapAndControls').appendTo(this.$el);
+            }, this));
+
+            if (!picture.hasMarker()) {
+                this.pictureToPosition = picture;
+                this.drawMarkerTool.enable();
+            }
+
         },
 
         render: function () {
