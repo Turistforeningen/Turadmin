@@ -1,0 +1,74 @@
+script(type="text/template" id="poiPopupTemplate").
+   <strong class="poi-navn"><%= navn %></strong><br>
+    <p class="popup-edit btn btn-default">Endre</p>
+   <p class="popup-delete btn btn-default">Slett</p>
+
+script(type="text/template" id="poiTemplate").
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-2">Bekken</a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <h5>Om stedet</h5>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Navn</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Navn på sted">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Kategori</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control">
+                                        <option value="0">Velg en</option>
+                                        <option value="1">Fjelltopp</option>
+                                        <option value="2">Bro</option>
+                                        <option value="3">Bekk</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Er også</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Replace with multiselect">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Beskrivelse</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <h5>Bilder</h5>
+                        <div class="alert alert-info">
+                            <strong>Ingen bilder!</strong>
+                            Du har ikke lagt inn noen bilder for denne turen.
+                        </div>
+                        <div class="currentRouteImages selectableImages">
+                            <h6>Dine bilder fra denne turen</h6>
+                            <div class="row routePictureContainer">
+                            </div>
+                        </div>
+                            <p class="help-block">Dersom noen av bildene du har lagt ut til turen kan relateres til stedet kan du knytte bilder til stedet her. Velg blant bilder du har lagt ut til turen og bilder som er lagt ut i nærheten av stedet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+script(type="text/template" id="picturePopupTemplate").
+    <div class="col-sm-3">
+        <div class="thumbnail selected">
+            <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
+        </div>
+    </div>
