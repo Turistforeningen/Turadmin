@@ -9,6 +9,15 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
+    var pictureViewBindings = {
+        '[name = "beskrivelse"]' : "beskrivelse",
+        '[name = "fotograf"]': {
+            observe: 'fotograf',
+            onGet: 'getFotografNavnFromModel',
+            onSet: 'formatFotografNavnToModel'
+        }
+    };
+
     ns.PictureView = Backbone.View.extend({
 
         template: _.template($('#pictureTemplate').html()),
@@ -42,12 +51,21 @@ var DNT = window.DNT || {};
             this.$el.trigger('updatePictureIndexes', [this.model, index]);
         },
 
+        getFotografNavnFromModel: function (value) {
+            return value.navn;
+        },
+
+        formatFotografNavnToModel: function (value) {
+            return {navn: value};
+        },
+
         render: function () {
             if (this.model.isDeleted()) {
                 this.remove();
             } else {
                 var html =  this.template(this.model.toJSON());
                 $(this.el).html(html);
+                this.stickit(this.model, pictureViewBindings);
             }
             return this;
         }

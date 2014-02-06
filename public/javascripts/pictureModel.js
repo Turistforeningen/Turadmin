@@ -26,13 +26,15 @@ var DNT = window.DNT || {};
         },
 
         defaults : {
-            navn: "",
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
             privat: {
                 opprettet_av: {
                     id: "someId"
                 }
+            },
+            fotograf: {
+                navn: ""
             }
         },
 
