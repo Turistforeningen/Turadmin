@@ -15,6 +15,7 @@ var DNT = window.DNT || {};
 
         events : {
             "click #newPoi": "addPoi"
+
         },
 
         initialize : function () {
@@ -26,14 +27,18 @@ var DNT = window.DNT || {};
                     this.render();
                 }
             }, this);
+            _.bindAll(this, "poiMarkerIsCreated");
+            this.event_aggregator.on("map:markerIsCreated", this.poiMarkerIsCreated);
         },
 
         addPoi: function () {
-            var poi = new DNT.Poi();
-            this.event_aggregator.trigger("map:positionPicture", poi);
+            this.event_aggregator.trigger("map:positionPicture", new DNT.Poi());
+        },
+
+        poiMarkerIsCreated: function (poi) {
             this.poiCollection.add(poi);
-            //var view = new DNT.PictureView({ model: poi});
-            //this.$("#route-pois-accordion").append(view.render().el);
+            var view = new DNT.PoiView({ model: poi});
+            this.$("#route-pois-accordion").append(view.render().el);
             this.$("#noPoisAlert").addClass("hidden");
         },
 

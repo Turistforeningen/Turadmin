@@ -113,8 +113,7 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning");
-            _.bindAll(this, "registerPopup");
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup");
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
@@ -153,22 +152,6 @@ var DNT = window.DNT || {};
         deleteRoute: function (e) {
             e.preventDefault();
         },
-/*
-        addNewPoi: function (e) {
-            e.preventDefault();
-            if ($(e.currentTarget).hasClass("active")) {
-                this.disableDrawNewPoi();
-            } else {
-                delete this.pictureToPositon;
-                $(e.currentTarget).addClass("active");
-                this.drawMarkerTool.enable();
-            }
-        },*/
-
-        /*disableDrawNewPoi: function (e) {
-            this.$("#newPoi").removeClass("active");
-            this.drawMarkerTool.disable();
-        },*/
 
         addOnDrawCreatedEventHandler: function () {
             this.map.on('draw:created',
@@ -189,15 +172,7 @@ var DNT = window.DNT || {};
             this.listenTo(model, "registerPopup", this.registerPopup);
             var geojson = createGeojson(coordinates);
             model.set("geojson", geojson);
-        },
-
-        positionPicture: function (coordinates) {
-            var picture = this.pictureToPosition;
-            delete this.pictureToPosition;
-            this.drawMarkerTool.disable();
-            this.listenTo(picture, "registerPicturePopup", this.registerPopup);
-            var geojson = createGeojson(coordinates);
-            picture.set("geojson", geojson);
+            this.event_aggregator.trigger("map:markerIsCreated", model);
         },
 
         registerPopup: function (options) {
