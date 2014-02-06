@@ -14,6 +14,7 @@ block extraHeadContent
     script(src='lib/routing/L.Routing.Edit.js')
     script(src='lib/LeafletDraw/leaflet.draw.js')
     script(src='lib/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js')
+    script(src='lib/backbone.stickit/backbone.stickit.min.js')
 
     // Select2 plugin
     script(src='lib/select2/select2.min.js')
@@ -44,11 +45,8 @@ block extraHeadContent
 
     script.
         $(document).ready(function () {
-            var model = new DNT.App();
-            model.set({route: new DNT.Route(), poiCollection: new DNT.PoiCollection(), pictureCollection: new DNT.PictureCollection()});
-            var routeView = new DNT.RouteView({model: model}).render();
+            DNT.initRouteApp();
         });
-
 
 block routeNavigation
 

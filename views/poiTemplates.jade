@@ -7,10 +7,10 @@ script(type="text/template" id="poiTemplate").
     <div class="panel panel-default">
         <div class="panel-heading">
         <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-2">Bekken</a>
+                <a id="poiHeader" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>"></a>
             </h4>
         </div>
-        <div id="route-pois-accordion-2" class="panel-collapse collapse in">
+        <div id="route-pois-accordion-<%= cid %>" class="panel-collapse collapse in">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -19,30 +19,50 @@ script(type="text/template" id="poiTemplate").
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-4 control-label">Navn</label>
                                 <div class="col-sm-8">
-                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Navn på sted">
+                                    <input name="navn" type="email" class="form-control" id="inputEmail3" placeholder="Navn på sted">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-4 control-label">Kategori</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control">
-                                        <option value="0">Velg en</option>
-                                        <option value="1">Fjelltopp</option>
-                                        <option value="2">Bro</option>
-                                        <option value="3">Bekk</option>
+                                    <select name="kategori" class="form-control">
+                                        <option value=0>Velg en</option></option>
+                                        <option value="Hytte">Hytte</option>
+                                        <option value="Fjelltopp">Fjelltopp</option>
+                                        <option value="Gapahuk">Gapahuk</option>
+                                        <option value="Rasteplass">Rasteplass</option>
+                                        <option value="Telplass">Telplass</option>
+                                        <option value="Geocaching">Geocaching</option>
+                                        <option value="Turpostkasse">Turpostkasse</option>
+                                        <option value="Turorientering">Turorientering</option>
+                                        <option value="Utsiktspunkt">Utsiktspunkt</option>
+                                        <option value="Attraksjon">Attraksjon</option>
+                                        <option value="Badeplass">Badeplass</option>
+                                        <option value="Fiskeplass">Fiskeplass</option>
+                                        <option value="Klatrefelt">Klatrefelt</option>
+                                        <option value="Akebakke">Akebakke</option>
+                                        <option value="Skitrekk">Skitrekk</option>
+                                        <option value="Kitested">Kitested</option>
+                                        <option value="Skøytevann">Skøytevann</option>
+                                        <option value="Toalett">Toalett</option>
+                                        <option value="Bro">Bro</option>
+                                        <option value="Vadested">Vadested</option>
+                                        <option value="Parkering">Parkering</option>
+                                        <option value="Holdeplass">Holdeplass</option>
+                                        <option value="Togstasjon">Togstasjon</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-4 control-label">Er også</label>
                                 <div class="col-sm-8">
-                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Replace with multiselect">
+                                    <input type="email" name="tags" class="form-control" id="inputEmail3" placeholder="Replace with multiselect">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-4 control-label">Beskrivelse</label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" rows="5"></textarea>
+                                    <textarea name="beskrivelse" class="form-control" rows="5"></textarea>
                                 </div>
                             </div>
                         </form>

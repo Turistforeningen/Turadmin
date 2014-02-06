@@ -33,7 +33,8 @@ var DNT = window.DNT || {};
                 opprettet_av: {
                     id: "someId"
                 }
-            }
+            },
+            tags: [0]
         },
         initialize: function (attributes, options) {
             this.on("change", function () {
@@ -43,6 +44,13 @@ var DNT = window.DNT || {};
                 if (this.hasPosition() && this.getMarker() === undefined) {
                     this.createMarker(this.get("geojson"));
                 }
+            });
+            this.set("kategori", this.get("tags")[0]);
+            this.on("change:kategori", function () {
+                var tags = _.clone(this.get("tags")) || [];
+                tags[0] = this.get("kategori");
+                this.set("tags", tags);
+
             });
         },
 

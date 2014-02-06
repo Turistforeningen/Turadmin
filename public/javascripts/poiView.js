@@ -9,6 +9,15 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
+    var poiViewBindings = {
+        '[name = "navn"]' : "navn",
+        '[name = "beskrivelse"]' : "beskrivelse",
+        '[name = "kategori"]': "kategori",
+        '#poiHeader': "navn"
+        //'[name = "tags"]' : "tags"
+    };
+
+
     ns.PoiView = Backbone.View.extend({
 
         template: _.template($('#poiTemplate').html()),
@@ -27,11 +36,15 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
+
             if (this.model.isDeleted()) {
                 this.remove();
             } else {
-                var html =  this.template(this.model.toJSON());
+                var json = this.model.toJSON();
+                json.cid = this.model.cid;
+                var html =  this.template(json);
                 $(this.el).html(html);
+                this.stickit(this.model, poiViewBindings);
             }
             return this;
         }
