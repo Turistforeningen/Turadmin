@@ -54,32 +54,35 @@ block extraHeadContent
 block routeNavigation
 
     // Scrollspy navigation
-    ul.nav.navbar-nav
-        li
+    ul.nav.navbar-nav.navbar-center.hidden-sm
+
+        li.link-route-draw
             a(href="#route-draw")
                 span.glyphicon.glyphicon-globe
                 | &nbsp;Inntegning
-        li
+        li.link-route-images
             a(href="#route-images")
                 span.glyphicon.glyphicon-picture
                 | &nbsp;Bilder
-        li
+        li.link-route-pois
             a(href="#route-pois")
                 span.glyphicon.glyphicon-map-marker
                 | &nbsp;Steder
-        li
+        li.link-route-facts
             a(href="#route-facts")
                 span.glyphicon.glyphicon-list
                 | &nbsp;Fakta
 
+
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
 
-        li
+
+        li.action-route-save
             a(data-action="route-save").route-save.has-unsaved-changes
                 span.glyphicon.glyphicon-floppy-disk
                 | &nbsp;Lagre
-        li
+        li.action-route-publish
             a(data-action="route-publish")
                 span.glyphicon.glyphicon-cloud-upload
                 | &nbsp;Publiser
