@@ -5,7 +5,7 @@ var DNT = window.DNT || {};
 
     ns.SelectView = Backbone.View.extend({
 
-        el: 'select',
+        tagName: 'select',
 
         className: "form-control",
 

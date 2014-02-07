@@ -23,8 +23,8 @@ var DNT = window.DNT || {};
 
             var select = new DNT.SelectView();
             this.$('#passerForSelect').html(select.render().el);
-            //debugger;
-            //select.$el.select2();
+            // debugger;
+            select.$el.select2();
 
         }
     });
