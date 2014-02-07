@@ -23,7 +23,9 @@ var DNT = window.DNT || {};
             _.bindAll(this, "search", "render");
             this.$el.select2({
                 minimumInputLength: 2,
-                query: this.search
+                query: this.search,
+                formatResult: this.format,
+                escapeMarkup: function (m) { return m; }
             });
         },
 
@@ -42,13 +44,31 @@ var DNT = window.DNT || {};
                 var data = { results: [] };
                 var id = 0;
                 this.collection.each(function (place) {
-                    var text = place.get("stedsnavn") + " - " + place.get("navnetype") + " i " + place.get("kommunenavn") + " i " + place.get("fylkesnavn");
-                    data.results.push({id: id, text: text});
+                    data.results.push({id: id, place: place });
                     id = id + 1;
                 });
                 select2AddResultsFunc(data);
             }
+        },
+
+        format: function (obj) {
+            var placeHtml = new ns.SearchResultView({model: obj.place}).render().el;
+            return placeHtml;
         }
     });
+
+    ns.SearchResultView = Backbone.View.extend({
+
+        template: _.template($('#searchResultTemplate').html()),
+
+        render: function () {
+            var json = this.model.toJSON();
+            var html =  this.template(json);
+            $(this.el).html(html);
+            return this;
+        }
+
+    });
+
 
 }(DNT));
