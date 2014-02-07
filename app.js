@@ -44,7 +44,7 @@ require('./routes/addRoute')(app, {routeApiUri: routeApiUri});
 require('./routes/route')(app, {routeApiUri: routeApiUri});
 var fileManager = require('./routes/pictureUpload')(app, express, {dirname: __dirname});
 require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey, fileManager: fileManager});
-
+require('./routes/ssrProxy')(app, {});
 
 // Only listen for port if the application is not included by another module.
 // Eg. the test runner.
