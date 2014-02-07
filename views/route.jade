@@ -25,6 +25,7 @@ block extraHeadContent
 
     include poiTemplates
     include pictureTemplates
+    include routeFactsTemplates
 
     script(src='javascripts/setupApp.js')
 
@@ -35,6 +36,8 @@ block extraHeadContent
     script(src='javascripts/pictureCollection.js')
     script(src='javascripts/appModel.js')
 
+    script(src='javascripts/routeFactsView.js')
+    script(src='javascripts/selectView.js')
     script(src='javascripts/popupView.js')
     script(src='javascripts/routeView.js')
     script(src='javascripts/mapView.js')
@@ -55,7 +58,7 @@ block routeNavigation
         li
             a(href="#route-draw")
                 span.glyphicon.glyphicon-globe
-                | &nbsp;Rute
+                | &nbsp;Inntegning
         li
             a(href="#route-images")
                 span.glyphicon.glyphicon-picture
@@ -129,4 +132,5 @@ block content
     script(src='lib/jquery.fileupload/js/jquery.fileupload.js')
     script(src='lib/jquery.fileupload/js/jquery.fileupload-process.js')
     script(src='lib/jquery.fileupload/js/jquery.fileupload-validate.js')
+    link(rel='stylesheet', href='lib/jquery.fileupload/css/jquery.fileupload.css')
 

@@ -1,127 +1,93 @@
+/* Global styles */
+
 body {
   padding-top: 50px;
 }
 
 a {
   color: #00b7ff;
+  cursor: pointer;
 }
 
-.mapControls {
-	float: left;
-	width: 100%;
-}
-
-.mapControls > * {
-	float: left;
-	margin-right: 10px;
-}
-
-.page-block {
-	/*margin-top: 20px;
-	margin-bottom: 20px;*/
-	padding-top: 40px;
-}
-
-.page-block:first-child {
-	/*margin-top: 20px;
-	margin-bottom: 20px;*/
-	padding-top: 0;
-}
-
-.page-block h3,
-.page-block h4 {
-	border-bottom: 1px solid #eee;
-	padding-bottom: 15px;
-	margin-bottom: 15px;
-}
-
-.page-block h4.panel-title {
-	margin: 0;
-	padding: 0;
-	border: 0 none;
-}
-
-.page-block h5,
-.page-block h6 {
-	border-bottom: 1px solid #eee;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-}
-
-.routeLocate {
-	border-bottom: 1px solid #eee;
-	margin-bottom: 15px;
-	overflow: hidden;
-}
-
-.thumbnail.selected {
-	position: relative;
-}
-
-.selectableImages .thumbnail {
+/* NOTE: Mainly used for route index table. Might want to use a selector like ".routes-index .routes-all tr" instead */
+.clickable {
 	cursor: pointer;
 }
 
-.removeItem {
-	display: none;
-}
-
-.thumbnail.removable:hover .removeItem {
-	display: block;
-	font-family: 'Glyphicons Halflings';
-	/*content: '\e014';*/
-	text-align: center;
-	font-size: 12px;
-	color: #fff;
-	border-radius: 100%;
-	position: absolute;
-	top: -8px;
-	left: 8px;
-	background-color: #d2322d;
-	height: 28px;
-	width: 28px;
-	border: 3px solid #fff;
-	box-shadow: 0 0 1px 0 rgba(0, 0, 0, .5);
-	line-height: 20px;
-}
-
-.thumbnail.selected:before{
-	display: block;
-	font-family: 'Glyphicons Halflings';
-	content: '\e013';
-	text-align: center;
-	font-size: 12px;
-	color: #fff;
-	border-radius: 100%;
-	position: absolute;
-	top: -8px;
-	right: -8px;
-	background-color: #009e0f;
-	height: 28px;
-	width: 28px;
-	border: 3px solid #fff;
-	box-shadow: 0 0 1px 0 rgba(0, 0, 0, .5);
-	line-height: 22px;
-	text-indent: -1px;
-}
-
-.route-images-all-container .thumbnail img{
-    max-height: 260px;
+*:focus {
+	outline: none !important;
 }
 
 
-.route-pois-accordion {
-	margin-bottom: 20px;
+/* Adding support for class btn-outline to buttons */
+
+.btn-outline,
+.btn-outline:focus {
+    background-color: transparent;
+    color: inherit;
+}
+
+.btn-primary.btn-outline {
+    color: #428bca;
+}
+
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+}
+
+.btn-warning.btn-outline {
+    color: #f0ad4e;
+}
+
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover,
+.btn-primary.btn-outline.active,
+.btn-success.btn-outline.active,
+.btn-info.btn-outline.active,
+.btn-warning.btn-outline.active,
+.btn-danger.btn-outline.active {
+    color: #fff;
 }
 
 
+/* Navigation */
+
+/* Override Bootstrap's navbar-collapse max-height */
+.navbar-collapse {
+	max-height: none;
+}
+
+.navbar-inverse .navbar-toggle {
+	border-color: transparent;
+}
+
+.navbar-collapse.in .divider,
+.navbar-collapse.collapsing .divider {
+	height: 1px;
+	margin: 9px 0;
+	overflow: hidden;
+	background-color: #e5e5e5;
+}
 
 
+/* If a save-status indicator is to be implemented, this CSS could be used */
+
+/*
 .nav > li > a.has-unsaved-changes {
 	padding-left: 22px;
 	position: relative;
 }
-
 
 .nav > li > a.has-unsaved-changes:before {
 	content: '';
@@ -139,156 +105,7 @@ a {
 
 .nav > li > a:hover:before {
 	opacity: 1;
-}
-
-@charset "UTF-8";
-/*
- * jQuery File Upload Plugin CSS 1.3.0
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2013, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
- */
-
-.fileinput-button {
-  position: relative;
-  overflow: hidden;
-}
-.fileinput-button input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  opacity: 0;
-  -ms-filter: 'alpha(opacity=0)';
-  font-size: 200px;
-  direction: ltr;
-  cursor: pointer;
-}
-
-/* Fixes for IE < 8 */
-@media screen\9 {
-  .fileinput-button input {
-    filter: alpha(opacity=0);
-    font-size: 100%;
-    height: 100%;
-  }
-}
-
-.route-images .progress {
-	margin-top: 20px;
-}
-
-
-/**
- * Page Block - Route Done
- */
-
-.page-block.route-done .well {
-	text-align: center;
-}
-
-.page-block:last-child {
-	margin-bottom: 0;
-}
-
-
-
-a {
-	cursor: pointer;
-}
-
-
-.navbar-collapse.in,
-.navbar-collapse.collapsing {
-	background-color: #222;
-	box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-}
-
-/* Override Bootstrap's navbar-right -15px margin on last item */
-@media (min-width: 768px) {
-	.navbar-nav.navbar-right:last-child {
-		margin-right: 0;
-	}
-}
-
-
-/* Override Bootstrap's navbar-collapse max-height */
-.navbar-collapse {
-	max-height: none;
-}
-
-.navbar-inverse .navbar-toggle {
-	border-color: transparent;
-}
-
-*:focus {
-	outline: none !important;
-}
-
-
-
-.navbar-collapse.in .divider,
-.navbar-collapse.collapsing .divider {
-	height: 1px;
-	margin: 9px 0;
-	overflow: hidden;
-	background-color: #e5e5e5;
-}
-
-/* Fargekoder vanskelighetsgrad */
-.route-facts-field-vanskelighetsgrad-enkel {
-	color: #00984a;
-}
-
-.route-facts-field-vanskelighetsgrad-middels {
-	color: #0067af;
-}
-
-.route-facts-field-vanskelighetsgrad-krevende {
-	color: #ed1c2e;
-}
-
-.route-facts-field-vanskelighetsgrad-ekspert {
-	color: #000;
-}
-
-/* Tidsbruk */
-
-select.route-facts-field-tidsbruk-normal-dager {
-	width: 210px;
-}
-
-select.route-facts-field-tidsbruk-normal-timer,
-select.route-facts-field-tidsbruk-normal-minutter {
-	float: left;
-	width: 100px;
-	margin-right: 10px;
-}
-
-
-.route-facts-field-kollektivtransport .checkbox {
-	margin-bottom: 10px;
-}
-
-a, .clickable {
-	cursor: pointer;
-}
-
-.dropdown-select label {
-	margin: 0;
-}
-
-.dropdown-select p.help-block {
-	margin: 0;
-	font-size: 12px;
-	max-width: 200px;
-	white-space: normal;
-}
-
+}*/
 
 /* Addon class btn-outline */
 
@@ -331,8 +148,226 @@ a, .clickable {
     color: #fff;
 }
 
+/* Page blocks */
+
+.page-block {
+	padding-top: 40px;
+}
+
+.page-block:first-child {
+	padding-top: 0;
+}
+
+.page-block h3,
+.page-block h4 {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+}
+
+.page-block h4.panel-title {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+.page-block h5,
+.page-block h6 {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+
+/* Map and controls */
+
+.mapControls {
+	float: left;
+	width: 100%;
+}
+
+.mapControls > * {
+	float: left;
+	margin-right: 10px;
+}
+
+.routeLocate {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+
+
+/* Custom dropdown used for selecting route direction */
+
+.dropdown-select label {
+	margin: 0;
+}
+
+.dropdown-select p.help-block {
+	margin: 0;
+	font-size: 12px;
+	max-width: 200px;
+	white-space: normal;
+}
+
+
+/* Route Images, removable */
+
+.thumbnail.removable .removeItem {
+	display: none;
+}
+
+.thumbnail.removable:hover .removeItem {
+	display: block;
+	font-family: 'Glyphicons Halflings';
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	border-radius: 100%;
+	position: absolute;
+	top: -8px;
+	left: 8px;
+	background-color: #d2322d;
+	height: 28px;
+	width: 28px;
+	border: 3px solid #fff;
+	box-shadow: 0 0 1px 0 rgba(0, 0, 0, .5);
+	line-height: 20px;
+}
+
+.route-images-all-container .thumbnail img {
+    max-height: 260px;
+}
+
+.route-images .progress {
+	margin-top: 20px;
+}
+
+
+/* Route POI's */
+
+.route-pois-accordion {
+	margin-bottom: 20px;
+}
+
+
+/* POI Images, selectable */
+
+/* TODO: This selector should be .thumbnail.selectable - need to fix markup first! */
+.selectableImages .thumbnail {
+	cursor: pointer;
+}
+
+.thumbnail.selected {
+	position: relative;
+}
+
+.thumbnail.selected:before{
+	display: block;
+	font-family: 'Glyphicons Halflings';
+	content: '\e013';
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	border-radius: 100%;
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	background-color: #009e0f;
+	height: 28px;
+	width: 28px;
+	border: 3px solid #fff;
+	box-shadow: 0 0 1px 0 rgba(0, 0, 0, .5);
+	line-height: 22px;
+	text-indent: -1px;
+}
+
+
+/**
+ * Page Block - Route Done
+ */
+
+.page-block.route-done .well {
+	text-align: center;
+}
+
+.navbar-collapse.in,
+.navbar-collapse.collapsing {
+	background-color: #222;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+}
+
+/* Override Bootstrap's navbar-right -15px margin on last item */
+@media (min-width: 768px) {
+	.navbar-nav.navbar-right:last-child {
+		margin-right: 0;
+	}
+}
+
+
+/* Fargekoder gradering */
+.route-facts-field-gradering-enkel {
+	color: #00984a;
+}
+
+.route-facts-field-gradering-enkel.active {
+	color: #fff;
+	background-color: #00984a;
+}
+
+.route-facts-field-gradering-middels {
+	color: #0067af;
+}
+
+.route-facts-field-gradering-middels.active {
+	color: #fff;
+	background-color: #0067af;
+}
+
+.route-facts-field-gradering-krevende {
+	color: #ed1c2e;
+}
+
+.route-facts-field-gradering-krevende.active {
+	color: #fff;
+	background-color: #ed1c2e;
+}
+
+.route-facts-field-gradering-ekspert {
+	color: #000;
+}
+
+.route-facts-field-gradering-ekspert.active {
+	color: #fff;
+	background-color: #000;
+}
+
+
+/* Tidsbruk */
+
+select.route-facts-field-tidsbruk-normal-dager {
+	width: 210px;
+}
+
+select.route-facts-field-tidsbruk-normal-timer,
+select.route-facts-field-tidsbruk-normal-minutter {
+	float: left;
+	width: 100px;
+	margin-right: 10px;
+}
+
+.route-facts-field-kollektivtransport .checkbox {
+	margin-bottom: 10px;
+}
+
 
 /* Fullwidth modal for map used for positioning images and POI's */
+
+/* TODO: Investigate how to prevent the 15px right margin when modal is open (and body overflow is visible) */
+body.modal-open {
+	/*overflow: visible;*/
+}
 
 .modal h4 {
 	border: 0;
@@ -354,6 +389,8 @@ a, .clickable {
 }
 
 
+/* Route facts */
+
 /* Custom icons on primary tag selection */
 
 .form-group.route-facts-field-tags-primary .btn-group label {
@@ -370,7 +407,6 @@ a, .clickable {
 		width: 79px;
 	}
 }
-
 
 .form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
 	background-image: url('../images/icon-route-tag-gatur.png');
