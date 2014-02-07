@@ -15,7 +15,6 @@ var DNT = window.DNT || {};
 
         events : {
             "click #newPoi": "addPoi"
-
         },
 
         initialize : function () {

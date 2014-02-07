@@ -18,6 +18,7 @@ var DNT = window.DNT || {};
             this.pictureView = new DNT.PicturesView({model: this.model});
             this.poiCollectionView = new DNT.PoiCollectionView({model: this.model});
             this.route = this.model.get("route");
+            this.routeFactsView = new DNT.RouteFactsView({model: this.route});
             this.route.on("change", this.unsavedChanges, this);
             this.poiCollection = this.model.get("poiCollection");
             this.poiCollection.on("add", this.unsavedChanges, this);
@@ -34,6 +35,7 @@ var DNT = window.DNT || {};
             this.mapView.render();
             this.pictureView.render();
             this.poiCollectionView.render();
+            this.routeFactsView.render();
         },
 
         unsavedChanges : function () {
