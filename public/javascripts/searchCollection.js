@@ -14,13 +14,16 @@ var DNT = window.DNT || {};
 
         model: ns.SearchResult,
 
-        search: function (searchText) {
+        search: function (searchText, searchcb, options) {
             this.fetch({
                 data: {
                     search: searchText
                 },
                 dataType: "json",
-                reset: true
+                reset: true,
+                success: function () {
+                    searchcb(options);
+                }
             });
         }
     });

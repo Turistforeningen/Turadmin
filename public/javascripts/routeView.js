@@ -14,6 +14,8 @@ var DNT = window.DNT || {};
         el: "#route-navigation-collapse",
 
         initialize : function () {
+            this.searchCollection = new DNT.SearchCollection();
+            this.searchFieldView = new DNT.SearchFieldView({collection: this.searchCollection});
             this.mapView = new DNT.MapView({model: this.model});
             this.pictureView = new DNT.PicturesView({model: this.model});
             this.poiCollectionView = new DNT.PoiCollectionView({model: this.model});
@@ -32,6 +34,7 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
+            this.searchFieldView.render();
             this.mapView.render();
             this.pictureView.render();
             this.poiCollectionView.render();
