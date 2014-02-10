@@ -211,6 +211,10 @@ a {
 	white-space: normal;
 }
 
+.select2-results .select2-highlighted  {
+    background-color: #f4f4f4 !important;
+    color: #000 !important;
+}
 
 /* Route Images, removable */
 

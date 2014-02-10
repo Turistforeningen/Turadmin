@@ -113,10 +113,11 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup");
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter");
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
+            this.event_aggregator.on("map:zoomAndCenter", this.zoomAndCenter);
         },
 
         toggleDraw: function (e) {
@@ -221,6 +222,14 @@ var DNT = window.DNT || {};
             this.drawMarkerTool.enable();
         },
 
+        zoomAndCenter: function (latlng, zoomLevel) {
+            if (!!latlng) {
+                if (!zoomLevel) {
+                    zoomLevel = 13;
+                }
+                this.map.setView(latlng, zoomLevel);
+            }
+        },
 
         render: function () {
             this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]], scrollWheelZoom: false}).setView([61.5, 9], 13);

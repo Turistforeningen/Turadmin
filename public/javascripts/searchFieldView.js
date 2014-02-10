@@ -31,11 +31,17 @@ var DNT = window.DNT || {};
 
         search: function (query) {
             var place = query.term;
+            place = place + "*";
             this.collection.search(place, this.render, query.callback);
         },
 
         select: function (selected) {
-            console.log(selected.val);
+            var place = this.collection.at(selected.val);
+            if (!!place && !!place.get("aust") && !!place.get("aust")[0] && !!place.get("nord") && !!place.get("nord")[0]) {
+                var latlng = L.latLng(place.get("nord")[0], place.get("aust")[0]);
+                this.event_aggregator.trigger("map:zoomAndCenter", latlng, 13);
+            }
+
         },
 
         render: function (select2AddResultsFunc) {
