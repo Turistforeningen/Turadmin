@@ -11,11 +11,14 @@ var DNT = window.DNT || {};
 
         template: _.template($('#selectOptionsTemplate').html()),
 
+        attributes: { 'data-multiselect': 'true', 'multiple' : 'true'},
+
         events : {
             'change' : 'onSelect'
         },
 
-        initialize : function () {
+        initialize : function (options) {
+            this.selectOptions = options.selectOptions;
 
             _.bindAll(this, 'render', 'afterRender');
             var _this = this;
@@ -33,37 +36,9 @@ var DNT = window.DNT || {};
 
         render: function () {
 
-            var model = {
-                selectData: [
-                    {
-                        value: 'Barn',
-                        label: 'Barn'
-                    },
-                    {
-                        value: 'Ungdom',
-                        label: 'Ungdom'
-                    },
-                    {
-                        value: 'Fjellsportinteresserte',
-                        label: 'Fjellsportinteresserte'
-                    },
-                    {
-                        value: 'Seniorer',
-                        label: 'Seniorer'
-                    },
-                    {
-                        value: 'Rullestolbrukere',
-                        label: 'Rullestolbrukere'
-                    }
-                ]
-            };
 
-            var html = this.template(model);
+            var html = this.template(this.selectOptions);
             $(this.el).html(html);
-
-            // this.stickit(this.model, poiViewBindings);
-            // debugger;
-            // this.$el.select2();
 
             return this;
         },

@@ -219,13 +219,7 @@ div.row.page-block.route-facts(id="route-facts")
             // Tilrettelagt for
             div.form-group.route-facts-field-tilrettelagt_for
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tilrettelagt_for") Tilrettelagt for
-                div.col-lg-7.col-md-7.col-sm-7
-                    select.form-control.route-facts-field-tilrettelagt_for(data-multiselect="true")
-                        option
-                        option Barnevogn
-                        option Rullestol
-                        option Handikap
-                    p.help-block Hvem er turen tilrettelagt for? Velg alle som passer.
+                div#tilrettelagtForSelect.col-lg-7.col-md-7.col-sm-7
 
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Er turen spesielt tilrettelagt for noen grupper? Velg alle som passer.
@@ -233,12 +227,7 @@ div.row.page-block.route-facts(id="route-facts")
             // Eiere
             div.form-group.route-facts-field-grupper
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-facts-field-grupper") Eiere
-                div.col-lg-7.col-md-7.col-sm-7
-                    select.form-control.route-facts-field-grupper(data-multiselect="true")
-                        option
-                        option Eier 1
-                        option Eier 2
-                        option Eier 3
+                div#grupperSelect.col-lg-7.col-md-7.col-sm-7
 
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Velg alle som passer.

@@ -80,6 +80,16 @@ a {
 	background-color: #e5e5e5;
 }
 
+@media (min-width: 991px) {
+	ul.nav.navbar-nav.navbar-center {
+		width: 380px;
+		position: absolute;
+		left: 50%;
+		margin-left: -190px;
+	}
+}
+
+
 
 /* If a save-status indicator is to be implemented, this CSS could be used */
 

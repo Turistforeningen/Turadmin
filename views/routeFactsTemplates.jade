@@ -1,5 +1,4 @@
 script(type="text/template" id="selectOptionsTemplate").
-    <option value="0"></option>
     <% _.each(selectData, function(element) { %><option value=<%= element.value %>><%= element.label %></option> <% }); %>
 
 script(type="text/template" id="searchResultTemplate").
