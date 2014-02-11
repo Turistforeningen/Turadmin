@@ -28,7 +28,7 @@ var DNT = window.DNT || {};
         },
 
         loadRoute: function () {
-            window.location = '/tur/';// + this.model.get("_id");
+            window.location = '/tur';// + this.model.get("_id");
         },
 
         deleteRoute: function () {
