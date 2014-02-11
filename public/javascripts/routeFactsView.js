@@ -3,6 +3,35 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
+    var flereTurTyper = {
+        selectData: [
+            {
+                value: "Gåtur",
+                label: "Gåtur"
+            },
+            {
+                value: "Skitur",
+                label: "Skitur"
+            },
+            {
+                value: "Sykkeltur",
+                label: "Sykkeltur"
+            },
+            {
+                value: "Padletur",
+                label: "Padletur"
+            },
+            {
+                value: "Klatretur",
+                label: "Klatretur"
+            },
+            {
+                value: "Bretur",
+                label: "Bretur"
+            }
+        ]
+    };
+
     var passerFor = {
         selectData: [
             {
@@ -17,26 +46,6 @@ var DNT = window.DNT || {};
                 value: 'Senior',
                 label: 'Senior'
             }
-            // {
-            //     value: 'Barn',
-            //     label: 'Barn'
-            // },
-            // {
-            //     value: 'Ungdom',
-            //     label: 'Ungdom'
-            // },
-            // {
-            //     value: 'Fjellsportinteresserte',
-            //     label: 'Fjellsportinteresserte'
-            // },
-            // {
-            //     value: 'Seniorer',
-            //     label: 'Seniorer'
-            // },
-            // {
-            //     value: 'Rullestolbrukere',
-            //     label: 'Rullestolbrukere'
-            // }
         ]
     };
 
@@ -75,13 +84,15 @@ var DNT = window.DNT || {};
         el: "#route-facts",
 
         events : {
-            // "sortstop #route-images-all-container": "picturePositionUpdated",
-            // "updatePictureIndexes": "updateIndexes"
         },
 
         initialize : function () {},
 
         render: function () {
+
+            var flereTurTyperSelect = new DNT.SelectView({ model: this.model, selectOptions: flereTurTyper });
+            this.$('#flereTurtyperSelect').html(flereTurTyperSelect.render().el);
+            flereTurTyperSelect.$el.select2();
 
             var passerForSelect = new DNT.SelectView({ model: this.model, selectOptions: passerFor });
             this.$('#passerForSelect').html(passerForSelect.render().el);

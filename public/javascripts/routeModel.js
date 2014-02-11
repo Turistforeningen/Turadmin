@@ -52,7 +52,12 @@ var DNT = window.DNT || {};
         url: function () {
             return apiUri();
         },
-        model: ns.Route
+
+        model: ns.Route,
+
+        parse: function (response) {
+            return response.documents || [];
+        }
     });
 }(DNT));
 

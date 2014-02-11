@@ -179,7 +179,9 @@ div.row.page-block.route-facts(id="route-facts")
 
             // Flere turtyper
             div.form-group.route-facts-field-tags-other
-                div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-flere-typer") Velg flere turtyper
+                div#flereTurtyperSelect.col-lg-7.col-md-7.col-sm-7
+                //div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     select.form-control.route-facts-field-tags-other
                         option(value="0") Velg flere turtyper
 

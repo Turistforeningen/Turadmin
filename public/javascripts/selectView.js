@@ -19,18 +19,9 @@ var DNT = window.DNT || {};
 
         initialize : function (options) {
             this.selectOptions = options.selectOptions;
-
-            _.bindAll(this, 'render', 'afterRender');
-            var _this = this;
-            this.render = _.wrap(this.render, function(render) {
-                render();
-                _this.afterRender();
-                return _this;
-            });
-
         },
 
-        onSelect: function(){
+        onSelect: function () {
             console.log("select");
         },
 
@@ -41,13 +32,6 @@ var DNT = window.DNT || {};
             $(this.el).html(html);
 
             return this;
-        },
-
-        afterRender: function() {
-            console.log('afterRender');
-            // debugger;
-            // this.$el.select2();
         }
-
     });
 }(DNT));

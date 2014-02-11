@@ -5,6 +5,17 @@ block extraHeadContent
     script(src='lib/underscore/underscore-min.js')
     script(src='lib/backbone/backbone-min.js')
 
+    include indexTemplates
+
+    script(src='javascripts/routeModel.js')
+    script(src='javascripts/listItemView.js')
+    script(src='javascripts/indexView.js')
+
+    script.
+        $(document).ready(function () {
+            new DNT.IndexView();
+        });
+
 block content
 
     div.container
@@ -21,39 +32,5 @@ block content
                         th Område
                         th Publisert
                         th Lagret
-                        th Mangler
                         th(colspan="2") Valg
-                tbody
-                    tr.clickable
-                        td
-                            span Tur uten navn
-                        td
-                            span N/A
-                        td
-                            span.label.label-info Nei
-                        td
-                            span 31.01.14
-                        td
-                            span Inntegning, Bilder, Beskrivelse, Adkomst, Passer for, Vanskelighetsgrad, Sesong
-                        td
-                            a Publiser
-                        td
-                            a Slett
-                    tr.clickable
-                        td
-                            span Langskogen til krokhaugen
-                        td
-                            span Slettelia
-                        td
-                            span.label.label-success Ja
-                        td
-                            span 31.01.14
-                        td
-                            span Bilder
-                        td
-                            a Avpubliser
-                        td
-                            a Slett
-
-    script.
-        $(document).on('click', 'td', function(){ location = '/tur'; });
+                tbody(id="listItems")

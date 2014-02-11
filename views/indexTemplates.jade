@@ -1,0 +1,28 @@
+script(type="text/template" id="listRouteItemTemplate").
+    <td>
+        <span><%= navn %></span>
+    </td>
+    <td>
+        <span>N/A</span>
+    </td>
+    <td>
+        <span class="label
+        <%if (status === "Kladd") { %>
+            label-success
+        <% } else { %>
+            label-info
+        <% } %>
+        ">
+            <%= erPublisert %>
+        </span>
+    </td>
+    <td>
+        <span><%= endret %></span>
+    </td>
+    <td>
+        <a id="publishRoute" href="#">Publiser</a>
+    </td>
+    <td>
+        <a id="deleteRoute" href="#">Slett</a>
+    </td>
+
