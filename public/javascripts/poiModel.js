@@ -16,6 +16,8 @@ var DNT = window.DNT || {};
     ns.Poi = Backbone.Model.extend({
         idAttribute: "_id",
 
+        type: "poi",
+
         changed : false,
 
         deleted: false,

@@ -35,10 +35,12 @@ var DNT = window.DNT || {};
         },
 
         poiMarkerIsCreated: function (poi) {
-            this.poiCollection.add(poi);
-            var view = new DNT.PoiView({ model: poi});
-            this.$("#route-pois-accordion").append(view.render().el);
-            this.$("#noPoisAlert").addClass("hidden");
+            if (poi.type === "poi") {
+                this.poiCollection.add(poi);
+                var view = new DNT.PoiView({ model: poi});
+                this.$("#route-pois-accordion").append(view.render().el);
+                this.$("#noPoisAlert").addClass("hidden");
+            }
         },
 
         render: function () {
