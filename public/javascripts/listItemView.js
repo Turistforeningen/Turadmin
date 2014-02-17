@@ -88,7 +88,7 @@ var DNT = window.DNT || {};
             json.mangler = missingData;*/
 
             var publisert = "Nei";
-            if (this.model.get("status") === "Publisert") {
+            if (this.model.get("status") === "Offentlig") {
                 publisert = "Ja";
             }
             json.erPublisert = publisert;
