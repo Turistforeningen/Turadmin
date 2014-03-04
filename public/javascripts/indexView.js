@@ -11,10 +11,11 @@ var DNT = window.DNT || {};
 
     ns.IndexView = Backbone.View.extend({
 
-        el: "#listItems",
+        el: "#listContainer",
 
         events: {
-            'click a[data-action="route-save"]': 'save'
+            'click a[data-action="route-save"]': 'save',
+            'click #nyTurButton' : 'openNewRoutePage'
         },
 
         initialize : function () {
@@ -25,12 +26,16 @@ var DNT = window.DNT || {};
             this.collection.fetch({reset: true});
         },
 
+        openNewRoutePage : function () {
+            window.location = '/tur';
+        },
+
         render: function () {
             var that = this;
             console.log(this.collection.length);
             this.collection.each(function (route) {
                 var itemView = new ns.ListItemView({model: route});
-                that.$el.append(itemView.render().el);
+                that.$el.find("#listItems").append(itemView.render().el);
             });
         }
     });

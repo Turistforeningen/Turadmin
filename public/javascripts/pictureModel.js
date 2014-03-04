@@ -17,6 +17,8 @@ var DNT = window.DNT || {};
 
         idAttribute: "_id",
 
+        type: "picture",
+
         changed: false,
 
         deleted: false,
