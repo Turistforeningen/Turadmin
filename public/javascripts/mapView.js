@@ -113,7 +113,8 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter");
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeojsonToLayer");
+            this.routeModel.on("geojson:add", this.addGeojsonToLayer);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
@@ -206,6 +207,13 @@ var DNT = window.DNT || {};
                 $('#mapAndControls').appendTo(this.$el);
                 this.drawMarkerTool.disable();
             }, this));
+        },
+
+        addGeojsonToLayer: function () {
+            var geojson = this.routeModel.get("geojson");
+            if (!!geojson) {
+                //this.routing.addGeojson(geojson, {silent: true});
+            }
         },
 
         startPicturePositioning: function (picture) {
