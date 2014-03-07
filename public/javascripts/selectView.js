@@ -27,7 +27,6 @@ var DNT = window.DNT || {};
 
         render: function () {
 
-
             var html = this.template(this.selectOptions);
             $(this.el).html(html);
 

@@ -14,9 +14,11 @@ var DNT = window.DNT || {};
     };
 
     ns.Route = Backbone.Model.extend({
+
         idAttribute: "_id",
 
-        defaults : {
+        defaults: {
+            navn: '',
             geojson: null,
             retning: "AB",
             lisens: "CC BY-NC 3.0 NO",
@@ -27,8 +29,7 @@ var DNT = window.DNT || {};
                 }
             }
         },
-        initialize: function () {
-        },
+        initialize: function () {},
 
         urlRoot: function () {
             return apiUri();
@@ -46,6 +47,7 @@ var DNT = window.DNT || {};
         setPictureIds: function (ids) {
             this.set("bilder", ids);
         }
+
     });
 
     ns.RouteCollection = Backbone.Collection.extend({
@@ -59,5 +61,5 @@ var DNT = window.DNT || {};
             return response.documents || [];
         }
     });
-}(DNT));
 
+}(DNT));

@@ -22,11 +22,10 @@ block content
         div.masthead
             h2.page-header Mine turer
 
-
         div#listContainer
             // TODO: Move styles to CSS-file
             p(style="margin-bottom: 20px;") Her er alle turene du har lagt inn. Klikk på de enkelte turene for å gjøre endringer.
-                button#nyTurButton.btn.btn-success.pull-right Ny tur
+                a#nyTurButton.btn.btn-success.pull-right(href="/tur") Ny tur
             table.table.table-bordered.table-hover
                 thead
                     tr

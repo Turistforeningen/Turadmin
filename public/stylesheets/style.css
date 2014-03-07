@@ -90,10 +90,8 @@ a {
 }
 
 
-
 /* If a save-status indicator is to be implemented, this CSS could be used */
 
-/*
 .nav > li > a.has-unsaved-changes {
 	padding-left: 22px;
 	position: relative;
@@ -115,7 +113,8 @@ a {
 
 .nav > li > a:hover:before {
 	opacity: 1;
-}*/
+}
+
 
 /* Addon class btn-outline */
 
@@ -205,6 +204,18 @@ a {
 	border-bottom: 1px solid #eee;
 	margin-bottom: 15px;
 	overflow: hidden;
+}
+
+.dropdown a.active {
+	position: relative;
+	padding-left: 30px;
+}
+
+.dropdown a.active:before {
+	position: absolute;
+	font-family: 'Glyphicons Halflings';
+	content: '\e013';
+	left: 10px;
 }
 
 

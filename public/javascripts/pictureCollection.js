@@ -90,6 +90,18 @@ var DNT = window.DNT || {};
             return this.pluck("_id");
         },
 
+        setPublished: function(){
+            this.each(function (model, index) {
+                model.setPublished();
+            });
+        },
+
+        setUnpublished: function(){
+            this.each(function (model, index) {
+                model.setUnpublished();
+            });
+        },
+
         save: function (success, error, self) {
             var saveErrorCount = 0;
 

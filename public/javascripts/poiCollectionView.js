@@ -13,15 +13,15 @@ var DNT = window.DNT || {};
 
         el: "#route-pois",
 
-        events : {
+        events: {
             "click #newPoi": "addPoi"
         },
 
-        initialize : function () {
+        initialize: function () {
             this.poiCollection = this.model.get("poiCollection");
 
             this.poiCollection.on("change:deleted", function () {
-                //Render view when all pois are removed to show noPoisAlert div
+                // Render view when all pois are removed to show noPoisAlert div
                 if (this.poiCollection.countPois() === 0) {
                     this.render();
                 }

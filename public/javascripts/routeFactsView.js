@@ -83,8 +83,7 @@ var DNT = window.DNT || {};
 
         el: "#route-facts",
 
-        events : {
-        },
+        events : {},
 
         initialize : function () {},
 

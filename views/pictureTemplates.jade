@@ -14,12 +14,32 @@ script(type="text/template" id="pictureTemplate").
             <input name="beskrivelse" type="text" placeholder="Beskrivelse av bildet" class="form-control">
         </div>
     </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> Jeg har tatt bildet
+        </label>
+    </div>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-camera"></span>
             </span>
-            <input name="fotograf" type="text" placeholder="Fotograf" class="form-control">
+            <input name="foto-fotograf-navn" type="text" placeholder="Fotograf navn" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-envelope"></span>
+            </span>
+            <input name="foto-fotograf-epost" type="text" placeholder="Fotograf e-post" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group foto-tags">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-tags"></span>
+            </span>
         </div>
     </div>
     <div class="form-group">

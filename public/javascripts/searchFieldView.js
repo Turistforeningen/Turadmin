@@ -11,7 +11,6 @@ var DNT = window.DNT || {};
 
     ns.SearchFieldView = Backbone.View.extend({
 
-
         el: "#placeSearchInput",
 
         events: {
@@ -54,6 +53,7 @@ var DNT = window.DNT || {};
                     id = id + 1;
                 });
                 select2AddResultsFunc(data);
+
             }
         },
 

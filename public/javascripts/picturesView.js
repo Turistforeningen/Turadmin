@@ -61,7 +61,7 @@ var DNT = window.DNT || {};
         },
 
         picturePositionUpdated: function (event, ui) {
-            //trigg event on ui-item so that the correct picture item listener is trigged.
+            // trigg event on ui-item so that the correct picture item listener is trigged.
             // (In correct pictureView.js instance, which contains the model)
             ui.item.trigger('pictureDropped', ui.item.index());
         },
@@ -79,7 +79,6 @@ var DNT = window.DNT || {};
             this.$("#noPictures").addClass("hidden");
             this.$("#hintInfo").removeClass("hidden");
             setTimeout(this.hideAndResetProgressBar, 1500);
-
         },
 
         renderProgressBar: function (data) {

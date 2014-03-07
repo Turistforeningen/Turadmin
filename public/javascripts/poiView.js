@@ -9,6 +9,34 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
+    var alleStedKategorier = {
+        selectData: [
+            { value: "Hytte", label: "Hytte" },
+            { value: "Fjelltopp", label: "Fjelltopp" },
+            { value: "Gapahuk", label: "Gapahuk" },
+            { value: "Rasteplass", label: "Rasteplass" },
+            { value: "Telplass", label: "Telplass" },
+            { value: "Geocaching", label: "Geocaching" },
+            { value: "Turpostkasse", label: "Turpostkasse" },
+            { value: "Turorientering", label: "Turorientering" },
+            { value: "Utsiktspunkt", label: "Utsiktspunkt" },
+            { value: "Attraksjon", label: "Attraksjon" },
+            { value: "Badeplass", label: "Badeplass" },
+            { value: "Fiskeplass", label: "Fiskeplass" },
+            { value: "Klatrefelt", label: "Klatrefelt" },
+            { value: "Akebakke", label: "Akebakke" },
+            { value: "Skitrekk", label: "Skitrekk" },
+            { value: "Kitested", label: "Kitested" },
+            { value: "Skøytevann", label: "Skøytevann" },
+            { value: "Toalett", label: "Toalett" },
+            { value: "Bro", label: "Bro" },
+            { value: "Vadested", label: "Vadested" },
+            { value: "Parkering", label: "Parkering" },
+            { value: "Holdeplass", label: "Holdeplass" },
+            { value: "Togstasjon", label: "Togstasjon" }
+        ]
+    };
+
     var poiViewBindings = {
         '[name = "navn"]' : "navn",
         '[name = "beskrivelse"]' : "beskrivelse",
@@ -46,6 +74,11 @@ var DNT = window.DNT || {};
                 $(this.el).html(html);
                 this.stickit(this.model, poiViewBindings);
             }
+
+            var flereStedKategorierSelect = new DNT.SelectView({ model: this.model, selectOptions: alleStedKategorier });
+            this.$('.flereStedKategorierSelectContainer').html(flereStedKategorierSelect.render().el);
+            flereStedKategorierSelect.$el.select2();
+
             return this;
         }
     });

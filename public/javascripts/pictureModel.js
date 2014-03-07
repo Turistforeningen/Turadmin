@@ -83,6 +83,14 @@ var DNT = window.DNT || {};
             return !!geojson && !!geojson.coordinates;
         },
 
+        setPublished: function(){
+            this.set('status', 'Offentlig');
+        },
+
+        setUnpublished: function(){
+            this.set('status', 'Kladd');
+        },
+
         deletePicture: function () {
             this.set("deleted", true);
             this.trigger("deletePicture");

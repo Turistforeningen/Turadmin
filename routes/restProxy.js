@@ -59,20 +59,20 @@ module.exports = function (app, options) {
         data.document = undefined;
     };
 
-    app.all('/restProxy/*', function (req, res) {
-        var path = req.url;
-        path = path.replace("restProxy/", "");
+    var makeRequest = function (path, method, res, onCompleteOverride) {
         var apiKey = "?api_key=" + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
         console.log("url " + url);
 
-        var onComplete = function (data) {
+        var onCompleteDefault = function (data) {
             console.log(data);
             if (data.document !== undefined) {
                 data.document = undefined;
             }
             res.json(data);
         };
+
+        var onComplete = onCompleteOverride || onCompleteDefault;
 
         var onCompletePost = function (data) {
             console.log("Response: ", data);
@@ -84,8 +84,6 @@ module.exports = function (app, options) {
             data = underscore.extend(data, picture);
             onCompletePost(data);
         };
-
-        var method = req.method;
 
         if (method === "GET") {
             console.log("getUrl = " + url);
@@ -127,6 +125,14 @@ module.exports = function (app, options) {
             restler.del(url, {})
                 .on('complete', onComplete);
         }
+    }
+
+    app.all('/restProxy/*', function (req, res) {
+        var path = req.url;
+        path = path.replace("restProxy/", "");
+        makeRequest(path, req.method, res);
     });
+
+    return { makeApiRequest : makeRequest };
 };
 

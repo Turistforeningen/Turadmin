@@ -18,6 +18,19 @@ var DNT = window.DNT || {};
         }
     };
 
+    var allFotoTags = {
+        selectData: [
+            {
+                value: "Gåtur",
+                label: "Gåtur"
+            },
+            {
+                value: "Skitur",
+                label: "Skitur"
+            }
+        ]
+    };
+
     ns.PictureView = Backbone.View.extend({
 
         template: _.template($('#pictureTemplate').html()),
@@ -63,9 +76,20 @@ var DNT = window.DNT || {};
             if (this.model.isDeleted()) {
                 this.remove();
             } else {
+
                 var html =  this.template(this.model.toJSON());
                 $(this.el).html(html);
                 this.stickit(this.model, pictureViewBindings);
+
+                var fotoTagsSelectView = new DNT.SelectView({ model: this.model, selectOptions: allFotoTags });
+                this.$('.foto-tags').append(fotoTagsSelectView.render().el);
+                fotoTagsSelectView.$el.select2({ placeholder: "Tagger" });
+
+//                 $(fotoTagsSelectView.el).select2({
+//     placeholder: "Select a State"
+// });
+                // debugger;
+
             }
             return this;
         }

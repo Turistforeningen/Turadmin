@@ -1,7 +1,7 @@
 div.row.page-block.route-draw(id="route-draw")
     div.col-lg-12
         h3 Inntegning
-        div.routeLocate
+        div.row.routeLocate
             form.form-horizontal
                 div.col-lg-4.col-md-4.col-sm-5
                     div.form-group
@@ -38,6 +38,12 @@ div.row.page-block.route-draw(id="route-draw")
                                         span.glyphicon.glyphicon-trash
                                         span.buttonText &nbsp;Slett inntegning
 
+                                // div.snapToggle
+                                    div.checkbox
+                                        label
+                                            input(type="checkbox")
+                                            | Magnetisk markør
+
                                 div.dropdown
                                     button.btn.btn-link(data-toggle="dropdown" data-target="#")
                                         span.glyphicon.glyphicon-cog
@@ -45,8 +51,7 @@ div.row.page-block.route-draw(id="route-draw")
                                         span.caret
                                     ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                                         li
-                                            a#toggleSnap(href="#") Magnetisk markør
-                                        li
+                                            a#route-draw-toggle-snap(href="#") Magnetisk markør
 
                         div.col-lg-4.col-md-4.col-sm-4
                             div.dropdown.dropdown-select.pull-right.route-field-facts-retning

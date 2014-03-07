@@ -102,13 +102,13 @@ var DNT = window.DNT || {};
 
         events: {
             'click #startDraw': 'toggleDraw',
-            'click #toggleSnap': 'toggleSnap',
+            'click #route-draw-toggle-snap': 'toggleSnap',
             'click #deleteRoute': 'deleteRoute'
         },
 
         initialize: function () {
             this.mapLayers = createMapLayers();
-            this.snapping = createSnapLayer();
+            this.snapLayer = createSnapLayer();
             this.drawControl = createDrawControl();
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
@@ -143,10 +143,10 @@ var DNT = window.DNT || {};
             e.preventDefault();
             this.snapping = !this.snapping;
             this.routing.enableSnapping(this.snapping);
-            if (this.snapping) {
-                $(e.currentTarget).parent().addClass("active");
+            if (this.snapping === true) {
+                $(e.currentTarget).addClass("active");
             } else {
-                $(e.currentTarget).parent().removeClass("active");
+                $(e.currentTarget).removeClass("active");
             }
         },
 
@@ -181,7 +181,7 @@ var DNT = window.DNT || {};
         },
 
         addRouting: function () {
-            var routing = new DNT.Routing(this.map, this.snapping);
+            var routing = new DNT.Routing(this.map, this.snapLayer);
             routing.addRouting();
             routing.enableSnapping(true);
             this.routing = routing;
@@ -236,7 +236,7 @@ var DNT = window.DNT || {};
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
             }).addTo(this.map);
-            this.snapping.addTo(this.map);
+            this.snapLayer.addTo(this.map);
             this.addRouting();
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
