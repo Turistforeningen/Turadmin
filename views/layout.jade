@@ -21,8 +21,8 @@ html
                         a.navbar-brand(href="http://www.ut.no" alt="Til ut.no" style="padding: 13px;")
                             img(src="/images/ut.no-logo_hvit.png" style="height: 24px;")
                         a#headerRouteName.navbar-brand.hidden-xs(data-toggle="tooltip" title="" data-original-title="Klikk for å gi turen et navn")
-                            if turData
-                                | #{turData.navn}
+                            if routeData
+                                | #{routeData.navn}
                             else
                                 | Tur uten navn
 

@@ -29,6 +29,8 @@ module.exports = function (app, restProxy, options) {
 
         var onCompleteTurRequest = function (data) {
 
+            var routeData = data;
+
             var picturesCount = data.bilder.length;
             var picturesData = [];
 
@@ -61,7 +63,7 @@ module.exports = function (app, restProxy, options) {
                 res.render('route', {
                     pageTitle: data.navn,
                     routeApiUri: options.routeApiUri,
-                    turData: data,
+                    routeData: routeData,
                     picturesData: picturesData
                     // poisData: poisData
                 });
