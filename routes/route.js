@@ -27,7 +27,7 @@ module.exports = function (app, restProxy, options) {
             req.session.userId = "testUserId";
 
             res.render('route', {
-                pageTitle: 'Endre tur',
+                pageTitle: data.navn,
                 routeApiUri: options.routeApiUri,
                 turData: data
             });
