@@ -85,12 +85,8 @@ var DNT = window.DNT || {};
                 this.$('.foto-tags').append(fotoTagsSelectView.render().el);
                 fotoTagsSelectView.$el.select2({ placeholder: "Tagger" });
 
-//                 $(fotoTagsSelectView.el).select2({
-//     placeholder: "Select a State"
-// });
-                // debugger;
-
             }
+
             return this;
         }
     });
