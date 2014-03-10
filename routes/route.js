@@ -51,12 +51,12 @@ module.exports = function (app, restProxy, options) {
 
             for (var i = 0; i < picturesCount; i++) {
                 var pictureId = data.bilder[i];
-                restProxy.makeApiRequest('/bilder/' + pictureId, 'GET', undefined, onCompletePictureRequest);
+                restProxy.makeApiRequest('/bilder/' + pictureId, req, undefined, onCompletePictureRequest);
             }
 
             for (var j = 0; j < poisCount; j++) {
                 var poiId = data.steder[j];
-                restProxy.makeApiRequest("/steder/" + poiId, 'GET', undefined, onCompletePoiRequest);
+                restProxy.makeApiRequest('/steder/' + poiId, req, undefined, onCompletePoiRequest);
             }
 
             var doRender = underscore.after(additionalResourcesCount, function(){
@@ -66,14 +66,15 @@ module.exports = function (app, restProxy, options) {
                     routeApiUri: options.routeApiUri,
                     routeName: routeData.navn,
                     routeData: JSON.stringify(routeData),
-                    picturesData: JSON.stringify(picturesData)
-                    // poisData: poisData
+                    picturesData: JSON.stringify(picturesData),
+                    poisData: poisData
                 });
+
             });
 
         };
 
-        restProxy.makeApiRequest("/turer/" + turId, 'GET', undefined, onCompleteTurRequest);
+        restProxy.makeApiRequest("/turer/" + turId, req, undefined, onCompleteTurRequest);
 
     };
 

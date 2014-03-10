@@ -59,9 +59,11 @@ module.exports = function (app, options) {
         data.document = undefined;
     };
 
-    var makeRequest = function (path, method, res, onCompleteOverride) {
+    var makeRequest = function (path, req, res, onCompleteOverride) {
         var apiKey = "?api_key=" + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
+        var method = req.method;
+
         console.log("url " + url);
 
         var onCompleteDefault = function (data) {
@@ -127,10 +129,12 @@ module.exports = function (app, options) {
         }
     }
 
+    // var makeRequest = function (path, method, req, res, onCompleteOverride) {
+
     app.all('/restProxy/*', function (req, res) {
         var path = req.url;
         path = path.replace("restProxy/", "");
-        makeRequest(path, req.method, res);
+        makeRequest(path, req, res);
     });
 
     return { makeApiRequest : makeRequest };
