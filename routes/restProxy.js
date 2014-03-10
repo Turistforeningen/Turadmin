@@ -39,7 +39,7 @@ module.exports = function (app, options) {
                 console.log("moved picture: ", picture);
 
             } else {
-                status.error = "Error moving file to permanent storage";
+                status.error = 'Error moving file to permanent storage';
                 status.ok = false;
                 console.error(status.error);
             }
@@ -54,17 +54,17 @@ module.exports = function (app, options) {
         if (data.document && data.document._id) {
             data._id = data.document._id;
         } else {
-            console.error("id is missing in result after post!");
+            console.error('id is missing in result after post!');
         }
         data.document = undefined;
     };
 
     var makeRequest = function (path, req, res, onCompleteOverride) {
-        var apiKey = "?api_key=" + ntbApiKey;
+        var apiKey = '?api_key=' + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
         var method = req.method;
 
-        console.log("url " + url);
+        console.log("Request url " + url);
 
         var onCompleteDefault = function (data) {
             console.log(data);
@@ -88,7 +88,7 @@ module.exports = function (app, options) {
         };
 
         if (method === "GET") {
-            console.log("getUrl = " + url);
+            // console.log("getUrl = " + url);
             restler.get(url, {})
                 .on('complete', onComplete);
 
