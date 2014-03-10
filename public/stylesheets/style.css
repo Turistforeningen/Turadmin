@@ -237,7 +237,7 @@ a {
     color: #000 !important;
 }
 
-/* Route Images, removable */
+/* Route Pictures, removable */
 
 .thumbnail.removable .removeItem {
 	display: none;
@@ -261,8 +261,12 @@ a {
 	line-height: 20px;
 }
 
+.route-images-all-container .thumbnail {
+	height: 160px;
+}
+
 .route-images-all-container .thumbnail img {
-    max-height: 260px;
+    max-height: 100%;
 }
 
 .route-images .progress {
