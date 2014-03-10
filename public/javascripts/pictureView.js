@@ -35,7 +35,7 @@ var DNT = window.DNT || {};
 
         template: _.template($('#pictureTemplate').html()),
 
-        className: "picture-sortable col-sm-4",
+        className: "picture-sortable col-sm-4 col-md-4 col-lg-3",
 
         initialize : function () {
             //Listen to url changes (when saving, picture is moved from tmp to permanent storage)
