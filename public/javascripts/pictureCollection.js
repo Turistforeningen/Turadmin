@@ -60,7 +60,7 @@ var DNT = window.DNT || {};
             }
             //If model is new (not synced with server) - silently remove it from the collection
             if (model.isNew()) {
-                this.remove(model, {silent: true});
+                this.remove(model, { silent: true });
             }
         },
 

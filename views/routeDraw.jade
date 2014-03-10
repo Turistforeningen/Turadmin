@@ -40,18 +40,24 @@ div.row.page-block.route-draw(id="route-draw")
 
                                 // div.snapToggle
                                     div.checkbox
-                                        label
+                                        label(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av denne funksjonen." data-placement="bottom")
                                             input(type="checkbox")
                                             | Magnetisk markør
 
-                                div.dropdown
+                                div.dropdown.dropdown-select.dropdown-select-toggles
                                     button.btn.btn-link(data-toggle="dropdown" data-target="#")
                                         span.glyphicon.glyphicon-cog
                                         | &nbsp; Alternativer &nbsp;
                                         span.caret
                                     ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                                         li
-                                            a#route-draw-toggle-snap(href="#") Magnetisk markør
+                                            a(data-route-draw-toggle-autocenter="")
+                                                label Automatisk sentrering
+                                                p.help-block Med automatisk sentrering vil kartet flytte seg automatisk når du tegner nær kanten av kartet. Du kan skru av denne funksjonen.
+                                        li
+                                            a(data-route-draw-toggle-snap="")
+                                                label Magnetisk markør
+                                                p.help-block Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av denne funksjonen.
 
                         div.col-lg-4.col-md-4.col-sm-4
                             div.dropdown.dropdown-select.pull-right.route-field-facts-retning
@@ -61,15 +67,15 @@ div.row.page-block.route-draw(id="route-draw")
                                     span.caret
                                 ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                                     li.selected
-                                        a#route-retning-a-b-a(href="#")
+                                        a#route-retning-a-b-a(href="#" data-route-direction-option="aba")
                                             label A-B-A
                                             p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
                                     li
-                                        a#route-retning-a-b(href="#")
+                                        a#route-retning-a-b(href="#" data-route-direction-option="ab")
                                             label A-B
                                             p.help-block Turen går fra startpunktet til endepunktet av inntegning.
                                     li
-                                        a#route-retning-b-a(href="#")
+                                        a#route-retning-b-a(href="#" data-route-direction-option="ba")
                                             label B-A
                                             p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 

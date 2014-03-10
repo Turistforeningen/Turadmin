@@ -102,7 +102,9 @@ var DNT = window.DNT || {};
 
         events: {
             'click #startDraw': 'toggleDraw',
-            'click #route-draw-toggle-snap': 'toggleSnap',
+            'click [data-route-draw-toggle-snap]': 'toggleSnap',
+            'click [data-route-draw-toggle-autocenter]': 'toggleAutocenter',
+            'click [data-route-direction-option]': 'setRouteDirection',
             'click #deleteRoute': 'deleteRoute'
         },
 
@@ -140,15 +142,47 @@ var DNT = window.DNT || {};
             }
         },
 
+        setRouteDirection: function (e) {
+            e.preventDefault();
+            var selectedDirection = $(e.currentTarget).attr('data-route-direction-option');
+            this.retning = selectedDirection;
+            this.updateRouteDirectionSelect();
+        },
+
         toggleSnap: function (e) {
             e.preventDefault();
             this.snapping = !this.snapping;
             this.routing.enableSnapping(this.snapping);
+            this.updateSnapToggle();
+        },
+
+        updateSnapToggle: function () {
             if (this.snapping === true) {
-                $(e.currentTarget).addClass("active");
+                $('[data-route-draw-toggle-snap]').addClass("active");
             } else {
-                $(e.currentTarget).removeClass("active");
+                $('[data-route-draw-toggle-snap]').removeClass("active");
             }
+        },
+
+        toggleAutocenter: function (e) {
+            e.preventDefault();
+            // this.autocenter = !this.autocenter;
+            // this.routing.enableSnapping(this.snapping);
+            // this.updateSnapToggle();
+        },
+
+        updateAutocenterToggle: function () {
+            // if (this.snapping === true) {
+            //     $('[data-route-draw-toggle-snap]').addClass("active");
+            // } else {
+            //     $('[data-route-draw-toggle-snap]').removeClass("active");
+            // }
+        },
+
+        updateRouteDirectionSelect: function () {
+            var routeDirection = this.retning || '';
+            $('[data-route-direction-option]').removeClass('active');
+            $('[data-route-direction-option="' + routeDirection.toLowerCase() + '"]').addClass('active');
         },
 
         deleteRoute: function (e) {
@@ -189,10 +223,9 @@ var DNT = window.DNT || {};
         },
 
         createDrawMarkerTool: function () {
-            this.drawMarkerTool = new L.Draw.Marker(this.map,
-                {
-                    icon : createIconConfig()
-                });
+            this.drawMarkerTool = new L.Draw.Marker(this.map, {
+                icon : createIconConfig()
+            });
         },
 
         moveMap: function () {
@@ -240,10 +273,16 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-            this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]], scrollWheelZoom: false}).setView([61.5, 9], 13);
+
+            this.map = L.map(this.$("#mapContainer")[0], {
+                layers: [this.mapLayers.baseLayerConf["Topo 2"]],
+                scrollWheelZoom: false
+            }).setView([61.5, 9], 13);
+
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
             }).addTo(this.map);
+
             this.snapLayer.addTo(this.map);
             this.addRouting();
             this.map.addControl(this.drawControl);
@@ -251,6 +290,10 @@ var DNT = window.DNT || {};
             this.pictureCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
             this.createDrawMarkerTool();
+            this.updateAutocenterToggle();
+            this.updateSnapToggle();
+            this.updateRouteDirectionSelect();
+
             return this;
         }
     });
