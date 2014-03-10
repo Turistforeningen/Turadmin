@@ -29,17 +29,26 @@ module.exports = function (app, restProxy, options) {
 
         var onCompleteTurRequest = function (data) {
 
+            console.log('Route was fetched.');
+
             var routeData = data;
 
             var picturesCount = (!!data.bilder) ? data.bilder.length : 0;
             var picturesData = [];
 
+            console.log('Route has', picturesCount, 'pictures.');
+
             var poisCount = (!!data.steder) ? data.steder.length : 0;
             var poisData = [];
 
-            var additionalResourcesCount = picturesCount; // TODO: Add poisCount
+            console.log('Route has', poisCount, 'pois.');
+
+            var totalResourcesCount = picturesCount + poisCount + 1; // +1 is the route
+
+            console.log('Route has', totalResourcesCount, 'total resources including route.');
 
             var onCompletePictureRequest = function (data) {
+                // TODO: Fix picture order
                 picturesData.push(data);
                 doRender();
             };
@@ -49,17 +58,23 @@ module.exports = function (app, restProxy, options) {
                 doRender();
             };
 
+            console.log('Fetching', picturesCount, 'pictures...');
             for (var i = 0; i < picturesCount; i++) {
                 var pictureId = data.bilder[i];
                 restProxy.makeApiRequest('/bilder/' + pictureId, req, undefined, onCompletePictureRequest);
             }
+            console.log('Done!');
 
+            console.log('Fetching', poisCount, 'pois...');
             for (var j = 0; j < poisCount; j++) {
                 var poiId = data.steder[j];
                 restProxy.makeApiRequest('/steder/' + poiId, req, undefined, onCompletePoiRequest);
             }
+            console.log('Done!');
 
-            var doRender = underscore.after(additionalResourcesCount, function(){
+            var doRender = underscore.after(totalResourcesCount, function () {
+
+                console.log('All resources fetched! Do render!');
 
                 res.render('route', {
                     pageTitle: data.navn,
@@ -67,10 +82,12 @@ module.exports = function (app, restProxy, options) {
                     routeName: routeData.navn,
                     routeData: JSON.stringify(routeData),
                     picturesData: JSON.stringify(picturesData),
-                    poisData: poisData
+                    poisData: JSON.stringify(poisData)
                 });
 
             });
+
+            doRender();
 
         };
 
