@@ -13,7 +13,7 @@ var DNT = window.DNT || {};
 
         el: '#view-route',
 
-        initialize: function(){
+        initialize: function () {
 
             this.searchCollection = new DNT.SearchCollection();
             this.searchFieldView = new DNT.SearchFieldView({collection: this.searchCollection});
@@ -38,11 +38,7 @@ var DNT = window.DNT || {};
             'click [data-action="route-unpublish"]': 'unpublish'
         },
 
-        render: function() {
-
-
-            // debugger;
-
+        render: function () {
             this.searchFieldView.render();
             this.mapView.render();
             this.pictureView.render();
@@ -50,11 +46,11 @@ var DNT = window.DNT || {};
             this.routeFactsView.render();
         },
 
-        updatePublishButtons: function(){
+        updatePublishButtons: function () {
 
             var routeStatus = this.route.get('status');
 
-            switch(routeStatus){
+            switch (routeStatus) {
                 case 'Kladd':
                     this.$('[data-action="route-publish"]').removeClass('hidden');
                     this.$('[data-action="route-unpublish"]').addClass('hidden');
@@ -67,9 +63,9 @@ var DNT = window.DNT || {};
             }
         },
 
-        updateSaveButton: function(allChangesSaved){
+        updateSaveButton: function (allChangesSaved) {
 
-            switch(allChangesSaved){
+            switch (allChangesSaved) {
                 case true:
                     this.$('.navbar .route-save').removeClass('has-unsaved-changes');
                     this.$('.navbar .route-save').tooltip('hide');
@@ -84,7 +80,7 @@ var DNT = window.DNT || {};
 
         },
 
-        unsavedChanges: function(){
+        unsavedChanges: function() {
 
             this.$(".disabled").removeClass("disabled"); // disable save button until model is changed
             this.updateSaveButton(false);
@@ -92,7 +88,7 @@ var DNT = window.DNT || {};
             console.log('Model has unsavedChanges');
         },
 
-        publish: function(){
+        publish: function() {
 
             this.route.set('status', 'Offentlig', { silent: true });
             this.pictureCollection.setPublished();
@@ -110,7 +106,7 @@ var DNT = window.DNT || {};
 
         },
 
-        unpublish: function(){
+        unpublish: function() {
 
             var me = this;
             this.route.set('status', 'Kladd', { silent: true });

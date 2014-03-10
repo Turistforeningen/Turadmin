@@ -31,11 +31,11 @@ module.exports = function (app, restProxy, options) {
 
             var routeData = data;
 
-            var picturesCount = data.bilder.length;
+            var picturesCount = (!!data.bilder) ? data.bilder.length : 0;
             var picturesData = [];
 
-            // var poisCount = data.steder.length;
-            // var poisData = [];
+            var poisCount = (!!data.steder) ? data.steder.length : 0;
+            var poisData = [];
 
             var additionalResourcesCount = picturesCount; // TODO: Add poisCount
 
@@ -44,27 +44,29 @@ module.exports = function (app, restProxy, options) {
                 doRender();
             };
 
-            // var onCompletePoiRequest = function (data) {
-            //     poisData.push(data);
-            //     doRender();
-            // };
+            var onCompletePoiRequest = function (data) {
+                poisData.push(data);
+                doRender();
+            };
 
             for (var i = 0; i < picturesCount; i++) {
                 var pictureId = data.bilder[i];
                 restProxy.makeApiRequest('/bilder/' + pictureId, 'GET', undefined, onCompletePictureRequest);
             }
 
-            // for (var i = 0; i < poisCount; i++) {
-            //     var poiId = data.steder[i];
-            //     restProxy.makeApiRequest("/steder/" + poiId, 'GET', undefined, doRender);
-            // }
+            for (var j = 0; j < poisCount; j++) {
+                var poiId = data.steder[j];
+                restProxy.makeApiRequest("/steder/" + poiId, 'GET', undefined, onCompletePoiRequest);
+            }
 
             var doRender = underscore.after(additionalResourcesCount, function(){
+
                 res.render('route', {
                     pageTitle: data.navn,
                     routeApiUri: options.routeApiUri,
-                    routeData: routeData,
-                    picturesData: picturesData
+                    routeName: routeData.navn,
+                    routeData: JSON.stringify(routeData),
+                    picturesData: JSON.stringify(picturesData)
                     // poisData: poisData
                 });
             });

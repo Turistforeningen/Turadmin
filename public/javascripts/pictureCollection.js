@@ -27,8 +27,7 @@ var DNT = window.DNT || {};
 
         initialize: function () {
             this.nextOrdinal = 0;
-            this.geojsonLayer = new L.GeoJSON(null, {
-            });
+            this.geojsonLayer = new L.GeoJSON(null, {});
             this.on("add", this.modelAdded, this);
             this.on("picture:markerCreated", this.addMarker, this);
         },
@@ -90,13 +89,13 @@ var DNT = window.DNT || {};
             return this.pluck("_id");
         },
 
-        setPublished: function(){
+        setPublished: function() {
             this.each(function (model, index) {
                 model.setPublished();
             });
         },
 
-        setUnpublished: function(){
+        setUnpublished: function() {
             this.each(function (model, index) {
                 model.setUnpublished();
             });
@@ -110,11 +109,10 @@ var DNT = window.DNT || {};
                     if (error) {
                         error.call(self, saveErrorCount);
                     } else {
-                        console.error("Error saving pictures! " + saveErrorCount + " pictures could not saved");
+                        console.error("Error saving pictures! " + saveErrorCount + " pictures could not be saved.");
                     }
                 } else {
                     if (success) {
-
                         success.call(self);
                     }
                 }
@@ -159,4 +157,3 @@ var DNT = window.DNT || {};
         }
     });
 }(DNT));
-

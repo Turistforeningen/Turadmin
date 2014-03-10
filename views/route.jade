@@ -47,10 +47,20 @@ block extraHeadContent
     script(src='/javascripts/poiView.js')
     script(src='/javascripts/poiCollectionView.js')
 
-    script.
-        $(document).ready(function(){
-            DNT.initRouteApp({ tur: "#{tur}" });
-        });
+    script
+        | $(document).ready(function(){
+
+        | var appData = {};
+
+        - if (typeof(routeData) !== 'undefined')
+            | appData.routeData = !{routeData};
+        - if (typeof(picturesData) !== 'undefined')
+            | appData.picturesData = !{picturesData};
+        - if (typeof(poisData) !== 'undefined')
+            | appData.poisData = !{poisData};
+
+        | DNT.initRouteApp(appData);
+        | });
 
 block routeNavigation
 
@@ -137,4 +147,3 @@ block content
     script(src='/lib/jquery.fileupload/js/jquery.fileupload-process.js')
     script(src='/lib/jquery.fileupload/js/jquery.fileupload-validate.js')
     link(rel='stylesheet', href='/lib/jquery.fileupload/css/jquery.fileupload.css')
-

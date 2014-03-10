@@ -16,18 +16,23 @@ var DNT = window.DNT || {};
 
         initialize : function () {
             this.pictureCollection = this.model.get("pictureCollection");
+
             this.setupFileupload();
+
             this.pictureCollection.on("change:deleted", function () {
                 //Render view when all pictures are removed
                 if (this.pictureCollection.countPictures() === 0) {
                     this.render();
                 }
             }, this);
+
             this.$("#route-images-all-container").sortable({
                 items: ".picture-sortable",
                 placeholder: "sortable-placeholder col-sm-4"
             });
+
             this.$("#route-images-all-container").disableSelection();
+
             _.bindAll(this, "picturePositionUpdated");
         },
 
@@ -74,8 +79,7 @@ var DNT = window.DNT || {};
             file.ordinal = this.pictureCollection.getNextOrdinal();
             var picture = new DNT.Picture(file);
             this.pictureCollection.add(picture);
-            var view = new DNT.PictureView({ model: picture });
-            this.$("#route-images-all-container").append(view.render().el);
+            this.appendPicture(picture);
             this.$("#noPictures").addClass("hidden");
             this.$("#hintInfo").removeClass("hidden");
             setTimeout(this.hideAndResetProgressBar, 1500);
@@ -91,7 +95,13 @@ var DNT = window.DNT || {};
             this.$("#progress .progress-bar").css('width', 0);
         },
 
+        appendPicture: function (picture) {
+            var view = new DNT.PictureView({ model: picture });
+            this.$("#route-images-all-container").append(view.render().el);
+        },
+
         render: function () {
+
             if (this.pictureCollection.countPictures() === 0) {
                 this.$("#noPictures").removeClass("hidden");
                 this.$("#hintInfo").addClass("hidden");
@@ -99,7 +109,9 @@ var DNT = window.DNT || {};
                 this.$("#noPictures").addClass("hidden");
                 this.$("#hintInfo").removeClass("hidden");
             }
-            //loop through poiCollection and append pictureTemplateViews
+
+            this.pictureCollection.each(this.appendPicture, this);
+
             return this;
         }
     });
