@@ -545,6 +545,16 @@ L.Routing = L.Control.extend({
    *
   */
   ,loadGeoJSON: function(geojson, cb) {
+    // Check for waypoints before processing geojson
+    if (!geojson.properties || !geojson.properties.waypoints) {
+      var msg = 'Invalid GeoJSON format. Missing waypoints markers.';
+      if (typeof cb === 'function') {
+        return cb(new Error(msg));
+      } else {
+        console.error(msg);
+      }
+    }
+
     var $this, oldRouter, index, waypoints;
 
     $this = this;
@@ -563,18 +573,20 @@ L.Routing = L.Control.extend({
     $this._router = function(m1, m2, cb) { var start =
       waypoints[index-1]._index; var end = waypoints[index]._index+1;
 
-      L.geoJson({
+      return cb(null, L.GeoJSON.geometryToLayer({
         type: 'LineString',
         coordinates: geojson.coordinates.slice(start, end)
-      }).eachLayer(function(layer) {
-        return cb(null, layer);
-      });
+      }));
     };
 
     // Clean up
     end = function() {
       $this._router = oldRouter; // Restore router
-      if (typeof cb === 'function') { cb(null); }
+      // Set map bounds based on loaded geometry
+      setTimeout(function() {
+        $this._map.fitBounds(L.polyline(L.GeoJSON.coordsToLatLngs(geojson.coordinates)).getBounds());
+        if (typeof cb === 'function') { cb(null); }
+      }, 0);
     }
 
     // Add waypoints
