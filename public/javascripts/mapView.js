@@ -115,8 +115,8 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeojsonToLayer");
-            this.routeModel.on("geojson:add", this.addGeojsonToLayer);
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeoJSONToLayer");
+            this.routeModel.on("geojson:add", this.addGeoJSONToLayer);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
@@ -190,9 +190,7 @@ var DNT = window.DNT || {};
         },
 
         addOnDrawCreatedEventHandler: function () {
-            this.map.on('draw:created',
-                this.createPoiOrPositionPicture,
-                this);
+            this.map.on('draw:created', this.createPoiOrPositionPicture, this);
         },
 
         createPoiOrPositionPicture: function (coordinates) {
@@ -242,10 +240,12 @@ var DNT = window.DNT || {};
             }, this));
         },
 
-        addGeojsonToLayer: function () {
-            var geojson = this.routeModel.get("geojson");
-            if (!!geojson) {
-                //this.routing.addGeojson(geojson, {silent: true});
+        addGeoJSONToLayer: function () {
+            var geoJSON = this.routeModel.get("geojson");
+            if (!!geoJSON && !!geoJSON.properties) {
+                this.routing.loadGeoJSON(geoJSON);
+            } else {
+                console.warn('GeoJSON is not found, or does not have a properties property.')
             }
         },
 
@@ -294,7 +294,10 @@ var DNT = window.DNT || {};
             this.updateSnapToggle();
             this.updateRouteDirectionSelect();
 
+            this.addGeoJSONToLayer();
+
             return this;
         }
     });
+
 }(DNT));

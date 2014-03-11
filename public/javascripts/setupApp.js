@@ -15,10 +15,13 @@ var DNT = window.DNT || {};
 
         options = options || {};
 
-        // var turId = options.turId;
-
         var model = new DNT.App();
-        var route = new DNT.Route();
+
+        var routeData = !!options.routeData ? options.routeData : {};
+
+        var route = new DNT.Route(routeData);
+
+        // var turId = options.turId;
 
         // NOTE: Route data is now passed directly to app. No need to fetch.
         // if(!!turId){
