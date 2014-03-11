@@ -45,7 +45,7 @@ var DNT = window.DNT || {};
 
         appendPoi: function (poi) {
             var view = new DNT.PoiView({ model: poi });
-            this.$("#route-pois-all-container").append(view.render().el);
+            this.$("#route-pois-accordion").append(view.render().el);
         },
 
         render: function () {
