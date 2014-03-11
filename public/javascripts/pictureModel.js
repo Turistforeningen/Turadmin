@@ -44,11 +44,10 @@ var DNT = window.DNT || {};
             this.on("change", function () {
                 this.changed = true;
             });
-            this.on("change:geojson", function () {
-                if (this.hasPosition() && this.getMarker() === undefined) {
-                    this.createMarker(this.get("geojson"));
-                }
-            });
+
+            this.positionChanged();
+            this.on("change:geojson", this.positionChanged);
+
             var urls = this.getUrls();
             this.set("thumbnailUrl", urls.thumbnail);
             this.set("url", urls.url);
@@ -83,11 +82,11 @@ var DNT = window.DNT || {};
             return !!geojson && !!geojson.coordinates;
         },
 
-        setPublished: function(){
+        setPublished: function() {
             this.set('status', 'Offentlig');
         },
 
-        setUnpublished: function(){
+        setUnpublished: function() {
             this.set('status', 'Kladd');
         },
 
@@ -96,10 +95,16 @@ var DNT = window.DNT || {};
             this.trigger("deletePicture");
         },
 
+        positionChanged: function () {
+            if (this.hasPosition() && this.getMarker() === undefined) {
+                this.createMarker(this.get("geojson"));
+            }
+        },
+
         createMarker: function (geojson) {
             var icon = new L.icon({
-                iconUrl: 'images/poi/21.png',
-                iconRetinaUrl: 'images/poi/21@2x.png',
+                iconUrl: '/images/poi/21.png',
+                iconRetinaUrl: '/images/poi/21@2x.png',
                 iconSize: [26, 32],
                 iconAnchor: [13, 32],
                 popupAnchor: [-0, -30]
