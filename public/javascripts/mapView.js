@@ -245,7 +245,7 @@ var DNT = window.DNT || {};
             if (!!geoJSON && !!geoJSON.properties) {
                 this.routing.loadGeoJSON(geoJSON);
             } else {
-                console.warn('GeoJSON is not found, or does not have a properties property.')
+                console.warn('GeoJSON is not found, or does not have a properties property.');
             }
         },
 
