@@ -41,12 +41,14 @@ var DNT = window.DNT || {};
 
         var poiCollection = new DNT.PoiCollection();
 
-        if (!!options.poiData && options.poiData.length > 0) {
-            for (var j = 0; j < options.poiData.length; j++) {
-                var poi = new DNT.Poi(options.poiData[j]);
+        if (!!options.poisData && options.poisData.length > 0) {
+            for (var j = 0; j < options.poisData.length; j++) {
+                var poi = new DNT.Poi(options.poisData[j]);
                 poiCollection.add(poi);
             }
         }
+
+        // debugger;
 
         model.set({
             route: route,

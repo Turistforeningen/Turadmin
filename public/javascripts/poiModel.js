@@ -42,11 +42,10 @@ var DNT = window.DNT || {};
             this.on("change", function () {
                 this.changed = true;
             });
-            this.on("change:geojson", function () {
-                if (this.hasPosition() && this.getMarker() === undefined) {
-                    this.createMarker(this.get("geojson"));
-                }
-            });
+
+            this.positionChanged();
+
+            this.on("change:geojson", this.positionChanged);
             this.set("kategori", this.get("tags")[0]);
             this.on("change:kategori", function () {
                 var tags = _.clone(this.get("tags")) || [];
@@ -54,6 +53,12 @@ var DNT = window.DNT || {};
                 this.set("tags", tags);
 
             });
+        },
+
+        positionChanged: function () {
+            if (this.hasPosition() && this.getMarker() === undefined) {
+                this.createMarker(this.get("geojson"));
+            }
         },
 
         hasChanged: function () {
@@ -100,8 +105,8 @@ var DNT = window.DNT || {};
 
         createMarker: function () {
             var icon = new L.icon({
-                iconUrl: 'images/poi/map-icon-image.png',
-                iconRetinaUrl: 'images/poi/map-icon-image@2x.png',
+                iconUrl: '/images/poi/map-icon-image.png',
+                iconRetinaUrl: '/images/poi/map-icon-image@2x.png',
                 iconSize: [26, 32],
                 iconAnchor: [13, 32],
                 popupAnchor: [-0, -30]

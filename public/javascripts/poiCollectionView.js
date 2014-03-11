@@ -43,13 +43,21 @@ var DNT = window.DNT || {};
             }
         },
 
+        appendPoi: function (poi) {
+            var view = new DNT.PoiView({ model: poi });
+            this.$("#route-pois-all-container").append(view.render().el);
+        },
+
         render: function () {
             if (this.poiCollection.countPois() === 0) {
                 this.$("#noPoisAlert").removeClass("hidden");
             } else {
                 this.$("#noPoisAlert").addClass("hidden");
             }
-            //loop through poiCollection and append PoiViews.
+            // Loop through poiCollection and append PoiViews.
+            // debugger;
+            this.poiCollection.each(this.appendPoi, this);
+
             return this;
         }
     });
