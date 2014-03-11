@@ -63,7 +63,9 @@ div.row.page-block.route-draw(id="route-draw")
                             div.dropdown.dropdown-select.pull-right.route-field-facts-retning
                                 button.btn.btn-default(data-toggle="dropdown" data-target="#")
                                     span.glyphicon.glyphicon-arrow-right
-                                    | &nbsp; Turens retning: A-B-A &nbsp;
+                                    | &nbsp; Turens retning:&nbsp;
+                                    span('data-route-direction-value-placeholder') A-B-A
+                                    | &nbsp;
                                     span.caret
                                 ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                                     li.selected

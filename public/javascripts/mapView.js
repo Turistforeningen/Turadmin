@@ -145,7 +145,7 @@ var DNT = window.DNT || {};
         setRouteDirection: function (e) {
             e.preventDefault();
             var selectedDirection = $(e.currentTarget).attr('data-route-direction-option');
-            this.retning = selectedDirection;
+            this.routeModel.set('retning', selectedDirection);
             this.updateRouteDirectionSelect();
         },
 
@@ -180,9 +180,20 @@ var DNT = window.DNT || {};
         },
 
         updateRouteDirectionSelect: function () {
-            var routeDirection = this.retning || '';
+            var routeDirection = this.routeModel.get('retning') || '';
             $('[data-route-direction-option]').removeClass('active');
             $('[data-route-direction-option="' + routeDirection.toLowerCase() + '"]').addClass('active');
+
+            var labelValue = (function(routeDirection){
+                var str = '';
+                for (var i = 0; i < (routeDirection.length); i++) {
+                    str += routeDirection.charAt(i).toUpperCase() + '-';
+                }
+                str = str.substring(0, str.length - 1);
+                return str;
+            })(routeDirection);
+
+            $('[data-route-direction-value-placeholder]').text(labelValue)
         },
 
         deleteRoute: function (e) {

@@ -54,6 +54,7 @@ block extraHeadContent
 
         - if (typeof(routeData) !== 'undefined')
             | appData.routeData = !{routeData};
+            | console.log('Loaded route with routeData:', !{routeData});
         - if (typeof(picturesData) !== 'undefined')
             | appData.picturesData = !{picturesData};
         - if (typeof(poisData) !== 'undefined')

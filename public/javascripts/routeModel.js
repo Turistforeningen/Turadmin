@@ -20,7 +20,7 @@ var DNT = window.DNT || {};
         defaults: {
             navn: '',
             geojson: null,
-            retning: "AB",
+            retning: "ABA",
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
             privat: {
@@ -29,6 +29,7 @@ var DNT = window.DNT || {};
                 }
             }
         },
+
         initialize: function () {},
 
         urlRoot: function () {
