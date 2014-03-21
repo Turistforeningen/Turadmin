@@ -9,12 +9,12 @@ var DNT = window.DNT || {};
 
         uploadUrl: "/upload",
 
-        events : {
+        events: {
             "sortstop #route-images-all-container": "picturePositionUpdated",
             "updatePictureIndexes": "updateIndexes"
         },
 
-        initialize : function () {
+        initialize: function () {
             this.pictureCollection = this.model.get("pictureCollection");
 
             this.setupFileupload();
@@ -32,6 +32,8 @@ var DNT = window.DNT || {};
             });
 
             this.$("#route-images-all-container").disableSelection();
+
+            this.user = this.model.get('user');
 
             _.bindAll(this, "picturePositionUpdated");
         },
@@ -96,7 +98,8 @@ var DNT = window.DNT || {};
         },
 
         appendPicture: function (picture) {
-            var view = new DNT.PictureView({ model: picture });
+            var view = new DNT.PictureView({ model: picture, app: this.model });
+
             this.$("#route-images-all-container").append(view.render().el);
         },
 

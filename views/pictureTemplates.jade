@@ -16,10 +16,10 @@ script(type="text/template" id="pictureTemplate").
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox"> Jeg har tatt bildet
+            <input type="checkbox" name="foto-jeg-har-tatt-bildet" data-toggle-current-user-is-fotograf=""> Jeg har tatt bildet
         </label>
     </div>
-    <div class="form-group">
+    <div class="form-group form-group-fotograf">
         <div class="input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-camera"></span>
@@ -27,7 +27,7 @@ script(type="text/template" id="pictureTemplate").
             <input name="foto-fotograf-navn" type="text" placeholder="Fotograf navn" class="form-control">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group form-group-fotograf">
         <div class="input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-envelope"></span>

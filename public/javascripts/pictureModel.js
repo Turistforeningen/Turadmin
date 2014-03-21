@@ -109,7 +109,7 @@ var DNT = window.DNT || {};
                 iconAnchor: [13, 32],
                 popupAnchor: [-0, -30]
             });
-            var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
+            var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], { draggable: true });
             this.marker = marker;
             marker.setIcon(icon);
             this.trigger('registerPopup', {model: this, templateId: "#picturePopupTemplate"});
