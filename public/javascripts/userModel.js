@@ -17,7 +17,8 @@ var DNT = window.DNT || {};
 
         defaults : {
             _id: 'someId',
-            navn: "Ola Nordmann"
+            navn: 'Ola Nordmann',
+            epost: 'ola@nordmann.no'
         },
 
         initialize: function () {
