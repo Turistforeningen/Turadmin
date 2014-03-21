@@ -9,13 +9,20 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    ns.App = Backbone.Model.extend({
+    ns.User = Backbone.Model.extend({
+
+        idAttribute: "_id",
+
+        type: "user",
 
         defaults : {
+            _id: 'someId',
+            navn: "Ola Nordmann"
         },
 
         initialize: function () {
         }
+
     });
 
 }(DNT));

@@ -21,6 +21,8 @@ var DNT = window.DNT || {};
 
         var route = new DNT.Route(routeData);
 
+        var user = new DNT.User();
+
         // var turId = options.turId;
 
         // NOTE: Route data is now passed directly to app. No need to fetch.
@@ -52,6 +54,7 @@ var DNT = window.DNT || {};
 
         model.set({
             route: route,
+            user: user,
             poiCollection: poiCollection,
             pictureCollection: pictureCollection
         });
