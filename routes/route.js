@@ -48,7 +48,6 @@ module.exports = function (app, restProxy, options) {
             console.log('Route has', totalResourcesCount, 'total resources including route.');
 
             var onCompletePictureRequest = function (data) {
-                // TODO: Fix picture order
                 picturesData.push(data);
                 doRender();
             };
@@ -74,14 +73,29 @@ module.exports = function (app, restProxy, options) {
 
             var doRender = underscore.after(totalResourcesCount, function () {
 
-                console.log('All resources fetched! Do render!');
+                console.log('All resources fetched!');
+
+                var sortedPicturesData = picturesData;
+
+                if (picturesCount > 0 && picturesData.length > 0) {
+                    console.log('Reorder pictures array...');
+
+                    sortedPicturesData.sort(function(a, b) {
+                        return data.bilder.indexOf(a._id) - data.bilder.indexOf(b._id);
+                    });
+
+                    console.log('Done!');
+
+                }
+
+                console.log('Do render!');
 
                 res.render('route', {
                     pageTitle: data.navn,
                     routeApiUri: options.routeApiUri,
                     routeName: routeData.navn,
                     routeData: JSON.stringify(routeData),
-                    picturesData: JSON.stringify(picturesData),
+                    picturesData: JSON.stringify(sortedPicturesData),
                     poisData: JSON.stringify(poisData)
                 });
 
