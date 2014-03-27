@@ -18,6 +18,11 @@ var DNT = window.DNT || {};
 
         defaults : {
             geojson: null,
+            lenker: [],
+            tidsbrukDager: "1",
+            tidsbrukTimer: "0",
+            tidsbrukMinutter: "0",
+            tidsbruk: {normal: {}},
             retning: "AB",
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
@@ -28,6 +33,7 @@ var DNT = window.DNT || {};
             }
         },
         initialize: function () {
+            this.on("change:linkText", this.updateLinks);
         },
 
         urlRoot: function () {
@@ -45,6 +51,49 @@ var DNT = window.DNT || {};
 
         setPictureIds: function (ids) {
             this.set("bilder", ids);
+        },
+
+        //Override save to do some work on the model before model is ready to be saved
+        save: function (attributes, options) {
+            this.updateLenker();
+            this.updateTidsbruk();
+            return Backbone.Model.prototype.save.call(this, attributes, options);
+        },
+
+        updateLenker: function () {
+            var linkText = this.get("linkText");
+            var lenker = [];
+            if (!!linkText) {
+                var links = this.get("linkText").split("\n");
+                if (_.isArray(links) && links.length > 0) {
+                    var i;
+                    for (i = 0; i < links.length; i = i + 1) {
+                        var lenke = links[i];
+                        if (lenke.length > 0) {
+                            lenker.push({url: lenke});
+                        }
+                    }
+                }
+            }
+            this.set("lenker", lenker);
+        },
+
+        updateTidsbruk: function () {
+            var days = this.get("tidsbrukDager");
+            var hours = this.get("tidsbrukTimer");
+            var minutes = this.get("tidsbrukMinutter");
+            var tidsbruk = {
+                normal: {
+                    timer: "0",
+                    minutter: "0"
+                }
+            };
+            tidsbruk.normal.dager = days;
+            if (days && days === "1") {
+                tidsbruk.normal.timer = hours;
+                tidsbruk.normal.minutter = minutes;
+            }
+            this.set("tidsbruk", tidsbruk);
         }
     });
 
