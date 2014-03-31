@@ -31,6 +31,18 @@ var DNT = window.DNT || {};
             return this.geojsonLayer;
         },
 
+        setPublished: function(){
+            this.each(function (model, index) {
+                model.setPublished();
+            });
+        },
+
+        setUnpublished: function(){
+            this.each(function (model, index) {
+                model.setUnpublished();
+            });
+        },
+
         modelAdded: function (model) {
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
@@ -39,6 +51,7 @@ var DNT = window.DNT || {};
         },
 
         addMarker: function (model) {
+            debugger;
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
             }

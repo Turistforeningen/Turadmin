@@ -79,6 +79,10 @@ var DNT = window.DNT || {};
         this.getGeojson = function () {
             return routing.toGeoJSON(true);
         };
+
+        this.loadGeoJSON = function (geoJSON) {
+            routing.loadGeoJSON(geoJSON);
+        };
     };
 
 }(DNT));

@@ -44,11 +44,10 @@ var DNT = window.DNT || {};
             this.on("change", function () {
                 this.changed = true;
             });
-            this.on("change:geojson", function () {
-                if (this.hasPosition() && this.getMarker() === undefined) {
-                    this.createMarker(this.get("geojson"));
-                }
-            });
+
+            this.positionChanged();
+            this.on("change:geojson", this.positionChanged);
+
             var urls = this.getUrls();
             this.set("thumbnailUrl", urls.thumbnail);
             this.set("url", urls.url);
@@ -83,20 +82,34 @@ var DNT = window.DNT || {};
             return !!geojson && !!geojson.coordinates;
         },
 
+        setPublished: function() {
+            this.set('status', 'Offentlig');
+        },
+
+        setUnpublished: function() {
+            this.set('status', 'Kladd');
+        },
+
         deletePicture: function () {
             this.set("deleted", true);
             this.trigger("deletePicture");
         },
 
+        positionChanged: function () {
+            if (this.hasPosition() && this.getMarker() === undefined) {
+                this.createMarker(this.get("geojson"));
+            }
+        },
+
         createMarker: function (geojson) {
             var icon = new L.icon({
-                iconUrl: 'images/poi/21.png',
-                iconRetinaUrl: 'images/poi/21@2x.png',
+                iconUrl: '/images/poi/21.png',
+                iconRetinaUrl: '/images/poi/21@2x.png',
                 iconSize: [26, 32],
                 iconAnchor: [13, 32],
                 popupAnchor: [-0, -30]
             });
-            var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
+            var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], { draggable: true });
             this.marker = marker;
             marker.setIcon(icon);
             this.trigger('registerPopup', {model: this, templateId: "#picturePopupTemplate"});

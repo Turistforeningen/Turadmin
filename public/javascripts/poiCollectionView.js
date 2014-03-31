@@ -13,15 +13,15 @@ var DNT = window.DNT || {};
 
         el: "#route-pois",
 
-        events : {
+        events: {
             "click #newPoi": "addPoi"
         },
 
-        initialize : function () {
+        initialize: function () {
             this.poiCollection = this.model.get("poiCollection");
 
             this.poiCollection.on("change:deleted", function () {
-                //Render view when all pois are removed to show noPoisAlert div
+                // Render view when all pois are removed to show noPoisAlert div
                 if (this.poiCollection.countPois() === 0) {
                     this.render();
                 }
@@ -43,13 +43,21 @@ var DNT = window.DNT || {};
             }
         },
 
+        appendPoi: function (poi) {
+            var view = new DNT.PoiView({ model: poi });
+            this.$("#route-pois-accordion").append(view.render().el);
+        },
+
         render: function () {
             if (this.poiCollection.countPois() === 0) {
                 this.$("#noPoisAlert").removeClass("hidden");
             } else {
                 this.$("#noPoisAlert").addClass("hidden");
             }
-            //loop through poiCollection and append PoiViews.
+            // Loop through poiCollection and append PoiViews.
+            // debugger;
+            this.poiCollection.each(this.appendPoi, this);
+
             return this;
         }
     });

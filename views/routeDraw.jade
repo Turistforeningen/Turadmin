@@ -1,7 +1,7 @@
 div.row.page-block.route-draw(id="route-draw")
     div.col-lg-12
         h3 Inntegning
-        div.routeLocate
+        div.row.routeLocate
             form.form-horizontal
                 div.col-lg-4.col-md-4.col-sm-5
                     div.form-group
@@ -38,33 +38,46 @@ div.row.page-block.route-draw(id="route-draw")
                                         span.glyphicon.glyphicon-trash
                                         span.buttonText &nbsp;Slett inntegning
 
-                                div.dropdown
+                                // div.snapToggle
+                                    div.checkbox
+                                        label(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av denne funksjonen." data-placement="bottom")
+                                            input(type="checkbox")
+                                            | Magnetisk markør
+
+                                div.dropdown.dropdown-select.dropdown-select-toggles
                                     button.btn.btn-link(data-toggle="dropdown" data-target="#")
                                         span.glyphicon.glyphicon-cog
                                         | &nbsp; Alternativer &nbsp;
                                         span.caret
                                     ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                                         li
-                                            a#toggleSnap(href="#") Magnetisk markør
+                                            a(data-route-draw-toggle-autocenter="")
+                                                label Automatisk sentrering
+                                                p.help-block Med automatisk sentrering vil kartet flytte seg automatisk når du tegner nær kanten av kartet. Du kan skru av denne funksjonen.
                                         li
+                                            a(data-route-draw-toggle-snap="")
+                                                label Magnetisk markør
+                                                p.help-block Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av denne funksjonen.
 
                         div.col-lg-4.col-md-4.col-sm-4
                             div.dropdown.dropdown-select.pull-right.route-field-facts-retning
                                 button.btn.btn-default(data-toggle="dropdown" data-target="#")
                                     span.glyphicon.glyphicon-arrow-right
-                                    | &nbsp; Turens retning: A-B-A &nbsp;
+                                    | &nbsp; Turens retning:&nbsp;
+                                    span('data-route-direction-value-placeholder') A-B-A
+                                    | &nbsp;
                                     span.caret
                                 ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                                     li.selected
-                                        a#route-retning-a-b-a(href="#")
+                                        a#route-retning-a-b-a(href="#" data-route-direction-option="aba")
                                             label A-B-A
                                             p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
                                     li
-                                        a#route-retning-a-b(href="#")
+                                        a#route-retning-a-b(href="#" data-route-direction-option="ab")
                                             label A-B
                                             p.help-block Turen går fra startpunktet til endepunktet av inntegning.
                                     li
-                                        a#route-retning-b-a(href="#")
+                                        a#route-retning-b-a(href="#" data-route-direction-option="ba")
                                             label B-A
                                             p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 

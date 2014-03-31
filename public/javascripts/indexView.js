@@ -14,7 +14,6 @@ var DNT = window.DNT || {};
         el: "#listContainer",
 
         events: {
-            'click a[data-action="route-save"]': 'save',
             'click #nyTurButton' : 'openNewRoutePage'
         },
 
@@ -27,7 +26,7 @@ var DNT = window.DNT || {};
         },
 
         openNewRoutePage : function () {
-            window.location = '/tur';
+            // window.location = '/tur';
         },
 
         render: function () {
@@ -38,5 +37,7 @@ var DNT = window.DNT || {};
                 that.$el.find("#listItems").append(itemView.render().el);
             });
         }
+
     });
+
 }(DNT));

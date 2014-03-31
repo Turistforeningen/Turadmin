@@ -69,8 +69,8 @@ var DNT = window.DNT || {};
 
     function createIconConfig() {
         return new L.icon({
-            iconUrl: 'images/poi/21.png',
-            iconRetinaUrl: 'images/poi/21@2x.png',
+            iconUrl: '/images/poi/21.png',
+            iconRetinaUrl: '/images/poi/21@2x.png',
             iconSize: [26, 32],
             iconAnchor: [13, 32],
             popupAnchor: [-0, -30]
@@ -102,19 +102,21 @@ var DNT = window.DNT || {};
 
         events: {
             'click #startDraw': 'toggleDraw',
-            'click #toggleSnap': 'toggleSnap',
+            'click [data-route-draw-toggle-snap]': 'toggleSnap',
+            'click [data-route-draw-toggle-autocenter]': 'toggleAutocenter',
+            'click [data-route-direction-option]': 'setRouteDirection',
             'click #deleteRoute': 'deleteRoute'
         },
 
         initialize: function () {
             this.mapLayers = createMapLayers();
-            this.snapping = createSnapLayer();
+            this.snapLayer = createSnapLayer();
             this.drawControl = createDrawControl();
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeojsonToLayer");
-            this.routeModel.on("geojson:add", this.addGeojsonToLayer);
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeoJSONToLayer");
+            this.routeModel.on("geojson:add", this.addGeoJSONToLayer);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
@@ -140,15 +142,58 @@ var DNT = window.DNT || {};
             }
         },
 
+        setRouteDirection: function (e) {
+            e.preventDefault();
+            var selectedDirection = $(e.currentTarget).attr('data-route-direction-option');
+            this.routeModel.set('retning', selectedDirection);
+            this.updateRouteDirectionSelect();
+        },
+
         toggleSnap: function (e) {
             e.preventDefault();
             this.snapping = !this.snapping;
             this.routing.enableSnapping(this.snapping);
-            if (this.snapping) {
-                $(e.currentTarget).parent().addClass("active");
+            this.updateSnapToggle();
+        },
+
+        updateSnapToggle: function () {
+            if (this.snapping === true) {
+                $('[data-route-draw-toggle-snap]').addClass("active");
             } else {
-                $(e.currentTarget).parent().removeClass("active");
+                $('[data-route-draw-toggle-snap]').removeClass("active");
             }
+        },
+
+        toggleAutocenter: function (e) {
+            e.preventDefault();
+            // this.autocenter = !this.autocenter;
+            // this.routing.enableSnapping(this.snapping);
+            // this.updateSnapToggle();
+        },
+
+        updateAutocenterToggle: function () {
+            // if (this.snapping === true) {
+            //     $('[data-route-draw-toggle-snap]').addClass("active");
+            // } else {
+            //     $('[data-route-draw-toggle-snap]').removeClass("active");
+            // }
+        },
+
+        updateRouteDirectionSelect: function () {
+            var routeDirection = this.routeModel.get('retning') || '';
+            $('[data-route-direction-option]').removeClass('active');
+            $('[data-route-direction-option="' + routeDirection.toLowerCase() + '"]').addClass('active');
+
+            var labelValue = (function (routeDirection) {
+                var str = '';
+                for ( var i = 0; i < (routeDirection.length); i++) {
+                    str += routeDirection.charAt(i).toUpperCase() + '-';
+                }
+                str = str.substring(0, str.length - 1);
+                return str;
+            })(routeDirection);
+
+            $('[data-route-direction-value-placeholder]').text(labelValue);
         },
 
         deleteRoute: function (e) {
@@ -156,9 +201,7 @@ var DNT = window.DNT || {};
         },
 
         addOnDrawCreatedEventHandler: function () {
-            this.map.on('draw:created',
-                this.createPoiOrPositionPicture,
-                this);
+            this.map.on('draw:created', this.createPoiOrPositionPicture, this);
         },
 
         createPoiOrPositionPicture: function (coordinates) {
@@ -182,17 +225,16 @@ var DNT = window.DNT || {};
         },
 
         addRouting: function () {
-            var routing = new DNT.Routing(this.map, this.snapping);
+            var routing = new DNT.Routing(this.map, this.snapLayer);
             routing.addRouting();
             routing.enableSnapping(true);
             this.routing = routing;
         },
 
         createDrawMarkerTool: function () {
-            this.drawMarkerTool = new L.Draw.Marker(this.map,
-                {
-                    icon : createIconConfig()
-                });
+            this.drawMarkerTool = new L.Draw.Marker(this.map, {
+                icon : createIconConfig()
+            });
         },
 
         moveMap: function () {
@@ -209,10 +251,12 @@ var DNT = window.DNT || {};
             }, this));
         },
 
-        addGeojsonToLayer: function () {
-            var geojson = this.routeModel.get("geojson");
-            if (!!geojson) {
-                //this.routing.addGeojson(geojson, {silent: true});
+        addGeoJSONToLayer: function () {
+            var geoJSON = this.routeModel.get("geojson");
+            if (!!geoJSON && !!geoJSON.properties) {
+                this.routing.loadGeoJSON(geoJSON);
+            } else {
+                console.warn('GeoJSON is not found, or does not have a properties property.');
             }
         },
 
@@ -240,18 +284,31 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-            this.map = L.map(this.$("#mapContainer")[0], {layers: [this.mapLayers.baseLayerConf["Topo 2"]], scrollWheelZoom: false}).setView([61.5, 9], 13);
+
+            this.map = L.map(this.$("#mapContainer")[0], {
+                layers: [this.mapLayers.baseLayerConf["Topo 2"]],
+                scrollWheelZoom: false
+            }).setView([61.5, 9], 13);
+
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
             }).addTo(this.map);
-            this.snapping.addTo(this.map);
+
+            this.snapLayer.addTo(this.map);
             this.addRouting();
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
             this.pictureCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
             this.createDrawMarkerTool();
+            this.updateAutocenterToggle();
+            this.updateSnapToggle();
+            this.updateRouteDirectionSelect();
+
+            this.addGeoJSONToLayer();
+
             return this;
         }
     });
+
 }(DNT));

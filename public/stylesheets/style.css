@@ -90,10 +90,8 @@ a {
 }
 
 
-
 /* If a save-status indicator is to be implemented, this CSS could be used */
 
-/*
 .nav > li > a.has-unsaved-changes {
 	padding-left: 22px;
 	position: relative;
@@ -115,7 +113,8 @@ a {
 
 .nav > li > a:hover:before {
 	opacity: 1;
-}*/
+}
+
 
 /* Addon class btn-outline */
 
@@ -207,11 +206,26 @@ a {
 	overflow: hidden;
 }
 
+.dropdown a.active {
+	position: relative;
+}
+
+.dropdown a.active:before {
+	position: absolute;
+	font-family: 'Glyphicons Halflings';
+	content: '\e013';
+	left: 10px;
+}
+
 
 /* Custom dropdown used for selecting route direction */
 
 .dropdown-select label {
 	margin: 0;
+}
+
+.dropdown-select li a {
+	padding-left: 30px;
 }
 
 .dropdown-select p.help-block {
@@ -221,12 +235,16 @@ a {
 	white-space: normal;
 }
 
+.dropdown-select-toggles {
+	min-width: 240px;
+}
+
 .select2-results .select2-highlighted  {
     background-color: #f4f4f4 !important;
     color: #000 !important;
 }
 
-/* Route Images, removable */
+/* Route Pictures, removable */
 
 .thumbnail.removable .removeItem {
 	display: none;
@@ -250,8 +268,12 @@ a {
 	line-height: 20px;
 }
 
+.route-images-all-container .thumbnail {
+	height: 160px;
+}
+
 .route-images-all-container .thumbnail img {
-    max-height: 260px;
+    max-height: 100%;
 }
 
 .route-images .progress {

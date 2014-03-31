@@ -1,56 +1,70 @@
 extends layout
 
 block extraHeadContent
-    link(rel='stylesheet', href='lib/leaflet-0.7.1/leaflet.css')
-    link(rel='stylesheet', href='lib/LeafletDraw/leaflet.draw.css')
-    script(src='lib/underscore/underscore-min.js')
-    script(src='lib/backbone/backbone-min.js')
-    script(src='lib/leaflet-0.7.1/leaflet.js')
-    script(src='lib/routing/utils/LineUtil.Snapping.js')
-    script(src='lib/routing/utils/Marker.Snapping.js')
-    script(src='lib/routing/L.Routing.js')
-    script(src='lib/routing/L.Routing.Storage.js')
-    script(src='lib/routing/L.Routing.Draw.js')
-    script(src='lib/routing/L.Routing.Edit.js')
-    script(src='lib/LeafletDraw/leaflet.draw.js')
-    script(src='lib/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js')
-    script(src='lib/backbone.stickit/backbone.stickit.min.js')
+    link(rel='stylesheet', href='/lib/leaflet-0.7.1/leaflet.css')
+    link(rel='stylesheet', href='/lib/LeafletDraw/leaflet.draw.css')
+    script(src='/lib/underscore/underscore-min.js')
+    script(src='/lib/backbone/backbone-min.js')
+    script(src='/lib/leaflet-0.7.1/leaflet.js')
+    script(src='/lib/routing/utils/LineUtil.Snapping.js')
+    script(src='/lib/routing/utils/Marker.Snapping.js')
+    script(src='/lib/routing/L.Routing.js')
+    script(src='/lib/routing/L.Routing.Storage.js')
+    script(src='/lib/routing/L.Routing.Draw.js')
+    script(src='/lib/routing/L.Routing.Edit.js')
+    script(src='/lib/LeafletDraw/leaflet.draw.js')
+    script(src='/lib/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js')
+    script(src='/lib/backbone.stickit/backbone.stickit.min.js')
 
     // Select2 plugin
-    script(src='lib/select2/select2.min.js')
-    link(rel='stylesheet', href='lib/select2/select2.css')
-    link(rel='stylesheet', href='lib/select2/select2-bootstrap.css')
+    script(src='/lib/select2/select2.min.js')
+    link(rel='stylesheet', href='/lib/select2/select2.css')
+    link(rel='stylesheet', href='/lib/select2/select2-bootstrap.css')
 
-    script(src='javascripts/routing.js')
+    script(src='/javascripts/routing.js')
 
     include poiTemplates
     include pictureTemplates
     include routeFactsTemplates
 
-    script(src='javascripts/setupApp.js')
-    script(src='javascripts/searchResultModel.js')
-    script(src='javascripts/searchCollection.js')
-    script(src='javascripts/routeModel.js')
-    script(src='javascripts/poiCollection.js')
-    script(src='javascripts/poiModel.js')
-    script(src='javascripts/pictureModel.js')
-    script(src='javascripts/pictureCollection.js')
-    script(src='javascripts/appModel.js')
-    script(src='javascripts/searchFieldView.js')
-    script(src='javascripts/routeFactsView.js')
-    script(src='javascripts/selectView.js')
-    script(src='javascripts/popupView.js')
-    script(src='javascripts/routeView.js')
-    script(src='javascripts/mapView.js')
-    script(src='javascripts/pictureView.js')
-    script(src='javascripts/picturesView.js')
-    script(src='javascripts/poiView.js')
-    script(src='javascripts/poiCollectionView.js')
+    script(src='/javascripts/setupApp.js')
+    script(src='/javascripts/userModel.js')
+    script(src='/javascripts/searchResultModel.js')
+    script(src='/javascripts/searchCollection.js')
+    script(src='/javascripts/routeModel.js')
+    script(src='/javascripts/poiCollection.js')
+    script(src='/javascripts/poiModel.js')
+    script(src='/javascripts/pictureModel.js')
+    script(src='/javascripts/pictureCollection.js')
+    script(src='/javascripts/appModel.js')
+    script(src='/javascripts/searchFieldView.js')
+    script(src='/javascripts/routeFactsView.js')
+    script(src='/javascripts/selectView.js')
+    script(src='/javascripts/popupView.js')
+    script(src='/javascripts/routeView.js')
+    script(src='/javascripts/mapView.js')
+    script(src='/javascripts/pictureView.js')
+    script(src='/javascripts/picturesView.js')
+    script(src='/javascripts/poiView.js')
+    script(src='/javascripts/poiCollectionView.js')
 
-    script.
-        $(document).ready(function () {
-            DNT.initRouteApp();
-        });
+    script
+        | $(document).ready(function(){
+
+        | var appData = {};
+
+        - if (typeof(routeData) !== 'undefined')
+            | appData.routeData = !{routeData};
+            | console.log('Loaded route with routeData:', !{routeData});
+        - if (typeof(picturesData) !== 'undefined')
+            | appData.picturesData = !{picturesData};
+            | console.log('Loaded route with picturesData:', !{picturesData});
+        - if (typeof(poisData) !== 'undefined')
+            | appData.poisData = !{poisData};
+            | console.log('Loaded route with poisData:', !{poisData});
+
+        | DNT.initRouteApp(appData);
+        | });
 
 block routeNavigation
 
@@ -78,15 +92,17 @@ block routeNavigation
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
 
-
         li.action-route-save
-            a(data-action="route-save").route-save.has-unsaved-changes
+            a(data-action="route-save" data-toggle="tooltip" title="Du har gjort endringer som ikke er lagret" data-placement="bottom").route-save
                 span.glyphicon.glyphicon-floppy-disk
                 | &nbsp;Lagre
-        li.action-route-publish
+        li.action-route-switch-publish-state
             a(data-action="route-publish")
                 span.glyphicon.glyphicon-cloud-upload
                 | &nbsp;Publiser
+            a(data-action="route-unpublish")
+                span.glyphicon.glyphicon-cloud-download
+                | &nbsp;Avpubliser
 
         // Divider
         li.divider.hidden-lg.hidden-md.hidden-sm
@@ -109,15 +125,12 @@ block routeNavigation
                 | &nbsp;Meny
 
             ul.dropdown-menu
-
                 li
                     a(href="/") Mine turer
                 li
                     a(href="/tur") Opprett ny tur
-
                 // Divider
                 li.divider
-
                 li
                     a(href="#") Hjelp
 
@@ -125,16 +138,16 @@ block routeNavigation
 block content
 
     div#routePage.container
+
         include routeDraw
         include routeImages
         include routePois
         include routeFacts
         include routeDone
 
-    script(src='lib/jquery.fileupload/js/vendor/jquery.ui.widget.js')
-    script(src='lib/jquery.fileupload/js/jquery.iframe-transport.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload-process.js')
-    script(src='lib/jquery.fileupload/js/jquery.fileupload-validate.js')
-    link(rel='stylesheet', href='lib/jquery.fileupload/css/jquery.fileupload.css')
-
+    script(src='/lib/jquery.fileupload/js/vendor/jquery.ui.widget.js')
+    script(src='/lib/jquery.fileupload/js/jquery.iframe-transport.js')
+    script(src='/lib/jquery.fileupload/js/jquery.fileupload.js')
+    script(src='/lib/jquery.fileupload/js/jquery.fileupload-process.js')
+    script(src='/lib/jquery.fileupload/js/jquery.fileupload-validate.js')
+    link(rel='stylesheet', href='/lib/jquery.fileupload/css/jquery.fileupload.css')

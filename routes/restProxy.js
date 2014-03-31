@@ -39,7 +39,7 @@ module.exports = function (app, options) {
                 console.log("moved picture: ", picture);
 
             } else {
-                status.error = "Error moving file to permanent storage";
+                status.error = 'Error moving file to permanent storage';
                 status.ok = false;
                 console.error(status.error);
             }
@@ -54,25 +54,27 @@ module.exports = function (app, options) {
         if (data.document && data.document._id) {
             data._id = data.document._id;
         } else {
-            console.error("id is missing in result after post!");
+            console.error('id is missing in result after post!');
         }
         data.document = undefined;
     };
 
-    app.all('/restProxy/*', function (req, res) {
-        var path = req.url;
-        path = path.replace("restProxy/", "");
-        var apiKey = "?api_key=" + ntbApiKey;
+    var makeRequest = function (path, req, res, onCompleteOverride) {
+        var apiKey = '?api_key=' + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
-        console.log("url " + url);
+        var method = req.method;
 
-        var onComplete = function (data) {
+        console.log("Request url " + url);
+
+        var onCompleteDefault = function (data) {
             console.log(data);
             if (data.document !== undefined) {
                 data.document = undefined;
             }
             res.json(data);
         };
+
+        var onComplete = onCompleteOverride || onCompleteDefault;
 
         var onCompletePost = function (data) {
             console.log("Response: ", data);
@@ -85,10 +87,8 @@ module.exports = function (app, options) {
             onCompletePost(data);
         };
 
-        var method = req.method;
-
         if (method === "GET") {
-            console.log("getUrl = " + url);
+            // console.log("getUrl = " + url);
             restler.get(url, {})
                 .on('complete', onComplete);
 
@@ -127,6 +127,16 @@ module.exports = function (app, options) {
             restler.del(url, {})
                 .on('complete', onComplete);
         }
+    }
+
+    // var makeRequest = function (path, method, req, res, onCompleteOverride) {
+
+    app.all('/restProxy/*', function (req, res) {
+        var path = req.url;
+        path = path.replace("restProxy/", "");
+        makeRequest(path, req, res);
     });
+
+    return { makeApiRequest : makeRequest };
 };
 

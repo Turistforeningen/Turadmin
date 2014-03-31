@@ -1,38 +1,45 @@
 doctype html
 html
     head
-        title= title
-        link(rel='stylesheet', href='lib/bootstrap/css/bootstrap.min.css')
+        title= pageTitle
+        link(rel='stylesheet', href='/lib/bootstrap/css/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
-        script(src='lib/jquery/jquery-1.10.2.min.js')
-        script(src='lib/bootstrap/js/bootstrap.min.js')
+        script(src='/lib/jquery/jquery-1.10.2.min.js')
+        script(src='/lib/bootstrap/js/bootstrap.min.js')
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         block extraHeadContent
 
     body(data-apiUri=routeApiUri data-spy="scroll" data-target=".navbar-route")
 
-        // Navbar
-        div.navbar.navbar-fixed-top.navbar-inverse.navbar-route(style="height: 50px;")
+        div#view-route
+
+            // Navbar
+            div.navbar.navbar-fixed-top.navbar-inverse.navbar-route(style="height: 50px;")
+                div.container
+                    div.navbar-header
+                        // TODO: Move styling to stylesheet!
+                        a.navbar-brand(href="http://www.ut.no" alt="Til ut.no" style="padding: 13px;")
+                            img(src="/images/ut.no-logo_hvit.png" style="height: 24px;")
+                        a#headerRouteName.navbar-brand.hidden-xs(data-toggle="tooltip" title="" data-original-title="Klikk for å gi turen et navn")
+                            if routeData
+                                | #{routeName}
+                            else
+                                | Tur uten navn
+
+                        button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
+                            span.sr-only Vis meny
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+
+                    div.collapse.navbar-collapse#route-navigation-collapse
+                        block routeNavigation
+
+            block content
+
+            // TODO: Move CSS to stylesheet
             div.container
-                div.navbar-header
-                    // TODO: Move styling to stylesheet!
-                    a.navbar-brand(href="http://www.ut.no" alt="Til ut.no" style="padding: 13px;")
-                        img(src="images/ut.no-logo_hvit.png" style="height: 24px;")
-                    p#headerRouteName.navbar-brand.hidden-xs Tur uten navn
-                    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
-                        span.sr-only Vis meny
-                        span.icon-bar
-                        span.icon-bar
-                        span.icon-bar
-
-                div.collapse.navbar-collapse#route-navigation-collapse
-                    block routeNavigation
-
-        block content
-
-        // TODO: Move CSS to stylesheet
-        div.container
-            div.row
-                div.col-lg-12
-                    div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
-                        p Opphavsrett &copy; 2008 - 2014 Den Norske Turistforening og NRK. Alle rettigheter reservert.
+                div.row
+                    div.col-lg-12
+                        div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
+                            p Opphavsrett &copy; 2008 - 2014 Den Norske Turistforening og NRK. Alle rettigheter reservert.

@@ -18,21 +18,24 @@ var DNT = window.DNT || {};
         className: "clickable",
 
         events: {
-            'click td' : 'loadRoute',
-            'click #deleteRoute': 'deleteRoute',
+            'click td.route-title' : 'loadRoute',
+            'click [data-action="route-delete"]': 'deleteRoute',
             'click #publishRoute': 'publishRoute'
         },
 
         initialize : function () {
-            this.model.on("destroy", "removeItemView");
+            this.model.on("destroy", this.removeItemView, this);
         },
 
         loadRoute: function () {
-            window.location = '/tur';// + this.model.get("_id");
+            // window.location = '/tur'; // + this.model.get("_id");
+            var turId = this.model.get("_id");
+            window.location = '/tur/' + turId;
+
         },
 
         deleteRoute: function () {
-            console.log("Delete");
+            this.model.destroy();
         },
 
         publishRoute: function () {
@@ -40,8 +43,7 @@ var DNT = window.DNT || {};
         },
 
         removeItemView: function () {
-            delete this.model;
-            this.render();
+            this.remove();
         },
 
         render: function () {

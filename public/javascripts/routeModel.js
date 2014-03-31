@@ -14,16 +14,18 @@ var DNT = window.DNT || {};
     };
 
     ns.Route = Backbone.Model.extend({
+
         idAttribute: "_id",
 
-        defaults : {
+        defaults: {
+            navn: '',
             geojson: null,
             lenker: [],
             tidsbrukDager: "1",
             tidsbrukTimer: "0",
             tidsbrukMinutter: "0",
             tidsbruk: {normal: {}},
-            retning: "AB",
+            retning: "ABA",
             lisens: "CC BY-NC 3.0 NO",
             status: "Kladd",
             privat: {
@@ -32,6 +34,7 @@ var DNT = window.DNT || {};
                 }
             }
         },
+
         initialize: function () {
             this.on("change:linkText", this.updateLinks);
         },
@@ -95,6 +98,7 @@ var DNT = window.DNT || {};
             }
             this.set("tidsbruk", tidsbruk);
         }
+
     });
 
     ns.RouteCollection = Backbone.Collection.extend({
@@ -108,5 +112,5 @@ var DNT = window.DNT || {};
             return response.documents || [];
         }
     });
-}(DNT));
 
+}(DNT));
