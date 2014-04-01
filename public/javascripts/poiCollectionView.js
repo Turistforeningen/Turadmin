@@ -55,7 +55,6 @@ var DNT = window.DNT || {};
                 this.$("#noPoisAlert").addClass("hidden");
             }
             // Loop through poiCollection and append PoiViews.
-            // debugger;
             this.poiCollection.each(this.appendPoi, this);
 
             return this;

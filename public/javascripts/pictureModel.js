@@ -16,11 +16,8 @@ var DNT = window.DNT || {};
     ns.Picture = Backbone.Model.extend({
 
         idAttribute: '_id',
-
         type: 'picture',
-
         changed: false,
-
         deleted: false,
 
         urlRoot: function () {
@@ -41,10 +38,36 @@ var DNT = window.DNT || {};
             tags: []
         },
 
+        serverAttrs: [
+            '_id',
+            'beskrivelse',
+            'checksum',
+            'count',
+            'endret',
+            'fotograf',
+            'geojson',
+            'img',
+            'lisens',
+            'navn',
+            'ordinal',
+            'privat',
+            'status',
+            'tags',
+            'thumbnailUrl',
+            'tilbyder',
+            'url'
+        ],
+
         initialize: function () {
             this.on('change', function () {
                 this.changed = true;
             });
+
+            this.set('fotografNavn', this.get('fotograf').navn);
+            this.set('fotografEpost', this.get('fotograf').epost);
+
+            this.on("change:fotografNavn", this.onFotografNavnChange, this);
+            this.on("change:fotografEpost", this.onFotografEpostChange, this);
 
             this.positionChanged();
             this.on("change:geojson", this.positionChanged);
@@ -52,6 +75,19 @@ var DNT = window.DNT || {};
             var urls = this.getUrls();
             this.set("thumbnailUrl", urls.thumbnail);
             this.set("url", urls.url);
+
+        },
+
+        onFotografNavnChange: function () {
+            var fotograf = this.get('fotograf');
+            fotograf.navn = this.get('fotografNavn');
+            this.set('fotograf', fotograf);
+        },
+
+        onFotografEpostChange: function () {
+            var fotograf = this.get('fotograf');
+            fotograf.epost = this.get('fotografEpost');
+            this.set('fotograf', fotograf);
         },
 
         hasChanged: function () {
@@ -141,7 +177,26 @@ var DNT = window.DNT || {};
                 });
             }
             return urls;
+        },
+
+        save: function (attrs, options) {
+
+            attrs = attrs || this.toJSON();
+            options = options || {};
+
+            // If model defines serverAttrs, replace attrs with trimmed version
+            if (this.serverAttrs) {
+                attrs = _.pick(attrs, this.serverAttrs);
+            }
+
+            // Move attrs to options
+            options.attrs = attrs;
+
+            // Call super with attrs moved to options
+            return Backbone.Model.prototype.save.call(this, attrs, options);
+
         }
+
     });
 
 }(DNT));

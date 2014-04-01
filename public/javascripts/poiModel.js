@@ -157,7 +157,8 @@ var DNT = window.DNT || {};
             // Call super with attrs moved to options
             return Backbone.Model.prototype.save.call(this, attrs, options);
 
-        },
+        }
+
     });
 
 }(DNT));
