@@ -106,7 +106,7 @@ var DNT = window.DNT || {};
             }
 
             if (!!this.model.get('gradering')) {
-                var $graderingElement = this.$('input[value="' + this.model.this.model.get('gradering') + '"]');
+                var $graderingElement = this.$('input[value="' + this.model.get('gradering') + '"]');
                 $graderingElement.parent('label').addClass('active');
             }
 
