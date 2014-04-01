@@ -14,12 +14,10 @@ var DNT = window.DNT || {};
     };
 
     ns.Poi = Backbone.Model.extend({
+
         idAttribute: "_id",
-
         type: "poi",
-
         changed : false,
-
         deleted: false,
 
         urlRoot: function () {
@@ -36,8 +34,23 @@ var DNT = window.DNT || {};
                     id: "someId"
                 }
             },
-            tags: [0]
+            tags: []
         },
+
+        serverAttrs: [
+            '_id',
+            'beskrivelse',
+            'checksum',
+            'endret',
+            'geojson',
+            'lisens',
+            'navn',
+            'privat',
+            'status',
+            'tags',
+            'tilbyder'
+        ],
+
         initialize: function (attributes, options) {
             this.on("change", function () {
                 this.changed = true;
@@ -51,7 +64,6 @@ var DNT = window.DNT || {};
                 var tags = _.clone(this.get("tags")) || [];
                 tags[0] = this.get("kategori");
                 this.set("tags", tags);
-
             });
         },
 
@@ -127,7 +139,25 @@ var DNT = window.DNT || {};
             var geoJson = this.getGeoJson();
             geoJson.coordinates = [lng, lat];
             this.set("geojson", geoJson);
-        }
+        },
+
+        save: function (attrs, options) {
+
+            attrs = attrs || this.toJSON();
+            options = options || {};
+
+            // If model defines serverAttrs, replace attrs with trimmed version
+            if (this.serverAttrs) {
+                attrs = _.pick(attrs, this.serverAttrs);
+            }
+
+            // Move attrs to options
+            options.attrs = attrs;
+
+            // Call super with attrs moved to options
+            return Backbone.Model.prototype.save.call(this, attrs, options);
+
+        },
     });
 
 }(DNT));

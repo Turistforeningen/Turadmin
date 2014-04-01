@@ -44,7 +44,6 @@ var DNT = window.DNT || {};
         '#poiHeader': "navn"
     };
 
-
     ns.PoiView = Backbone.View.extend({
 
         template: _.template($('#poiTemplate').html()),
@@ -72,8 +71,6 @@ var DNT = window.DNT || {};
 
         render: function () {
 
-            var me = this;
-
             if (this.model.isDeleted()) {
                 this.remove();
             } else {
@@ -89,10 +86,10 @@ var DNT = window.DNT || {};
 
             var poiTags = this.model.get('tags');
             var poiCategory = (poiTags.length > 0) ? poiTags[0] : '';
-            var poiAdditionalCategories = (poiTags.length > 1) ? poiTags : [];
+            var poiAdditionalCategories = (poiTags.length > 1) ? _.clone(poiTags) : [];
 
-            poiAdditionalCategories.shift(); // The first category is displayed in the field above "Er også"
-            flereStedKategorierSelect.$el.select2().select2('val', poiAdditionalCategories).on('change', $.proxy(me.onFlereStedKategorierChange, me));
+            poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
+            flereStedKategorierSelect.$el.select2().select2('val', poiAdditionalCategories).on('change', $.proxy(this.onFlereStedKategorierChange, this));
 
             return this;
 

@@ -12,39 +12,9 @@ var DNT = window.DNT || {};
         'Klatretur': [ 'Alpint', 'Telttur', 'Topptur' ]
     };
 
-    var passerFor = {
-        selectData: [
-            {
-                value: 'Barn',
-                label: 'Barn'
-            },
-            {
-                value: 'Voksen',
-                label: 'Voksen'
-            },
-            {
-                value: 'Senior',
-                label: 'Senior'
-            }
-        ]
-    };
+    var passerForOptions = [ 'Barn', 'Voksen', 'Senior' ];
 
-    var tilrettelagtFor = {
-        selectData: [
-            {
-                value: 'Barnevogn',
-                label: 'Barnevogn'
-            },
-            {
-                value: 'Rullestol',
-                label: 'Rullestol'
-            },
-            {
-                value: 'Handikap',
-                label: 'Handikap'
-            }
-        ]
-    };
+    var tilrettelagtForOptions = [ 'Barnevogn', 'Rullestol', 'Handikap' ];
 
     var grupper = {
         selectData: [
@@ -186,17 +156,35 @@ var DNT = window.DNT || {};
             this.updateFlereTurtyperOptions();
             this.$('[name="route-facts-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
 
-            var passerForSelect = new DNT.SelectView({ model: this.model, selectOptions: passerFor });
-            this.$('#passerForSelect').html(passerForSelect.render().el);
-            passerForSelect.$el.select2();
+            $('input[name="route-facts-field-passer_for"]').select2({
+                tags: passerForOptions,
+                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+            }).on('change', $.proxy(function (e) {
+                var passer_for = e.val;
+                this.model.set('passer_for', passer_for);
+            }, this));
 
-            var tilrettelagtForSelect = new DNT.SelectView({ model: this.model, selectOptions: tilrettelagtFor });
-            this.$('#tilrettelagtForSelect').html(tilrettelagtForSelect.render().el);
-            tilrettelagtForSelect.$el.select2();
+            this.$('[name="route-facts-field-passer_for"]').select2('val', this.model.get('passer_for'));
 
-            var grupperSelect = new DNT.SelectView({ model: this.model, selectOptions: grupper });
-            this.$('#grupperSelect').html(grupperSelect.render().el);
-            grupperSelect.$el.select2();
+            $('input[name="route-facts-field-tilrettelagt_for"]').select2({
+                tags: tilrettelagtForOptions,
+                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+            }).on('change', $.proxy(function (e) {
+                var tilrettelagt_for = e.val;
+                this.model.set('tilrettelagt_for', tilrettelagt_for);
+            }, this));
+
+            this.$('[name="route-facts-field-tilrettelagt_for"]').select2('val', this.model.get('tilrettelagt_for'));
+
+            $('input[name="route-facts-field-grupper"]').select2({
+                tags: [],
+                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+            }).on('change', $.proxy(function (e) {
+                var grupper = e.val;
+                this.model.set('grupper', grupper);
+            }, this));
+
+            this.$('[name="route-facts-field-grupper"]').select2('val', this.model.get('grupper'));
 
             this.stickit(this.model, routeFactsBindings);
 

@@ -16,10 +16,10 @@ var DNT = window.DNT || {};
         initialize: function () {
 
             this.searchCollection = new DNT.SearchCollection();
-            this.searchFieldView = new DNT.SearchFieldView({collection: this.searchCollection});
-            this.mapView = new DNT.MapView({model: this.model});
-            this.pictureView = new DNT.PicturesView({model: this.model});
-            this.poiCollectionView = new DNT.PoiCollectionView({model: this.model});
+            this.searchFieldView = new DNT.SearchFieldView({ collection: this.searchCollection });
+            this.mapView = new DNT.MapView({ model: this.model });
+            this.pictureView = new DNT.PicturesView({ model: this.model });
+            this.poiCollectionView = new DNT.PoiCollectionView({ model: this.model });
             this.route = this.model.get("route");
             this.routeFactsView = new DNT.RouteFactsView({model: this.route});
             this.route.on("change", this.unsavedChanges, this);
@@ -81,7 +81,6 @@ var DNT = window.DNT || {};
         },
 
         unsavedChanges: function() {
-
             this.$(".disabled").removeClass("disabled"); // disable save button until model is changed
             this.updateSaveButton(false);
 

@@ -123,8 +123,7 @@ var DNT = window.DNT || {};
 
         getAdditionalRouteTypes: function () {
             var tags = this.get('tags');
-            var additionalRouteTypes = tags.slice(0);
-            additionalRouteTypes.splice(0, 1);
+            var additionalRouteTypes = _.rest(tags, 1);
             return additionalRouteTypes;
         },
 
