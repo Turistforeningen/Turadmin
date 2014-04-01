@@ -3,33 +3,13 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    var flereTurTyper = {
-        selectData: [
-            {
-                value: "Gåtur",
-                label: "Gåtur"
-            },
-            {
-                value: "Skitur",
-                label: "Skitur"
-            },
-            {
-                value: "Sykkeltur",
-                label: "Sykkeltur"
-            },
-            {
-                value: "Padletur",
-                label: "Padletur"
-            },
-            {
-                value: "Klatretur",
-                label: "Klatretur"
-            },
-            {
-                value: "Bretur",
-                label: "Bretur"
-            }
-        ]
+    var turtyper = {
+        'Fottur': [ 'Alpint', 'Bærtur', 'Fisketur', 'Fjelltur', 'Grottetur', 'Hyttetur', 'Skogstur', 'Sopptur', 'Telttur', 'Topptur', 'Trilletur'],
+        'Skitur': [ 'Alpint', 'Hyttetur', 'Langrenn', 'Snowboard', 'Snøhuletur', 'Telemark', 'Telttur', 'Topptur' ],
+        'Sykkeltur': [ 'Downhillsykling', 'Landeveissykling', 'Terrengsykling' ],
+        'Padletur': [ 'Kajakktur', 'Kanotur' ],
+        'Bretur': [ 'Alpint', 'Hyttetur', 'Telttur', 'Topptur' ],
+        'Klatretur': [ 'Alpint', 'Telttur', 'Topptur' ]
     };
 
     var passerFor = {
@@ -80,16 +60,17 @@ var DNT = window.DNT || {};
     };
 
     var routeFactsBindings = {
-        '[name = "route-facts-field-navn"]' : "navn",
-        '[name = "route-facts-field-beskrivelse"]' : "beskrivelse",
+        '[name = "route-facts-field-navn"]': "navn",
+        '[name = "route-facts-field-beskrivelse"]': "beskrivelse",
         '[name = "route-facts-field-adkomst_generell"]': "adkomst",
         '[name = "route-facts-field-adkomst_kollektivtransport"]': "kollektiv",
-        '[name = "route-facts-field-typetur"]': "kategori",
+        '[name = "route-facts-field-typetur"]': "turtype",
         '[name = "route-facts-field-gradering"]': "gradering",
         '[name = "route-facts-field-lenker"]': "linkText",
-        '.form-control.route-facts-field-tidsbruk-normal-dager': "tidsbrukDager",
-        '.form-control.route-facts-field-tidsbruk-normal-timer': "tidsbrukTimer",
-        '.form-control.route-facts-field-tidsbruk-normal-minutter': "tidsbrukMinutter"
+        'select.form-control.route-facts-field-tidsbruk-normal-dager': "tidsbrukDager",
+        'select.form-control.route-facts-field-tidsbruk-normal-timer': "tidsbrukTimer",
+        'select.form-control.route-facts-field-tidsbruk-normal-minutter': "tidsbrukMinutter",
+        '.route-facts-field-sesong input': 'sesong'
     };
 
     ns.RouteFactsView = Backbone.View.extend({
@@ -97,27 +78,60 @@ var DNT = window.DNT || {};
         el: "#route-facts",
 
         events: {
-            "click #checkbox_kollektivMulig" : "toggleKollektivFieldVisibility",
-            "click #route-facts-field-sesong-select-all" : "selectAllSeasons",
-            "click #route-facts-field-sesong-deselect-all" : "deselectAllSeasons",
-            "click .route-facts-field-sesong input[type='checkbox']" : "updateSeasonSelection"
+            "click #checkbox_kollektivMulig": "toggleKollektivFieldVisibility",
+            "click #route-facts-field-sesong-select-all": "selectAllSeasons",
+            "click #route-facts-field-sesong-deselect-all": "deselectAllSeasons",
+            "click .route-facts-field-sesong input[type='checkbox']": "updateSeasonSelection",
+            "click .route-facts-field-tags-primary label": "setPrimaryTag"
         },
 
         initialize : function () {
+
             _.bindAll(this, "toggleHoursAndMinutesVisiblity", "addNameToHeader");
             this.model.on("change:tidsbrukDager", this.toggleHoursAndMinutesVisiblity);
+            this.model.on("change:turtype", this.updateFlereTurtyperOptions, this);
             this.model.on("change:navn", this.addNameToHeader);
+
             if (!!this.model.get("navn") && this.model.get("navn").length > 0) {
                 this.addNameToHeader();
             }
+
             if (!!this.model.get("tidsbrukDager")) {
                 this.toggleHoursAndMinutesVisiblity();
             }
+
+            if (this.model.getRouteType() !== '') {
+                var routeTypeElement = this.$('input[value="' + this.model.getRouteType() + '"]');
+                routeTypeElement.parent('label').addClass('active');
+            }
+
+        },
+
+        updateFlereTurtyperOptions: function () {
+
+            var $flereTurtyperInput = this.$('[name="route-facts-field-flere-typer"]');
+
+            if ($flereTurtyperInput.hasClass('select2-offscreen')) {
+                $flereTurtyperInput.select2('val', '');
+                $flereTurtyperInput.select2('destroy');
+            }
+
+            var turtype = this.model.get('turtype');
+
+            $flereTurtyperInput.select2({
+                tags: turtyper[turtype],
+                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+            }).on('change', $.proxy(this.onFlereTurtyperChange, this));
+
+        },
+
+        onFlereTurtyperChange: function (e) {
+            var flereTurtyper = e.val;
+            this.model.set('flereTurtyper', flereTurtyper);
         },
 
         toggleHoursAndMinutesVisiblity: function () {
             var val = this.model.get("tidsbrukDager");
-            console.log("val:", val);
             if (val === "1") {
                 this.$(".form-group.route-facts-field-tidsbruk-normal-timer-minutter").removeClass("hidden");
             } else {
@@ -136,19 +150,19 @@ var DNT = window.DNT || {};
             }
         },
 
-        selectAllSeasons : function () {
+        selectAllSeasons: function () {
             this.$('.route-facts-field-sesong input[type="checkbox"]').prop('checked', true);
             this.$('#route-facts-field-sesong-deselect-all').removeClass('hidden');
             this.$('#route-facts-field-sesong-select-all').addClass('hidden');
         },
 
-        deselectAllSeasons : function () {
+        deselectAllSeasons: function () {
             this.$('.route-facts-field-sesong input[type="checkbox"]').prop('checked', false);
             this.$('#route-facts-field-sesong-deselect-all').addClass('hidden');
             this.$('#route-facts-field-sesong-select-all').removeClass('hidden');
         },
 
-        updateSeasonSelection : function () {
+        updateSeasonSelection: function () {
             var checked = this.$('.route-facts-field-sesong input[type="checkbox"]:checked');
             var seasons = [];
             for (var i = 0; i < checked.length; i =  i + 1) {
@@ -164,9 +178,8 @@ var DNT = window.DNT || {};
 
         render: function () {
 
-            var flereTurTyperSelect = new DNT.SelectView({ model: this.model, selectOptions: flereTurTyper });
-            this.$('#flereTurtyperSelect').html(flereTurTyperSelect.render().el);
-            flereTurTyperSelect.$el.select2();
+            this.updateFlereTurtyperOptions();
+            this.$('[name="route-facts-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
 
             var passerForSelect = new DNT.SelectView({ model: this.model, selectOptions: passerFor });
             this.$('#passerForSelect').html(passerForSelect.render().el);

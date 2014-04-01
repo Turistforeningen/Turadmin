@@ -50,8 +50,6 @@ var DNT = window.DNT || {};
             }
         }
 
-        // debugger;
-
         model.set({
             route: route,
             user: user,

@@ -11,11 +11,10 @@ var DNT = window.DNT || {};
 
     ns.App = Backbone.Model.extend({
 
-        defaults : {
-        },
+        defaults: {},
 
-        initialize: function () {
-        }
+        initialize: function () {}
+
     });
 
 }(DNT));

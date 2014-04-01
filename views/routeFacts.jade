@@ -139,7 +139,6 @@ div.row.page-block.route-facts(id="route-facts")
                         option(value="9") 9 timer
                         option(value="10") 10 timer
 
-
                     select.form-control.route-facts-field-tidsbruk-normal-minutter
                         option(value="0") 0 minutter
                         option(value="10") 10 minutter
@@ -147,7 +146,7 @@ div.row.page-block.route-facts(id="route-facts")
                         option(value="30") 30 minutter
                         option(value="40") 40 minutter
                         option(value="50") 50 minutter
-                        div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Angi hvor mange timer og minutter gange turen er. Dette regnes utifra en godt trent voksen person uten pauser.
 
 
@@ -157,8 +156,8 @@ div.row.page-block.route-facts(id="route-facts")
                 div.col-lg-7.col-md-7.col-sm-8
                     div.btn-group(data-toggle="buttons")
                         label.btn.btn-default.route-facts-field-tags-gatur
-                            input(type="radio" value="Gåtur" name="route-facts-field-typetur" id="route-facts-field-tags-gatur")
-                            | Gåtur
+                            input(type="radio" value="Fottur" name="route-facts-field-typetur" id="route-facts-field-tags-gatur")
+                            | Fottur
                         label.btn.btn-default.route-facts-field-tags-skitur
                             input(type="radio" value="Skitur" name="route-facts-field-typetur" id="route-facts-field-tags-skitur")
                             | Skitur
@@ -181,6 +180,8 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-tags-other
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-flere-typer") Velg flere turtyper
                 div#flereTurtyperSelect.col-lg-7.col-md-7.col-sm-7
+                    input.form-control(type="text" name="route-facts-field-flere-typer")
+
                 //div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     select.form-control.route-facts-field-tags-other
                         option(value="0") Velg flere turtyper

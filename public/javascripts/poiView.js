@@ -38,11 +38,10 @@ var DNT = window.DNT || {};
     };
 
     var poiViewBindings = {
-        '[name = "navn"]' : "navn",
-        '[name = "beskrivelse"]' : "beskrivelse",
-        '[name = "kategori"]': "kategori",
+        '[name="navn"]': "navn",
+        '[name="beskrivelse"]': "beskrivelse",
+        '[name="kategori"]': "kategori",
         '#poiHeader': "navn"
-        //'[name = "tags"]' : "tags"
     };
 
 
@@ -50,7 +49,7 @@ var DNT = window.DNT || {};
 
         template: _.template($('#poiTemplate').html()),
 
-        initialize : function () {
+        initialize: function () {
         },
 
         events: {
@@ -63,7 +62,17 @@ var DNT = window.DNT || {};
             this.render();
         },
 
+        onFlereStedKategorierChange: function (e) {
+            var currentTags = this.model.get('tags');
+            var category = (currentTags.length > 0) ? currentTags[0] : null;
+            var additionalCategories = e.val;
+            var allCategories = (category === null) ? additionalCategories : [category].concat(additionalCategories);
+            this.model.set('tags', allCategories);
+        },
+
         render: function () {
+
+            var me = this;
 
             if (this.model.isDeleted()) {
                 this.remove();
@@ -77,9 +86,16 @@ var DNT = window.DNT || {};
 
             var flereStedKategorierSelect = new DNT.SelectView({ model: this.model, selectOptions: alleStedKategorier });
             this.$('.flereStedKategorierSelectContainer').html(flereStedKategorierSelect.render().el);
-            flereStedKategorierSelect.$el.select2();
+
+            var poiTags = this.model.get('tags');
+            var poiCategory = (poiTags.length > 0) ? poiTags[0] : '';
+            var poiAdditionalCategories = (poiTags.length > 1) ? poiTags : [];
+
+            poiAdditionalCategories.shift(); // The first category is displayed in the field above "Er også"
+            flereStedKategorierSelect.$el.select2().select2('val', poiAdditionalCategories).on('change', $.proxy(me.onFlereStedKategorierChange, me));
 
             return this;
+
         }
     });
 }(DNT));

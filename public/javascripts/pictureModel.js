@@ -10,14 +10,14 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/restProxy/bilder";
+        return '/restProxy/bilder';
     };
 
     ns.Picture = Backbone.Model.extend({
 
-        idAttribute: "_id",
+        idAttribute: '_id',
 
-        type: "picture",
+        type: 'picture',
 
         changed: false,
 
@@ -27,21 +27,22 @@ var DNT = window.DNT || {};
             return apiUri();
         },
 
-        defaults : {
-            lisens: "CC BY-NC 3.0 NO",
-            status: "Kladd",
+        defaults: {
+            lisens: 'CC BY-NC 3.0 NO',
+            status: 'Kladd',
             privat: {
                 opprettet_av: {
-                    id: "someId"
+                    id: 'someId'
                 }
             },
             fotograf: {
-                navn: ""
-            }
+                navn: ''
+            },
+            tags: []
         },
 
         initialize: function () {
-            this.on("change", function () {
+            this.on('change', function () {
                 this.changed = true;
             });
 
@@ -82,11 +83,11 @@ var DNT = window.DNT || {};
             return !!geojson && !!geojson.coordinates;
         },
 
-        setPublished: function() {
+        setPublished: function () {
             this.set('status', 'Offentlig');
         },
 
-        setUnpublished: function() {
+        setUnpublished: function () {
             this.set('status', 'Kladd');
         },
 

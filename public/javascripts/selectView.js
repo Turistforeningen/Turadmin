@@ -6,27 +6,23 @@ var DNT = window.DNT || {};
     ns.SelectView = Backbone.View.extend({
 
         tagName: 'select',
-
-        className: "form-control",
-
+        className: 'form-control',
         template: _.template($('#selectOptionsTemplate').html()),
-
         attributes: { 'data-multiselect': 'true', 'multiple' : 'true'},
 
-        events : {
-            'change' : 'onSelect'
+        events: {
+            'change': 'onSelect'
         },
 
-        initialize : function (options) {
+        initialize: function (options) {
             this.selectOptions = options.selectOptions;
         },
 
         onSelect: function () {
-            console.log("select");
+            console.log('select');
         },
 
         render: function () {
-
             var html = this.template(this.selectOptions);
             $(this.el).html(html);
 
