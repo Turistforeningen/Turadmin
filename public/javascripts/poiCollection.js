@@ -51,7 +51,6 @@ var DNT = window.DNT || {};
         },
 
         addMarker: function (model) {
-            debugger;
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
             }

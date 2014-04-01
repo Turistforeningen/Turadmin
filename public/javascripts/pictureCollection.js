@@ -58,7 +58,7 @@ var DNT = window.DNT || {};
             if (model.isDeleted && model.hasPosition()) {
                 this.getGeoJsonLayer().removeLayer(model.getMarker());
             }
-            //If model is new (not synced with server) - silently remove it from the collection
+            // If model is new (not synced with server) - silently remove it from the collection
             if (model.isNew()) {
                 this.remove(model, { silent: true });
             }
