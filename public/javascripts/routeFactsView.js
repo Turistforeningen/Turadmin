@@ -60,13 +60,13 @@ var DNT = window.DNT || {};
     };
 
     var routeFactsBindings = {
-        '[name = "route-facts-field-navn"]': "navn",
-        '[name = "route-facts-field-beskrivelse"]': "beskrivelse",
-        '[name = "route-facts-field-adkomst_generell"]': "adkomst",
-        '[name = "route-facts-field-adkomst_kollektivtransport"]': "kollektiv",
-        '[name = "route-facts-field-typetur"]': "turtype",
-        '[name = "route-facts-field-gradering"]': "gradering",
-        '[name = "route-facts-field-lenker"]': "linkText",
+        '[name="route-facts-field-navn"]': "navn",
+        '[name="route-facts-field-beskrivelse"]': "beskrivelse",
+        '[name="route-facts-field-adkomst_generell"]': "adkomst",
+        '[name="route-facts-field-adkomst_kollektivtransport"]': "kollektiv",
+        '[name="route-facts-field-typetur"]': "turtype",
+        '[name="route-facts-field-gradering"]': "gradering",
+        '[name="route-facts-field-lenker"]': "linkText",
         'select.form-control.route-facts-field-tidsbruk-normal-dager': "tidsbrukDager",
         'select.form-control.route-facts-field-tidsbruk-normal-timer': "tidsbrukTimer",
         'select.form-control.route-facts-field-tidsbruk-normal-minutter': "tidsbrukMinutter",
@@ -101,8 +101,13 @@ var DNT = window.DNT || {};
             }
 
             if (this.model.getRouteType() !== '') {
-                var routeTypeElement = this.$('input[value="' + this.model.getRouteType() + '"]');
-                routeTypeElement.parent('label').addClass('active');
+                var $routeTypeElement = this.$('input[value="' + this.model.getRouteType() + '"]');
+                $routeTypeElement.parent('label').addClass('active');
+            }
+
+            if (!!this.model.get('gradering')) {
+                var $graderingElement = this.$('input[value="' + this.model.this.model.get('gradering') + '"]');
+                $graderingElement.parent('label').addClass('active');
             }
 
         },
@@ -119,7 +124,7 @@ var DNT = window.DNT || {};
             var turtype = this.model.get('turtype');
 
             $flereTurtyperInput.select2({
-                tags: turtyper[turtype],
+                tags: (!!turtype && turtype !== '') ? turtyper[turtype] : [], // If turtype is not set, no tags are available
                 createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
             }).on('change', $.proxy(this.onFlereTurtyperChange, this));
 
