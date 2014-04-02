@@ -5,11 +5,14 @@
 var express = require('express');
 var path = require('path');
 var upload = require('jquery-file-upload-middleware');
+var Connect = require('dnt-connect');
 
 var app = module.exports = express();
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
+var connectUser = process.env.DNT_CONNECT_USER;
+var connectKey = process.env.DNT_CONNECT_KEY;
 var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
 // All environments
@@ -40,7 +43,7 @@ app.configure('production', function () {
     "use strict";
 });
 
-require('./routes')(app);
+require('./routes')(app, { connect: new Connect(connectUser, connectKey) });
 
 var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 
