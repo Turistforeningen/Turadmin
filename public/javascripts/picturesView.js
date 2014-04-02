@@ -20,7 +20,7 @@ var DNT = window.DNT || {};
             this.setupFileupload();
 
             this.pictureCollection.on("change:deleted", function () {
-                //Render view when all pictures are removed
+                // Render view when all pictures are removed
                 if (this.pictureCollection.countPictures() === 0) {
                     this.render();
                 }

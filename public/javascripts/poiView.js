@@ -48,7 +48,9 @@ var DNT = window.DNT || {};
 
         template: _.template($('#poiTemplate').html()),
 
-        initialize: function () {
+        initialize: function (options) {
+            this.model = options.model;
+            this.pictureCollection = options.pictureCollection;
         },
 
         events: {
@@ -91,8 +93,13 @@ var DNT = window.DNT || {};
             poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
             flereStedKategorierSelect.$el.select2().select2('val', poiAdditionalCategories).on('change', $.proxy(this.onFlereStedKategorierChange, this));
 
+
+            var poiPicturesView = new DNT.PoiPicturesView({ model: this.model, pictureCollection: this.pictureCollection });
+            this.$(".currentRouteImages .routePicturesContainer").append(poiPicturesView.render().el);
+
             return this;
 
         }
     });
+
 }(DNT));

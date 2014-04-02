@@ -7,8 +7,8 @@ script(type="text/template" id="poiTemplate").
     <div class="panel panel-default">
         <div class="panel-heading">
         <h4 class="panel-title">
-                <a id="poiHeader" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>">Sted uten navn</a>
-            </h4>
+            <a id="poiHeader" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>">Sted uten navn</a>
+        </h4>
         </div>
         <div id="route-pois-accordion-<%= cid %>" class="panel-collapse collapse in">
             <div class="panel-body">
@@ -67,31 +67,41 @@ script(type="text/template" id="poiTemplate").
                             </div>
                         </form>
                     </div>
-                    <!--
+
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <h5>Bilder</h5>
-                        <div class="alert alert-info">
+                        <!--<div class="alert alert-info">
                             <strong>Ingen bilder!</strong>
                             Du har ikke lagt inn noen bilder for denne turen.
-                        </div>
+                        </div>-->
                         <div class="currentRouteImages selectableImages">
-                            <h6>Dine bilder fra denne turen</h6>
-                            <div class="row routePictureContainer">
+                            <!--<h6>Dine bilder fra denne turen</h6>-->
+                            <div class="row routePicturesContainer">
                             </div>
-                        </div>-->
-                        <!--<div class="otherRouteImages selectableImages">
-                            <h6>Dine bilder fra andre turer i nærheten</h6>
-                            <div class="row ">
-                            </div>
-                        </div>-->
+                        </div>
                         <!--
-                        <p class="help-block">Dersom noen av bildene du har lagt ut til turen kan relateres til stedet kan du knytte bilder til stedet her. Velg blant bilder du har lagt ut til turen og bilder som er lagt ut i nærheten av stedet.</p>
-                    </div>-->
+                        <div class="otherRouteImages selectableImages">
+                            <h6>Dine bilder fra andre turer i nærheten</h6>
+                            <div class="row">
+                            </div>
+                        </div>-->
+
+                        <p class="help-block">Dersom noen av bildene du har lagt ut til turen er relatert til dette stedet kan du knytte bilder til stedet her.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+script(type="text/template" id="poiPicturesTemplate").
+
+    <% _.each(output.models, function(picture) { %>
+        <div class="col-sm-3">
+            <div class="thumbnail <%= isSelected(picture, scope) %>" data-_id="<%= picture.attributes._id %>">
+                <img src="<%= picture.attributes.thumbnailUrl %>" class="img-responsive" />
+            </div>
+        </div>
+    <% }); %>
 
 script(type="text/template" id="poiPictureTemplate").
     <div class="col-sm-3">

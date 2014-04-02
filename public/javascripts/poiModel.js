@@ -40,6 +40,7 @@ var DNT = window.DNT || {};
         serverAttrs: [
             '_id',
             'beskrivelse',
+            'bilder',
             'checksum',
             'endret',
             'geojson',

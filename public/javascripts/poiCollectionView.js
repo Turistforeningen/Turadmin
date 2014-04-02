@@ -19,6 +19,7 @@ var DNT = window.DNT || {};
 
         initialize: function () {
             this.poiCollection = this.model.get("poiCollection");
+            this.pictureCollection = this.model.get('pictureCollection');
 
             this.poiCollection.on("change:deleted", function () {
                 // Render view when all pois are removed to show noPoisAlert div
@@ -37,14 +38,14 @@ var DNT = window.DNT || {};
         poiMarkerIsCreated: function (poi) {
             if (poi.type === "poi") {
                 this.poiCollection.add(poi);
-                var view = new DNT.PoiView({ model: poi});
+                var view = new DNT.PoiView({ model: poi, pictureCollection: this.pictureCollection });
                 this.$("#route-pois-accordion").append(view.render().el);
                 this.$("#noPoisAlert").addClass("hidden");
             }
         },
 
         appendPoi: function (poi) {
-            var view = new DNT.PoiView({ model: poi });
+            var view = new DNT.PoiView({ model: poi, pictureCollection: this.pictureCollection });
             this.$("#route-pois-accordion").append(view.render().el);
         },
 

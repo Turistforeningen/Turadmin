@@ -19,13 +19,13 @@ var DNT = window.DNT || {};
             this.searchFieldView = new DNT.SearchFieldView({ collection: this.searchCollection });
             this.mapView = new DNT.MapView({ model: this.model });
             this.pictureView = new DNT.PicturesView({ model: this.model });
-            this.poiCollectionView = new DNT.PoiCollectionView({ model: this.model });
             this.route = this.model.get("route");
             this.routeFactsView = new DNT.RouteFactsView({ model: this.route });
             this.route.on("change", this.unsavedChanges, this);
             this.poiCollection = this.model.get("poiCollection");
             this.poiCollection.on("add", this.unsavedChanges, this);
             this.pictureCollection = this.model.get("pictureCollection");
+            this.poiCollectionView = new DNT.PoiCollectionView({ model: this.model, pictureCollection: this.pictureCollection });
             this.pictureCollection.on("add", this.unsavedChanges, this);
 
             this.updatePublishButtons();

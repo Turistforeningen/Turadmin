@@ -72,7 +72,7 @@ var DNT = window.DNT || {};
         },
 
         reIndex: function (picture, newPosition) {
-            this.remove(picture, {silent : true});
+            this.remove(picture, { silent: true }); // NOTE: This causes a bug which removes the picture from POI picture list.
             picture.set("ordinal", newPosition);
             this.each(function (model, index) {
                 var ordinal = index;
@@ -81,7 +81,7 @@ var DNT = window.DNT || {};
                 }
                 model.set("ordinal", ordinal);
             });
-            this.add(picture, {silent: true, at: newPosition});
+            this.add(picture, { silent: true, at: newPosition });
             this.sort();
         },
 
