@@ -16,6 +16,7 @@
     "mocha": "~1",
     "jquery-file-upload-middleware": "*",
     "underscore": "*",
-    "dnt-connect": "^1.0.1"
+    "dnt-connect": "^1.0.1",
+    "dnt-api": "~1.0.0"
   }
 }
