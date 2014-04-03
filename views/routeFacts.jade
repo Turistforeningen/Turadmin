@@ -49,12 +49,19 @@ div.row.page-block.route-facts(id="route-facts")
 
 
             // Lenker
-            div.form-group.route-facts-field-lenker.required
+            // div.form-group.route-facts-field-lenker-old
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-lenker") Lenker
                 div.col-lg-7.col-md-7.col-sm-7
                     textarea.form-control(name="route-facts-field-lenker" placeholder="Lenker" rows="3")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Her kan du skrive inn relevante lenker for turforslaget ditt. Skill hver lenke med en ny linje.
+
+
+            div.form-group.route-facts-field-lenker
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-lenker") Lenker
+                div#routeFactsLinksView
+
+
 
             h4 Fakta
 

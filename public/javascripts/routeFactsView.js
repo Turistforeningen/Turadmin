@@ -36,7 +36,7 @@ var DNT = window.DNT || {};
         '[name="route-facts-field-adkomst_kollektivtransport"]': "kollektiv",
         '[name="route-facts-field-typetur"]': "turtype",
         '[name="route-facts-field-gradering"]': "gradering",
-        '[name="route-facts-field-lenker"]': "linkText",
+        // '[name="route-facts-field-lenker"]': "linkText",
         'select.form-control.route-facts-field-tidsbruk-normal-dager': "tidsbrukDager",
         'select.form-control.route-facts-field-tidsbruk-normal-timer': "tidsbrukTimer",
         'select.form-control.route-facts-field-tidsbruk-normal-minutter': "tidsbrukMinutter",
@@ -185,6 +185,9 @@ var DNT = window.DNT || {};
             }, this));
 
             this.$('[name="route-facts-field-grupper"]').select2('val', this.model.get('grupper'));
+
+            var routeFactsLinksView = new DNT.RouteFactsLinksView({ model: this.model });
+            this.$('#routeFactsLinksInput').append(routeFactsLinksView.render().el);
 
             this.stickit(this.model, routeFactsBindings);
 

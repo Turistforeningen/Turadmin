@@ -67,7 +67,7 @@ var DNT = window.DNT || {};
 
         initialize: function () {
             this.on("change:linkText", this.updateLinks);
-
+            this.on("change:lenker", function(){ console.log('lenker changed!!!'); });
             this.on("change:turtype", this.updateTurtypeInTags);
             this.on("change:flereTurtyper", this.updateFlereTurtyperInTags);
 
@@ -129,7 +129,7 @@ var DNT = window.DNT || {};
 
         save: function (attrs, options) {
 
-            this.updateLenker();
+            // this.updateLenker();
             this.updateTidsbruk();
 
             attrs = attrs || this.toJSON();

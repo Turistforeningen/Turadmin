@@ -3,6 +3,27 @@ script(type="text/template" id="tagsFieldView").
 script(type="text/template" id="selectOptionsTemplate").
     <% _.each(selectData, function(element) { %><option value=<%= element.value %>><%= element.label %></option> <% }); %>
 
+script(type="text/template" id="routeFactsLinksTemplate").
+    <div class="col-lg-7 col-md-7 col-sm-7">
+        <div id="routeFactsLinksInput"></div>
+    </div>
+
+    <div class="col-lg-7 col-md-7 col-sm-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-3">
+        <p class="help-block">Her kan du legge inn relevante lenker for turforslaget ditt. Skill hver lenke med en ny linje. <a data-action="add-link">Legg til lenke</a></p>
+    </div>
+
+script(type="text/template" id="routeFactsLinkTemplate").
+    <div class="row route-facts-lenke">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <input type="text" class="form-control" name="link-title" value="<%= link.tittel %>" placeholder="Tittel">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <input type="text" class="form-control" name="link-url" value="<%= link.url %>" placeholder="Adresse">
+        </div>
+        <a class="remove-link" data-action="remove-link">Slett</a>
+    </div>
+
+
 script(type="text/template" id="searchResultTemplate").
     <label><%= stedsnavn %></label>
     <p class="help-block"><%= navnetype %> i <%= kommunenavn %> i <%= fylkesnavn %></p>

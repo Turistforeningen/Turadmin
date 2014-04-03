@@ -345,6 +345,23 @@ a {
 	}
 }
 
+/* Lenker */
+.route-facts-lenke {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.route-facts-lenke .remove-link {
+	position: absolute;
+	right: -25px;
+	top: 6px;
+	display: none;
+}
+
+.route-facts-lenke:hover .remove-link {
+	display: block;
+}
+
 
 /* Fargekoder gradering */
 .route-facts-field-gradering-enkel {
