@@ -11,8 +11,8 @@ var app = module.exports = express();
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
-var connectUser = process.env.DNT_CONNECT_USER;
-var connectKey = process.env.DNT_CONNECT_KEY;
+var dntConnectUser = process.env.DNT_CONNECT_USER;
+var dntConnectKey = process.env.DNT_CONNECT_KEY;
 var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
 // All environments
@@ -43,7 +43,7 @@ app.configure('production', function () {
     "use strict";
 });
 
-require('./routes')(app, { connect: new Connect(connectUser, connectKey) });
+require('./routes')(app, { connect: new Connect(dntConnectUser, dntConnectKey) });
 
 var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 
