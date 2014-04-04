@@ -28,7 +28,6 @@ var DNT = window.DNT || {};
         },
 
         loadRoute: function () {
-            // window.location = '/tur'; // + this.model.get("_id");
             var turId = this.model.get("_id");
             window.location = '/tur/' + turId;
 
@@ -39,7 +38,8 @@ var DNT = window.DNT || {};
         },
 
         publishRoute: function () {
-            console.log("publish");
+            // TODO: Implement functionality
+            console.log('publish');
         },
 
         removeItemView: function () {

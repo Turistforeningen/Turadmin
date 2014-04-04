@@ -34,11 +34,9 @@ var DNT = window.DNT || {};
 
             if (pictureInPoiIndex > -1) {
                 poiPictures.splice(pictureInPoiIndex, 1);
-                console.log('removing');
                 $(thumbnail).removeClass('selected');
             } else {
                 poiPictures.push(pictureId);
-                console.log('adding');
                 $(thumbnail).addClass('selected');
             }
 
