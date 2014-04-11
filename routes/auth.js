@@ -62,8 +62,7 @@ module.exports = function (app, options) {
                 data = {er_autentisert: false};
             }
 
-            // var userData = underscore.clone(data);
-            req.session.user = userData;
+            req.session.user = data;
 
             if (data.er_autentisert === true) {
                 req.session.authType = 'dnt-connect';
