@@ -17,6 +17,7 @@
     "jquery-file-upload-middleware": "*",
     "underscore": "*",
     "dnt-connect": "^1.0.1",
-    "dnt-api": "~1.0.0"
+    "dnt-api": "~1.0.0",
+    "togeojson": "~0.7.0"
   }
 }
