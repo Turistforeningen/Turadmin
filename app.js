@@ -49,6 +49,7 @@ app.configure('production', function () {
     "use strict";
 });
 
+require('./routes/auth')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ) });
 require('./routes')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ), dntApi: new DNT('Turadmin/1.0', dntApiKey)});
 
 var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
