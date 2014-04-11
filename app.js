@@ -6,13 +6,19 @@ var express = require('express');
 var path = require('path');
 var upload = require('jquery-file-upload-middleware');
 var Connect = require('dnt-connect');
+var DNT = require('dnt-api');
 
 var app = module.exports = express();
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
+
 var dntConnectUser = process.env.DNT_CONNECT_USER;
 var dntConnectKey = process.env.DNT_CONNECT_KEY;
+
+// var dntApiUser = process.env.DNT_API_USER;
+var dntApiKey = process.env.DNT_API_KEY;
+
 var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
 // All environments
@@ -43,7 +49,7 @@ app.configure('production', function () {
     "use strict";
 });
 
-require('./routes')(app, { connect: new Connect(dntConnectUser, dntConnectKey) });
+require('./routes')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ), dntApi: new DNT('Turadmin/1.0', dntApiKey)});
 
 var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 

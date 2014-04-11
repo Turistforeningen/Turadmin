@@ -1,0 +1,27 @@
+extends layout
+
+block extraHeadContent
+    //- link(rel='stylesheet', href='lib/leaflet-0.7.1/leaflet.css')
+    //- script(src='lib/underscore/underscore-min.js')
+    //- script(src='lib/backbone/backbone-min.js')
+
+    include indexTemplates
+
+    //- script(src='javascripts/routeModel.js')
+    //- script(src='javascripts/listItemView.js')
+    //- script(src='javascripts/indexView.js')
+
+    script.
+        $(document).ready(function () {
+            //- new DNT.LoginView();
+        });
+
+block content
+
+    div.container
+        div.masthead
+            h2.page-header Logg inn
+
+            form.form-signin(action="/login/dnt" method="POST")
+                h2 DNT Connect
+                button.btn.btn-lg.btn-success.btn-block(type="submit") Logg inn

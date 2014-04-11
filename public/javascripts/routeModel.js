@@ -186,16 +186,4 @@ var DNT = window.DNT || {};
 
     });
 
-    ns.RouteCollection = Backbone.Collection.extend({
-        url: function () {
-            return apiUri();
-        },
-
-        model: ns.Route,
-
-        parse: function (response) {
-            return response.documents || [];
-        }
-    });
-
 }(DNT));

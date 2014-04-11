@@ -32,3 +32,8 @@ script(type="text/template" id="listRouteItemTemplate").
         <a id="deleteRoute" data-action="route-delete">Slett</a>
     </td>
 
+
+script(type="text/template" id="selectOptionsTemplate").
+    <% _.each(selectOptions, function(element) { %>
+        <option value=<%= element.object_id %>><%= element.navn %></option>
+    <% }); %>

@@ -14,7 +14,7 @@ module.exports = function (app, restProxy, options) {
      * GET add new route page.
      */
     var route = function (req, res) {
-        req.session.userId = "testUserId";
+        req.session.userId = 'testUserId';
         res.render('route', { title: 'Opprett ny tur', routeApiUri: options.routeApiUri });
     };
 
@@ -96,7 +96,9 @@ module.exports = function (app, restProxy, options) {
                     routeName: routeData.navn,
                     routeData: JSON.stringify(routeData),
                     picturesData: JSON.stringify(sortedPicturesData),
-                    poisData: JSON.stringify(poisData)
+                    poisData: JSON.stringify(poisData),
+                    userData: JSON.stringify(app.user),
+                    authType: req.session.authType
                 });
 
             });

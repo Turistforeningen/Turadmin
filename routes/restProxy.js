@@ -60,7 +60,7 @@ module.exports = function (app, options) {
     };
 
     var makeRequest = function (path, req, res, onCompleteOverride) {
-        var apiKey = '?api_key=' + ntbApiKey;
+        var apiKey = (path.match(/\?/) ? '&' : '?') + 'api_key=' + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
         var method = req.method;
 
@@ -127,7 +127,7 @@ module.exports = function (app, options) {
             restler.del(url, {})
                 .on('complete', onComplete);
         }
-    }
+    };
 
     // var makeRequest = function (path, method, req, res, onCompleteOverride) {
 
