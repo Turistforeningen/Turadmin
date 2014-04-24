@@ -15,11 +15,14 @@ div.row.page-block.route-draw(id="route-draw")
                     div.form-group
                         // TODO: Move styles to CSS
                         p.form-control-static(style="text-align: center;") eller
-            form.form-horizontal(method="post", enctype="multipart/form-data")
-                div.col-lg-4.col-md-4.col-sm-3.col-xs-12
-                    button.btn.btn-default
-                        span.glyphicon.glyphicon-folder-open
-                        | &nbsp;&nbsp;Last opp GPX-fil
+            div#gpxUploadView
+                form.form-horizontal(method="post", enctype="multipart/form-data")
+                    div.col-lg-7.col-md-7.col-sm-6.col-xs-12
+                        span.btn.btn-default.fileinput-button
+                            span.glyphicon.glyphicon-folder-open
+                            | &nbsp;&nbsp;Last opp GPX-fil
+                            input#fileupload-gpx(type="file" name="files[]")
+                        span.upload-button-status(data-placeholder="gpx-upload-status")
 
         div#mapAndControlsContainer
 

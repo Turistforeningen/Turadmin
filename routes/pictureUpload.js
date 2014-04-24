@@ -10,6 +10,7 @@ module.exports = function (app, express, options) {
 
     var upload = require('jquery-file-upload-middleware');
     var underscore = require('underscore');
+
     var width = 380;
     var height = 260;
     var createOptions =  function (userId) {
@@ -35,44 +36,51 @@ module.exports = function (app, express, options) {
     /*
         Register fileHandler to listen to /uploads and to store images on server
      */
-    app.use('/upload', function (req, res, next) {
+    app.use('/upload/picture', function (req, res, next) {
         var options = createOptions(req.session.userId);
         var fileHandler = upload.fileHandler(options);
         fileHandler(req, res, next);
     });
 
-    app.use('/upload', express.bodyParser());
+    app.use('/upload/picture', express.bodyParser());
 
     /*
      Listen to end processing event and change fileInfo object to match Nasjonal Turbase Bilde API, and client side backbone Picture-model.
      */
     upload.on('end', function (fileInfo) {
-        var res = {
-            navn: fileInfo.originalName,
 
-            img: [
-                {
-                    url: fileInfo.url,
-                    size: fileInfo.size,
-                    type: fileInfo.type
-                },
-                {
-                    url: fileInfo.thumbnailUrl,
-                    width:  width,
-                    height: height,
-                    type: fileInfo.type
+        if (!!fileInfo && !!fileInfo.type && fileInfo.type.match('image')) {
 
+            console.log('Picture uploaded.');
+            console.log(fileInfo);
+
+            var res = {
+                navn: fileInfo.originalName,
+
+                img: [
+                    {
+                        url: fileInfo.url,
+                        size: fileInfo.size,
+                        type: fileInfo.type
+                    },
+                    {
+                        url: fileInfo.thumbnailUrl,
+                        width:  width,
+                        height: height,
+                        type: fileInfo.type
+                    }
+                ]
+            };
+            var prop;
+            for (prop in fileInfo) {
+                if (fileInfo.hasOwnProperty(prop)) {
+                    delete fileInfo[prop];
                 }
-            ]
-        };
-        var prop;
-        for (prop in fileInfo) {
-            if (fileInfo.hasOwnProperty(prop)) {
-                delete fileInfo[prop];
             }
-        }
 
-        underscore.extend(fileInfo, res);
+            underscore.extend(fileInfo, res);
+
+        }
 
     });
 

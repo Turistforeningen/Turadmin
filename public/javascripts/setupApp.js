@@ -16,11 +16,8 @@ var DNT = window.DNT || {};
         options = options || {};
 
         var model = new DNT.App();
-
         var routeData = !!options.routeData ? options.routeData : {};
-
         var route = new DNT.Route(routeData);
-
         var user = new DNT.User();
 
         // var turId = options.turId;

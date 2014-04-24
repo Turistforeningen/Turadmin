@@ -217,6 +217,15 @@ a {
 	left: 10px;
 }
 
+.upload-button-status {
+	display: inline-block;
+	font-weight: bold;
+	margin-left: 10px;
+}
+
+.upload-button-status.has-error {
+	color: #a94442;
+}
 
 /* Custom dropdown used for selecting route direction */
 

@@ -9,11 +9,10 @@ module.exports = function (app, options) {
 
     var ntbApiUri = options.ntbApiUri;
     var ntbApiKey = options.ntbApiKey;
-    var fileManager = options.fileManager;
+    var pictureFileManager = options.pictureFileManager;
     var restler = require('restler');
     var underscore = require('underscore');
     var util = require('util');
-
 
     /*
         Move picture to permanent storage using jquery-file-upload-middleware'filehandler
@@ -21,7 +20,7 @@ module.exports = function (app, options) {
     var movePicture = function (req, picture) {
         var status = {ok: true, error: ""};
         var userId = req.session.userId;
-        fileManager.movePictureToPermanentStorage(picture.url, userId, function (error, result) {
+        pictureFileManager.movePictureToPermanentStorage(picture.url, userId, function (error, result) {
 
             if (!error && !!result) {
                 picture.url = result.url;
@@ -60,7 +59,7 @@ module.exports = function (app, options) {
     };
 
     var makeRequest = function (path, req, res, onCompleteOverride) {
-        var apiKey = '?api_key=' + ntbApiKey;
+        var apiKey = (path.match(/\?/) ? '&' : '?') + 'api_key=' + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
         var method = req.method;
 
@@ -83,6 +82,11 @@ module.exports = function (app, options) {
         };
 
         var onCompletePostPicture = function (data, picture) {
+            data = underscore.extend(data, picture);
+            onCompletePost(data);
+        };
+
+        var onCompletePostGpx = function (data, picture) {
             data = underscore.extend(data, picture);
             onCompletePost(data);
         };
@@ -127,7 +131,7 @@ module.exports = function (app, options) {
             restler.del(url, {})
                 .on('complete', onComplete);
         }
-    }
+    };
 
     // var makeRequest = function (path, method, req, res, onCompleteOverride) {
 

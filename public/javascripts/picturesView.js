@@ -7,7 +7,7 @@ var DNT = window.DNT || {};
 
         el: "#route-images",
 
-        uploadUrl: "/upload",
+        uploadUrl: "/upload/picture",
 
         events: {
             "sortstop #route-images-all-container": "picturePositionUpdated",

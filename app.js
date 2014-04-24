@@ -6,13 +6,20 @@ var express = require('express');
 var path = require('path');
 var upload = require('jquery-file-upload-middleware');
 var Connect = require('dnt-connect');
+var DNT = require('dnt-api');
 
 var app = module.exports = express();
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
-var connectUser = process.env.DNT_CONNECT_USER;
-var connectKey = process.env.DNT_CONNECT_KEY;
+
+var dntConnectUser = process.env.DNT_CONNECT_USER;
+var dntConnectKey = process.env.DNT_CONNECT_KEY;
+
+// var dntApiUser = process.env.DNT_API_USER;
+// var dntApiKey = process.env.DNT_API_KEY;
+var dntApiKey = process.env.DNT_CONNECT_KEY;
+
 var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
 // All environments
@@ -24,8 +31,8 @@ app.use(express.logger('dev')); // this should be disabled during testing
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.session({ secret: sessionSecret }));
+app.use(express.cookieParser(sessionSecret));
+app.use(express.cookieSession()); // NOTE: Replaced app.use(express.session({ secret: sessionSecret }));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -43,14 +50,17 @@ app.configure('production', function () {
     "use strict";
 });
 
-require('./routes')(app, { connect: new Connect(connectUser, connectKey) });
+require('./routes/auth')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ) });
+require('./routes')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ), dntApi: new DNT('Turadmin/1.0', dntApiKey)});
 
-var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
+// var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
+var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
+var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __dirname });
 
 var restProxy = require('./routes/restProxy')(app, {
     ntbApiUri: ntbApiUri,
     ntbApiKey: ntbApiKey,
-    fileManager: fileManager
+    pictureFileManager: pictureFileManager
 });
 
 require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri });

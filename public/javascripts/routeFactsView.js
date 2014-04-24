@@ -16,30 +16,16 @@ var DNT = window.DNT || {};
 
     var tilrettelagtForOptions = [ 'Barnevogn', 'Rullestol', 'Handikap' ];
 
-    var grupper = {
-        selectData: [
-            {
-                value: 1,
-                label: 'Eier 1'
-            },
-            {
-                value: 2,
-                label: 'Eier 2'
-            }
-        ]
-    };
-
     var routeFactsBindings = {
-        '[name="route-facts-field-navn"]': "navn",
-        '[name="route-facts-field-beskrivelse"]': "beskrivelse",
-        '[name="route-facts-field-adkomst_generell"]': "adkomst",
-        '[name="route-facts-field-adkomst_kollektivtransport"]': "kollektiv",
-        '[name="route-facts-field-typetur"]': "turtype",
-        '[name="route-facts-field-gradering"]': "gradering",
-        // '[name="route-facts-field-lenker"]': "linkText",
-        'select.form-control.route-facts-field-tidsbruk-normal-dager': "tidsbrukDager",
-        'select.form-control.route-facts-field-tidsbruk-normal-timer': "tidsbrukTimer",
-        'select.form-control.route-facts-field-tidsbruk-normal-minutter': "tidsbrukMinutter",
+        '[name="route-facts-field-navn"]': 'navn',
+        '[name="route-facts-field-beskrivelse"]': 'beskrivelse',
+        '[name="route-facts-field-adkomst_generell"]': 'adkomst',
+        '[name="route-facts-field-adkomst_kollektivtransport"]': 'kollektiv',
+        '[name="route-facts-field-typetur"]': 'turtype',
+        '[name="route-facts-field-gradering"]': 'gradering',
+        'select.form-control.route-facts-field-tidsbruk-normal-dager': 'tidsbrukDager',
+        'select.form-control.route-facts-field-tidsbruk-normal-timer': 'tidsbrukTimer',
+        'select.form-control.route-facts-field-tidsbruk-normal-minutter': 'tidsbrukMinutter',
         '.route-facts-field-sesong input': 'sesong'
     };
 

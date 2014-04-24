@@ -32,6 +32,7 @@ block extraHeadContent
     script(src='/javascripts/searchResultModel.js')
     script(src='/javascripts/searchCollection.js')
     script(src='/javascripts/routeModel.js')
+    script(src='/javascripts/routeCollection.js')
     script(src='/javascripts/poiCollection.js')
     script(src='/javascripts/poiModel.js')
     script(src='/javascripts/pictureModel.js')
@@ -44,6 +45,7 @@ block extraHeadContent
     script(src='/javascripts/selectView.js')
     script(src='/javascripts/popupView.js')
     script(src='/javascripts/routeView.js')
+    script(src='/javascripts/gpxUploadView.js')
     script(src='/javascripts/mapView.js')
     script(src='/javascripts/pictureView.js')
     script(src='/javascripts/picturesView.js')
@@ -65,6 +67,9 @@ block extraHeadContent
         - if (typeof(poisData) !== 'undefined')
             | appData.poisData = !{poisData};
             | console.log('Loaded route with poisData:', !{poisData});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            | console.log('Loaded route with userData:', !{userData});
 
         | DNT.initRouteApp(appData);
         | });
@@ -121,6 +126,12 @@ block routeNavigation
         li.hidden-lg.hidden-md.hidden-sm
             a(href="#") Hjelp
 
+        // Divider
+        li.divider.hidden-lg.hidden-md.hidden-sm
+
+        li.hidden-lg.hidden-md.hidden-sm
+            a(href="/logout") Logg ut
+
         li.dropdown.hidden-xs
 
             a.dropdown-toggle(href="#" data-toggle="dropdown")
@@ -136,6 +147,11 @@ block routeNavigation
                 li.divider
                 li
                     a(href="#") Hjelp
+
+                // Divider
+                li.divider
+                li
+                    a(href="/logout") Logg ut
 
 
 block content

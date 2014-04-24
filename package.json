@@ -15,9 +15,10 @@
     "supertest": "~0",
     "mocha": "~1",
     "jquery-file-upload-middleware": "*",
+    "dnt-connect": "~1",
+    "dnt-api": "~1.1.0",
     "underscore": "*",
-    "dnt-connect": "^1.0.1",
-    "dnt-api": "~1.0.0",
-    "togeojson": "~0.7.0"
+    "togeojson": "~0.7.0",
+    "jsdom": "~0.10.5"
   }
 }

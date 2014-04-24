@@ -89,15 +89,10 @@ var DNT = window.DNT || {};
     ns.MapView = Backbone.View.extend({
 
         el: "#mapAndControlsContainer",
-
         snapping: true,
-
         drawMarkerTool: undefined,
-
         draw: false,
-
         routeModel: undefined,
-
         modelToPosition: undefined,
 
         events: {
@@ -115,8 +110,9 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeoJSONToLayer");
-            this.routeModel.on("geojson:add", this.addGeoJSONToLayer);
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry');
+            this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
+            this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopup);
@@ -131,7 +127,7 @@ var DNT = window.DNT || {};
                 $(e.currentTarget).addClass("active");
                 $(e.currentTarget).find(".buttonText").html("Avslutt inntegning");
             } else {
-                var geojson = this.routing.getGeojson();
+                var geojson = this.routing.getGeoJson();
                 $(e.currentTarget).removeClass("active");
                 var label = "Start inntegning";
                 if (geojson.coordinates.length > 0) {
@@ -251,10 +247,22 @@ var DNT = window.DNT || {};
             }, this));
         },
 
-        addGeoJSONToLayer: function () {
-            var geoJSON = this.routeModel.get("geojson");
-            if (!!geoJSON && !!geoJSON.properties) {
-                this.routing.loadGeoJSON(geoJSON);
+        loadGpxGeometry: function (gpxGeometry) {
+            this.addGeoJsonToLayer(gpxGeometry);
+            var geoJson = this.routing.getGeoJson();
+            this.routeModel.set('geojson', geoJson);
+        },
+
+        addGeoJsonToLayer: function (geoJson) {
+            geoJson = geoJson || this.routeModel.get('geojson');
+            if (!!geoJson && (!!geoJson.properties || !!geoJson.coordinates)) {
+                this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Finished loading GeoJSON');
+                    }
+                });
             } else {
                 console.warn('GeoJSON is not found, or does not have a properties property.');
             }
@@ -305,7 +313,7 @@ var DNT = window.DNT || {};
             this.updateSnapToggle();
             this.updateRouteDirectionSelect();
 
-            this.addGeoJSONToLayer();
+            this.addGeoJsonToLayer();
 
             return this;
         }

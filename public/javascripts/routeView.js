@@ -17,6 +17,7 @@ var DNT = window.DNT || {};
 
             this.searchCollection = new DNT.SearchCollection();
             this.searchFieldView = new DNT.SearchFieldView({ collection: this.searchCollection });
+            this.gpxUploadView = new DNT.GpxUploadView({ model: this.model });
             this.mapView = new DNT.MapView({ model: this.model });
             this.pictureView = new DNT.PicturesView({ model: this.model });
             this.route = this.model.get("route");

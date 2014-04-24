@@ -14,7 +14,7 @@ module.exports = function (app, restProxy, options) {
      * GET add new route page.
      */
     var route = function (req, res) {
-        req.session.userId = "testUserId";
+        req.session.userId = 'testUserId';
         res.render('route', { title: 'Opprett ny tur', routeApiUri: options.routeApiUri });
     };
 
@@ -29,23 +29,23 @@ module.exports = function (app, restProxy, options) {
 
         var onCompleteTurRequest = function (data) {
 
-            console.log('Route was fetched.');
+            // console.log('Route was fetched.');
 
             var routeData = data;
 
             var picturesCount = (!!data.bilder) ? data.bilder.length : 0;
             var picturesData = [];
 
-            console.log('Route has', picturesCount, 'pictures.');
+            // console.log('Route has', picturesCount, 'pictures.');
 
             var poisCount = (!!data.steder) ? data.steder.length : 0;
             var poisData = [];
 
-            console.log('Route has', poisCount, 'pois.');
+            // console.log('Route has', poisCount, 'pois.');
 
             var totalResourcesCount = picturesCount + poisCount + 1; // +1 is the route
 
-            console.log('Route has', totalResourcesCount, 'total resources including route.');
+            // console.log('Route has', totalResourcesCount, 'total resources including route.');
 
             var onCompletePictureRequest = function (data) {
                 picturesData.push(data);
@@ -57,38 +57,38 @@ module.exports = function (app, restProxy, options) {
                 doRender();
             };
 
-            console.log('Fetching', picturesCount, 'pictures...');
+            // console.log('Fetching', picturesCount, 'pictures...');
             for (var i = 0; i < picturesCount; i++) {
                 var pictureId = data.bilder[i];
                 restProxy.makeApiRequest('/bilder/' + pictureId, req, undefined, onCompletePictureRequest);
             }
-            console.log('Done!');
+            // console.log('Done!');
 
-            console.log('Fetching', poisCount, 'pois...');
+            // console.log('Fetching', poisCount, 'pois...');
             for (var j = 0; j < poisCount; j++) {
                 var poiId = data.steder[j];
                 restProxy.makeApiRequest('/steder/' + poiId, req, undefined, onCompletePoiRequest);
             }
-            console.log('Done!');
+            // console.log('Done!');
 
             var doRender = underscore.after(totalResourcesCount, function () {
 
-                console.log('All resources fetched!');
+                // console.log('All resources fetched!');
 
                 var sortedPicturesData = picturesData;
 
                 if (picturesCount > 0 && picturesData.length > 0) {
-                    console.log('Reorder pictures array...');
+                    // console.log('Reorder pictures array...');
 
                     sortedPicturesData.sort(function(a, b) {
                         return data.bilder.indexOf(a._id) - data.bilder.indexOf(b._id);
                     });
 
-                    console.log('Done!');
+                    // console.log('Done!');
 
                 }
 
-                console.log('Do render!');
+                // console.log('Do render!');
 
                 res.render('route', {
                     pageTitle: data.navn,
@@ -96,7 +96,9 @@ module.exports = function (app, restProxy, options) {
                     routeName: routeData.navn,
                     routeData: JSON.stringify(routeData),
                     picturesData: JSON.stringify(sortedPicturesData),
-                    poisData: JSON.stringify(poisData)
+                    poisData: JSON.stringify(poisData),
+                    userData: JSON.stringify(app.user),
+                    authType: req.session.authType
                 });
 
             });

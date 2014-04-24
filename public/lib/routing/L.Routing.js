@@ -17,7 +17,7 @@ L.Routing = L.Control.extend({
 
   // CONSTANTS
   ,statics: {
-    VERSION: '0.1.0-dev'
+    VERSION: '0.1.1-dev'
   }
 
   // OPTIONS
@@ -27,6 +27,7 @@ L.Routing = L.Control.extend({
       start: new L.Icon.Default()
       ,end: new L.Icon.Default()
       ,normal: new L.Icon.Default()
+      ,draw: new L.Icon.Default()
     }
     ,zIndexOffset: 2000
     ,routing: {
@@ -36,6 +37,12 @@ L.Routing = L.Control.extend({
       layers: []         // layers to snap to
       ,sensitivity: 10   // snapping sensitivity
       ,vertexonly: false // vertex only snapping
+    }
+    ,shortcut: {
+      draw: {
+        enable: 68,      // char code for 'd'
+        disable: 81      // char code for 'q'
+      }
     }
   }
 
@@ -79,7 +86,10 @@ L.Routing = L.Control.extend({
     //L.DomUtil.disableTextSelection();
     //this._tooltip = new L.Tooltip(this._map);
     //this._tooltip.updateContent({ text: L.drawLocal.draw.marker.tooltip.start });
-    L.DomEvent.addListener(this._container, 'keyup', this._keyupListener, this);
+
+    if (this.options.shortcut) {
+      L.DomEvent.addListener(this._container, 'keyup', this._keyupListener, this);
+    }
 
     this._draw = new L.Routing.Draw(this, {
       icons: this.options.icons
@@ -140,7 +150,7 @@ L.Routing = L.Control.extend({
 
   ,_waypointClickHandler: function(e) {
     this.removeWaypoint(e.marker, function() {
-      console.log(arguments);
+      // console.log(arguments);
     });
   }
 
@@ -539,25 +549,47 @@ L.Routing = L.Control.extend({
    * @access public
    *
    * @param <object> geojson - GeoJSON object with waypoints
+   * @param <object> opts - parsing options
    * @param <function> cb - callback method (err)
    *
    * @return undefined
    *
   */
-  ,loadGeoJSON: function(geojson, cb) {
-    // Check for waypoints before processing geojson
-    if (!geojson.properties || !geojson.properties.waypoints) {
-      var msg = 'Invalid GeoJSON format. Missing waypoints markers.';
-      if (typeof cb === 'function') {
-        return cb(new Error(msg));
-      } else {
-        console.error(msg);
-      }
-    }
-
+  ,loadGeoJSON: function(geojson, opts, cb) {
     var $this, oldRouter, index, waypoints;
 
     $this = this;
+
+    // Check for optional options parameter
+    if (typeof opts === 'function' || typeof opts === 'undefined') {
+      cb = opts;
+      opts = {}
+    }
+
+    // Set default options
+    opts.waypointDistance = opts.waypointDistance || 50;
+    opts.fitBounds = opts.fitBounds || true;
+
+    // Check for waypoints before processing geojson
+    if (!geojson.properties || !geojson.properties.waypoints) {
+      if (!geojson.properties) { geojson.properties = {} };
+      geojson.properties.waypoints = [];
+
+      for (var i = 0; i < geojson.coordinates.length; i = i + opts.waypointDistance) {
+        geojson.properties.waypoints.push({
+          _index: i,
+          coordinates: geojson.coordinates[i].slice(0, 2)
+        });
+      }
+
+      if (i > geojson.coordinates.length-1) {
+        geojson.properties.waypoints.push({
+          _index: geojson.coordinates.length-1,
+          coordinates: geojson.coordinates[geojson.coordinates.length-1].slice(0, 2)
+        });
+      }
+    }
+
     index = 0;
     oldRouter = $this._router;
     waypoints = geojson.properties.waypoints;
@@ -584,7 +616,10 @@ L.Routing = L.Control.extend({
       $this._router = oldRouter; // Restore router
       // Set map bounds based on loaded geometry
       setTimeout(function() {
-        $this._map.fitBounds(L.polyline(L.GeoJSON.coordsToLatLngs(geojson.coordinates)).getBounds());
+        if (opts.fitBounds) {
+          $this._map.fitBounds(L.polyline(L.GeoJSON.coordsToLatLngs(geojson.coordinates)).getBounds());
+        }
+
         if (typeof cb === 'function') { cb(null); }
       }, 0);
     }
@@ -665,9 +700,9 @@ L.Routing = L.Control.extend({
    * @return void
   */
   ,_keyupListener: function (e) {
-    if (e.keyCode === 27) {
+    if (e.keyCode === this.options.shortcut.draw.disable) {
       this._draw.disable();
-    } else if (e.keyCode === 77) {
+    } else if (e.keyCode === this.options.shortcut.draw.enable) {
       this._draw.enable();
     }
   }

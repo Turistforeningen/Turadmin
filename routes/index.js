@@ -1,47 +1,67 @@
 
-/*
- * GET home page.
+/**
+ * GET home page
  */
 
 module.exports = function (app, options) {
     "use strict";
 
-    var connect = options.connect;
+    var underscore = require('underscore');
 
-    /*
-        GET list of routes (index page)
+    var client = options.dntConnect;
+    var api = options.dntApi;
+
+    /**
+     * GET list of routes (index page)
      */
     var getIndex = function (req, res) {
-        // Todo: Add autentication
-        req.session.userId = "testUserId";
-        res.render('index', { title: 'Mine turer' });
-    };
 
-    var getConnect = function (req, res) {
-      // Check for ?data= query
-      if (req && req.query && req.query.data) {
-        try {
-          var data = client.decryptJSON(req.query.data);
-        } catch (e) {
-          // @TODO handle this error propperly
-          var data = {er_autentisert: false}
-        }
+        console.log('GET index');
 
-        if (data.er_autentisert === true) {
-          // User is authenticated
+        var userGroups = [];
+
+        var renderOptions = {
+            title: 'Mine turer',
+            userData: JSON.stringify(req.session.user),
+            userGroups: null,
+            authType: req.session.authType
+        };
+
+        var render = function (options) {
+            res.render('index', options);
+        };
+
+        if (req.session.user && (!!req.session.user.sherpa_id)) {
+
+            api.getAssociationsFor({bruker_sherpa_id: req.session.user.sherpa_id}, function(err, statusCode, associations) {
+                if (err) { throw err; }
+                if (statusCode === 200) {
+
+                    for (var i = 0; i < associations.length; i++) {
+                        userGroups.push(associations[i]);
+                    }
+
+                    renderOptions.userGroups = JSON.stringify(userGroups);
+
+                    render(renderOptions);
+
+                } else {
+                    console.error('Request failed! HTTP status code returned is ' + statusCode);
+                    console.error(associations.errors);
+                }
+            });
+
         } else {
-          // User is not authenticated
+            console.log('Not implemented.');
+            // User is authenticated by other method than DNT Connect
+            // render(renderenderOptions);
         }
 
-      // Initiate DNT Connect signon
-      } else {
-        res.redirect(connect.signon('http://localhost:3004/connect'));
-      }
+
     };
 
     app.get('/', getIndex);
     app.get('/index', getIndex);
-    app.get('/connect', getConnect);
 
 };
 

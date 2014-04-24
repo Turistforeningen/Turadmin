@@ -67,10 +67,9 @@ var DNT = window.DNT || {};
 
         initialize: function () {
             this.on("change:linkText", this.updateLinks);
-            this.on("change:lenker", function(){ console.log('lenker changed!!!'); });
             this.on("change:turtype", this.updateTurtypeInTags);
             this.on("change:flereTurtyper", this.updateFlereTurtyperInTags);
-
+            // this.on("change:tidsbrukMinutter", function(){ debugger; }, this);
             var duration = this.get('tidsbruk');
 
             if (!!duration.normal) {
@@ -170,6 +169,7 @@ var DNT = window.DNT || {};
             var days = this.get("tidsbrukDager");
             var hours = this.get("tidsbrukTimer");
             var minutes = this.get("tidsbrukMinutter");
+
             var tidsbruk = {
                 normal: {
                     timer: "0",
@@ -184,18 +184,6 @@ var DNT = window.DNT || {};
             this.set("tidsbruk", tidsbruk);
         }
 
-    });
-
-    ns.RouteCollection = Backbone.Collection.extend({
-        url: function () {
-            return apiUri();
-        },
-
-        model: ns.Route,
-
-        parse: function (response) {
-            return response.documents || [];
-        }
     });
 
 }(DNT));

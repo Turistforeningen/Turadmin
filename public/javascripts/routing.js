@@ -76,12 +76,12 @@ var DNT = window.DNT || {};
             enableSnapping = enable;
         };
 
-        this.getGeojson = function () {
+        this.getGeoJson = function () {
             return routing.toGeoJSON(true);
         };
 
-        this.loadGeoJSON = function (geoJSON) {
-            routing.loadGeoJSON(geoJSON);
+        this.loadGeoJson = function (geoJson, options, callback) {
+            routing.loadGeoJSON(geoJson, options, callback);
         };
     };
 

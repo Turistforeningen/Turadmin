@@ -9,33 +9,35 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    var alleStedKategorier = {
-        selectData: [
-            { value: "Hytte", label: "Hytte" },
-            { value: "Fjelltopp", label: "Fjelltopp" },
-            { value: "Gapahuk", label: "Gapahuk" },
-            { value: "Rasteplass", label: "Rasteplass" },
-            { value: "Telplass", label: "Telplass" },
-            { value: "Geocaching", label: "Geocaching" },
-            { value: "Turpostkasse", label: "Turpostkasse" },
-            { value: "Turorientering", label: "Turorientering" },
-            { value: "Utsiktspunkt", label: "Utsiktspunkt" },
-            { value: "Attraksjon", label: "Attraksjon" },
-            { value: "Badeplass", label: "Badeplass" },
-            { value: "Fiskeplass", label: "Fiskeplass" },
-            { value: "Klatrefelt", label: "Klatrefelt" },
-            { value: "Akebakke", label: "Akebakke" },
-            { value: "Skitrekk", label: "Skitrekk" },
-            { value: "Kitested", label: "Kitested" },
-            { value: "Skøytevann", label: "Skøytevann" },
-            { value: "Toalett", label: "Toalett" },
-            { value: "Bro", label: "Bro" },
-            { value: "Vadested", label: "Vadested" },
-            { value: "Parkering", label: "Parkering" },
-            { value: "Holdeplass", label: "Holdeplass" },
-            { value: "Togstasjon", label: "Togstasjon" }
-        ]
-    };
+    // var alleStedKategorier = {
+    //     selectData: [
+    //         { value: "Hytte", label: "Hytte" },
+    //         { value: "Fjelltopp", label: "Fjelltopp" },
+    //         { value: "Gapahuk", label: "Gapahuk" },
+    //         { value: "Rasteplass", label: "Rasteplass" },
+    //         { value: "Telplass", label: "Telplass" },
+    //         { value: "Geocaching", label: "Geocaching" },
+    //         { value: "Turpostkasse", label: "Turpostkasse" },
+    //         { value: "Turorientering", label: "Turorientering" },
+    //         { value: "Utsiktspunkt", label: "Utsiktspunkt" },
+    //         { value: "Attraksjon", label: "Attraksjon" },
+    //         { value: "Badeplass", label: "Badeplass" },
+    //         { value: "Fiskeplass", label: "Fiskeplass" },
+    //         { value: "Klatrefelt", label: "Klatrefelt" },
+    //         { value: "Akebakke", label: "Akebakke" },
+    //         { value: "Skitrekk", label: "Skitrekk" },
+    //         { value: "Kitested", label: "Kitested" },
+    //         { value: "Skøytevann", label: "Skøytevann" },
+    //         { value: "Toalett", label: "Toalett" },
+    //         { value: "Bro", label: "Bro" },
+    //         { value: "Vadested", label: "Vadested" },
+    //         { value: "Parkering", label: "Parkering" },
+    //         { value: "Holdeplass", label: "Holdeplass" },
+    //         { value: "Togstasjon", label: "Togstasjon" }
+    //     ]
+    // };
+
+    var alleStedKategorier = ["Hytte", "Fjelltopp", "Gapahuk", "Rasteplass", "Telplass", "Geocaching", "Turpostkasse", "Turorientering", "Utsiktspunkt", "Attraksjon", "Badeplass", "Fiskeplass", "Klatrefelt", "Akebakke", "Skitrekk", "Kitested", "Skøytevann", "Toalett", "Bro", "Vadested", "Parkering", "Holdeplass", "Togstasjon"];
 
     var poiViewBindings = {
         '[name="navn"]': "navn",
@@ -83,16 +85,18 @@ var DNT = window.DNT || {};
                 this.stickit(this.model, poiViewBindings);
             }
 
-            var flereStedKategorierSelect = new DNT.SelectView({ model: this.model, selectOptions: alleStedKategorier });
-            this.$('.flereStedKategorierSelectContainer').html(flereStedKategorierSelect.render().el);
-
             var poiTags = this.model.get('tags');
             var poiCategory = (poiTags.length > 0) ? poiTags[0] : '';
             var poiAdditionalCategories = (poiTags.length > 1) ? _.clone(poiTags) : [];
 
             poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
-            flereStedKategorierSelect.$el.select2().select2('val', poiAdditionalCategories).on('change', $.proxy(this.onFlereStedKategorierChange, this));
 
+            this.$('.flereStedKategorierSelectContainer input').select2({
+                tags: alleStedKategorier,
+                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+            }).on('change', $.proxy(this.onFlereStedKategorierChange, this));
+
+            this.$('.flereStedKategorierSelectContainer input').select2('val', poiAdditionalCategories);
 
             var poiPicturesView = new DNT.PoiPicturesView({ model: this.model, pictureCollection: this.pictureCollection });
             this.$(".currentRouteImages .routePicturesContainer").append(poiPicturesView.render().el);

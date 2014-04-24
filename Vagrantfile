@@ -30,7 +30,8 @@ cd /vagrant/ && rm -rf node_modules
 # Read secret environment variables
 NTB_API_KEY=`cat ./env/NTB_API_KEY`
 ROUTING_API_URL=`cat ./env/ROUTING_API_URL`
-DNT_CONNECT=`cat ./env/DNT_CONNECT`
+DNT_CONNECT_USER=`cat ./env/DNT_CONNECT_USER`
+DNT_CONNECT_KEY=`cat ./env/DNT_CONNECT_KEY`
 
 # Vagratnt Environment Varaibles
 echo "Setting environment variables..."
@@ -39,7 +40,8 @@ echo "export PORT_WWW=8080"                              >> /home/vagrant/.bashr
 echo "export URL_WWW=http://localhost:8080/"             >> /home/vagrant/.bashrc
 echo "export NTB_API_KEY=$NTB_API_KEY"                   >> /home/vagrant/.bashrc
 echo "export NTB_API_URL=http://api.nasjonalturbase.no/" >> /home/vagrant/.bashrc
-echo "export DNT_CONNECT=$DNT_CONNECT"                   >> /home/vagrant/.bashrc
+echo "export DNT_CONNECT_USER=$DNT_CONNECT_USER"         >> /home/vagrant/.bashrc
+echo "export DNT_CONNECT_KEY=$DNT_CONNECT_KEY"           >> /home/vagrant/.bashrc
 echo "\ncd /vagrant"                                     >> /home/vagrant/.bashrc
 
 chown vagrant:vagrant /home/vagrant/.nvm
