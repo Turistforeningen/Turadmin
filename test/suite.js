@@ -13,10 +13,7 @@ before(function () {
 describe('/', function () {
     "use strict";
     it('should be able to start the server without crashing', function (done) {
-        req.get('/').expect(200).end(function (err, res) {
-            assert.ifError(err);
-            done();
-        });
+        req.get('/').expect(302, done);
     });
 });
 
