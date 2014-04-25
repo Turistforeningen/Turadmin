@@ -19,7 +19,6 @@ var DNT = window.DNT || {};
 
         defaults: {
             navn: '',
-            geojson: null,
             lenker: [],
             tidsbrukDager: "1",
             tidsbrukTimer: "0",

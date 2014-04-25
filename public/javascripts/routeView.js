@@ -84,8 +84,6 @@ var DNT = window.DNT || {};
         unsavedChanges: function() {
             this.$(".disabled").removeClass("disabled"); // disable save button until model is changed
             this.updateSaveButton(false);
-
-            console.log('Model has unsavedChanges');
         },
 
         publish: function() {
@@ -128,25 +126,23 @@ var DNT = window.DNT || {};
 
         save: function() {
 
-            var that = this;
+            var me = this;
 
             var afterPictureAndPoiSync = function () {
-                that.route.setPoiIds(that.poiCollection.getPoiIds());
-                that.route.setPictureIds(that.pictureCollection.getPictureIds());
-                if (that.route.isValid()) {
-                    that.route.save(undefined, {
-                        success: function () {
-                            console.log("saved route");
-                            that.updateSaveButton(true);
-                            that.updatePublishButtons();
-                        },
-                        error: function (e) {
-                            console.log("error", e);
-                        }
-                    });
-                } else {
-                    console.warn('Route is not valid. Won\'t try saving.');
-                }
+                me.route.setPoiIds(me.poiCollection.getPoiIds());
+                me.route.setPictureIds(me.pictureCollection.getPictureIds());
+
+                me.route.save(undefined, {
+                    success: function () {
+                        console.log("saved route");
+                        me.updateSaveButton(true);
+                        me.updatePublishButtons();
+                    },
+                    error: function (e) {
+                        console.log("error", e);
+                    }
+                });
+
             };
 
             var saveDone = _.after(2, afterPictureAndPoiSync);
