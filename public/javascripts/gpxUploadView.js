@@ -32,13 +32,13 @@ var DNT = window.DNT || {};
                 //     me.renderProgressBar(data);
                 // },
                 fail: function (e, data) {
-                    console.error('Upload failed.', e);
+                    // console.error('Upload failed.', e);
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
             fileUpload.on('fileuploadprocessfail', function (e, data) {
                 me.$('[data-placeholder="gpx-upload-status"]').html(data.files[0].error).addClass('has-error');
-                console.log(data.files[0].error);
+                // console.log(data.files[0].error);
             });
 
             fileUpload.on('fileuploadprocessdone', function (e, data) {

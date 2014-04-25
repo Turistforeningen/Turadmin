@@ -12,9 +12,7 @@ var DNT = window.DNT || {};
     ns.ListItemView = Backbone.View.extend({
 
         template: _.template($('#listRouteItemTemplate').html()),
-
         tagName: "tr",
-
         className: "clickable",
 
         events: {
@@ -30,7 +28,6 @@ var DNT = window.DNT || {};
         loadRoute: function () {
             var turId = this.model.get("_id");
             window.location = '/tur/' + turId;
-
         },
 
         deleteRoute: function () {
@@ -39,7 +36,7 @@ var DNT = window.DNT || {};
 
         publishRoute: function () {
             // TODO: Implement functionality
-            console.log('publish');
+            // console.log('publish');
         },
 
         removeItemView: function () {
