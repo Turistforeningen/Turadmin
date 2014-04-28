@@ -41,12 +41,14 @@ var DNT = window.DNT || {};
             "click .route-facts-field-tags-primary label": "setPrimaryTag"
         },
 
-        initialize : function () {
+        initialize: function (options) {
 
             _.bindAll(this, "toggleHoursAndMinutesVisiblity", "addNameToHeader");
             this.model.on("change:tidsbrukDager", this.toggleHoursAndMinutesVisiblity);
             this.model.on("change:turtype", this.updateFlereTurtyperOptions, this);
             this.model.on("change:navn", this.addNameToHeader);
+
+            this.user = options.user;
 
             if (!!this.model.get("navn") && this.model.get("navn").length > 0) {
                 this.addNameToHeader();
@@ -162,15 +164,31 @@ var DNT = window.DNT || {};
 
             this.$('[name="route-facts-field-tilrettelagt_for"]').select2('val', this.model.get('tilrettelagt_for'));
 
-            $('input[name="route-facts-field-grupper"]').select2({
-                tags: [],
-                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
-            }).on('change', $.proxy(function (e) {
-                var grupper = e.val;
-                this.model.set('grupper', grupper);
-            }, this));
+            var userGroups = this.user.get('grupper');
+            if (userGroups.length > 0) {
+                var select2Groups = [];
 
-            this.$('[name="route-facts-field-grupper"]').select2('val', this.model.get('grupper'));
+                for (var i = 0; i < userGroups.length; i++) {
+                    select2Groups[i] = {};
+                    select2Groups[i].id = userGroups[i].object_id;
+                    select2Groups[i].text = userGroups[i].navn;
+                };
+
+                $('input[name="route-facts-field-grupper"]').select2({
+                    tags: select2Groups,
+                    createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+                }).on('change', $.proxy(function (e) {
+                    var routeGroups = e.val;
+                    this.model.set('grupper', routeGroups);
+                }, this));
+
+                this.$('[name="route-facts-field-grupper"]').select2('val', this.model.get('grupper'));
+
+            } else {
+                // If user does not belong to any groups, do not show groups field.
+                this.$('.form-group.route-facts-field-grupper').remove();
+            }
+
 
             var routeFactsLinksView = new DNT.RouteFactsLinksView({ model: this.model });
             this.$('#routeFactsLinksInput').append(routeFactsLinksView.render().el);

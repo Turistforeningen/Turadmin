@@ -13,7 +13,7 @@ var DNT = window.DNT || {};
 
         el: '#view-route',
 
-        initialize: function () {
+        initialize: function (options) {
 
             this.searchCollection = new DNT.SearchCollection();
             this.searchFieldView = new DNT.SearchFieldView({ collection: this.searchCollection });
@@ -21,7 +21,8 @@ var DNT = window.DNT || {};
             this.mapView = new DNT.MapView({ model: this.model });
             this.pictureView = new DNT.PicturesView({ model: this.model });
             this.route = this.model.get("route");
-            this.routeFactsView = new DNT.RouteFactsView({ model: this.route });
+            this.user = this.model.get('user');
+            this.routeFactsView = new DNT.RouteFactsView({ model: this.route, user: this.user });
             this.route.on("change", this.unsavedChanges, this);
             this.poiCollection = this.model.get("poiCollection");
             this.poiCollection.on("add", this.unsavedChanges, this);
