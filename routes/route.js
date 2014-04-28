@@ -9,6 +9,7 @@ module.exports = function (app, restProxy, options) {
     "use strict";
 
     var underscore = require('underscore');
+    var api = options.dntApi;
 
     /*
      * GET add new route page.
@@ -49,12 +50,12 @@ module.exports = function (app, restProxy, options) {
 
             var onCompletePictureRequest = function (data) {
                 picturesData.push(data);
-                doRender();
+                allResourcesLoaded();
             };
 
             var onCompletePoiRequest = function (data) {
                 poisData.push(data);
-                doRender();
+                allResourcesLoaded();
             };
 
             // console.log('Fetching', picturesCount, 'pictures...');
@@ -71,7 +72,7 @@ module.exports = function (app, restProxy, options) {
             }
             // console.log('Done!');
 
-            var doRender = underscore.after(totalResourcesCount, function () {
+            var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
                 // console.log('All resources fetched!');
 
@@ -88,22 +89,49 @@ module.exports = function (app, restProxy, options) {
 
                 }
 
-                // console.log('Do render!');
+                if (req.session.user && (!!req.session.user.sherpa_id)) {
 
-                res.render('route', {
-                    pageTitle: data.navn,
-                    routeApiUri: options.routeApiUri,
-                    routeName: routeData.navn,
-                    routeData: JSON.stringify(routeData),
-                    picturesData: JSON.stringify(sortedPicturesData),
-                    poisData: JSON.stringify(poisData),
-                    userData: JSON.stringify(app.user),
-                    authType: req.session.authType
-                });
+                    var userGroups = [];
+
+                    api.getAssociationsFor({bruker_sherpa_id: req.session.user.sherpa_id}, function(err, statusCode, associations) {
+                        if (err) { throw err; }
+                        if (statusCode === 200) {
+
+                            for (var i = 0; i < associations.length; i++) {
+                                userGroups.push(associations[i]);
+                            }
+
+                            res.render('route', {
+                                pageTitle: data.navn,
+                                routeApiUri: options.routeApiUri,
+                                routeName: routeData.navn,
+                                routeData: JSON.stringify(routeData),
+                                picturesData: JSON.stringify(sortedPicturesData),
+                                poisData: JSON.stringify(poisData),
+                                userData: JSON.stringify(app.user),
+                                authType: req.session.authType,
+                                userGroups: JSON.stringify(userGroups)
+                            });
+
+
+                        } else {
+                            console.error('Request failed! HTTP status code returned is ' + statusCode);
+                            console.error(associations.errors);
+                        }
+                    });
+
+                } else {
+                    console.log('Not implemented.');
+                    // User is authenticated by other method than DNT Connect
+                    // render(renderenderOptions);
+                }
+
+
+
 
             });
 
-            doRender();
+            allResourcesLoaded();
 
         };
 

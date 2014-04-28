@@ -67,6 +67,9 @@ block extraHeadContent
         - if (typeof(poisData) !== 'undefined')
             | appData.poisData = !{poisData};
             | console.log('Loaded route with poisData:', !{poisData});
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            | console.log('Loaded route with userGroups:', !{userGroups});
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
             | console.log('Loaded route with userData:', !{userData});

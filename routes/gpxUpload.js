@@ -40,6 +40,8 @@ module.exports = function (app, express, options) {
 
         if (!!fileInfo && !!fileInfo.name && fileInfo.name.match(/\.gpx/)) {
 
+            console.log(fileInfo);
+
             // var uploadDir = createOptions(req.session.userId).uploadDir();
             var uploadDir = createOptions('testUserId').uploadDir();
 

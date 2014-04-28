@@ -63,7 +63,7 @@ var restProxy = require('./routes/restProxy')(app, {
     pictureFileManager: pictureFileManager
 });
 
-require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri });
+require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey) });
 require('./routes/ssrProxy')(app, {});
 
 // NOTE: Only listen for port if the application is not included by another module. Eg. the test runner.
