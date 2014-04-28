@@ -54,17 +54,4 @@ module.exports = function (app, express, options) {
 
     });
 
-    var moveFileToPermanentStorage = function (url, userId, cb) {
-        var options = createOptions(userId);
-        var fileManager = upload.fileManager(options);
-        fileManager.move(url, "../permanent", function (error, result) {
-            if (!error) {
-                result.url = result.url.replace("tmp/../", "");
-                result.thumbnailUrl = result.thumbnailUrl.replace("tmp/../", "");
-            }
-            cb(error, result);
-        });
-    };
-
-    return {moveFileToPermanentStorage: moveFileToPermanentStorage};
 };
