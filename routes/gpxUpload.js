@@ -38,6 +38,9 @@ module.exports = function (app, express, options) {
     // When upload is done, convert gpx file to GeoJSON using togeojson
     upload.on('end', function (fileInfo) {
 
+        // console.log('fileInfo');
+        // console.log(fileInfo);
+
         if (!!fileInfo && !!fileInfo.name && fileInfo.name.match(/\.gpx/)) {
 
             console.log(fileInfo);
@@ -47,6 +50,9 @@ module.exports = function (app, express, options) {
 
             var gpxFileContents = jsdom(fs.readFileSync(uploadDir + '/' + fileInfo.name, 'utf8'));
             var converted = togeojson.gpx(gpxFileContents);
+
+            // NOTE: A way to confirm that the file has been deleted?
+            fs.unlinkSync(uploadDir + '/' + fileInfo.name);
 
             underscore.extend(fileInfo, converted);
 
