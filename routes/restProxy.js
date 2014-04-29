@@ -66,7 +66,7 @@ module.exports = function (app, options) {
         console.log("Request url " + url);
 
         var onCompleteDefault = function (data) {
-            console.log(data);
+            // console.log(data);
             if (data.document !== undefined) {
                 data.document = undefined;
             }

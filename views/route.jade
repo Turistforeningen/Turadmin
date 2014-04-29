@@ -60,19 +60,19 @@ block extraHeadContent
 
         - if (typeof(routeData) !== 'undefined')
             | appData.routeData = !{routeData};
-            | console.log('Loaded route with routeData:', !{routeData});
+            //- | console.log('Loaded route with routeData:', !{routeData});
         - if (typeof(picturesData) !== 'undefined')
             | appData.picturesData = !{picturesData};
-            | console.log('Loaded route with picturesData:', !{picturesData});
+            //- | console.log('Loaded route with picturesData:', !{picturesData});
         - if (typeof(poisData) !== 'undefined')
             | appData.poisData = !{poisData};
-            | console.log('Loaded route with poisData:', !{poisData});
+            //- | console.log('Loaded route with poisData:', !{poisData});
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
-            | console.log('Loaded route with userGroups:', !{userGroups});
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
-            | console.log('Loaded route with userData:', !{userData});
+            //- | console.log('Loaded route with userData:', !{userData});
 
         | DNT.initRouteApp(appData);
         | });

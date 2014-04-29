@@ -20,15 +20,15 @@ block extraHeadContent
 
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
-            | console.log('Loaded route with userData:', !{userData});
+            //- | console.log('Loaded route with userData:', !{userData});
 
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
-            | console.log('Loaded route with userGroups:', !{userGroups});
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
 
         - if (typeof(authType) !== 'undefined')
             | appData.authType = '#{authType}';
-            | console.log('Loaded route with authType:', '#{authType}');
+            //- | console.log('Loaded route with authType:', '#{authType}');
 
         | new DNT.IndexView(appData);
         | });

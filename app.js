@@ -2,13 +2,6 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var path = require('path');
-var upload = require('jquery-file-upload-middleware');
-var Connect = require('dnt-connect');
-var DNT = require('dnt-api');
-
-var app = module.exports = express();
 var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
@@ -16,9 +9,17 @@ var ntbApiKey = process.env.NTB_API_KEY;
 var dntConnectUser = process.env.DNT_CONNECT_USER;
 var dntConnectKey = process.env.DNT_CONNECT_KEY;
 
-// var dntApiUser = process.env.DNT_API_USER;
-// var dntApiKey = process.env.DNT_API_KEY;
 var dntApiKey = process.env.DNT_CONNECT_KEY;
+
+var express = require('express');
+var path = require('path');
+var upload = require('jquery-file-upload-middleware');
+var Connect = require('dnt-connect');
+var DNT = require('dnt-api');
+
+var app = module.exports = express();
+
+var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
 
 var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
@@ -50,20 +51,20 @@ app.configure('production', function () {
     "use strict";
 });
 
-require('./routes/auth')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ) });
-require('./routes')(app, { dntConnect: new Connect(dntConnectUser, dntConnectKey ), dntApi: new DNT('Turadmin/1.0', dntApiKey)});
+require('./routes/auth')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
+require('./routes')(app, {
+    dntConnect: new Connect(dntConnectUser, dntConnectKey),
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher
+});
 
 // var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __dirname });
 
-var restProxy = require('./routes/restProxy')(app, {
-    ntbApiUri: ntbApiUri,
-    ntbApiKey: ntbApiKey,
-    pictureFileManager: pictureFileManager
-});
+var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey, pictureFileManager: pictureFileManager});
 
-require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey) });
+require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey), userGroupsFetcher: userGroupsFetcher });
 require('./routes/ssrProxy')(app, {});
 
 // NOTE: Only listen for port if the application is not included by another module. Eg. the test runner.

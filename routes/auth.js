@@ -23,7 +23,7 @@ module.exports = function (app, options) {
             next();
 
         } else {
-            if (req.session.user && (req.session.user.er_autentisert === true)) {
+            if (req.session && req.session.user && (req.session.user.er_autentisert === true)) {
                 // User has a session and is authenticated
                 next();
             } else {

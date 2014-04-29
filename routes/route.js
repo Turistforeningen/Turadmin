@@ -9,21 +9,32 @@ module.exports = function (app, restProxy, options) {
     "use strict";
 
     var underscore = require('underscore');
-    var api = options.dntApi;
+    var userGroupsFetcher = options.userGroupsFetcher;
 
     /*
      * GET add new route page.
      */
-    var route = function (req, res) {
+    var route = function (req, res, next) {
+
+        var userGroups = req.userGroups || [];
+
+        var renderOptions = {
+            title: 'Opprett ny tur',
+            routeApiUri: options.routeApiUri,
+            userGroups: JSON.stringify(userGroups)
+        };
+
         req.session.userId = 'testUserId';
-        res.render('route', { title: 'Opprett ny tur', routeApiUri: options.routeApiUri });
+        res.render('route', renderOptions);
     };
 
-    var routeEdit = function (req, res) {
+    var routeEdit = function (req, res, next) {
+
+        var userGroups = req.userGroups || [];
 
         var turId = req.params.id;
 
-        req.session.userId = "testUserId";
+        req.session.userId = 'testUserId';
 
         // TODO: Fix dynamic URL
         var url = 'http://localhost:3000/restProxy/turer/' + turId;
@@ -89,45 +100,17 @@ module.exports = function (app, restProxy, options) {
 
                 }
 
-                if (req.session.user && (!!req.session.user.sherpa_id)) {
-
-                    var userGroups = [];
-
-                    api.getAssociationsFor({bruker_sherpa_id: req.session.user.sherpa_id}, function(err, statusCode, associations) {
-                        if (err) { throw err; }
-                        if (statusCode === 200) {
-
-                            for (var i = 0; i < associations.length; i++) {
-                                userGroups.push(associations[i]);
-                            }
-
-                            res.render('route', {
-                                pageTitle: data.navn,
-                                routeApiUri: options.routeApiUri,
-                                routeName: routeData.navn,
-                                routeData: JSON.stringify(routeData),
-                                picturesData: JSON.stringify(sortedPicturesData),
-                                poisData: JSON.stringify(poisData),
-                                userData: JSON.stringify(app.user),
-                                authType: req.session.authType,
-                                userGroups: JSON.stringify(userGroups)
-                            });
-
-
-                        } else {
-                            console.error('Request failed! HTTP status code returned is ' + statusCode);
-                            console.error(associations.errors);
-                        }
-                    });
-
-                } else {
-                    console.log('Not implemented.');
-                    // User is authenticated by other method than DNT Connect
-                    // render(renderenderOptions);
-                }
-
-
-
+                res.render('route', {
+                    pageTitle: data.navn,
+                    routeApiUri: options.routeApiUri,
+                    routeName: routeData.navn,
+                    routeData: JSON.stringify(routeData),
+                    picturesData: JSON.stringify(sortedPicturesData),
+                    poisData: JSON.stringify(poisData),
+                    userData: JSON.stringify(app.user),
+                    authType: req.session.authType,
+                    userGroups: JSON.stringify(userGroups)
+                });
 
             });
 
@@ -135,11 +118,14 @@ module.exports = function (app, restProxy, options) {
 
         };
 
-        restProxy.makeApiRequest("/turer/" + turId, req, undefined, onCompleteTurRequest);
+        restProxy.makeApiRequest('/turer/' + turId, req, undefined, onCompleteTurRequest);
 
     };
 
+    app.get('/tur', userGroupsFetcher);
     app.get('/tur', route);
+
+    app.get('/tur/:id', userGroupsFetcher);
     app.get('/tur/:id', routeEdit);
 
 };
