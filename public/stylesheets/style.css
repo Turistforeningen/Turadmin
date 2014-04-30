@@ -188,6 +188,13 @@ a {
 }
 
 
+/* Form styling */
+
+.required > label:after {
+	color: #b40000;
+	content: '\00a0*';
+}
+
 /* Map and controls */
 
 .mapControls {
