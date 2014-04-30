@@ -307,6 +307,14 @@ a {
 	margin-bottom: 20px;
 }
 
+.route-pois-accordion .panel-title {
+	overflow: hidden;
+}
+
+.route-pois-accordion .panel-title .poi-delete {
+	float: right;
+}
+
 
 /* POI Images, selectable */
 

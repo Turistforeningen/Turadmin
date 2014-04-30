@@ -9,60 +9,45 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    // var alleStedKategorier = {
-    //     selectData: [
-    //         { value: "Hytte", label: "Hytte" },
-    //         { value: "Fjelltopp", label: "Fjelltopp" },
-    //         { value: "Gapahuk", label: "Gapahuk" },
-    //         { value: "Rasteplass", label: "Rasteplass" },
-    //         { value: "Telplass", label: "Telplass" },
-    //         { value: "Geocaching", label: "Geocaching" },
-    //         { value: "Turpostkasse", label: "Turpostkasse" },
-    //         { value: "Turorientering", label: "Turorientering" },
-    //         { value: "Utsiktspunkt", label: "Utsiktspunkt" },
-    //         { value: "Attraksjon", label: "Attraksjon" },
-    //         { value: "Badeplass", label: "Badeplass" },
-    //         { value: "Fiskeplass", label: "Fiskeplass" },
-    //         { value: "Klatrefelt", label: "Klatrefelt" },
-    //         { value: "Akebakke", label: "Akebakke" },
-    //         { value: "Skitrekk", label: "Skitrekk" },
-    //         { value: "Kitested", label: "Kitested" },
-    //         { value: "Skøytevann", label: "Skøytevann" },
-    //         { value: "Toalett", label: "Toalett" },
-    //         { value: "Bro", label: "Bro" },
-    //         { value: "Vadested", label: "Vadested" },
-    //         { value: "Parkering", label: "Parkering" },
-    //         { value: "Holdeplass", label: "Holdeplass" },
-    //         { value: "Togstasjon", label: "Togstasjon" }
-    //     ]
-    // };
-
-    var alleStedKategorier = ["Hytte", "Fjelltopp", "Gapahuk", "Rasteplass", "Telplass", "Geocaching", "Turpostkasse", "Turorientering", "Utsiktspunkt", "Attraksjon", "Badeplass", "Fiskeplass", "Klatrefelt", "Akebakke", "Skitrekk", "Kitested", "Skøytevann", "Toalett", "Bro", "Vadested", "Parkering", "Holdeplass", "Togstasjon"];
-
-    var poiViewBindings = {
-        '[name="navn"]': "navn",
-        '[name="beskrivelse"]': "beskrivelse",
-        '[name="kategori"]': "kategori",
-        '#poiHeader': "navn"
-    };
+    var alleStedKategorier = ['Hytte', 'Fjelltopp', 'Gapahuk', 'Rasteplass', 'Telplass', 'Geocaching', 'Turpostkasse', 'Turorientering', 'Utsiktspunkt', 'Attraksjon', 'Badeplass', 'Fiskeplass', 'Klatrefelt', 'Akebakke', 'Skitrekk', 'Kitested', 'Skøytevann', 'Toalett', 'Bro', 'Vadested', 'Parkering', 'Holdeplass', 'Togstasjon'];
 
     ns.PoiView = Backbone.View.extend({
+
+        bindings: {
+            '[name="navn"]': 'navn',
+            '[name="beskrivelse"]': 'beskrivelse',
+            '[name="kategori"]': 'kategori',
+            '[data-placeholder="poi-name"]': 'navn'
+        },
+
+        events: {
+            'click [data-action="poi-delete"]': 'deletePoi',
+            'click [data-action="poi-delete-modal-open"]': 'openDeleteModal'
+        },
 
         template: _.template($('#poiTemplate').html()),
 
         initialize: function (options) {
             this.model = options.model;
             this.pictureCollection = options.pictureCollection;
+            _.bindAll(this, 'deletePoi');
         },
 
-        events: {
-            'click #deletePoi': 'deletePoi'
+        openDeleteModal: function (e) {
+            this.$('.modal').modal('show');
         },
 
-        deletePicture: function (e) {
-            e.preventDefault();
-            this.model.deletePoi();
-            this.render();
+        deletePoi: function (e) {
+
+            var me = this;
+
+            this.$('.modal').on('hidden.bs.modal', function (e) {
+                me.model.deletePoi();
+                me.render();
+            });
+
+            this.$('.modal').modal('hide');
+
         },
 
         onFlereStedKategorierChange: function (e) {
@@ -82,7 +67,7 @@ var DNT = window.DNT || {};
                 json.cid = this.model.cid;
                 var html =  this.template(json);
                 $(this.el).html(html);
-                this.stickit(this.model, poiViewBindings);
+                this.stickit(this.model, this.bindings);
             }
 
             var poiTags = this.model.get('tags');

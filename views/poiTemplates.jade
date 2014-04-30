@@ -7,7 +7,8 @@ script(type="text/template" id="poiTemplate").
     <div class="panel panel-default">
         <div class="panel-heading">
         <h4 class="panel-title">
-            <a id="poiHeader" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>">Sted uten navn</a>
+            <a data-placeholder="poi-name" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>">Sted uten navn</a>
+            <a class="btn btn-default btn-xs poi-delete" data-action="poi-delete-modal-open">Slett sted</a>
         </h4>
         </div>
         <div id="route-pois-accordion-<%= cid %>" class="panel-collapse collapse in">
@@ -75,16 +76,8 @@ script(type="text/template" id="poiTemplate").
                             Du har ikke lagt inn noen bilder for denne turen.
                         </div>-->
                         <div class="currentRouteImages selectableImages">
-                            <!--<h6>Dine bilder fra denne turen</h6>-->
-                            <div class="row routePicturesContainer">
-                            </div>
+                            <div class="row routePicturesContainer"></div>
                         </div>
-                        <!--
-                        <div class="otherRouteImages selectableImages">
-                            <h6>Dine bilder fra andre turer i nærheten</h6>
-                            <div class="row">
-                            </div>
-                        </div>-->
 
                         <p class="help-block">Dersom noen av bildene du har lagt ut til turen er relatert til dette stedet kan du knytte bilder til stedet her.</p>
                     </div>
@@ -92,6 +85,23 @@ script(type="text/template" id="poiTemplate").
             </div>
         </div>
     </div>
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Slette sted?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Er du sikker på at du vil slette stedet <span data-placeholder="poi-name"></span> fra turen?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                    <button type="button" class="btn btn-primary" data-action="poi-delete">Slett</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 script(type="text/template" id="poiPicturesTemplate").
 
@@ -105,7 +115,5 @@ script(type="text/template" id="poiPicturesTemplate").
 
 script(type="text/template" id="poiPictureTemplate").
     <div class="col-sm-3">
-        <div class="thumbnail selected">
-            <img src="http://gfx.nrk.no/HZu2FvujHHd8wZKrDT3bRwAhe2gBwouzCJa9iKCaLgdQ#width=420&height=280&crop=&keep_aspect=0" class="img-responsive" />
-        </div>
+        <div class="thumbnail selected"></div>
     </div>
