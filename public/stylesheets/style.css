@@ -115,6 +115,11 @@ a {
 	opacity: 1;
 }
 
+.action-route-save *,
+.action-route-switch-publish-state * {
+	color: #fff !important;
+}
+
 
 /* Addon class btn-outline */
 
@@ -319,7 +324,7 @@ a {
 /* POI Images, selectable */
 
 /* TODO: This selector should be .thumbnail.selectable - need to fix markup first! */
-.selectableImages .thumbnail {
+.thumbnail.selectable {
 	cursor: pointer;
 }
 
@@ -327,7 +332,18 @@ a {
 	position: relative;
 }
 
-.thumbnail.selected:before{
+.thumbnail.selected,
+.thumbnail.selectable:hover {
+	position: relative;
+}
+
+.thumbnail.selected:before,
+.thumbnail.selectable:hover:before {
+	display: block;
+}
+
+.thumbnail.selected:before,
+.thumbnail.selectable:hover:before {
 	display: block;
 	font-family: 'Glyphicons Halflings';
 	content: '\e013';

@@ -75,7 +75,7 @@ script(type="text/template" id="poiTemplate").
                             <strong>Ingen bilder!</strong>
                             Du har ikke lagt inn noen bilder for denne turen.
                         </div>-->
-                        <div class="currentRouteImages selectableImages">
+                        <div class="currentRouteImages">
                             <div class="row routePicturesContainer"></div>
                         </div>
 
@@ -107,7 +107,7 @@ script(type="text/template" id="poiPicturesTemplate").
 
     <% _.each(output.models, function(picture) { %>
         <div class="col-sm-3">
-            <div class="thumbnail <%= isSelected(picture, scope) %>" data-_id="<%= picture.attributes._id %>">
+            <div class="thumbnail selectable <%= isSelected(picture, scope) %>" data-_id="<%= picture.attributes._id %>">
                 <img src="<%= picture.attributes.thumbnailUrl %>" class="img-responsive" />
             </div>
         </div>
