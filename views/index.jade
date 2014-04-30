@@ -7,11 +7,11 @@ block extraHeadContent
 
     include indexTemplates
 
-    script(src='javascripts/routeModel.js')
-    script(src='javascripts/routeCollection.js')
-    script(src='javascripts/listItemView.js')
-    script(src='javascripts/selectView.js')
-    script(src='javascripts/indexView.js')
+    script(src='scripts/models/route.js')
+    script(src='scripts/collections/routes.js')
+    script(src='scripts/views/select-view.js')
+    script(src='scripts/views/index/index-view.js')
+    script(src='scripts/views/index/listitem-view.js')
 
     script
         | $(document).ready(function () {

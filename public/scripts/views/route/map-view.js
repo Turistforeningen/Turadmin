@@ -217,11 +217,11 @@ var DNT = window.DNT || {};
         },
 
         registerPopup: function (options) {
-            new DNT.PopupView(options).render();
+            new ns.PopupView(options).render();
         },
 
         addRouting: function () {
-            var routing = new DNT.Routing(this.map, this.snapLayer);
+            var routing = new ns.Routing(this.map, this.snapLayer);
             routing.addRouting();
             routing.enableSnapping(true);
             this.routing = routing;
