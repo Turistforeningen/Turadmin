@@ -141,6 +141,8 @@ var DNT = window.DNT || {};
 
         render: function () {
 
+
+
             this.updateFlereTurtyperOptions();
             this.$('[name="route-facts-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
 
@@ -192,6 +194,13 @@ var DNT = window.DNT || {};
 
             var routeFactsLinksView = new DNT.RouteFactsLinksView({ model: this.model });
             this.$('#routeFactsLinksInput').append(routeFactsLinksView.render().el);
+
+            var publicTransportation = this.model.get('kollektiv');
+
+            if (!!publicTransportation && publicTransportation.length > 0) {
+                this.$('.route-facts-field-adkomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
+                this.$('.route-facts-field-adkomst_kollektivtransport textarea').removeClass('hidden');
+            }
 
             this.stickit(this.model, routeFactsBindings);
 

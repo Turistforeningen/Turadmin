@@ -40,10 +40,10 @@ div.row.page-block.route-facts(id="route-facts")
                     // TODO: Move styles to CSS.
                     div.checkbox(style="margin-bottom: 10px;")
                         label
-                            input#checkbox_kollektivMulig(type="checkbox" checked)
+                            input#checkbox_kollektivMulig(type="checkbox")
                             | &nbsp;Det er mulighet for adkomst med kollektivtransport
 
-                    textarea#route-facts-field-adkomst_kollektivtransport.form-control(name="route-facts-field-adkomst_kollektivtransport" placeholder="Adkomst" rows="3")
+                    textarea#route-facts-field-adkomst_kollektivtransport.form-control.hidden(name="route-facts-field-adkomst_kollektivtransport" placeholder="Adkomst" rows="3")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p#route-facts-field-adkomst_kollektivtransport_description.help-block Beskriv hvordan man kommer seg til startpunktet for turen med kollektivtransport.
 
