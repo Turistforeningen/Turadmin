@@ -14,8 +14,8 @@ var DNT = window.DNT || {};
         initialize : function (options) {
             var templateId = options.templateId;
             this.template =  _.template($(templateId).html());
-            //Listen to url changes (when saving, picture is moved from tmp to permanent storage)
-            this.model.on("change:thumbnailUrl", this.render, this);
+            // Listen to url changes (when saving, picture is moved from tmp to permanent storage)
+            this.model.on('change:thumbnailUrl', this.render, this);
         },
 
         events: {
@@ -30,15 +30,18 @@ var DNT = window.DNT || {};
 
         editModel: function (e) {
             e.preventDefault();
-            console.log("todo: edit poi");
+            console.log('TODO: edit poi');
         },
 
         render: function () {
             var marker = this.model.getMarker();
             var html =  this.template(this.model.toJSON());
-            $(this.el).html(html);
-            marker.bindPopup(this.el);
-            return this;
+
+            if (!!marker && !!html) {
+                $(this.el).html(html);
+                marker.bindPopup(this.el);
+                return this;
+            }
         }
     });
 }(DNT));

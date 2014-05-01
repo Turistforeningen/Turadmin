@@ -53,7 +53,7 @@ var DNT = window.DNT || {};
         ],
 
         initialize: function (attributes, options) {
-            console.log('poi:initialize');
+            // console.log('poi.initialize');
             this.on("change", function () {
                 this.changed = true;
             });
@@ -67,6 +67,8 @@ var DNT = window.DNT || {};
                 tags[0] = this.get("kategori");
                 this.set("tags", tags);
             });
+
+            // this.event_aggregator.trigger('map:addMarker');
         },
 
         positionChanged: function () {
@@ -118,7 +120,7 @@ var DNT = window.DNT || {};
         },
 
         createMarker: function () {
-            console.log('poi:createMarker');
+            // console.log('poi:createMarker');
             var icon = new L.icon({
                 iconUrl: '/images/poi/21.png',
                 iconRetinaUrl: '/images/poi/21@2x.png',

@@ -9,7 +9,10 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    Backbone.View.prototype.event_aggregator = _.extend({}, Backbone.Events);
+    var event_aggregator = _.extend({}, Backbone.Events);
+    Backbone.View.prototype.event_aggregator = event_aggregator;
+    Backbone.Model.prototype.event_aggregator = event_aggregator;
+    Backbone.Collection.prototype.event_aggregator = event_aggregator;
 
     ns.initRouteApp = function (options) {
 

@@ -94,6 +94,7 @@ var DNT = window.DNT || {};
         draw: false,
         routeModel: undefined,
         modelToPosition: undefined,
+        markers: [],
 
         events: {
             'click #startDraw': 'toggleDraw',
@@ -104,6 +105,7 @@ var DNT = window.DNT || {};
         },
 
         initialize: function () {
+            // console.log('mapView:initialize');
             this.mapLayers = createMapLayers();
             this.snapLayer = createSnapLayer();
             this.drawControl = createDrawControl();
@@ -208,7 +210,7 @@ var DNT = window.DNT || {};
         },
 
         setupMarker: function (coordinates) {
-            console.log('mapView:setupMarker');
+            // console.log('mapView:setupMarker');
             var model = this.modelToPosition;
             delete this.modelToPosition;
             this.drawMarkerTool.disable();
@@ -219,7 +221,7 @@ var DNT = window.DNT || {};
         },
 
         registerPopover: function (options) {
-            console.log('mapView:registerPopover');
+            // console.log('mapView:registerPopover');
             new ns.PopoverView(options).render();
         },
 
@@ -317,6 +319,14 @@ var DNT = window.DNT || {};
             this.updateRouteDirectionSelect();
 
             this.addGeoJsonToLayer();
+
+            this.poiCollection.each($.proxy(function(element, index, list){
+                this.registerPopover({model: element, templateId: "#poiPopupTemplate"});
+            }, this));
+
+            this.pictureCollection.each($.proxy(function(element, index, list){
+                this.registerPopover({model: element, templateId: "#picturePopupTemplate"});
+            }, this));
 
             return this;
         }
