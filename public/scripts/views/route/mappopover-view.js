@@ -14,7 +14,7 @@ var DNT = window.DNT || {};
         initialize : function (options) {
             var templateId = options.templateId;
             this.template =  _.template($(templateId).html());
-            // Listen to url changes (when saving, picture is moved from tmp to permanent storage)
+            // Listen to URL changes (when saving, picture is moved from tmp to permanent storage)
             this.model.on('change:thumbnailUrl', this.render, this);
         },
 

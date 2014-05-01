@@ -15,26 +15,13 @@ var DNT = window.DNT || {};
 
     ns.Poi = Backbone.Model.extend({
 
-        idAttribute: "_id",
-        type: "poi",
+        idAttribute: '_id',
+        type: 'poi',
         changed: false,
         deleted: false,
 
         urlRoot: function () {
             return apiUri();
-        },
-
-        defaults : {
-            navn: "",
-            geojson: {},
-            lisens: "CC BY-NC 3.0 NO",
-            status: "Kladd",
-            privat: {
-                opprettet_av: {
-                    id: "someId"
-                }
-            },
-            tags: []
         },
 
         serverAttrs: [
@@ -52,13 +39,27 @@ var DNT = window.DNT || {};
             'tilbyder'
         ],
 
+        defaults : {
+            navn: '',
+            lisens: 'CC BY-NC 3.0 NO',
+            status: 'Kladd',
+            privat: {
+                opprettet_av: {
+                    id: 'someId'
+                }
+            },
+            tags: []
+        },
+
         initialize: function (attributes, options) {
             // console.log('poi.initialize');
-            this.on("change", function () {
+            this.on('change', function () {
                 this.changed = true;
             });
 
             this.positionChanged();
+
+            this.on('change:navn', this.onNameChange, this);
 
             this.on("change:geojson", this.positionChanged);
             this.set("kategori", this.get("tags")[0]);
@@ -68,7 +69,10 @@ var DNT = window.DNT || {};
                 this.set("tags", tags);
             });
 
-            // this.event_aggregator.trigger('map:addMarker');
+        },
+
+        onNameChange: function (e) {
+            this.trigger('registerPopover', {model: this, templateId: "#poiPopupTemplate"});
         },
 
         positionChanged: function () {

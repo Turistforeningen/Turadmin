@@ -322,11 +322,15 @@ var DNT = window.DNT || {};
 
             this.poiCollection.each($.proxy(function(element, index, list){
                 this.registerPopover({model: element, templateId: "#poiPopupTemplate"});
+                this.listenTo(element, 'registerPopover', this.registerPopover);
             }, this));
 
             this.pictureCollection.each($.proxy(function(element, index, list){
                 this.registerPopover({model: element, templateId: "#picturePopupTemplate"});
+                this.listenTo(element, 'registerPopover', this.registerPopover);
             }, this));
+
+
 
             return this;
         }
