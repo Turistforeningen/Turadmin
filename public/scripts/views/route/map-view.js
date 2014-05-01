@@ -201,22 +201,25 @@ var DNT = window.DNT || {};
         },
 
         createPoiOrPositionPicture: function (coordinates) {
+            console.log('mapView:createPoiOrPositionPicture');
             if (!!this.modelToPosition) {
                 this.setupMarker(coordinates);
             }
         },
 
         setupMarker: function (coordinates) {
+            console.log('mapView:setupMarker');
             var model = this.modelToPosition;
             delete this.modelToPosition;
             this.drawMarkerTool.disable();
-            this.listenTo(model, "registerPopup", this.registerPopup);
+            this.listenTo(model, 'registerPopup', this.registerPopup); // TEMP: This is where the mapView is signing up for registerPopup-event. Not being run on page load.
             var geojson = createGeojson(coordinates);
-            model.set("geojson", geojson);
-            this.event_aggregator.trigger("map:markerIsCreated", model);
+            model.set('geojson', geojson);
+            this.event_aggregator.trigger('map:markerIsCreated', model);
         },
 
         registerPopup: function (options) {
+            console.log('mapView:registerPopup');
             new ns.PopupView(options).render();
         },
 
@@ -229,7 +232,7 @@ var DNT = window.DNT || {};
 
         createDrawMarkerTool: function () {
             this.drawMarkerTool = new L.Draw.Marker(this.map, {
-                icon : createIconConfig()
+                icon: createIconConfig()
             });
         },
 

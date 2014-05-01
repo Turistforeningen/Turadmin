@@ -117,6 +117,7 @@ var DNT = window.DNT || {};
         },
 
         createMarker: function () {
+            console.log('poi:createMarker');
             var icon = new L.icon({
                 iconUrl: '/images/poi/map-icon-image.png',
                 iconRetinaUrl: '/images/poi/map-icon-image@2x.png',
@@ -127,7 +128,7 @@ var DNT = window.DNT || {};
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
             this.marker = marker;
             marker.setIcon(icon);
-            this.trigger('registerPopup', {model: this, templateId: "#poiPopupTemplate"});
+            this.trigger('registerPopup', {model: this, templateId: "#poiPopupTemplate"}); // This event is only signed up for on POI create, setupMarker in mapView, and not when marker is being drawn on route load
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;

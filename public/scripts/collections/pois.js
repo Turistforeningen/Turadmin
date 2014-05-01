@@ -31,19 +31,20 @@ var DNT = window.DNT || {};
             return this.geojsonLayer;
         },
 
-        setPublished: function(){
+        setPublished: function() {
             this.each(function (model, index) {
                 model.setPublished();
             });
         },
 
-        setUnpublished: function(){
+        setUnpublished: function() {
             this.each(function (model, index) {
                 model.setUnpublished();
             });
         },
 
         modelAdded: function (model) {
+            console.log('pois:modelAdded');
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
             }
@@ -51,6 +52,7 @@ var DNT = window.DNT || {};
         },
 
         addMarker: function (model) {
+            console.log('pois:addMarker');
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
             }
