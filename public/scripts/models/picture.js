@@ -140,8 +140,8 @@ var DNT = window.DNT || {};
 
         createMarker: function (geojson) {
             var icon = new L.icon({
-                iconUrl: '/images/poi/21.png',
-                iconRetinaUrl: '/images/poi/21@2x.png',
+                iconUrl: '/images/poi/map-icon-image.png',
+                iconRetinaUrl: '/images/poi/map-icon-image@2x.png',
                 iconSize: [26, 32],
                 iconAnchor: [13, 32],
                 popupAnchor: [-0, -30]
