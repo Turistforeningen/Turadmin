@@ -9,7 +9,7 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    ns.PopupView = Backbone.View.extend({
+    ns.PopoverView = Backbone.View.extend({
 
         initialize : function (options) {
             var templateId = options.templateId;

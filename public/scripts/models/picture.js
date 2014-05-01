@@ -149,7 +149,7 @@ var DNT = window.DNT || {};
             var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], { draggable: true });
             this.marker = marker;
             marker.setIcon(icon);
-            this.trigger('registerPopup', {model: this, templateId: "#picturePopupTemplate"});
+            this.trigger('registerPopover', {model: this, templateId: "#picturePopupTemplate"});
             marker.on("dragend", function () {
                 var lat = marker.getLatLng().lat;
                 var lng = marker.getLatLng().lng;

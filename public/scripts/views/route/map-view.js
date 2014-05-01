@@ -110,12 +110,12 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopup", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry');
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopover", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
-            this.event_aggregator.on("map:showPopup", this.registerPopup);
+            this.event_aggregator.on("map:showPopup", this.registerPopover);
             this.event_aggregator.on("map:zoomAndCenter", this.zoomAndCenter);
         },
 
@@ -212,15 +212,15 @@ var DNT = window.DNT || {};
             var model = this.modelToPosition;
             delete this.modelToPosition;
             this.drawMarkerTool.disable();
-            this.listenTo(model, 'registerPopup', this.registerPopup); // TEMP: This is where the mapView is signing up for registerPopup-event. Not being run on page load.
+            this.listenTo(model, 'registerPopover', this.registerPopover); // TEMP: This is where the mapView is signing up for registerPopover-event. Not being run on page load.
             var geojson = createGeojson(coordinates);
             model.set('geojson', geojson);
             this.event_aggregator.trigger('map:markerIsCreated', model);
         },
 
-        registerPopup: function (options) {
-            console.log('mapView:registerPopup');
-            new ns.PopupView(options).render();
+        registerPopover: function (options) {
+            console.log('mapView:registerPopover');
+            new ns.PopoverView(options).render();
         },
 
         addRouting: function () {
