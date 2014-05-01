@@ -82,12 +82,14 @@ var DNT = window.DNT || {};
             var fotograf = this.get('fotograf');
             fotograf.navn = this.get('fotografNavn');
             this.set('fotograf', fotograf);
+            // console.log('fotograf changed to', fotograf);
         },
 
         onFotografEpostChange: function () {
             var fotograf = this.get('fotograf');
             fotograf.epost = this.get('fotografEpost');
             this.set('fotograf', fotograf);
+            // console.log('fotograf changed to', fotograf);
         },
 
         hasChanged: function () {

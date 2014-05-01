@@ -5,37 +5,39 @@ var DNT = window.DNT || {};
 
     ns.PicturesView = Backbone.View.extend({
 
-        el: "#route-images",
+        el: '#route-images',
 
-        uploadUrl: "/upload/picture",
+        uploadUrl: '/upload/picture',
 
         events: {
-            "sortstop #route-images-all-container": "picturePositionUpdated",
-            "updatePictureIndexes": "updateIndexes"
+            'sortstop #route-images-all-container': 'picturePositionUpdated',
+            'updatePictureIndexes': 'updateIndexes'
         },
 
-        initialize: function () {
-            this.pictureCollection = this.model.get("pictureCollection");
+        initialize: function (options) {
 
+            this.user = options.model.get('user');
+
+            this.pictureCollection = this.model.get('pictureCollection');
             this.setupFileupload();
 
-            this.pictureCollection.on("change:deleted", function () {
+            this.pictureCollection.on('change:deleted', function () {
                 // Render view when all pictures are removed
                 if (this.pictureCollection.countPictures() === 0) {
                     this.render();
                 }
             }, this);
 
-            this.$("#route-images-all-container").sortable({
-                items: ".picture-sortable",
-                placeholder: "sortable-placeholder col-sm-4"
+            this.$('#route-images-all-container').sortable({
+                items: '.picture-sortable',
+                placeholder: 'sortable-placeholder col-sm-4'
             });
 
-            this.$("#route-images-all-container").disableSelection();
+            this.$('#route-images-all-container').disableSelection();
 
             this.user = this.model.get('user');
 
-            _.bindAll(this, "picturePositionUpdated");
+            _.bindAll(this, 'picturePositionUpdated');
         },
 
         setupFileupload: function () {
@@ -79,7 +81,8 @@ var DNT = window.DNT || {};
 
         addNewFile: function (file) {
             file.ordinal = this.pictureCollection.getNextOrdinal();
-            var picture = new DNT.Picture(file);
+            file.fotograf = {navn: this.user.get('navn'), epost: this.user.get('epost')};
+            var picture = new ns.Picture(file);
             this.pictureCollection.add(picture);
             this.appendPicture(picture);
             this.$("#noPictures").addClass("hidden");
