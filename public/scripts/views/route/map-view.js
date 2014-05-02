@@ -112,7 +112,7 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopover", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry');
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopover", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry', 'renderDrawButton');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
@@ -125,19 +125,35 @@ var DNT = window.DNT || {};
             e.preventDefault();
             this.draw = !this.draw;
             this.routing.enable(this.draw);
+
+            this.renderDrawButton();
+
+            if (!this.draw) {
+                this.setRouteModelGeoJsonFromMap();
+            }
+        },
+
+        renderDrawButton: function () {
+            var $drawButton = this.$('button#startDraw');
+
             if (this.draw === true) {
-                $(e.currentTarget).addClass("active");
-                $(e.currentTarget).find(".buttonText").html("Avslutt inntegning");
+                $drawButton.addClass("active");
+                $drawButton.find(".buttonText").html("&nbsp;Avslutt inntegning");
             } else {
                 var geojson = this.routing.getGeoJson();
-                $(e.currentTarget).removeClass("active");
-                var label = "Start inntegning";
+                $drawButton.removeClass("active");
+                var label = "&nbsp;Start inntegning";
                 if (geojson.coordinates.length > 0) {
-                    label = "Fortsett inntegning";
+                    label = "&nbsp;Fortsett inntegning";
                 }
-                $(e.currentTarget).find(".buttonText").html(label);
+                $drawButton.find(".buttonText").html(label);
                 this.routeModel.set({geojson: geojson});
             }
+        },
+
+        setRouteModelGeoJsonFromMap: function () {
+            var geojson = this.routing.getGeoJson();
+            this.routeModel.set({geojson: geojson});
         },
 
         setRouteDirection: function (e) {
@@ -229,6 +245,7 @@ var DNT = window.DNT || {};
             var routing = new ns.Routing(this.map, this.snapLayer);
             routing.addRouting();
             routing.enableSnapping(true);
+
             this.routing = routing;
         },
 
@@ -309,6 +326,7 @@ var DNT = window.DNT || {};
 
             this.snapLayer.addTo(this.map);
             this.addRouting();
+
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
             this.pictureCollection.getGeoJsonLayer().addTo(this.map);
@@ -330,7 +348,8 @@ var DNT = window.DNT || {};
                 this.listenTo(element, 'registerPopover', this.registerPopover);
             }, this));
 
-
+            this.renderDrawButton();
+            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelFromMap, this); // TODO: Handle routing event in DNT.Routing?
 
             return this;
         }

@@ -51,10 +51,11 @@ var DNT = window.DNT || {};
     };
 
     ns.Routing = function (map, snappingLayer) {
-        var routing;
+
+        // var routing;
 
         this.addRouting = function () {
-            routing = new L.Routing({
+            this.routing = new L.Routing({
                 position: 'topleft',
                 routing: {
                     router: myRouter
@@ -65,11 +66,13 @@ var DNT = window.DNT || {};
                     vertexonly: false
                 }
             });
-            map.addControl(routing);
+
+            map.addControl(this.routing);
+
         };
 
         this.enable = function (enable) {
-            routing.draw(enable);
+            this.routing.draw(enable);
         };
 
         this.enableSnapping = function (enable) {
@@ -77,13 +80,12 @@ var DNT = window.DNT || {};
         };
 
         this.getGeoJson = function () {
-            return routing.toGeoJSON(true);
+            return this.routing.toGeoJSON(true);
         };
 
         this.loadGeoJson = function (geoJson, options, callback) {
-            routing.loadGeoJSON(geoJson, options, callback);
+            this.routing.loadGeoJSON(geoJson, options, callback);
         };
     };
 
 }(DNT));
-
