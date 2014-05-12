@@ -14,11 +14,18 @@ var DNT = window.DNT || {};
     };
 
     ns.RouteCollection = Backbone.Collection.extend({
+
+        model: ns.Route,
+
+        // Order routes by date changed, descending
+        comparator: function(model) {
+            var date = new Date(model.get('endret'));
+            return -date;
+        },
+
         url: function () {
             return apiUri();
         },
-
-        model: ns.Route,
 
         parse: function (response) {
             return response.documents || [];
