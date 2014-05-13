@@ -17,7 +17,12 @@ var DNT = window.DNT || {};
         className: 'picture-sortable col-sm-4 col-md-4 col-lg-3',
 
         bindings: {
-            '[name="beskrivelse"]': 'beskrivelse',
+            '[name="beskrivelse"]': {
+                observe: 'beskrivelse',
+                setOptions: {
+                    validate: true
+                }
+            },
             '[name="foto-fotograf-navn"]': 'fotografNavn',
             '[name="foto-fotograf-epost"]': 'fotografEpost'
         },
@@ -92,7 +97,8 @@ var DNT = window.DNT || {};
                 var html =  this.template(this.model.toJSON());
                 $(this.el).html(html);
 
-                this.stickit(this.model, this.bindings);
+                this.stickit(); // Uses view.bindings and view.model to setup bindings
+                Backbone.Validation.bind(this);
 
                 this.$('input[name="foto-tags"]')
                     .select2({placeholder: 'Tagger', tags: allFotoTags, tokenSeparators: [',', ' ']})
@@ -107,6 +113,14 @@ var DNT = window.DNT || {};
             }
 
             return this;
+        },
+
+        remove: function() {
+            // Remove the validation binding
+            // See: http://thedersen.com/projects/backbone-validation/#using-form-model-validation/unbinding
+            Backbone.Validation.unbind(this);
+            return Backbone.View.prototype.remove.apply(this, arguments);
         }
+
     });
 }(DNT));

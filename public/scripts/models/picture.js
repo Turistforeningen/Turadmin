@@ -58,6 +58,13 @@ var DNT = window.DNT || {};
             'url'
         ],
 
+        validation: {
+            beskrivelse:  {
+                required: true,
+                msg: 'Dette feltet er påkrevd.'
+            }
+        },
+
         initialize: function () {
             this.on('change', function () {
                 this.changed = true;
