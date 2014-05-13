@@ -16,22 +16,47 @@ var DNT = window.DNT || {};
 
     var tilrettelagtForOptions = [ 'Barnevogn', 'Rullestol', 'Handikap' ];
 
-    var routeFactsBindings = {
-        '[name="route-facts-field-navn"]': 'navn',
-        '[name="route-facts-field-beskrivelse"]': 'beskrivelse',
-        '[name="route-facts-field-adkomst_generell"]': 'adkomst',
-        '[name="route-facts-field-adkomst_kollektivtransport"]': 'kollektiv',
-        '[name="route-facts-field-typetur"]': 'turtype',
-        '[name="route-facts-field-gradering"]': 'gradering',
-        'select.form-control.route-facts-field-tidsbruk-normal-dager': 'tidsbrukDager',
-        'select.form-control.route-facts-field-tidsbruk-normal-timer': 'tidsbrukTimer',
-        'select.form-control.route-facts-field-tidsbruk-normal-minutter': 'tidsbrukMinutter',
-        '.route-facts-field-sesong input': 'sesong'
-    };
-
     ns.RouteFactsView = Backbone.View.extend({
 
         el: "#route-facts",
+
+        bindings: {
+            '[name="route-facts-field-navn"]': {
+                observe: 'navn',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="route-facts-field-beskrivelse"]': {
+                observe: 'beskrivelse',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="route-facts-field-adkomst_generell"]': 'adkomst',
+            '[name="route-facts-field-adkomst_kollektivtransport"]': 'kollektiv',
+            '[name="route-facts-field-typetur"]': {
+                observe: 'turtype',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="route-facts-field-gradering"]': {
+                observe: 'gradering',
+                setOptions: {
+                    validate: true
+                }
+            },
+            'select.form-control.route-facts-field-tidsbruk-normal-dager': 'tidsbrukDager',
+            'select.form-control.route-facts-field-tidsbruk-normal-timer': 'tidsbrukTimer',
+            'select.form-control.route-facts-field-tidsbruk-normal-minutter': 'tidsbrukMinutter',
+            '.route-facts-field-sesong input': {
+                observe: 'sesong',
+                setOptions: {
+                    validate: true
+                }
+            }
+        },
 
         events: {
             "click #checkbox_kollektivMulig": "toggleKollektivFieldVisibility",
@@ -67,6 +92,7 @@ var DNT = window.DNT || {};
                 var $graderingElement = this.$('input[value="' + this.model.get('gradering') + '"]');
                 $graderingElement.parent('label').addClass('active');
             }
+
 
         },
 
@@ -132,7 +158,7 @@ var DNT = window.DNT || {};
                 var val = this.$(checked[i]).val();
                 seasons.push(val);
             }
-            this.model.set("sesong", seasons);
+            this.model.set('sesong', seasons);
         },
 
         addNameToHeader: function () {
@@ -140,8 +166,6 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-
-
 
             this.updateFlereTurtyperOptions();
             this.$('[name="route-facts-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
@@ -174,7 +198,7 @@ var DNT = window.DNT || {};
                     select2Groups[i] = {};
                     select2Groups[i].id = userGroups[i].object_id;
                     select2Groups[i].text = userGroups[i].navn;
-                };
+                }
 
                 $('input[name="route-facts-field-grupper"]').select2({
                     tags: select2Groups,
@@ -202,8 +226,16 @@ var DNT = window.DNT || {};
                 this.$('.route-facts-field-adkomst_kollektivtransport textarea').removeClass('hidden');
             }
 
-            this.stickit(this.model, routeFactsBindings);
+            this.stickit(); // Uses view.bindings and view.model to setup bindings
+            Backbone.Validation.bind(this);
 
+        },
+
+        remove: function() {
+            // Remove the validation binding
+            // See: http://thedersen.com/projects/backbone-validation/#using-form-model-validation/unbinding
+            Backbone.Validation.unbind(this);
+            return Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
 }(DNT));

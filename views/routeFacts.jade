@@ -9,7 +9,7 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-navn.required
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-navn") Tittel
                 div.col-lg-7.col-md-7.col-sm-7
-                    input.form-control(name="route-facts-field-navn" placeholder="Tittel")
+                    input.form-control(name="route-facts-field-navn" placeholder="Tittel" data-model-validation-field-name="navn")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Gi turen din et beskrivende navn! (eks: Topptur til Fjelltoppen).
                     p.help-block
@@ -20,7 +20,7 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-beskrivelse.required
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-beskrivelse") Beskrivelse
                 div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(name="route-facts-field-beskrivelse" placeholder="Beskrivelse" rows="6")
+                    textarea.form-control(name="route-facts-field-beskrivelse" placeholder="Beskrivelse" rows="6" data-model-validation-field-name="beskrivelse")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Beskriv selve turen (hva man kan se og oppleve, hvor man skal gå, om det er noen partier på ruta man må være oppmerksom på og lignende).
 
@@ -28,7 +28,7 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-adkomst_generell
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-adkomst_generell") Adkomst
                 div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(name="route-facts-field-adkomst_generell" placeholder="Adkomst" rows="3")
+                    textarea.form-control(name="route-facts-field-adkomst_generell" placeholder="Adkomst" rows="3" data-model-validation-field-name="adkomst")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Beskriv hvordan man kommer seg til startpunktet for turen med egen bil. Legg også inn opplysinger om evt. bomavgifter og parkeringsmuligheter.
 
@@ -43,25 +43,13 @@ div.row.page-block.route-facts(id="route-facts")
                             input#checkbox_kollektivMulig(type="checkbox")
                             | &nbsp;Det er mulighet for adkomst med kollektivtransport
 
-                    textarea#route-facts-field-adkomst_kollektivtransport.form-control.hidden(name="route-facts-field-adkomst_kollektivtransport" placeholder="Adkomst" rows="3")
+                    textarea#route-facts-field-adkomst_kollektivtransport.form-control.hidden(name="route-facts-field-adkomst_kollektivtransport" placeholder="Adkomst" rows="3" data-model-validation-field-name="kollektivtransport")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p#route-facts-field-adkomst_kollektivtransport_description.help-block Beskriv hvordan man kommer seg til startpunktet for turen med kollektivtransport.
-
-
-            // Lenker
-            // div.form-group.route-facts-field-lenker-old
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-lenker") Lenker
-                div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(name="route-facts-field-lenker" placeholder="Lenker" rows="3")
-                div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    p.help-block Her kan du skrive inn relevante lenker for turforslaget ditt. Skill hver lenke med en ny linje.
-
 
             div.form-group.route-facts-field-lenker
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-lenker") Lenker
                 div#routeFactsLinksView
-
-
 
             h4 Fakta
 
@@ -69,45 +57,46 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-sesong.required
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-sesong") Sesong
                 div.col-lg-7.col-md-7.col-sm-7
-                    div
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-1(type="checkbox" value="1")
-                            | Jan
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-2(type="checkbox" value="2")
-                            | Feb
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-3(type="checkbox" value="3")
-                            | Mar
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-4(type="checkbox" value="4")
-                            | Apr
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-5(type="checkbox" value="5")
-                            | Mai
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-6(type="checkbox" value="6")
-                            | Jun
+                    div.btn-group(data-model-validation-field-name="sesong")
+                        div
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-1(type="checkbox" value="1")
+                                | Jan
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-2(type="checkbox" value="2")
+                                | Feb
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-3(type="checkbox" value="3")
+                                | Mar
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-4(type="checkbox" value="4")
+                                | Apr
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-5(type="checkbox" value="5")
+                                | Mai
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-6(type="checkbox" value="6")
+                                | Jun
 
-                    div
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-7(type="checkbox" value="7")
-                            | Jul
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-8(type="checkbox" value="8")
-                            | Aug
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-9(type="checkbox" value="9")
-                            | Sep
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-10(type="checkbox" value="10")
-                            | Okt
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-11(type="checkbox" value="11")
-                            | Nov
-                        label.checkbox-inline
-                            input#route-facts-field-sesong-12(type="checkbox" value="12")
-                            | Des
+                        div
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-7(type="checkbox" value="7")
+                                | Jul
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-8(type="checkbox" value="8")
+                                | Aug
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-9(type="checkbox" value="9")
+                                | Sep
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-10(type="checkbox" value="10")
+                                | Okt
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-11(type="checkbox" value="11")
+                                | Nov
+                            label.checkbox-inline
+                                input#route-facts-field-sesong-12(type="checkbox" value="12")
+                                | Des
 
                 // TODO: Move style to stylesheets
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3(style="margin-top: 10px; margin-bottom: 10px;")
@@ -163,7 +152,7 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-tags-primary.required
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-tags-primary") Type tur
                 div.col-lg-7.col-md-7.col-sm-8
-                    div.btn-group(data-toggle="buttons")
+                    div.btn-group(data-toggle="buttons" data-model-validation-field-name="turtype")
                         label.btn.btn-default.route-facts-field-tags-gatur
                             input(type="radio" value="Fottur" name="route-facts-field-typetur" id="route-facts-field-tags-gatur")
                             | Fottur
@@ -202,7 +191,7 @@ div.row.page-block.route-facts(id="route-facts")
             div.form-group.route-facts-field-gradering.required
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-gradering") Vanskelighetsgrad
                 div.col-lg-7.col-md-7.col-sm-7
-                    div.btn-group(data-toggle="buttons")
+                    div.btn-group(data-toggle="buttons" data-model-validation-field-name="gradering")
                         label.btn.btn-default.route-facts-field-gradering-enkel
                             input(type="radio" value="Enkel" name="route-facts-field-gradering" id="route-facts-field-gradering-enkel")
                             | Enkel
