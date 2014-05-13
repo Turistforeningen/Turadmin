@@ -44,7 +44,6 @@ var DNT = window.DNT || {};
         },
 
         setUrl: function (e) {
-            console.log('setting url');
             var formField = e.currentTarget;
             var url = $(formField).val();
             this.link.url = url;
