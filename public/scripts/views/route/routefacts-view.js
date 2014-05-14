@@ -4,17 +4,17 @@ var DNT = window.DNT || {};
     "use strict";
 
     var turtyper = {
-        'Fottur': [ 'Alpint', 'Bærtur', 'Fisketur', 'Fjelltur', 'Grottetur', 'Hyttetur', 'Skogstur', 'Sopptur', 'Telttur', 'Topptur', 'Trilletur'],
-        'Skitur': [ 'Alpint', 'Hyttetur', 'Langrenn', 'Snowboard', 'Snøhuletur', 'Telemark', 'Telttur', 'Topptur' ],
-        'Sykkeltur': [ 'Downhillsykling', 'Landeveissykling', 'Terrengsykling' ],
-        'Padletur': [ 'Kajakktur', 'Kanotur' ],
-        'Bretur': [ 'Alpint', 'Hyttetur', 'Telttur', 'Topptur' ],
-        'Klatretur': [ 'Alpint', 'Telttur', 'Topptur' ]
+        'Fottur': ['Alpint', 'Bærtur', 'Fisketur', 'Fjelltur', 'Grottetur', 'Hyttetur', 'Skogstur', 'Sopptur', 'Telttur', 'Topptur', 'Trilletur'],
+        'Skitur': ['Alpint', 'Hyttetur', 'Langrenn', 'Snowboard', 'Snøhuletur', 'Telemark', 'Telttur', 'Topptur'],
+        'Sykkeltur': ['Downhillsykling', 'Landeveissykling', 'Terrengsykling'],
+        'Padletur': ['Kajakktur', 'Kanotur'],
+        'Bretur': ['Alpint', 'Hyttetur', 'Telttur', 'Topptur'],
+        'Klatretur': ['Alpint', 'Telttur', 'Topptur']
     };
 
-    var passerForOptions = [ 'Barn', 'Voksen', 'Senior' ];
+    var passerForOptions = ['Barn', 'Voksen', 'Senior'];
 
-    var tilrettelagtForOptions = [ 'Barnevogn', 'Rullestol', 'Handikap' ];
+    var tilrettelagtForOptions = ['Barnevogn', 'Rullestol', 'Handikap'];
 
     ns.RouteFactsView = Backbone.View.extend({
 
@@ -59,27 +59,29 @@ var DNT = window.DNT || {};
         },
 
         events: {
-            "click #checkbox_kollektivMulig": "toggleKollektivFieldVisibility",
-            "click #route-facts-field-sesong-select-all": "selectAllSeasons",
-            "click #route-facts-field-sesong-deselect-all": "deselectAllSeasons",
-            "click .route-facts-field-sesong input[type='checkbox']": "updateSeasonSelection",
-            "click .route-facts-field-tags-primary label": "setPrimaryTag"
+            'click #checkbox_kollektivMulig': 'toggleKollektivFieldVisibility',
+            'click #route-facts-field-sesong-select-all': 'selectAllSeasons',
+            'click #route-facts-field-sesong-deselect-all': 'deselectAllSeasons',
+            'click .route-facts-field-sesong input[type="checkbox"]': 'updateSeasonSelection',
+            'click .route-facts-field-tags-primary label': 'setPrimaryTag'
         },
 
         initialize: function (options) {
 
-            _.bindAll(this, "toggleHoursAndMinutesVisiblity", "addNameToHeader");
-            this.model.on("change:tidsbrukDager", this.toggleHoursAndMinutesVisiblity);
-            this.model.on("change:turtype", this.updateFlereTurtyperOptions, this);
-            this.model.on("change:navn", this.addNameToHeader);
+            this.model.on('change:navn', this.addNameToHeader);
+            this.model.on('change:tidsbrukDager', this.toggleHoursAndMinutesVisiblity);
+            this.model.on('change:turtype', this.updateFlereTurtyperOptions);
+
+            // Bind these methods to this scope
+            _.bindAll(this, 'addNameToHeader', 'toggleHoursAndMinutesVisiblity', 'updateFlereTurtyperOptions');
 
             this.user = options.user;
 
-            if (!!this.model.get("navn") && this.model.get("navn").length > 0) {
+            if (!!this.model.get('navn') && this.model.get('navn').length > 0) {
                 this.addNameToHeader();
             }
 
-            if (!!this.model.get("tidsbrukDager")) {
+            if (!!this.model.get('tidsbrukDager')) {
                 this.toggleHoursAndMinutesVisiblity();
             }
 
@@ -92,7 +94,6 @@ var DNT = window.DNT || {};
                 var $graderingElement = this.$('input[value="' + this.model.get('gradering') + '"]');
                 $graderingElement.parent('label').addClass('active');
             }
-
 
         },
 
@@ -120,11 +121,11 @@ var DNT = window.DNT || {};
         },
 
         toggleHoursAndMinutesVisiblity: function () {
-            var val = this.model.get("tidsbrukDager");
-            if (val === "1") {
-                this.$(".form-group.route-facts-field-tidsbruk-normal-timer-minutter").removeClass("hidden");
+            var val = this.model.get('tidsbrukDager');
+            if (val === '1') {
+                this.$('.form-group.route-facts-field-tidsbruk-normal-timer-minutter').removeClass('hidden');
             } else {
-                this.$(".form-group.route-facts-field-tidsbruk-normal-timer-minutter").addClass("hidden");
+                this.$('.form-group.route-facts-field-tidsbruk-normal-timer-minutter').addClass('hidden');
             }
         },
 
@@ -214,7 +215,6 @@ var DNT = window.DNT || {};
                 // If user does not belong to any groups, do not show groups field.
                 this.$('.form-group.route-facts-field-grupper').remove();
             }
-
 
             var routeFactsLinksView = new DNT.RouteFactsLinksView({ model: this.model });
             this.$('#routeFactsLinksInput').append(routeFactsLinksView.render().el);

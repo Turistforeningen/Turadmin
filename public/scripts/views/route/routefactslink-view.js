@@ -11,7 +11,7 @@ var DNT = window.DNT || {};
 
     ns.RouteFactsLinkView = Backbone.View.extend({
 
-        template: _.template($('#routeFactsLinkTemplate').html()),
+        template: _.template($('#template-route-facts-link').html()),
 
         events: {
             // Input field changes

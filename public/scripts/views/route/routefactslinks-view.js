@@ -11,9 +11,9 @@ var DNT = window.DNT || {};
 
     ns.RouteFactsLinksView = Backbone.View.extend({
 
-        template: _.template($('#routeFactsLinksTemplate').html()),
+        template: _.template($('#template-route-facts-links').html()),
 
-        el: '#routeFactsLinksView',
+        el: '#route-facts-links-view',
 
         events: {
             'click [data-action="add-link"]': 'addLink'
