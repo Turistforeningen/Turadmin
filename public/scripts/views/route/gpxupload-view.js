@@ -37,12 +37,12 @@ var DNT = window.DNT || {};
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
             fileUpload.on('fileuploadprocessfail', function (e, data) {
-                me.$('[data-placeholder="gpx-upload-status"]').html(data.files[0].error).addClass('has-error');
+                me.$('[data-placeholder-for="gpx-upload-status"]').html(data.files[0].error).addClass('has-error');
                 // console.log(data.files[0].error);
             });
 
             fileUpload.on('fileuploadprocessdone', function (e, data) {
-                me.$('[data-placeholder="gpx-upload-status"]').removeClass('has-error').html('');
+                me.$('[data-placeholder-for="gpx-upload-status"]').removeClass('has-error').html('');
             });
         },
 

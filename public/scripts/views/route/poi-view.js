@@ -32,7 +32,7 @@ var DNT = window.DNT || {};
                     validate: true
                 }
             },
-            '[data-placeholder="poi-name"]': 'navn'
+            '[data-placeholder-for="poi-name"]': 'navn'
         },
 
         events: {
@@ -43,8 +43,6 @@ var DNT = window.DNT || {};
         template: _.template($('#poiTemplate').html()),
 
         initialize: function (options) {
-            this.event_aggregator.trigger('poi:doIt', {some: 'var'});
-            // console.log('poiView:initialize');
             this.model = options.model;
             this.pictureCollection = options.pictureCollection;
             _.bindAll(this, 'deletePoi');

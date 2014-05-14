@@ -162,7 +162,7 @@ var DNT = window.DNT || {};
         },
 
         addNameToHeader: function () {
-            $("#headerRouteName").html(this.model.get("navn"));
+            $('[data-placeholder-for="route-name"]').html(this.model.get("navn"));
         },
 
         render: function () {

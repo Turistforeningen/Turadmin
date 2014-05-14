@@ -6,7 +6,7 @@ script(type="text/template" id="poiTemplate").
     <div class="panel panel-default">
         <div class="panel-heading">
         <h4 class="panel-title">
-            <a data-placeholder="poi-name" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>">Sted uten navn</a>
+            <a data-placeholder-for="poi-name" data-toggle="collapse" data-parent="#route-pois-accordion" href="#route-pois-accordion-<%= cid %>">Sted uten navn</a>
             <a class="btn btn-default btn-xs poi-delete" data-action="poi-delete-modal-open">Slett sted</a>
         </h4>
         </div>
@@ -92,7 +92,7 @@ script(type="text/template" id="poiTemplate").
                     <h4 class="modal-title">Slette sted?</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Er du sikker på at du vil slette stedet <span data-placeholder="poi-name"></span> fra turen?</p>
+                    <p>Er du sikker på at du vil slette stedet <span data-placeholder-for="poi-name"></span> fra turen?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
