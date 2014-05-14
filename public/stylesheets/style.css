@@ -394,6 +394,12 @@ span.error-msg {
 	}
 }
 
+.form-group.route-facts-field-passer_for_barn p.help-block label {
+	font-weight: normal;
+	cursor:pointer;
+}
+
+
 /* Lenker */
 .route-facts-lenke {
 	position: relative;

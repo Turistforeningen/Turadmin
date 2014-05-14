@@ -208,15 +208,14 @@ div.row.page-block.route-facts(id="route-facts")
                     p.help-block Angi hvor krevende turen er for en voksen person i god form.
                     p.help-block <a href="https://www.dropbox.com/sh/pyee5wsov9fiobe/p86cKq8tR6/Merkeh%C3%A5ndboka.pdf" target="_blank">Merkehåndboka</a> (side 48) skal brukes for valg av korrekt gradering.
 
-
-            // Passer for
-            div.form-group.route-facts-field-passer_for
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-passer_for") Passer for
-                div#passerForSelect.col-lg-7.col-md-7.col-sm-7
-                    input.form-control(type="text" name="route-facts-field-passer_for")
-
-                div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    p.help-block Hvem passer turen for? Velg alle som passer.
+            // Passer for barn
+            div.form-group.route-facts-field-passer_for_barn
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-facts-field-passer_for_barn") Passer for barn
+                div.col-lg-7.col-md-7.col-sm-7
+                    p.help-block
+                        label
+                            input(type="checkbox" name="route-facts-field-passer_for_barn" style="margin-right: 8px;")
+                            | Kryss av dersom turen passer for barn.
 
             // Tilrettelagt for
             div.form-group.route-facts-field-tilrettelagt_for

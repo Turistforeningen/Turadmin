@@ -55,6 +55,11 @@ var DNT = window.DNT || {};
                 setOptions: {
                     validate: true
                 }
+            },
+            '[name="route-facts-field-passer_for_barn"]': {
+                observe: 'passer_for',
+                onGet: 'onGetPasserForBarn',
+                onSet: 'onSetPasserForBarn'
             }
         },
 
@@ -73,7 +78,7 @@ var DNT = window.DNT || {};
             this.model.on('change:turtype', this.updateFlereTurtyperOptions);
 
             // Bind these methods to this scope
-            _.bindAll(this, 'addNameToHeader', 'toggleHoursAndMinutesVisiblity', 'updateFlereTurtyperOptions');
+            _.bindAll(this, 'addNameToHeader', 'toggleHoursAndMinutesVisiblity', 'updateFlereTurtyperOptions', 'onGetPasserForBarn', 'onSetPasserForBarn');
 
             this.user = options.user;
 
@@ -162,6 +167,16 @@ var DNT = window.DNT || {};
             this.model.set('sesong', seasons);
         },
 
+        onGetPasserForBarn: function (val, options) {
+            var passerFor = val;
+            return (passerFor.indexOf('Barn') > -1) ? true : false;
+        },
+
+        onSetPasserForBarn: function (val, options) {
+            var passerForBarn = val;
+            return (passerForBarn === true) ? ['Barn'] : [];
+        },
+
         addNameToHeader: function () {
             $('[data-placeholder-for="route-name"]').html(this.model.get("navn"));
         },
@@ -170,16 +185,6 @@ var DNT = window.DNT || {};
 
             this.updateFlereTurtyperOptions();
             this.$('[name="route-facts-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
-
-            $('input[name="route-facts-field-passer_for"]').select2({
-                tags: passerForOptions,
-                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
-            }).on('change', $.proxy(function (e) {
-                var passer_for = e.val;
-                this.model.set('passer_for', passer_for);
-            }, this));
-
-            this.$('[name="route-facts-field-passer_for"]').select2('val', this.model.get('passer_for'));
 
             $('input[name="route-facts-field-tilrettelagt_for"]').select2({
                 tags: tilrettelagtForOptions,
