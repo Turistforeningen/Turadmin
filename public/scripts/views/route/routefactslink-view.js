@@ -14,8 +14,11 @@ var DNT = window.DNT || {};
         template: _.template($('#routeFactsLinkTemplate').html()),
 
         events: {
+            // Input field changes
             'change input[name="link-title"]': 'setTitle',
             'change input[name="link-url"]': 'setUrl',
+
+            // Click events
             'click [data-action="remove-link"]': 'removeLink'
         },
 
