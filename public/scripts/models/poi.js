@@ -39,7 +39,7 @@ var DNT = window.DNT || {};
             'tilbyder'
         ],
 
-        defaults : {
+        defaults: {
             navn: '',
             lisens: 'CC BY-NC 3.0 NO',
             status: 'Kladd',
@@ -51,8 +51,24 @@ var DNT = window.DNT || {};
             tags: []
         },
 
+        validation: {
+            navn:  {
+                required: true,
+                msg: 'Dette feltet er påkrevd.'
+            },
+            kategori:  function (val) {
+                if (!val) {
+                    return 'Dette feltet er påkrevd.';
+                }
+            },
+            beskrivelse:  {
+                required: true,
+                msg: 'Dette feltet er påkrevd.'
+            }
+        },
+
         initialize: function (attributes, options) {
-            // console.log('poi.initialize');
+
             this.on('change', function () {
                 this.changed = true;
             });
@@ -60,24 +76,28 @@ var DNT = window.DNT || {};
             this.positionChanged();
 
             this.on('change:navn', this.onNameChange, this);
+            this.on('change:geojson', this.positionChanged);
 
-            this.on("change:geojson", this.positionChanged);
-            this.set("kategori", this.get("tags")[0]);
-            this.on("change:kategori", function () {
-                var tags = _.clone(this.get("tags")) || [];
-                tags[0] = this.get("kategori");
-                this.set("tags", tags);
+            var tags = this.get('tags');
+            if (tags.length > 0) {
+                this.set('kategori', tags[0]);
+            }
+
+            this.on('change:kategori', function () {
+                var tags = _.clone(this.get('tags')) || [];
+                tags[0] = this.get('kategori');
+                this.set('tags', tags);
             });
 
         },
 
         onNameChange: function (e) {
-            this.trigger('registerPopover', {model: this, templateId: "#poiPopupTemplate"});
+            this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'});
         },
 
         positionChanged: function () {
             if (this.hasPosition() && this.getMarker() === undefined) {
-                this.createMarker(this.get("geojson"));
+                this.createMarker(this.get('geojson'));
             }
         },
 
@@ -90,11 +110,11 @@ var DNT = window.DNT || {};
         },
 
         isDeleted: function () {
-            return !!this.get("deleted") && this.get("deleted");
+            return !!this.get('deleted') && this.get('deleted');
         },
 
         getGeoJson: function () {
-            return _.clone(this.get("geojson"));
+            return _.clone(this.get('geojson'));
         },
 
         getMarker: function () {

@@ -16,17 +16,17 @@ script(type="text/template" id="poiTemplate").
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <h5>Om stedet</h5>
                         <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4 control-label">Navn</label>
+                            <div class="form-group required">
+                                <label for="route-pois-poi-<%= cid %>-name-input" class="col-sm-4 control-label">Navn</label>
                                 <div class="col-sm-8">
-                                    <input name="navn" type="email" class="form-control" id="inputEmail3" placeholder="Navn på sted">
+                                    <input name="navn" type="email" class="form-control" id="route-pois-poi-<%= cid %>-name-input" placeholder="Navn på sted" data-model-validation-field-name="navn">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4 control-label">Kategori</label>
+                            <div class="form-group required">
+                                <label for="route-pois-poi-<%= cid %>-kategori-select" class="col-sm-4 control-label">Kategori</label>
                                 <div class="col-sm-8">
-                                    <select name="kategori" class="form-control">
-                                        <option value=0>Velg en</option></option>
+                                    <select class="form-control" id="route-pois-poi-<%= cid %>-kategor-select" name="kategori" data-model-validation-field-name="kategori">
+                                        <option value="">Velg en</option></option>
                                         <option value="Hytte">Hytte</option>
                                         <option value="Fjelltopp">Fjelltopp</option>
                                         <option value="Gapahuk">Gapahuk</option>
@@ -54,15 +54,15 @@ script(type="text/template" id="poiTemplate").
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4 control-label">Er også</label>
-                                <div class="col-sm-8 flereStedKategorierSelectContainer">
-                                    <input type="text" class="form-control" name="route-poi-tags">
+                                <label for="route-pois-poi-<%= cid %>-tags-input" class="col-sm-4 control-label">Er også</label>
+                                <div class="col-sm-8" data-container-for="flere-sted-kategorier-input">
+                                    <input type="text" class="form-control" id="route-pois-poi-<%= cid %>-tags-input" name="route-poi-tags">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4 control-label">Beskrivelse</label>
+                            <div class="form-group required">
+                                <label for="route-pois-poi-<%= cid %>-beskrivelse-textarea" class="col-sm-4 control-label">Beskrivelse</label>
                                 <div class="col-sm-8">
-                                    <textarea name="beskrivelse" class="form-control" rows="5"></textarea>
+                                    <textarea class="form-control" id="route-pois-poi-<%= cid %>-beskrivelse-textarea" name="beskrivelse" rows="5" data-model-validation-field-name="beskrivelse"></textarea>
                                 </div>
                             </div>
                         </form>

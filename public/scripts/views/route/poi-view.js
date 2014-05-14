@@ -14,9 +14,24 @@ var DNT = window.DNT || {};
     ns.PoiView = Backbone.View.extend({
 
         bindings: {
-            '[name="navn"]': 'navn',
-            '[name="beskrivelse"]': 'beskrivelse',
-            '[name="kategori"]': 'kategori',
+            '[name="navn"]': {
+                observe: 'navn',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="beskrivelse"]': {
+                observe: 'beskrivelse',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="kategori"]': {
+                observe: 'kategori',
+                setOptions: {
+                    validate: true
+                }
+            },
             '[data-placeholder="poi-name"]': 'navn'
         },
 
@@ -69,7 +84,9 @@ var DNT = window.DNT || {};
                 json.cid = this.model.cid;
                 var html =  this.template(json);
                 $(this.el).html(html);
-                this.stickit(this.model, this.bindings);
+
+                this.stickit(); // Uses view.bindings and view.model to setup bindings
+                Backbone.Validation.bind(this);
             }
 
             var poiTags = this.model.get('tags');
@@ -78,18 +95,25 @@ var DNT = window.DNT || {};
 
             poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
 
-            this.$('.flereStedKategorierSelectContainer input').select2({
+            this.$('[data-container-for="flere-sted-kategorier-input"] input').select2({
                 tags: alleStedKategorier,
                 createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
             }).on('change', $.proxy(this.onFlereStedKategorierChange, this));
 
-            this.$('.flereStedKategorierSelectContainer input').select2('val', poiAdditionalCategories);
+            this.$('[data-container-for="flere-sted-kategorier-input"] input').select2('val', poiAdditionalCategories);
 
             var poiPicturesView = new DNT.PoiPicturesView({ model: this.model, pictureCollection: this.pictureCollection });
-            this.$(".currentRouteImages .routePicturesContainer").append(poiPicturesView.render().el);
+            this.$('.currentRouteImages .routePicturesContainer').append(poiPicturesView.render().el);
 
             return this;
 
+        },
+
+        remove: function() {
+            // Remove the validation binding
+            // See: http://thedersen.com/projects/backbone-validation/#using-form-model-validation/unbinding
+            Backbone.Validation.unbind(this);
+            return Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
 
