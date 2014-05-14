@@ -556,3 +556,11 @@ body.modal-open {
 	}
 
 }
+
+input.has-error {
+	border-color: #a94442;
+}
+
+span.error-msg {
+	color: #a94442;
+}

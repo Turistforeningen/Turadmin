@@ -12,10 +12,10 @@ script(type="text/template" id="template-route-facts-links").
 script(type="text/template" id="template-route-facts-link").
     <div class="row route-facts-lenke">
         <div class="col-lg-6 col-md-6 col-sm-6">
-            <input type="text" class="form-control" name="link-title" value="<%= link.tittel %>" placeholder="Tittel">
+            <input type="text" class="form-control" name="lenke-tittel" value="<%= link.tittel %>" placeholder="Tittel" data-model-validation-field-name="tittel">
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6">
-            <input type="text" class="form-control" name="link-url" value="<%= link.url %>" placeholder="Adresse">
+            <input type="text" class="form-control" name="lenke-url" value="<%= link.url %>" placeholder="Adresse" data-model-validation-field-name="url">
         </div>
         <a class="remove-link" data-action="remove-link">Slett</a>
     </div>
