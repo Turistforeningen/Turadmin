@@ -9,11 +9,6 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-
-    var routeFactsLinksBindings = {
-        'routeFactsLinksInput input[name="link-title"]': 'sesong'
-    };
-
     ns.RouteFactsLinksView = Backbone.View.extend({
 
         template: _.template($('#routeFactsLinksTemplate').html()),
