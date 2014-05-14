@@ -200,6 +200,15 @@ a {
 	content: '\00a0*';
 }
 
+input.has-error {
+	border-color: #a94442;
+}
+
+span.error-msg {
+	color: #a94442;
+}
+
+
 /* Map and controls */
 
 .mapControls {
@@ -555,12 +564,4 @@ body.modal-open {
 		background-image: url('../images/icon-route-tag-klatretur@2x.png');
 	}
 
-}
-
-input.has-error {
-	border-color: #a94442;
-}
-
-span.error-msg {
-	color: #a94442;
 }
