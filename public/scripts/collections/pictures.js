@@ -45,7 +45,7 @@ var DNT = window.DNT || {};
             if (model.hasPosition()) {
                 this.geojsonLayer.addLayer(model.getMarker());
             }
-            model.on("deletePicture", function () { this.deletePicture(model); }, this);
+            model.on("deletePicture", function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
         },
 
         addMarker: function (model) {
@@ -58,10 +58,15 @@ var DNT = window.DNT || {};
             if (model.isDeleted && model.hasPosition()) {
                 this.getGeoJsonLayer().removeLayer(model.getMarker());
             }
+            // NOTE: Keeping this code, in case my fixes for TURADMIN-49 has broken something
             // If model is new (not synced with server) - silently remove it from the collection
-            if (model.isNew()) {
-                this.remove(model, { silent: true });
-            }
+            // if (model.isNew()) {
+            //     // this.remove(model, { silent: true });
+            //     this.remove(model); // NOTE: Removed silently removal, because we want to catch this in poipicturesView
+            // }
+
+            this.remove(model);
+
         },
 
         countPictures: function () {

@@ -19,9 +19,9 @@ var DNT = window.DNT || {};
 
         initialize: function (options) {
             this.pictureCollection = options.pictureCollection;
-            this.pictureCollection.on('change', function () {
-                this.render();
-            }, this);
+            this.pictureCollection.on('add', this.render, this);
+            this.pictureCollection.on('remove', this.render, this);
+            this.pictureCollection.on('sort', this.render, this);
         },
 
         toggleRelated: function (e) {

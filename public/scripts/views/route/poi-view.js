@@ -100,8 +100,9 @@ var DNT = window.DNT || {};
 
             this.$('[data-container-for="flere-sted-kategorier-input"] input').select2('val', poiAdditionalCategories);
 
-            var poiPicturesView = new DNT.PoiPicturesView({ model: this.model, pictureCollection: this.pictureCollection });
-            this.$('.currentRouteImages .routePicturesContainer').append(poiPicturesView.render().el);
+            this.poiPicturesView = new DNT.PoiPicturesView({ model: this.model, pictureCollection: this.pictureCollection });
+
+            this.$('.currentRouteImages .routePicturesContainer').append(this.poiPicturesView.render().el);
 
             return this;
 
