@@ -89,16 +89,18 @@ var DNT = window.DNT || {};
     ns.MapView = Backbone.View.extend({
 
         el: "#mapAndControlsContainer",
-        snapping: true,
         drawMarkerTool: undefined,
         draw: false,
         routeModel: undefined,
         modelToPosition: undefined,
         markers: [],
+        routingEnabled: true,
+        snappingEnabled: true,
 
         events: {
             'click #startDraw': 'toggleDraw',
-            'click [data-route-draw-toggle-snap]': 'toggleSnap',
+            'click [data-route-draw-toggle-snapping]': 'toggleSnapping',
+            'click [data-route-draw-toggle-routing]': 'toggleRouting',
             'click [data-route-draw-toggle-autocenter]': 'toggleAutocenter',
             'click [data-route-direction-option]': 'setRouteDirection',
             'click #deleteRoute': 'deleteRoute'
@@ -112,7 +114,7 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopover", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry', 'renderDrawButton');
+            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopover", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry', 'renderDrawButton', 'toggleSnapping', 'toggleRouting');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
@@ -163,35 +165,41 @@ var DNT = window.DNT || {};
             this.updateRouteDirectionSelect();
         },
 
-        toggleSnap: function (e) {
+        toggleRouting: function (e) {
             e.preventDefault();
-            this.snapping = !this.snapping;
-            this.routing.enableSnapping(this.snapping);
-            this.updateSnapToggle();
+            this.routingEnabled = !this.routingEnabled;
+            this.routing.enableRouting(this.routingEnabled);
+            this.updateRoutingToggle();
         },
 
-        updateSnapToggle: function () {
-            if (this.snapping === true) {
-                $('[data-route-draw-toggle-snap]').addClass("active");
+        updateRoutingToggle: function () {
+            if (this.routingEnabled === true) {
+                $('[data-route-draw-toggle-routing]').addClass('active');
             } else {
-                $('[data-route-draw-toggle-snap]').removeClass("active");
+                $('[data-route-draw-toggle-routing]').removeClass('active');
+            }
+        },
+
+        toggleSnapping: function (e) {
+            e.preventDefault();
+            this.snappingEnabled = !this.snappingEnabled;
+            this.routing.enableSnapping(this.snappingEnabled);
+            this.updateSnappingToggle();
+        },
+
+        updateSnappingToggle: function () {
+            if (this.snappingEnabled === true) {
+                $('[data-route-draw-toggle-snapping]').addClass('active');
+            } else {
+                $('[data-route-draw-toggle-snapping]').removeClass('active');
             }
         },
 
         toggleAutocenter: function (e) {
             e.preventDefault();
-            // this.autocenter = !this.autocenter;
-            // this.routing.enableSnapping(this.snapping);
-            // this.updateSnapToggle();
         },
 
-        updateAutocenterToggle: function () {
-            // if (this.snapping === true) {
-            //     $('[data-route-draw-toggle-snap]').addClass("active");
-            // } else {
-            //     $('[data-route-draw-toggle-snap]').removeClass("active");
-            // }
-        },
+        updateAutocenterToggle: function () {},
 
         updateRouteDirectionSelect: function () {
             var routeDirection = this.routeModel.get('retning') || '';
@@ -333,7 +341,8 @@ var DNT = window.DNT || {};
             this.addOnDrawCreatedEventHandler();
             this.createDrawMarkerTool();
             this.updateAutocenterToggle();
-            this.updateSnapToggle();
+            this.updateSnappingToggle();
+            this.updateRoutingToggle();
             this.updateRouteDirectionSelect();
 
             this.addGeoJsonToLayer();

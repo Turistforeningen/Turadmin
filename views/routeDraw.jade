@@ -58,9 +58,13 @@ div.row.page-block.route-draw(id="route-draw")
                                                 label Automatisk sentrering
                                                 p.help-block Med automatisk sentrering vil kartet flytte seg automatisk når du tegner nær kanten av kartet. Du kan skru av denne funksjonen.
                                         li
-                                            a(data-route-draw-toggle-snap="")
+                                            a(data-route-draw-toggle-routing="")
+                                                label Ruting
+                                                p.help-block Når du tegner inn ruten vil inntegningen automatisk legge seg til nærmeste stier og veier. Du kan skru av og på denne funksjonen.
+                                        li
+                                            a(data-route-draw-toggle-snapping="")
                                                 label Magnetisk markør
-                                                p.help-block Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av denne funksjonen.
+                                                p.help-block Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av og på denne funksjonen.
 
                         div.col-lg-4.col-md-4.col-sm-4
                             div.dropdown.dropdown-select.pull-right.route-field-facts-retning
