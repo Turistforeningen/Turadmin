@@ -1,27 +1,46 @@
 extends layout
 
-block extraHeadContent
-    //- link(rel='stylesheet', href='lib/leaflet-0.7.1/leaflet.css')
-    //- script(src='lib/underscore/underscore-min.js')
-    //- script(src='lib/backbone/backbone-min.js')
-
-    include indexTemplates
-
-    //- script(src='javascripts/routeModel.js')
-    //- script(src='javascripts/listItemView.js')
-    //- script(src='javascripts/indexView.js')
-
-    script.
-        $(document).ready(function () {
-            //- new DNT.LoginView();
-        });
-
 block content
 
     div.container
-        div.masthead
-            h2.page-header Logg inn
+        div.row
+            div.col-lg-10.col-md-10.col-sm-12.col-lg-offset-1.col-md-offset-1
+                div.masthead
+                    h2.page-header Logg inn
+                div.well
+                    span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel pharetra odio. Duis nec libero pulvinar leo rutrum consequat rhoncus eget elit. Nulla scelerisque vestibulum bibendum. Duis vel viverra massa, in adipiscing quam. Aenean quis eros sit amet sapien tempus tincidunt.
 
-            form.form-signin(action="/login/dnt" method="POST")
-                h2 DNT Connect
-                button.btn.btn-lg.btn-success.btn-block(type="submit") Logg inn
+        div.row
+            div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-1.col-md-offset-1
+                div.gruppebruker
+                    h3 Gruppebruker
+                    form.form-signin(action="/login/guppebruker" method="POST")
+                        p.help-block Fyll inn brukernavn og passord her dersom du ønsker å logge inn med en ekstern gruppebruker.
+
+                        div.form-group
+                            label(for="login-groupuser-username") Brukernavn
+                            input.form-control(id="login-groupuser-username")
+
+                        div.form-group
+                            label(for="login-groupuser-username") Passord
+                            input.form-control(id="login-groupuser-username")
+
+                        button.btn.btn-lg.btn-primary.btn-block(type="submit" onclick="alert('Innlogging med gruppebruker er ikke implementert.'); event.preventDefault();") <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp; Logg inn
+
+            div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-2.col-md-offset-2.col-sm-offset-2
+
+                div.dnt-connect
+                    h3 DNT Connect
+                    form.form-signin(action="/login/dnt" method="POST")
+                        button.btn.btn-lg.btn-default.btn-block(type="submit")
+                            span.glyphicon.glyphicon.glyphicon-arrow-right
+                            | &nbsp;Gå til innlogging
+                        p.help-block Klikk her dersom du ønsker å logge inn med DNT Connect
+
+                div.mitt-nrk
+                    h3 Mitt NRK
+                    form.form-signin(action="/login/nrk" method="POST")
+                        button.btn.btn-lg.btn-default.btn-block(type="submit" onclick="alert('Innlogging via Mitt NRK er ikke implementert.'); event.preventDefault();")
+                            span.glyphicon.glyphicon.glyphicon-arrow-right
+                            | &nbsp;Gå til innlogging
+                        p.help-block Klikk her dersom du ønsker å logge inn via Mitt NRK

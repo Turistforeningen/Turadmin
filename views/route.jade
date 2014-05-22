@@ -78,6 +78,22 @@ block extraHeadContent
         | DNT.initRouteApp(appData);
         | });
 
+block navbarHeader
+    // TODO: Move styling to stylesheet!
+    a.navbar-brand(href="http://www.ut.no" alt="Til ut.no" style="padding: 13px;")
+        img(src="/images/ut.no-logo_hvit.png" style="height: 24px;")
+    a#headerRouteName.navbar-brand.hidden-xs(data-toggle="tooltip" title="" data-original-title="Klikk for å gi turen et navn" data-placeholder-for="route-name")
+        if routeData
+            | #{routeName}
+        else
+            | Tur uten navn
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
 block routeNavigation
 
     // Scrollspy navigation
