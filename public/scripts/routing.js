@@ -18,7 +18,6 @@ var DNT = window.DNT || {};
         var routeUri = restUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',') + '&callback=?';
         var req = $.getJSON(routeUri);
         req.always(function (data, status) {
-            console.log(data, status);
             if (status === 'success') {
                 try {
                     L.GeoJSON.geometryToLayer(JSON.parse(data)).eachLayer(function (layer) {
