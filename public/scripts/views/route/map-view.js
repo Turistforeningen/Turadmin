@@ -349,7 +349,7 @@ var DNT = window.DNT || {};
             }, this));
 
             this.renderDrawButton();
-            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelFromMap, this); // TODO: Handle routing event in DNT.Routing?
+            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
 
             return this;
         }
