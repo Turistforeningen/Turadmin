@@ -18,6 +18,7 @@ var DNT = window.DNT || {};
         var routeUri = restUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',') + '&callback=?';
         var req = $.getJSON(routeUri);
         req.always(function (data, status) {
+            console.log(data, status);
             if (status === 'success') {
                 try {
                     L.GeoJSON.geometryToLayer(JSON.parse(data)).eachLayer(function (layer) {
@@ -51,10 +52,11 @@ var DNT = window.DNT || {};
     };
 
     ns.Routing = function (map, snappingLayer) {
-        var routing;
+
+        // var routing;
 
         this.addRouting = function () {
-            routing = new L.Routing({
+            this.routing = new L.Routing({
                 position: 'topleft',
                 routing: {
                     router: myRouter
@@ -65,11 +67,13 @@ var DNT = window.DNT || {};
                     vertexonly: false
                 }
             });
-            map.addControl(routing);
+
+            map.addControl(this.routing);
+
         };
 
         this.enable = function (enable) {
-            routing.draw(enable);
+            this.routing.draw(enable);
         };
 
         this.enableSnapping = function (enable) {
@@ -77,13 +81,12 @@ var DNT = window.DNT || {};
         };
 
         this.getGeoJson = function () {
-            return routing.toGeoJSON(true);
+            return this.routing.toGeoJSON(true);
         };
 
         this.loadGeoJson = function (geoJson, options, callback) {
-            routing.loadGeoJSON(geoJson, options, callback);
+            this.routing.loadGeoJSON(geoJson, options, callback);
         };
     };
 
 }(DNT));
-
