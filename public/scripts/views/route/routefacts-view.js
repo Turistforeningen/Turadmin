@@ -168,7 +168,7 @@ var DNT = window.DNT || {};
         },
 
         onGetPasserForBarn: function (val, options) {
-            var passerFor = val;
+            var passerFor = val || [];
             return (passerFor.indexOf('Barn') > -1) ? true : false;
         },
 
