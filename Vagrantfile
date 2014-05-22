@@ -12,7 +12,7 @@ apt-get install -y build-essential git curl imagemagick
 # NodeJS via NVM
 echo "Installing Node Version Manager..."
 export HOME=/home/vagrant
-curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh | sh
 echo "source ~/.nvm/nvm.sh" >> /home/vagrant/.bashrc
 source /home/vagrant/.nvm/nvm.sh
 #nvm install 0.8
@@ -37,11 +37,12 @@ DNT_CONNECT_KEY=`cat ./env/DNT_CONNECT_KEY`
 echo "Setting environment variables..."
 echo "export NODE_ENV=development"                       >> /home/vagrant/.bashrc
 echo "export PORT_WWW=8080"                              >> /home/vagrant/.bashrc
-echo "export URL_WWW=http://localhost:8080/"             >> /home/vagrant/.bashrc
+echo "export APP_URL=http://localhost:3004"              >> /home/vagrant/.bashrc
 echo "export NTB_API_KEY=$NTB_API_KEY"                   >> /home/vagrant/.bashrc
-echo "export NTB_API_URL=http://api.nasjonalturbase.no/" >> /home/vagrant/.bashrc
+echo "export NTB_API_URL=http://dev.nasjonalturbase.no"  >> /home/vagrant/.bashrc
 echo "export DNT_CONNECT_USER=$DNT_CONNECT_USER"         >> /home/vagrant/.bashrc
 echo "export DNT_CONNECT_KEY=$DNT_CONNECT_KEY"           >> /home/vagrant/.bashrc
+echo "export ROUTING_API_URL=$ROUTING_API_URL"           >> /home/vagrant/.bashrc
 echo "\ncd /vagrant"                                     >> /home/vagrant/.bashrc
 
 chown vagrant:vagrant /home/vagrant/.nvm
