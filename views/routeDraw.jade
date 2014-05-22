@@ -41,13 +41,14 @@ div.row.page-block.route-draw(id="route-draw")
                                         span.glyphicon.glyphicon-trash
                                         span.buttonText &nbsp;Slett inntegning
 
-                                // div.snapToggle
-                                    div.checkbox
-                                        label(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av denne funksjonen." data-placement="bottom")
-                                            input(type="checkbox")
-                                            | Magnetisk markør
+                                div.toggleRouting
+                                    button.btn.btn-default(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på." data-placement="top" data-route-draw-toggle-routing)
+                                        input(type="checkbox")
+                                        <span>&nbsp;Ruting</span>
+                                    script.
+                                        $('.toggleRouting button').tooltip();
 
-                                div.dropdown.dropdown-select.dropdown-select-toggles
+                                //div.dropdown.dropdown-select.dropdown-select-toggles
                                     button.btn.btn-link(data-toggle="dropdown" data-target="#")
                                         span.glyphicon.glyphicon-cog
                                         | &nbsp; Alternativer &nbsp;
@@ -61,7 +62,7 @@ div.row.page-block.route-draw(id="route-draw")
                                             a(data-route-draw-toggle-routing="")
                                                 label Ruting
                                                 p.help-block Når du tegner inn ruten vil inntegningen automatisk legge seg til nærmeste stier og veier. Du kan skru av og på denne funksjonen.
-                                        li
+                                        // li
                                             a(data-route-draw-toggle-snapping="")
                                                 label Magnetisk markør
                                                 p.help-block Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av og på denne funksjonen.

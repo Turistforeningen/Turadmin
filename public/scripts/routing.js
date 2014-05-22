@@ -14,6 +14,7 @@ var DNT = window.DNT || {};
 
     var snappingRouter = function (l1, l2, cb) {
         var apiUri = $('body').data("apiuri");
+
         var restUri = apiUri + "/route/?coords=";
         var routeUri = restUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',') + '&callback=?';
         var req = $.getJSON(routeUri);
@@ -52,7 +53,32 @@ var DNT = window.DNT || {};
 
     ns.Routing = function (map, snappingLayer) {
 
-        // var routing;
+        var apiUri = $('body').data("apiuri");
+        var sUrl = apiUri + '/bbox/?bbox=';
+
+        // Listen to map:moveend event to get updated snappingLayer data
+        map.on('moveend', $.proxy(function(e) {
+            if (map.getZoom() > 12 && enableSnapping) {
+                var url;
+                url = sUrl + map.getBounds().toBBoxString() + '&callback=?';
+                $.getJSON(url).always(function(data, status) {
+                    if (status === 'success') {
+                        data = JSON.parse(data);
+                        if (data.geometries && data.geometries.length > 0) {
+                            snappingLayer.clearLayers();
+                            snappingLayer.addData(data);
+                        }
+                    } else {
+                        console.error('Could not load snappingLayer data');
+                    }
+                });
+            } else {
+                snappingLayer.clearLayers();
+            }
+        }), this);
+
+        // Trigger first map:moveend event to get initial snappingLayer data
+        map.fire('moveend');
 
         this.addRouting = function () {
             this.routing = new L.Routing({
@@ -81,6 +107,13 @@ var DNT = window.DNT || {};
 
         this.enableSnapping = function (enable) {
             enableSnapping = enable;
+            if (enable) {
+                // Trigger map:moveend event to get snappingLayer data
+                map.fire('moveend');
+
+            } else {
+                snappingLayer.clearLayers();
+            }
         };
 
         this.getGeoJson = function () {

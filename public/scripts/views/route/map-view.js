@@ -99,22 +99,21 @@ var DNT = window.DNT || {};
 
         events: {
             'click #startDraw': 'toggleDraw',
-            'click [data-route-draw-toggle-snapping]': 'toggleSnapping',
+            // 'click [data-route-draw-toggle-snapping]': 'toggleSnapping',
             'click [data-route-draw-toggle-routing]': 'toggleRouting',
-            'click [data-route-draw-toggle-autocenter]': 'toggleAutocenter',
+            // 'click [data-route-draw-toggle-autocenter]': 'toggleAutocenter',
             'click [data-route-direction-option]': 'setRouteDirection',
             'click #deleteRoute': 'deleteRoute'
         },
 
         initialize: function () {
-            // console.log('mapView:initialize');
             this.mapLayers = createMapLayers();
             this.snapLayer = createSnapLayer();
             this.drawControl = createDrawControl();
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, "startPicturePositioning", "startPoiPositioning", "registerPopover", "zoomAndCenter", "addGeoJsonToLayer", 'loadGpxGeometry', 'renderDrawButton', 'toggleSnapping', 'toggleRouting');
+            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'registerPopover', 'zoomAndCenter', 'addGeoJsonToLayer', 'loadGpxGeometry', 'renderDrawButton', 'toggleSnapping', 'toggleRouting');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
@@ -139,8 +138,8 @@ var DNT = window.DNT || {};
             var $drawButton = this.$('button#startDraw');
 
             if (this.draw === true) {
-                $drawButton.addClass("active");
-                $drawButton.find(".buttonText").html("&nbsp;Avslutt inntegning");
+                $drawButton.addClass('active');
+                $drawButton.find('.buttonText').html('&nbsp;Avslutt inntegning');
             } else {
                 var geojson = this.routing.getGeoJson();
                 $drawButton.removeClass("active");
@@ -168,15 +167,17 @@ var DNT = window.DNT || {};
         toggleRouting: function (e) {
             e.preventDefault();
             this.routingEnabled = !this.routingEnabled;
-            this.routing.enableRouting(this.routingEnabled);
+            this.routing.enableSnapping(this.routingEnabled);
             this.updateRoutingToggle();
         },
 
         updateRoutingToggle: function () {
             if (this.routingEnabled === true) {
-                $('[data-route-draw-toggle-routing]').addClass('active');
+                // $('[data-route-draw-toggle-routing]').addClass('active'); // This is for options dropdown.
+                $('[data-route-draw-toggle-routing] input[type="checkbox"]').prop('checked', true);
             } else {
-                $('[data-route-draw-toggle-routing]').removeClass('active');
+                // $('[data-route-draw-toggle-routing]').removeClass('active'); // This is for options dropdown.
+                $('[data-route-draw-toggle-routing] input[type="checkbox"]').prop('checked', false);
             }
         },
 
@@ -184,16 +185,16 @@ var DNT = window.DNT || {};
             e.preventDefault();
             this.snappingEnabled = !this.snappingEnabled;
             this.routing.enableSnapping(this.snappingEnabled);
-            this.updateSnappingToggle();
+            // this.updateSnappingToggle();
         },
 
-        updateSnappingToggle: function () {
-            if (this.snappingEnabled === true) {
-                $('[data-route-draw-toggle-snapping]').addClass('active');
-            } else {
-                $('[data-route-draw-toggle-snapping]').removeClass('active');
-            }
-        },
+        // updateSnappingToggle: function () {
+        //     if (this.snappingEnabled === true) {
+        //         $('[data-route-draw-toggle-snapping]').addClass('active');
+        //     } else {
+        //         $('[data-route-draw-toggle-snapping]').removeClass('active');
+        //     }
+        // },
 
         toggleAutocenter: function (e) {
             e.preventDefault();
@@ -332,6 +333,8 @@ var DNT = window.DNT || {};
                 position: 'topleft'
             }).addTo(this.map);
 
+            var map = this.map, snapping = this.snapLayer;
+
             this.snapLayer.addTo(this.map);
             this.addRouting();
 
@@ -340,8 +343,8 @@ var DNT = window.DNT || {};
             this.pictureCollection.getGeoJsonLayer().addTo(this.map);
             this.addOnDrawCreatedEventHandler();
             this.createDrawMarkerTool();
-            this.updateAutocenterToggle();
-            this.updateSnappingToggle();
+            // this.updateAutocenterToggle();
+            // this.updateSnappingToggle();
             this.updateRoutingToggle();
             this.updateRouteDirectionSelect();
 
