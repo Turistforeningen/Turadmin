@@ -60,6 +60,10 @@ var DNT = window.DNT || {};
                 routing: {
                     router: myRouter
                 },
+                tooltips: {
+                    waypoint: 'Rutepunkt. Klikk for å slette, dra for å flytte.',
+                    segment: 'Dra for å opprette nytt rutepunkt.'
+                },
                 snapping: {
                     layers: [snappingLayer],
                     sensitivity: 15,
