@@ -73,17 +73,17 @@ var DNT = window.DNT || {};
 
         initialize: function (options) {
 
-            this.model.on('change:navn', this.addNameToHeader);
+            this.model.on('change:navn', this.updateRouteNamePlaceholders, this);
             this.model.on('change:tidsbrukDager', this.toggleHoursAndMinutesVisiblity);
             this.model.on('change:turtype', this.updateFlereTurtyperOptions);
 
             // Bind these methods to this scope
-            _.bindAll(this, 'addNameToHeader', 'toggleHoursAndMinutesVisiblity', 'updateFlereTurtyperOptions', 'onGetPasserForBarn', 'onSetPasserForBarn');
+            _.bindAll(this, 'toggleHoursAndMinutesVisiblity', 'updateFlereTurtyperOptions', 'onGetPasserForBarn', 'onSetPasserForBarn');
 
             this.user = options.user;
 
             if (!!this.model.get('navn') && this.model.get('navn').length > 0) {
-                this.addNameToHeader();
+                this.updateRouteNamePlaceholders();
             }
 
             if (!!this.model.get('tidsbrukDager')) {
@@ -177,8 +177,9 @@ var DNT = window.DNT || {};
             return (passerForBarn === true) ? ['Barn'] : [];
         },
 
-        addNameToHeader: function () {
-            $('[data-placeholder-for="route-name"]').html(this.model.get("navn"));
+        updateRouteNamePlaceholders: function () {
+            var routeName = this.model.get('navn');
+            $('[data-placeholder-for="route-name"]').html(routeName);
         },
 
         render: function () {
