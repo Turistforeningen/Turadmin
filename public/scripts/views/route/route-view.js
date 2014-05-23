@@ -20,15 +20,15 @@ var DNT = window.DNT || {};
             this.gpxUploadView = new DNT.GpxUploadView({ model: this.model });
             this.mapView = new DNT.MapView({ model: this.model });
             this.pictureView = new DNT.PicturesView({ model: this.model });
-            this.route = this.model.get("route");
+            this.route = this.model.get('route');
             this.user = this.model.get('user');
             this.routeFactsView = new DNT.RouteFactsView({ model: this.route, user: this.user });
-            this.route.on("change", this.unsavedChanges, this);
-            this.poiCollection = this.model.get("poiCollection");
-            this.poiCollection.on("add", this.unsavedChanges, this);
-            this.pictureCollection = this.model.get("pictureCollection");
+            this.route.on('change', this.unsavedChanges, this);
+            this.poiCollection = this.model.get('poiCollection');
+            this.poiCollection.on('add', this.unsavedChanges, this);
+            this.pictureCollection = this.model.get('pictureCollection');
             this.poiCollectionView = new DNT.PoiCollectionView({ model: this.model, pictureCollection: this.pictureCollection });
-            this.pictureCollection.on("add", this.unsavedChanges, this);
+            this.pictureCollection.on('add', this.unsavedChanges, this);
 
             this.updatePublishButtons();
 
@@ -46,6 +46,12 @@ var DNT = window.DNT || {};
             this.pictureView.render();
             this.poiCollectionView.render();
             this.routeFactsView.render();
+
+            var modelHasRoute = this.model.get('route').hasRoute();
+            if (modelHasRoute === true) {
+                this.$('.findplace-gpxupload-container').addClass('hidden');
+            }
+
         },
 
         updatePublishButtons: function () {
@@ -135,12 +141,12 @@ var DNT = window.DNT || {};
 
                 me.route.save(undefined, {
                     success: function () {
-                        console.log("saved route");
+                        // console.log('saved route');
                         me.updateSaveButton(true);
                         me.updatePublishButtons();
                     },
                     error: function (e) {
-                        console.log("error", e);
+                        console.log('error', e);
                     }
                 });
 
@@ -151,11 +157,11 @@ var DNT = window.DNT || {};
             this.poiCollection.save(
                 function () {
                     saveDone();
-                    console.log("All pois synced with server");
+                    console.log('All pois synced with server');
                 },
                 function (errorCount) {
                     saveDone();
-                    console.error("Failed to sync " + errorCount + " pois");
+                    console.error('Failed to sync ' + errorCount + ' pois');
                 },
                 this
             );
@@ -163,11 +169,11 @@ var DNT = window.DNT || {};
             this.pictureCollection.save(
                 function () {
                     saveDone();
-                    console.log("All pictures synced with server");
+                    console.log('All pictures synced with server');
                 },
                 function (errorCount) {
                     saveDone();
-                    console.error("Failed to sync " + errorCount + " pictures");
+                    console.error('Failed to sync ' + errorCount + ' pictures');
                 },
                 this
             );

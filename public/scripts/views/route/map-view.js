@@ -324,7 +324,7 @@ var DNT = window.DNT || {};
 
         render: function () {
 
-            this.map = L.map(this.$("#mapContainer")[0], {
+            this.map = L.map(this.$('#mapContainer')[0], {
                 layers: [this.mapLayers.baseLayerConf["Topo 2"]],
                 scrollWheelZoom: false
             }).setView([61.5, 9], 13);
@@ -332,8 +332,6 @@ var DNT = window.DNT || {};
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
                 position: 'topleft'
             }).addTo(this.map);
-
-            var map = this.map, snapping = this.snapLayer;
 
             this.snapLayer.addTo(this.map);
             this.addRouting();
@@ -344,19 +342,18 @@ var DNT = window.DNT || {};
             this.addOnDrawCreatedEventHandler();
             this.createDrawMarkerTool();
             // this.updateAutocenterToggle();
-            // this.updateSnappingToggle();
             this.updateRoutingToggle();
             this.updateRouteDirectionSelect();
 
             this.addGeoJsonToLayer();
 
             this.poiCollection.each($.proxy(function(element, index, list){
-                this.registerPopover({model: element, templateId: "#poiPopupTemplate"});
+                this.registerPopover({model: element, templateId: '#poiPopupTemplate'});
                 this.listenTo(element, 'registerPopover', this.registerPopover);
             }, this));
 
             this.pictureCollection.each($.proxy(function(element, index, list){
-                this.registerPopover({model: element, templateId: "#picturePopupTemplate"});
+                this.registerPopover({model: element, templateId: '#picturePopupTemplate'});
                 this.listenTo(element, 'registerPopover', this.registerPopover);
             }, this));
 

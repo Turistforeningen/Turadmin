@@ -1,28 +1,30 @@
 div.row.page-block.route-draw(id="route-draw")
     div.col-lg-12
         h3 Inntegning
-        div.row.routeLocate
-            form.form-horizontal
-                div.col-lg-4.col-md-4.col-sm-5
-                    div.form-group
-                        // TODO: Move styles to CSS
-                        label.control-label(for="",style="float: left; margin-left: 15px;")
-                            span.glyphicon.glyphicon-map-marker
-                            | &nbsp;Finn sted
-                        div.col-sm-8
-                            input#placeSearchInput.form-control(placeholder="søk" type="hidden")
-                div.col-lg-1.col-md-1.col-sm-1
-                    div.form-group
-                        // TODO: Move styles to CSS
-                        p.form-control-static(style="text-align: center;") eller
-            div#gpxUploadView
-                form.form-horizontal(method="post", enctype="multipart/form-data")
-                    div.col-lg-7.col-md-7.col-sm-6.col-xs-12
-                        span.btn.btn-default.fileinput-button
-                            span.glyphicon.glyphicon-folder-open
-                            | &nbsp;&nbsp;Last opp GPX-fil
-                            input#fileupload-gpx(type="file" name="files[]")
-                        span.upload-button-status(data-placeholder-for="gpx-upload-status")
+        div.row
+            div.col-lg-12
+                div.findplace-gpxupload-container
+                    div.row
+                        form.form-horizontal
+                            div.col-lg-4.col-md-4.col-sm-5
+                                div.form-group.findplace
+                                    label.control-label(for="")
+                                        span.glyphicon.glyphicon-map-marker
+                                        | &nbsp;Finn sted
+                                    div.col-sm-8
+                                        input#placeSearchInput.form-control(placeholder="søk" type="hidden")
+                            div.col-lg-1.col-md-1.col-sm-1
+                                div.form-group
+                                    // TODO: Move styles to CSS
+                                    p.form-control-static(style="text-align: center;") eller
+                        div#gpxUploadView
+                            form.form-horizontal(method="post", enctype="multipart/form-data")
+                                div.col-lg-7.col-md-7.col-sm-6.col-xs-12
+                                    span.btn.btn-default.fileinput-button
+                                        span.glyphicon.glyphicon-folder-open
+                                        | &nbsp;&nbsp;Last opp GPX-fil
+                                        input#fileupload-gpx(type="file" name="files[]")
+                                    span.upload-button-status(data-placeholder-for="gpx-upload-status")
 
         div#mapAndControlsContainer
 

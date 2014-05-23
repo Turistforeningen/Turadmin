@@ -145,6 +145,11 @@ var DNT = window.DNT || {};
             return additionalRouteTypes;
         },
 
+        hasRoute: function () {
+            var geojson = this.get('geojson');
+            return (geojson && geojson.coordinates.length) ? true : false;
+        },
+
         save: function (attrs, options) {
 
             var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway

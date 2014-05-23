@@ -245,10 +245,15 @@ span.error-msg {
 	margin-right: 10px;
 }
 
-.routeLocate {
+.findplace-gpxupload-container {
 	border-bottom: 1px solid #eee;
 	margin-bottom: 15px;
 	overflow: hidden;
+}
+
+.findplace-gpxupload-container .findplace label {
+	float: left;
+	margin-left: 15px;
 }
 
 .dropdown a.active {
