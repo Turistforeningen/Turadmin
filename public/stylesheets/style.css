@@ -89,6 +89,30 @@ a {
 	}
 }
 
+.navbar-brand.route-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@media (min-width: 769px) {
+	.navbar-brand.route-name {
+		max-width: 360px;
+	}
+}
+
+@media (min-width: 992px) {
+	.navbar-brand.route-name {
+		max-width: 208px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.navbar-brand.route-name {
+		max-width: 308px;
+	}
+}
+
 
 /* If a save-status indicator is to be implemented, this CSS could be used */
 
