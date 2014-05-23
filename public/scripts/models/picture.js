@@ -35,7 +35,9 @@ var DNT = window.DNT || {};
             fotograf: {
                 navn: ''
             },
-            tags: []
+            tags: [],
+            isPositioned: false
+
         },
 
         serverAttrs: [
@@ -79,6 +81,9 @@ var DNT = window.DNT || {};
             this.positionChanged();
             this.on("change:geojson", this.positionChanged);
 
+            this.updateIsPositioned();
+            this.on("change:geojson", this.updateIsPositioned, this);
+
             var urls = this.getUrls();
             this.set("thumbnailUrl", urls.thumbnail);
             this.set("url", urls.url);
@@ -108,11 +113,11 @@ var DNT = window.DNT || {};
         },
 
         isDeleted: function () {
-            return !!this.get("deleted") && this.get("deleted");
+            return !!this.get('deleted') && this.get('deleted');
         },
 
         getGeoJson: function () {
-            return _.clone(this.get("geojson"));
+            return _.clone(this.get('geojson'));
         },
 
         getMarker: function () {
@@ -124,7 +129,7 @@ var DNT = window.DNT || {};
         },
 
         hasPosition: function () {
-            var geojson = this.get("geojson");
+            var geojson = this.get('geojson');
             return !!geojson && !!geojson.coordinates;
         },
 
@@ -137,13 +142,13 @@ var DNT = window.DNT || {};
         },
 
         deletePicture: function () {
-            this.set("deleted", true);
-            this.trigger("deletePicture");
+            this.set('deleted', true);
+            this.trigger('deletePicture');
         },
 
         positionChanged: function () {
             if (this.hasPosition() && this.getMarker() === undefined) {
-                this.createMarker(this.get("geojson"));
+                this.createMarker(this.get('geojson'));
             }
         },
 
@@ -165,6 +170,12 @@ var DNT = window.DNT || {};
                 this.updateGeojson(lat, lng);
             }, this);
             this.trigger("picture:markerCreated", this);
+        },
+
+        updateIsPositioned: function () {
+            var geojson = this.get('geojson');
+            var isPositioned = (!!geojson && !!geojson.coordinates);
+            this.set('isPositioned', isPositioned);
         },
 
         updateGeojson: function (lat, lng) {
