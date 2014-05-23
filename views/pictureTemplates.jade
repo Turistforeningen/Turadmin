@@ -45,10 +45,17 @@ script(type="text/template" id="pictureTemplate").
     </div>
     <div class="form-group">
         <div class="input-group">
+            <% if (isPositioned) { %>
+            <button class="btn btn-default" data-action="picture-show-position">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                &nbsp;Vis posisjon i kart
+            </button>
+            <% } else { %>
             <button id="positionPicture" class="btn btn-default">
                 <span class="glyphicon glyphicon-map-marker"></span>
                 &nbsp;Posisjonér i kart
             </button>
+            <% } %>
         </div>
     </div>
 

@@ -113,10 +113,11 @@ var DNT = window.DNT || {};
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'registerPopover', 'zoomAndCenter', 'addGeoJsonToLayer', 'loadGpxGeometry', 'renderDrawButton', 'toggleSnapping', 'toggleRouting');
+            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'registerPopover', 'zoomAndCenter', 'addGeoJsonToLayer', 'loadGpxGeometry', 'renderDrawButton', 'toggleSnapping', 'toggleRouting', 'showPicturePosition');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
+            this.event_aggregator.on("map:showPicturePosition", this.showPicturePosition);
             this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
             this.event_aggregator.on("map:showPopup", this.registerPopover);
             this.event_aggregator.on("map:zoomAndCenter", this.zoomAndCenter);
@@ -196,11 +197,11 @@ var DNT = window.DNT || {};
         //     }
         // },
 
-        toggleAutocenter: function (e) {
-            e.preventDefault();
-        },
+        // toggleAutocenter: function (e) {
+        //     e.preventDefault();
+        // },
 
-        updateAutocenterToggle: function () {},
+        // updateAutocenterToggle: function () {},
 
         updateRouteDirectionSelect: function () {
             var routeDirection = this.routeModel.get('retning') || '';
@@ -235,11 +236,10 @@ var DNT = window.DNT || {};
         },
 
         setupMarker: function (coordinates) {
-            // console.log('mapView:setupMarker');
             var model = this.modelToPosition;
             delete this.modelToPosition;
             this.drawMarkerTool.disable();
-            this.listenTo(model, 'registerPopover', this.registerPopover); // TEMP: This is where the mapView is signing up for registerPopover-event. Not being run on page load.
+            this.listenTo(model, 'registerPopover', this.registerPopover);
             var geojson = createGeojson(coordinates);
             model.set('geojson', geojson);
             this.event_aggregator.trigger('map:markerIsCreated', model);
@@ -264,18 +264,50 @@ var DNT = window.DNT || {};
             });
         },
 
-        moveMap: function () {
+        moveMap: function (options, callback) {
             // Set the height of mapAndControlsContainerHeight to the height it already has,
             // but as a style attribute, to avoid collapsing when moving map to modal.
             this.$el.height(this.$el.height());
 
             this.$('#mapAndControls').appendTo('#modal-map .modal-body');
+
             $('#modal-map').modal('show');
 
             $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
                 $('#mapAndControls').appendTo(this.$el);
                 this.drawMarkerTool.disable();
             }, this));
+        },
+
+        startPicturePositioning: function (picture) {
+            this.moveMap();
+            if (!picture.hasMarker()) {
+                this.modelToPosition = picture;
+                this.drawMarkerTool.enable();
+            }
+        },
+
+        showPicturePosition: function (picture) {
+
+            var mapShowCallback = function (picture) {
+                // this.map.panTo(picture.marker.getLatLng(), { animate: true }); // Using autoPan
+                picture.marker.openPopup().update();
+                $('#modal-map').off('shown.bs.modal'); // Remove event listener
+            };
+
+            var mapHideCallback = function (picture) {
+                picture.marker.closePopup();
+                $('#modal-map').off('hidden.bs.modal'); // Remove event listener
+            };
+
+            // Need to delay the popup showing until after the modal is shown, to prevent messed up popup layout.
+            $('#modal-map').on('shown.bs.modal', $.proxy(mapShowCallback, this, picture));
+
+            // Listen to modal hide event, to close popup
+            $('#modal-map').on('hidden.bs.modal', $.proxy(mapHideCallback, this, picture));
+
+            this.moveMap();
+
         },
 
         loadGpxGeometry: function (gpxGeometry) {
@@ -296,14 +328,6 @@ var DNT = window.DNT || {};
                 });
             } else {
                 // console.warn('GeoJSON is not found, or does not have a properties property.');
-            }
-        },
-
-        startPicturePositioning: function (picture) {
-            this.moveMap();
-            if (!picture.hasMarker()) {
-                this.modelToPosition = picture;
-                this.drawMarkerTool.enable();
             }
         },
 

@@ -30,12 +30,14 @@ var DNT = window.DNT || {};
         initialize: function (options) {
             // Listen to url changes (when saving, picture is moved from tmp to permanent storage)
             this.model.on('change:thumbnailUrl', this.render, this);
+            this.model.on('change:isPositioned', this.render, this);
             this.app = options.app;
 
         },
 
         events: {
             'click #positionPicture': 'positionPicture',
+            'click [data-action="picture-show-position"]': 'showPicturePosition',
             'click [data-toggle-current-user-is-fotograf]': 'toggleCurrentUserIsFotograf',
             'click #deletePicture': 'deletePicture',
             'pictureDropped': 'pictureIndexChanged'
@@ -59,6 +61,11 @@ var DNT = window.DNT || {};
         positionPicture: function (e) {
             e.preventDefault();
             this.event_aggregator.trigger('map:positionPicture', this.model);
+        },
+
+        showPicturePosition: function (e) {
+            e.preventDefault();
+            this.event_aggregator.trigger('map:showPicturePosition', this.model);
         },
 
         deletePicture: function (e) {
@@ -93,7 +100,6 @@ var DNT = window.DNT || {};
             if (this.model.isDeleted()) {
                 this.remove();
             } else {
-
                 var html =  this.template(this.model.toJSON());
                 $(this.el).html(html);
 
@@ -109,7 +115,6 @@ var DNT = window.DNT || {};
                     this.$('.form-group-fotograf').addClass('hidden');
                     this.$('[name="foto-jeg-har-tatt-bildet"]').prop('checked', true);
                 }
-
             }
 
             return this;

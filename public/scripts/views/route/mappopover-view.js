@@ -38,8 +38,15 @@ var DNT = window.DNT || {};
             var html =  this.template(this.model.toJSON());
 
             if (!!marker && !!html) {
-                $(this.el).html(html);
-                marker.bindPopup(this.el);
+                // $(this.el).html(html);
+                // marker.bindPopup(this.el);
+                var popup = L.popup({
+                    autoPan: true,
+                    autoPanPaddingTopLeft: L.point(100, 300), // NOTE: These L.point values may have to be adjusted. They are used because autoPan, which is supposed to make sure the popup is within the map viewport, does not work perfectly, because it does not know what size the popup will have.
+                    autoPanPaddingBottomRight: L.point(150, 100)
+                }).setContent(html);
+
+                marker.bindPopup(popup);
                 return this;
             }
         }
