@@ -277,6 +277,15 @@ span.error-msg {
 	color: #a94442;
 }
 
+
+/* Draw tool styles */
+div.line-mouse-marker {
+	background-color: #ffffff;
+	border: 2px solid black;
+	border-radius: 10px;
+}
+
+
 /* Custom dropdown used for selecting route direction */
 
 .dropdown-select label {
