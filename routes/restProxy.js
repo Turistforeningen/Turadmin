@@ -62,6 +62,7 @@ module.exports = function (app, options) {
         var apiKey = (path.match(/\?/) ? '&' : '?') + 'api_key=' + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
         var method = req.method;
+        var json, options;
 
         console.log("Request url " + url);
 
@@ -119,12 +120,18 @@ module.exports = function (app, options) {
             }
 
         } else if (method === "PUT") {
-            var json = JSON.stringify(req.body);
+            json = JSON.stringify(req.body);
             console.log("putUrl = " + url);
-            var options = {data: json, headers: {}};
+            options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
-            restler.put(url, options)
-                .on('complete', onComplete);
+            restler.put(url, options).on('complete', onComplete);
+
+        } else if (method === "PATCH") {
+            json = JSON.stringify(req.body);
+            console.log("patchUrl = " + url);
+            options = {data: json, headers: {}};
+            options.headers['content-type'] = 'application/json';
+            restler.patch(url, options).on('complete', onComplete);
 
         } else if (method === "DELETE") {
             console.log("Deleting: " + url);
@@ -137,6 +144,10 @@ module.exports = function (app, options) {
 
     app.all('/restProxy/*', function (req, res) {
         var path = req.url;
+        if (req.params && req.params._method) {
+            req.method = req.params._method;
+            delete req.params._method;
+        }
         path = path.replace("restProxy/", "");
         makeRequest(path, req, res);
     });
