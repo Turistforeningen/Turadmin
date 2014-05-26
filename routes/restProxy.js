@@ -76,7 +76,7 @@ module.exports = function (app, options) {
 
         var onComplete = onCompleteOverride || onCompleteDefault;
 
-        var onCompletePost = function (data) {
+        var onCompletePost = function (data, response) {
             console.log("Response:", data);
             moveId(data);
             res.json(data);
@@ -145,7 +145,7 @@ module.exports = function (app, options) {
     // var makeRequest = function (path, method, req, res, onCompleteOverride) {
 
     app.all('/restProxy/*', function (req, res) {
-        console.log(req);
+        // console.log(req);
         var path = req.url;
         path = path.replace("restProxy/", "");
         makeRequest(path, req, res);
