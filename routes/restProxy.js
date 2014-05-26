@@ -66,8 +66,8 @@ module.exports = function (app, options) {
 
         // console.log("Request URL:", url);
 
-        var onCompleteDefault = function (data) {
-            // console.log(data);
+        var onCompleteDefault = function (data, response) {
+            res.statusCode = response.statusCode;
             if (data.document !== undefined) {
                 data.document = undefined;
             }
@@ -77,6 +77,7 @@ module.exports = function (app, options) {
         var onComplete = onCompleteOverride || onCompleteDefault;
 
         var onCompletePost = function (data, response) {
+            res.statusCode = response.statusCode;
             console.log("Response:", data);
             moveId(data);
             res.json(data);
