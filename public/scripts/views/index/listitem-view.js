@@ -19,11 +19,13 @@ var DNT = window.DNT || {};
             'click td.route-title' : 'loadRoute',
             'click [data-action="route-delete"]': 'deleteRoute',
             'click [data-action="route-delete-modal-open"]': 'openDeleteModal',
-            'click #publishRoute': 'publishRoute'
+            'click [data-action="route-publish"]': 'publishRoute',
+            'click [data-action="route-unpublish"]': 'unpublishRoute'
         },
 
         initialize : function () {
             this.model.on('destroy', this.removeItemView, this);
+            _.bindAll(this, 'publishRoute', 'unpublishRoute');
         },
 
         loadRoute: function () {
@@ -45,8 +47,15 @@ var DNT = window.DNT || {};
         },
 
         publishRoute: function () {
-            // TODO: Implement functionality
-            // console.log('publish');
+            // It is important to use PATCH here, to prevent overwriting object, as the model is not complete
+            this.model.save({status: 'Offentlig'}, {patch: true});
+            this.render();
+        },
+
+        unpublishRoute: function () {
+            // NOTE: It is important to use PATCH here, to prevent overwriting object, as the model is not complete
+            this.model.save({status: 'Kladd'}, {patch: true});
+            this.render();
         },
 
         removeItemView: function () {
