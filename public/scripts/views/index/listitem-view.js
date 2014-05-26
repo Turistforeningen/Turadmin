@@ -18,6 +18,7 @@ var DNT = window.DNT || {};
         events: {
             'click td.route-title' : 'loadRoute',
             'click [data-action="route-delete"]': 'deleteRoute',
+            'click [data-action="route-delete-modal-open"]': 'openDeleteModal',
             'click #publishRoute': 'publishRoute'
         },
 
@@ -30,8 +31,17 @@ var DNT = window.DNT || {};
             window.location = '/tur/' + turId;
         },
 
-        deleteRoute: function () {
-            this.model.destroy();
+        deleteRoute: function (e) {
+            this.$('.modal').on('hidden.bs.modal', $.proxy(function (e) {
+                this.model.destroy();
+                this.render();
+            }, this));
+
+            this.$('.modal').modal('hide');
+        },
+
+        openDeleteModal: function (e) {
+            this.$('.modal').modal('show');
         },
 
         publishRoute: function () {
