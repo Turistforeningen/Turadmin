@@ -64,7 +64,7 @@ module.exports = function (app, options) {
         var method = req.method;
         var json, options;
 
-        console.log("Request url " + url);
+        // console.log("Request URL:", url);
 
         var onCompleteDefault = function (data) {
             // console.log(data);
@@ -77,7 +77,7 @@ module.exports = function (app, options) {
         var onComplete = onCompleteOverride || onCompleteDefault;
 
         var onCompletePost = function (data) {
-            console.log("Response: ", data);
+            console.log("Response:", data);
             moveId(data);
             res.json(data);
         };
@@ -98,7 +98,7 @@ module.exports = function (app, options) {
                 .on('complete', onComplete);
 
         } else if (method === "POST") {
-            console.log("Posting: " + util.inspect(req.body));
+            console.log("Posting:", util.inspect(req.body));
 
             //Move pictures to permanent storage when saving to rest api. Updates results object with new urls.
             if (path.indexOf("bilder") > -1) {
@@ -121,20 +121,22 @@ module.exports = function (app, options) {
 
         } else if (method === "PUT") {
             json = JSON.stringify(req.body);
-            console.log("putUrl = " + url);
             options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
+            // console.log("PUT url:", url);
+            // console.log("PUT options:", options);
             restler.put(url, options).on('complete', onComplete);
 
         } else if (method === "PATCH") {
             json = JSON.stringify(req.body);
-            console.log("patchUrl = " + url);
             options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
+            // console.log("PATCH url:", url);
+            // console.log("PATCH options:", options);
             restler.patch(url, options).on('complete', onComplete);
 
         } else if (method === "DELETE") {
-            console.log("Deleting: " + url);
+            // console.log("DELETE url:", url);
             restler.del(url, {})
                 .on('complete', onComplete);
         }
@@ -143,15 +145,11 @@ module.exports = function (app, options) {
     // var makeRequest = function (path, method, req, res, onCompleteOverride) {
 
     app.all('/restProxy/*', function (req, res) {
+        console.log(req);
         var path = req.url;
-        if (req.params && req.params._method) {
-            req.method = req.params._method;
-            delete req.params._method;
-        }
         path = path.replace("restProxy/", "");
         makeRequest(path, req, res);
     });
 
     return { makeApiRequest : makeRequest };
 };
-

@@ -153,12 +153,17 @@ var DNT = window.DNT || {};
         save: function (attrs, options) {
 
             var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
+            var method;
 
             // this.updateLenker();
             this.updateTidsbruk();
 
             attrs = attrs || this.toJSON();
             options = options || {};
+
+            if (!!attrs._method) {
+                method = attrs._method;
+            }
 
             // If model defines serverAttrs, replace attrs with trimmed version
             if (this.serverAttrs) {
@@ -167,6 +172,10 @@ var DNT = window.DNT || {};
 
             // Move attrs to options
             options.attrs = attrs;
+
+            if (!!method) {
+                options.attrs._method = method;
+            }
 
             // Call super with attrs moved to options
             return Backbone.Model.prototype.save.call(this, attrs, options);

@@ -48,13 +48,13 @@ var DNT = window.DNT || {};
 
         publishRoute: function () {
             // It is important to use PATCH here, to prevent overwriting object, as the model is not complete
-            this.model.save({status: 'Offentlig'}, {patch: true});
+            this.model.save({_method: 'PATCH', status: 'Offentlig'});
             this.render();
         },
 
         unpublishRoute: function () {
             // NOTE: It is important to use PATCH here, to prevent overwriting object, as the model is not complete
-            this.model.save({status: 'Kladd'}, {patch: true});
+            this.model.save({_method: 'PATCH', status: 'Kladd'});
             this.render();
         },
 
