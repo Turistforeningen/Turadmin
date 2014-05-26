@@ -12,8 +12,8 @@ var DNT = window.DNT || {};
     ns.ListItemView = Backbone.View.extend({
 
         template: _.template($('#listRouteItemTemplate').html()),
-        tagName: "tr",
-        className: "clickable",
+        tagName: 'tr',
+        className: 'clickable',
 
         events: {
             'click td.route-title' : 'loadRoute',
@@ -23,11 +23,11 @@ var DNT = window.DNT || {};
         },
 
         initialize : function () {
-            this.model.on("destroy", this.removeItemView, this);
+            this.model.on('destroy', this.removeItemView, this);
         },
 
         loadRoute: function () {
-            var turId = this.model.get("_id");
+            var turId = this.model.get('_id');
             window.location = '/tur/' + turId;
         },
 
@@ -96,9 +96,9 @@ var DNT = window.DNT || {};
             }
             json.mangler = missingData;*/
 
-            var publisert = "Nei";
-            if (this.model.get("status") === "Offentlig") {
-                publisert = "Ja";
+            var publisert = 'Nei';
+            if (this.model.get('status') === 'Offentlig') {
+                publisert = 'Ja';
             }
             json.erPublisert = publisert;
 
