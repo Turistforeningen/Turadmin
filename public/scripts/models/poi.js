@@ -68,7 +68,7 @@ var DNT = window.DNT || {};
         },
 
         availableCategories: [
-            {name: 'Hytte', markerIcon: undefined},
+            {name: 'Hytte', markerIcon: '22'},
             {name: 'Fjelltopp', markerIcon: '21'},
             {name: 'Gapahuk', markerIcon: '33'},
             {name: 'Rasteplass', markerIcon: '30'},
@@ -77,11 +77,12 @@ var DNT = window.DNT || {};
             {name: 'Turpostkasse', markerIcon: undefined},
             {name: 'Turorientering', markerIcon: undefined},
             {name: 'Utsiktspunkt', markerIcon: '25'},
-            {name: 'Attraksjon', markerIcon: undefined},
+            {name: 'Attraksjon', markerIcon: '35'},
             {name: 'Badeplass', markerIcon: '26'},
             {name: 'Fiskeplass', markerIcon: '27'},
             {name: 'Klatrefelt', markerIcon: '29'},
-            {name: 'Akebakke', markerIcon: undefined},
+            {name: 'Grotte', markerIcon: '35'},
+            {name: 'Akebakke', markerIcon: '38'},
             {name: 'Skitrekk', markerIcon: undefined},
             {name: 'Kitested', markerIcon: '40'},
             {name: 'Skøytevann', markerIcon: undefined},
