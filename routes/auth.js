@@ -60,6 +60,7 @@ module.exports = function (app, options) {
                 }
                 data = data[0] // this is the user data
             } catch (e) {
+                console.error(e);
                 // @TODO handle this error properly
                 data = {er_autentisert: false};
             }
