@@ -54,7 +54,11 @@ module.exports = function (app, options) {
         var data;
         if (req && req.query && req.query.data) {
             try {
-                data = client.decryptJSON(req.query.data);
+                data = client.decrypt(req.query);
+                if (data[1] === false) {
+                    throw new Error('HMAC verification failed');
+                }
+                data = data[0] // this is the user data
             } catch (e) {
                 // @TODO handle this error properly
                 data = {er_autentisert: false};
