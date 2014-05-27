@@ -58,6 +58,8 @@ require('./routes')(app, {
     userGroupsFetcher: userGroupsFetcher
 });
 
+require('./routes/termsAndConditions')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
+
 // var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __dirname });
