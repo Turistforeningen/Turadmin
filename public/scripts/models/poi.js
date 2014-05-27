@@ -72,7 +72,7 @@ var DNT = window.DNT || {};
             {name: 'Fjelltopp', markerIcon: '21'},
             {name: 'Gapahuk', markerIcon: '33'},
             {name: 'Rasteplass', markerIcon: '30'},
-            {name: 'Telplass', markerIcon: '32'},
+            {name: 'Teltplass', markerIcon: '32'},
             {name: 'Geocaching', markerIcon: undefined},
             {name: 'Turpostkasse', markerIcon: undefined},
             {name: 'Turorientering', markerIcon: undefined},
