@@ -8,8 +8,21 @@ div#route-pois.row.page-block.route-pois
 
         div#noPoisAlert.alert.alert-info
             strong Om steder:
-            | &nbsp;Lorem ipsum.
+            | &nbsp;Gjør turforslaget ditt enda mer intessant ved å legge inn de flotte&nbsp;
+            span(data-placeholder="om-steder-flott")
+            |, eller de smarte&nbsp;
+            span(data-placeholder="om-steder-smart")
+            |, og alle andre små og store steder som kan oppleves langs denne turen. NB: disse stedene vil bli synlig på http://UT.no en gang på vinteren 2014.
 
+            script.
+                var flottArray = ['hyttene', 'fjelltoppene', 'utsiktspunktene', 'badeplassene'];
+                var smartArray = ['telplassene', 'rasteplassene', 'parkeringsplassene'];
+
+                var randomFlottWord = flottArray[Math.floor(Math.random()*flottArray.length)];
+                var randomSmartWord = smartArray[Math.floor(Math.random()*smartArray.length)];
+
+                $('[data-placeholder="om-steder-flott"]').html(randomFlottWord);
+                $('[data-placeholder="om-steder-smart"]').html(randomSmartWord);
 
         div#route-pois-accordion.panel-group.route-pois-accordion
 
