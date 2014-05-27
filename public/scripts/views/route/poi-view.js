@@ -9,8 +9,6 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    var alleStedKategorier = ['Hytte', 'Fjelltopp', 'Gapahuk', 'Rasteplass', 'Telplass', 'Geocaching', 'Turpostkasse', 'Turorientering', 'Utsiktspunkt', 'Attraksjon', 'Badeplass', 'Fiskeplass', 'Klatrefelt', 'Akebakke', 'Skitrekk', 'Kitested', 'Skøytevann', 'Toalett', 'Bro', 'Vadested', 'Parkering', 'Holdeplass', 'Togstasjon'];
-
     ns.PoiView = Backbone.View.extend({
 
         bindings: {
@@ -54,12 +52,10 @@ var DNT = window.DNT || {};
 
         deletePoi: function (e) {
 
-            var me = this;
-
-            this.$('.modal').on('hidden.bs.modal', function (e) {
-                me.model.deletePoi();
-                me.render();
-            });
+            this.$('.modal').on('hidden.bs.modal', $.proxy(function (e) {
+                this.model.deletePoi();
+                this.render();
+            }, this));
 
             this.$('.modal').modal('hide');
 
@@ -92,6 +88,8 @@ var DNT = window.DNT || {};
             var poiAdditionalCategories = (poiTags.length > 1) ? _.clone(poiTags) : [];
 
             poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
+
+            var alleStedKategorier = _.pluck(this.model.availableCategories, 'name');
 
             this.$('[data-container-for="flere-sted-kategorier-input"] input').select2({
                 tags: alleStedKategorier,

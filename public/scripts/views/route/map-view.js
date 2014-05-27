@@ -69,13 +69,14 @@ var DNT = window.DNT || {};
 
     function createIconConfig() {
         return new L.icon({
-            iconUrl: '/images/poi/21.png',
-            iconRetinaUrl: '/images/poi/21@2x.png',
+            iconUrl: '/images/markers/21.png',
+            iconRetinaUrl: '/images/markers/21@2x.png',
             iconSize: [26, 32],
             iconAnchor: [13, 32],
             popupAnchor: [-0, -30]
         });
     }
+
     function createGeojson(coordinates) {
         var geojson = {
             type: "Point",
