@@ -14,8 +14,6 @@ module.exports = function (app, options) {
      */
     var getIndex = function (req, res) {
 
-        console.log('GET index');
-
         var userGroups = req.userGroups || [];
 
         var renderOptions = {

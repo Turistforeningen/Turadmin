@@ -7,6 +7,7 @@
 module.exports = function (app, express, options) {
     "use strict";
 
+    var bodyParser = require('body-parser');
     var upload = require('jquery-file-upload-middleware');
     var underscore = require('underscore');
     var togeojson = require('togeojson');
@@ -33,7 +34,7 @@ module.exports = function (app, express, options) {
         fileHandler(req, res, next);
     });
 
-    app.use('/upload/gpx', express.bodyParser());
+    app.use('/upload/gpx', bodyParser());
 
     // When upload is done, convert gpx file to GeoJSON using togeojson
     upload.on('end', function (fileInfo) {
