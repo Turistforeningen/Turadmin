@@ -41,8 +41,7 @@ app.set('port', process.env.PORT_WWW || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-
-// app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(morgan('dev')); // this should be disabled during testing
 app.use(bodyParser());
 app.use(methodOverride());
