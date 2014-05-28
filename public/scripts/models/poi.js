@@ -92,8 +92,6 @@ var DNT = window.DNT || {};
         defaultMarkerIcon: '21',
 
         initialize: function (options) {
-            debugger;
-
             this.on('change', function () {
                 this.changed = true;
             });

@@ -60,7 +60,6 @@ var DNT = window.DNT || {};
         },
 
         initialize: function (options) {
-            debugger;
             this.on('change', function () {
                 this.changed = true;
             });
