@@ -27,17 +27,9 @@ var DNT = window.DNT || {};
         defaults: {
             lisens: 'CC BY-NC 3.0 NO',
             status: 'Kladd',
-            privat: {
-                opprettet_av: {
-                    id: 'someId'
-                }
-            },
-            fotograf: {
-                navn: ''
-            },
+            fotograf: {},
             tags: [],
             isPositioned: false
-
         },
 
         serverAttrs: [
@@ -67,7 +59,8 @@ var DNT = window.DNT || {};
             }
         },
 
-        initialize: function () {
+        initialize: function (options) {
+            debugger;
             this.on('change', function () {
                 this.changed = true;
             });
@@ -87,7 +80,6 @@ var DNT = window.DNT || {};
             var urls = this.getUrls();
             this.set("thumbnailUrl", urls.thumbnail);
             this.set("url", urls.url);
-
         },
 
         onFotografNavnChange: function () {

@@ -17,7 +17,8 @@ var DNT = window.DNT || {};
             "click #newPoi": "addPoi"
         },
 
-        initialize: function () {
+        initialize: function (options) {
+            this.user = options.model.get('user');
             this.poiCollection = this.model.get("poiCollection");
             this.pictureCollection = this.model.get('pictureCollection');
 
@@ -32,7 +33,7 @@ var DNT = window.DNT || {};
         },
 
         addPoi: function () {
-            this.event_aggregator.trigger("map:positionPicture", new DNT.Poi());
+            this.event_aggregator.trigger("map:positionPicture", new DNT.Poi({privat: {opprettet_av: {id: this.user.get('id')}}}));
         },
 
         poiMarkerIsCreated: function (poi) {

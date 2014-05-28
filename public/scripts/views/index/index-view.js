@@ -36,9 +36,8 @@ var DNT = window.DNT || {};
 
             } else {
                 var userId = options.userData.sherpa_id;
-                this.fetchQuery = {'privat.opprettet_av.id': 'someId'};
+                this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
                 this.fetchRoutes();
-
             }
 
         },

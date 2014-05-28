@@ -72,13 +72,22 @@ var DNT = window.DNT || {};
 
         options = options || {};
 
-        var model = new DNT.App();
-        var routeData = !!options.routeData ? options.routeData : {};
-        var route = new DNT.Route(routeData);
+        var model = new ns.App(),
+            mergedUserData = options.userData || {},
+            user,
+            routeData,
+            route;
 
-        var mergedUserData = options.userData || {};
         mergedUserData.grupper = options.userGroups;
-        var user = new DNT.User(mergedUserData);
+        user = new ns.User(mergedUserData);
+
+        if (options.routeData) {
+            routeData = options.routeData;
+        } else {
+            routeData = {privat: {opprettet_av: {id: user.get('id')}}};
+        }
+
+        route = new ns.Route(routeData);
 
         // var turId = options.turId;
 

@@ -31,6 +31,7 @@ var DNT = window.DNT || {};
             // } else {}
 
             this.set('_id', id);
+            this.set('id', id);
             this.set('navn', navn);
         }
 
