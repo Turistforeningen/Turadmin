@@ -11,18 +11,29 @@ var DNT = window.DNT || {};
 
     ns.User = Backbone.Model.extend({
 
-        idAttribute: "_id",
+        idAttribute: '_id',
+        type: 'user',
+        defaults: {},
 
-        type: "user",
+        initialize: function (options) {
+            options = options || {};
 
-        defaults : {
-            _id: 'someId',
-            navn: 'Ola Nordmann',
-            epost: 'ola@nordmann.no',
-            grupper: []
-        },
+            var userType, id, navn; // Possible userType values: 'sherpa', 'mittnrk', 'gruppebruker'
 
-        initialize: function () {
+            if (!!options.sherpa_id) {
+                userType = 'sherpa';
+                id = options.sherpa_id;
+                navn = options.fornavn + ' ' + options.etternavn;
+
+            } else if (someWayToIdentifyMittNrkUser) {
+            } else if (someWayToIdentifyGruppebruker) {
+            } else {
+                // console.log('Invalid user');
+            }
+
+            this.set('_id', id);
+            this.set('navn', navn);
+
         }
 
     });
