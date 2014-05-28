@@ -58,7 +58,7 @@ module.exports = function (app, options) {
                 if (data[1] === false) {
                     throw new Error('HMAC verification failed');
                 }
-                data = data[0] // this is the user data
+                data = data[0]; // this is the user data
             } catch (e) {
                 console.error(e);
                 // @TODO handle this error properly
