@@ -147,7 +147,7 @@ module.exports = function (app, options) {
 
     app.get('/restProxy/turer', function (req, res, next) {
         if (req.query && req.query.gruppe) {
-            res.cookie('userDefaultGroup', req.query.gruppe, {signed: true, maxAge: 2628000000});
+            res.cookie('userLastUsedGroup', req.query.gruppe, {signed: true, maxAge: 2628000000});
         }
         next();
     });
