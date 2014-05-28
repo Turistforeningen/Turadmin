@@ -107,7 +107,7 @@ module.exports = function (app, restProxy, options) {
                     routeData: JSON.stringify(routeData),
                     picturesData: JSON.stringify(sortedPicturesData),
                     poisData: JSON.stringify(poisData),
-                    userData: JSON.stringify(app.user),
+                    userData: JSON.stringify(req.session.user),
                     authType: req.session.authType,
                     userGroups: JSON.stringify(userGroups)
                 });

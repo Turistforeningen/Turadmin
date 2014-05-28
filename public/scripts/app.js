@@ -75,7 +75,10 @@ var DNT = window.DNT || {};
         var model = new DNT.App();
         var routeData = !!options.routeData ? options.routeData : {};
         var route = new DNT.Route(routeData);
-        var user = new DNT.User({grupper: options.userGroups});
+
+        var mergedUserData = options.userData || {};
+        mergedUserData.grupper = options.userGroups;
+        var user = new DNT.User(mergedUserData);
 
         // var turId = options.turId;
 
