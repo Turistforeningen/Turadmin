@@ -34,7 +34,6 @@ module.exports = function (app, options) {
     };
 
     var getLogin = function (req, res) {
-        // req.session.userId = "testUserId";
         res.render('login', { status: 'unid' });
     };
 

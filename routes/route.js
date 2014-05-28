@@ -41,7 +41,6 @@ module.exports = function (app, restProxy, options) {
     var routeEdit = function (req, res, next) {
 
         var turId = req.params.id;
-        // req.session.userId = 'testUserId';
 
         // TODO: Fix dynamic URL
         var url = 'http://localhost:3000/restProxy/turer/' + turId;
@@ -96,7 +95,6 @@ module.exports = function (app, restProxy, options) {
                     sortedPicturesData.sort(function(a, b) {
                         return data.bilder.indexOf(a._id) - data.bilder.indexOf(b._id);
                     });
-                    // console.log('Done!');
 
                 }
 
