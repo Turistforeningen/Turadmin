@@ -24,16 +24,14 @@ var DNT = window.DNT || {};
                 userType = 'sherpa';
                 id = options.sherpa_id;
                 navn = options.fornavn + ' ' + options.etternavn;
-
-            } else if (someWayToIdentifyMittNrkUser) {
-            } else if (someWayToIdentifyGruppebruker) {
-            } else {
-                // console.log('Invalid user');
             }
+
+            // else if (someWayToIdentifyMittNrkUser) {
+            // } else if (someWayToIdentifyGruppebruker) {
+            // } else {}
 
             this.set('_id', id);
             this.set('navn', navn);
-
         }
 
     });

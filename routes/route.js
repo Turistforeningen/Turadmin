@@ -12,36 +12,41 @@ module.exports = function (app, restProxy, options) {
     var userGroupsFetcher = options.userGroupsFetcher;
 
     /*
-     * GET add new route page.
+     * GET route. before routeNew and routeEdit
      */
     var route = function (req, res, next) {
 
         var userGroups = req.userGroups || [];
 
-        var renderOptions = {
-            title: 'Opprett ny tur',
-            routeApiUri: options.routeApiUri,
-            userGroups: JSON.stringify(userGroups)
-        };
+        req.renderOptions = req.renderOptions || {};
+        req.renderOptions.userData = JSON.stringify(req.session.user);
+        req.renderOptions.userGroups = JSON.stringify(userGroups);
+        req.renderOptions.routeApiUri = options.routeApiUri;
+        req.renderOptions.authType = req.session.authType;
 
-        req.session.userId = 'testUserId';
-        res.render('route', renderOptions);
+        next();
+    };
+
+
+    /*
+     * GET add new route page.
+     */
+    var routeNew = function (req, res, next) {
+
+        req.renderOptions = req.renderOptions || {};
+        req.renderOptions.title = 'Opprett ny tur';
+        res.render('route', req.renderOptions);
     };
 
     var routeEdit = function (req, res, next) {
 
-        var userGroups = req.userGroups || [];
-
         var turId = req.params.id;
-
-        req.session.userId = 'testUserId';
+        // req.session.userId = 'testUserId';
 
         // TODO: Fix dynamic URL
         var url = 'http://localhost:3000/restProxy/turer/' + turId;
 
         var onCompleteTurRequest = function (data) {
-
-            // console.log('Route was fetched.');
 
             var routeData = data;
 
@@ -49,16 +54,13 @@ module.exports = function (app, restProxy, options) {
             var picturesData = [];
 
             // console.log('Route has', picturesCount, 'pictures.');
-
             var poisCount = (!!data.steder) ? data.steder.length : 0;
             var poisData = [];
 
             // console.log('Route has', poisCount, 'pois.');
-
             var totalResourcesCount = picturesCount + poisCount + 1; // +1 is the route
 
             // console.log('Route has', totalResourcesCount, 'total resources including route.');
-
             var onCompletePictureRequest = function (data) {
                 picturesData.push(data);
                 allResourcesLoaded();
@@ -86,7 +88,6 @@ module.exports = function (app, restProxy, options) {
             var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
                 // console.log('All resources fetched!');
-
                 var sortedPicturesData = picturesData;
 
                 if (picturesCount > 0 && picturesData.length > 0) {
@@ -95,23 +96,18 @@ module.exports = function (app, restProxy, options) {
                     sortedPicturesData.sort(function(a, b) {
                         return data.bilder.indexOf(a._id) - data.bilder.indexOf(b._id);
                     });
-
                     // console.log('Done!');
 
                 }
 
-                res.render('route', {
-                    pageTitle: data.navn,
-                    routeApiUri: options.routeApiUri,
-                    routeName: routeData.navn,
-                    routeData: JSON.stringify(routeData),
-                    picturesData: JSON.stringify(sortedPicturesData),
-                    poisData: JSON.stringify(poisData),
-                    userData: JSON.stringify(req.session.user),
-                    authType: req.session.authType,
-                    userGroups: JSON.stringify(userGroups)
-                });
+                req.renderOptions = req.renderOptions || {};
+                req.renderOptions.title = data.navn;
+                req.renderOptions.routeName = routeData.navn;
+                req.renderOptions.routeData = JSON.stringify(routeData);
+                req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
+                req.renderOptions.poisData = JSON.stringify(poisData);
 
+                res.render('route', req.renderOptions);
             });
 
             allResourcesLoaded();
@@ -122,10 +118,10 @@ module.exports = function (app, restProxy, options) {
 
     };
 
-    app.get('/tur', userGroupsFetcher);
-    app.get('/tur', route);
+    app.get('/tur*', userGroupsFetcher);
+    app.get('/tur*', route);
 
-    app.get('/tur/:id', userGroupsFetcher);
+    app.get('/tur', routeNew);
     app.get('/tur/:id', routeEdit);
 
 };

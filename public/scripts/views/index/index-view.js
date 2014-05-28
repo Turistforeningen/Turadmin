@@ -17,21 +17,25 @@ var DNT = window.DNT || {};
             'click #nyTurButton': 'openNewRoutePage'
         },
 
-        initialize : function (appData) {
+        initialize : function (options) {
+
+            var mergedUserData = options.userData || {};
+            mergedUserData.grupper = options.userGroups;
+            var user = new ns.User(mergedUserData);
 
             _.bindAll(this, 'render');
             $('#headerRouteName').addClass('hidden');
-            this.collection = new DNT.RouteCollection();
-            this.collection.on("reset", this.render);
+            this.collection = new ns.RouteCollection();
+            this.collection.on('reset', this.render);
 
-            if (!!appData && appData.authType === 'dnt-connect' && !!appData.userGroups) {
-                this.groups = appData.userGroups;
-                var userGroup = appData.userDefaultGroup || _.first(appData.userGroups).object_id;
+            if (!!options && options.authType === 'dnt-connect' && !!options.userGroups) {
+                this.groups = options.userGroups;
+                var userGroup = options.userDefaultGroup || _.first(options.userGroups).object_id;
                 this.fetchQuery = {'gruppe': userGroup};
                 this.fetchRoutes();
 
             } else {
-                var userId = appData.userData.sherpa_id;
+                var userId = options.userData.sherpa_id;
                 this.fetchQuery = {'privat.opprettet_av.id': 'someId'};
                 this.fetchRoutes();
 
