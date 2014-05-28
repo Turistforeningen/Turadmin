@@ -145,6 +145,13 @@ module.exports = function (app, options) {
 
     // var makeRequest = function (path, method, req, res, onCompleteOverride) {
 
+    app.get('/restProxy/turer', function (req, res, next) {
+        if (req.query && req.query.gruppe) {
+            res.cookie('userDefaultGroup', req.query.gruppe, {signed: true, maxAge: 2628000000});
+        }
+        next();
+    });
+
     app.all('/restProxy/*', function (req, res) {
         // console.log(req);
         var path = req.url;

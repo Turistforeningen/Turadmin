@@ -22,6 +22,10 @@ block extraHeadContent
             | appData.userData = !{userData};
             //- | console.log('Loaded route with userData:', !{userData});
 
+        - if (typeof(userDefaultGroup) !== 'undefined')
+            | appData.userDefaultGroup = '#{userDefaultGroup}';
+            //- | console.log('Loaded route with userDefaultGroup:', '#{userDefaultGroup}');
+
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
             //- | console.log('Loaded route with userGroups:', !{userGroups});

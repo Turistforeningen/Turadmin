@@ -18,6 +18,7 @@ var DNT = window.DNT || {};
         },
 
         initialize : function (appData) {
+
             _.bindAll(this, 'render');
             $('#headerRouteName').addClass('hidden');
             this.collection = new DNT.RouteCollection();
@@ -25,12 +26,13 @@ var DNT = window.DNT || {};
 
             if (!!appData && appData.authType === 'dnt-connect' && !!appData.userGroups) {
                 this.groups = appData.userGroups;
-                this.fetchQuery = { 'gruppe': _.first(appData.userGroups).object_id };
+                var userGroup = appData.userDefaultGroup || _.first(appData.userGroups).object_id;
+                this.fetchQuery = {'gruppe': userGroup};
                 this.fetchRoutes();
 
             } else {
                 var userId = appData.userData.sherpa_id;
-                this.fetchQuery = { 'privat.opprettet_av.id': 'someId' };
+                this.fetchQuery = {'privat.opprettet_av.id': 'someId'};
                 this.fetchRoutes();
 
             }
@@ -59,11 +61,11 @@ var DNT = window.DNT || {};
             var that = this;
 
             if (!!this.fetchQuery && !!this.fetchQuery.gruppe) {
-                var groupSelect = new ns.SelectView({ model: this.model, selectOptions: this.groups, selectValue: this.fetchQuery.gruppe });
+                var groupSelect = new ns.SelectView({model: this.model, selectOptions: this.groups, selectValue: this.fetchQuery.gruppe});
                 this.$('#groupSelectPlaceholder').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
             }
 
-            that.$el.find("#listItems").empty();
+            that.$el.find('#listItems').empty();
 
             this.collection.each(function (route) {
                 var itemView = new ns.ListItemView({model: route});
