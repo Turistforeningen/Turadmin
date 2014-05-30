@@ -88,9 +88,15 @@ var DNT = window.DNT || {};
 
         },
 
-        unsavedChanges: function() {
-            this.$(".disabled").removeClass("disabled"); // disable save button until model is changed
-            this.updateSaveButton(false);
+        unsavedChanges: function(e) {
+            var routeModel = this.model.get('route'),
+                previousGeoJson = routeModel.previous('geojson'),
+                newGeoJson = routeModel.get('geojson');
+
+            // Prevent savebutton from indicating unsaved changes, on map init (which is setting model attribute geojson from undefined to empty route)
+            if (previousGeoJson && newGeoJson) {
+                this.updateSaveButton(false);
+            }
         },
 
         publish: function() {
