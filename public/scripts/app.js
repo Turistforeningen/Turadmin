@@ -27,14 +27,14 @@ var DNT = window.DNT || {};
         selector: 'data-model-validation-field-name'
     });
 
-    _.extend(Backbone.Validation.validators, {
-        arrayMinLength: function(value, attr, customValue, model) {
-            var array = !model.get(attr);
-            if ((!array && typeof array !== 'object') || (array.length < customValue)) {
-                return 'error';
-            }
-        }
-    });
+    // _.extend(Backbone.Validation.validators, {
+    //     arrayMinLength: function(value, attr, customValue, model) {
+    //         var array = !model.get(attr);
+    //         if ((!array && typeof array !== 'object') || (array.length < customValue)) {
+    //             return 'error';
+    //         }
+    //     }
+    // });
 
     // Extend the callbacks to work with Bootstrap, as used in this example
     // See: http://thedersen.com/projects/backbone-validation/#configuration/callbacks

@@ -76,7 +76,8 @@ var DNT = window.DNT || {};
                 msg: 'Dette feltet er påkrevd.'
             },
             sesong: {
-                arrayMinLength: 1,
+                // arrayMinLength: 1,
+                required: true,
                 msg: 'Velg minst én måned det normalt er mulig å gjennomføre turen.'
             },
             turtype: {
