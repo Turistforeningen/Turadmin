@@ -158,6 +158,11 @@ var DNT = window.DNT || {};
             attrs = attrs || this.toJSON();
             options = options || {};
 
+            // Remove geojson if empty
+            if (!this.hasRoute()) {
+                delete attrs.geojson;
+            }
+
             if (!!attrs._method) {
                 method = attrs._method;
             }
