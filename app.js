@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Set keys and URL's
  */
 
 var routeApiUri = process.env.ROUTING_API_URL;
@@ -11,45 +11,64 @@ var dntConnectKey = process.env.DNT_CONNECT_KEY;
 
 var dntApiKey = process.env.DNT_CONNECT_KEY;
 
+var sessionSecret = process.env.SessionSecret || "0rdisObMCVXWawtji4B2iIGIKKqlsgAOPJhcHw4IREiCf7PGnAxY2isXfXd2Is7a";
+
+
+/**
+ * Module dependencies
+ */
+
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var errorHandler = require('errorhandler');
+var cookieSession = require('cookie-session');
+var methodOverride = require('method-override');
+var favicon = require('serve-favicon');
+var morgan = require('morgan'); // previously logger
 var upload = require('jquery-file-upload-middleware');
 var Connect = require('dnt-connect');
 var DNT = require('dnt-api');
 
+
+// Start app
 var app = module.exports = express();
 
-var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
-
-var sessionSecret = process.env.SessionSecret || "1234SomeSecret";
 
 // All environments
 app.set('port', process.env.PORT_WWW || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev')); // this should be disabled during testing
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.cookieParser(sessionSecret));
-app.use(express.cookieSession()); // NOTE: Replaced app.use(express.session({ secret: sessionSecret }));
-app.use(app.router);
+
+app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(morgan('dev')); // this should be disabled during testing
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(cookieParser(sessionSecret));
+app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Development only
-app.configure('development', function () {
-    "use strict";
-    app.use(express.errorHandler({
+
+/**
+ * Configure environments
+ */
+if (app.get('env') === 'development') {
+    // Development only
+    app.use(errorHandler({
         dumpExceptions: true,
         showStack: true
     }));
     app.set('view cache', false);
-});
 
-app.configure('production', function () {
-    "use strict";
-});
+} else if (app.get('env') === 'production') {}
+
+
+/**
+ * Routes and middleware
+ */
+
+var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
 
 require('./routes/auth')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
 require('./routes')(app, {

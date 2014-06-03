@@ -43,11 +43,6 @@ var DNT = window.DNT || {};
             navn: '',
             lisens: 'CC BY-NC 3.0 NO',
             status: 'Kladd',
-            privat: {
-                opprettet_av: {
-                    id: 'someId'
-                }
-            },
             tags: []
         },
 
@@ -96,8 +91,7 @@ var DNT = window.DNT || {};
 
         defaultMarkerIcon: '21',
 
-        initialize: function (attributes, options) {
-
+        initialize: function (options) {
             this.on('change', function () {
                 this.changed = true;
             });

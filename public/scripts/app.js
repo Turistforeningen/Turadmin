@@ -27,14 +27,14 @@ var DNT = window.DNT || {};
         selector: 'data-model-validation-field-name'
     });
 
-    _.extend(Backbone.Validation.validators, {
-        arrayMinLength: function(value, attr, customValue, model) {
-            var array = !model.get(attr);
-            if ((!array && typeof array !== 'object') || (array.length < customValue)) {
-                return 'error';
-            }
-        }
-    });
+    // _.extend(Backbone.Validation.validators, {
+    //     arrayMinLength: function(value, attr, customValue, model) {
+    //         var array = !model.get(attr);
+    //         if ((!array && typeof array !== 'object') || (array.length < customValue)) {
+    //             return 'error';
+    //         }
+    //     }
+    // });
 
     // Extend the callbacks to work with Bootstrap, as used in this example
     // See: http://thedersen.com/projects/backbone-validation/#configuration/callbacks
@@ -72,10 +72,22 @@ var DNT = window.DNT || {};
 
         options = options || {};
 
-        var model = new DNT.App();
-        var routeData = !!options.routeData ? options.routeData : {};
-        var route = new DNT.Route(routeData);
-        var user = new DNT.User({grupper: options.userGroups});
+        var model = new ns.App(),
+            mergedUserData = options.userData || {},
+            user,
+            routeData,
+            route;
+
+        mergedUserData.grupper = options.userGroups;
+        user = new ns.User(mergedUserData);
+
+        if (options.routeData) {
+            routeData = options.routeData;
+        } else {
+            routeData = {privat: {opprettet_av: {id: user.get('id')}}};
+        }
+
+        route = new ns.Route(routeData);
 
         // var turId = options.turId;
 

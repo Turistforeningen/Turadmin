@@ -14,15 +14,15 @@ module.exports = function (app, options) {
      */
     var getIndex = function (req, res) {
 
-        console.log('GET index');
-
         var userGroups = req.userGroups || [];
+        var userDefaultGroup = (!!req.signedCookies) ? req.signedCookies.userLastUsedGroup : undefined;
 
         var renderOptions = {
             title: 'Mine turer',
             userData: JSON.stringify(req.session.user),
             userGroups: JSON.stringify(userGroups),
-            authType: req.session.authType
+            userDefaultGroup: userDefaultGroup,
+            authType: req.session.authType,
         };
 
         res.render('index', renderOptions);

@@ -8,6 +8,7 @@
 module.exports = function (app, express, options) {
     "use strict";
 
+    var bodyParser = require('body-parser');
     var upload = require('jquery-file-upload-middleware');
     var underscore = require('underscore');
 
@@ -42,10 +43,10 @@ module.exports = function (app, express, options) {
         fileHandler(req, res, next);
     });
 
-    app.use('/upload/picture', express.bodyParser());
+    app.use('/upload/picture', bodyParser());
 
     /*
-     Listen to end processing event and change fileInfo object to match Nasjonal Turbase Bilde API, and client side backbone Picture-model.
+        Listen to end processing event and change fileInfo object to match Nasjonal Turbase Bilde API, and client side backbone Picture-model.
      */
     upload.on('end', function (fileInfo) {
 

@@ -17,22 +17,27 @@ var DNT = window.DNT || {};
             'click #nyTurButton': 'openNewRoutePage'
         },
 
-        initialize : function (appData) {
+        initialize : function (options) {
+
+            var mergedUserData = options.userData || {};
+            mergedUserData.grupper = options.userGroups;
+            var user = new ns.User(mergedUserData);
+
             _.bindAll(this, 'render');
             $('#headerRouteName').addClass('hidden');
-            this.collection = new DNT.RouteCollection();
-            this.collection.on("reset", this.render);
+            this.collection = new ns.RouteCollection();
+            this.collection.on('reset', this.render);
 
-            if (!!appData && appData.authType === 'dnt-connect' && !!appData.userGroups) {
-                this.groups = appData.userGroups;
-                this.fetchQuery = { 'gruppe': _.first(appData.userGroups).object_id };
+            if (!!options && options.authType === 'dnt-connect' && !!options.userGroups) {
+                this.groups = options.userGroups;
+                var userGroup = options.userDefaultGroup || _.first(options.userGroups).object_id;
+                this.fetchQuery = {'gruppe': userGroup};
                 this.fetchRoutes();
 
             } else {
-                var userId = appData.userData.sherpa_id;
-                this.fetchQuery = { 'privat.opprettet_av.id': 'someId' };
+                var userId = options.userData.sherpa_id;
+                this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
                 this.fetchRoutes();
-
             }
 
         },
@@ -59,11 +64,11 @@ var DNT = window.DNT || {};
             var that = this;
 
             if (!!this.fetchQuery && !!this.fetchQuery.gruppe) {
-                var groupSelect = new ns.SelectView({ model: this.model, selectOptions: this.groups, selectValue: this.fetchQuery.gruppe });
+                var groupSelect = new ns.SelectView({model: this.model, selectOptions: this.groups, selectValue: this.fetchQuery.gruppe});
                 this.$('#groupSelectPlaceholder').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
             }
 
-            that.$el.find("#listItems").empty();
+            that.$el.find('#listItems').empty();
 
             this.collection.each(function (route) {
                 var itemView = new ns.ListItemView({model: route});

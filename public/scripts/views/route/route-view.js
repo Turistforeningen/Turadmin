@@ -15,19 +15,19 @@ var DNT = window.DNT || {};
 
         initialize: function (options) {
 
-            this.searchCollection = new DNT.SearchCollection();
-            this.searchFieldView = new DNT.SearchFieldView({ collection: this.searchCollection });
-            this.gpxUploadView = new DNT.GpxUploadView({ model: this.model });
-            this.mapView = new DNT.MapView({ model: this.model });
-            this.pictureView = new DNT.PicturesView({ model: this.model });
+            this.searchCollection = new ns.SearchCollection();
+            this.searchFieldView = new ns.SearchFieldView({collection: this.searchCollection});
+            this.gpxUploadView = new ns.GpxUploadView({model: this.model });
+            this.mapView = new ns.MapView({ model: this.model });
+            this.pictureView = new ns.PicturesView({ model: this.model });
             this.route = this.model.get('route');
             this.user = this.model.get('user');
-            this.routeFactsView = new DNT.RouteFactsView({ model: this.route, user: this.user });
+            this.routeFactsView = new ns.RouteFactsView({model: this.route, user: this.user});
             this.route.on('change', this.unsavedChanges, this);
             this.poiCollection = this.model.get('poiCollection');
             this.poiCollection.on('add', this.unsavedChanges, this);
             this.pictureCollection = this.model.get('pictureCollection');
-            this.poiCollectionView = new DNT.PoiCollectionView({ model: this.model, pictureCollection: this.pictureCollection });
+            this.poiCollectionView = new ns.PoiCollectionView({model: this.model, pictureCollection: this.pictureCollection});
             this.pictureCollection.on('add', this.unsavedChanges, this);
 
             this.updatePublishButtons();
@@ -88,9 +88,15 @@ var DNT = window.DNT || {};
 
         },
 
-        unsavedChanges: function() {
-            this.$(".disabled").removeClass("disabled"); // disable save button until model is changed
-            this.updateSaveButton(false);
+        unsavedChanges: function(e) {
+            var routeModel = this.model.get('route'),
+                previousGeoJson = routeModel.previous('geojson'),
+                newGeoJson = routeModel.get('geojson');
+
+            // Prevent savebutton from indicating unsaved changes, on map init (which is setting model attribute geojson from undefined to empty route)
+            if (previousGeoJson && newGeoJson) {
+                this.updateSaveButton(false);
+            }
         },
 
         publish: function() {

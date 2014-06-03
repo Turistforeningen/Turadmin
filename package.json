@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "turadmin",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,18 +8,25 @@
     "test-drone": "node_modules/.bin/mocha test/suite.js -R spec"
   },
   "dependencies": {
-    "express": "3.4.7",
+    "express": "4.3.1",
     "jade": "*",
     "http-proxy-caronte": "*",
     "restler": "*",
     "supertest": "~0",
     "mocha": "~1",
     "jquery-file-upload-middleware": "*",
-    "dnt-connect": "~1",
+    "dnt-connect": "~2",
     "dnt-api": "~1.1.0",
     "underscore": "*",
     "togeojson": "~0.7.0",
     "jsdom": "~0.10.5",
-    "chalk": "~0.4.0"
+    "chalk": "~0.4.0",
+    "body-parser": "~1.2.1",
+    "cookie-parser": "~1.1.0",
+    "serve-favicon": "~2.0.0",
+    "method-override": "~1.0.2",
+    "cookie-session": "~1.0.2",
+    "morgan": "~1.1.1",
+    "errorhandler": "~1.0.1"
   }
 }

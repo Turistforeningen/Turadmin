@@ -18,23 +18,19 @@ var DNT = window.DNT || {};
         idAttribute: '_id',
 
         defaults: {
-            // navn: '',
-            // beskrivelse: '',
+            // navn: '', // Not set as default, because of validation
+            // beskrivelse: '', // Not set as default, because of validation
             lenker: [],
             tidsbrukDager: '1',
             tidsbrukTimer: '0',
             tidsbrukMinutter: '0',
-            tidsbruk: { normal: {} },
+            tidsbruk: {normal: {}},
             retning: 'ABA',
             lisens: 'CC BY-NC 3.0 NO',
             status: 'Kladd',
             tags: [],
-            // gradering: '',
-            privat: {
-                opprettet_av: {
-                    id: 'someId'
-                }
-            }
+            // gradering: '', // Not set as default, because of validation
+            privat: {}
         },
 
         serverAttrs: [
@@ -80,7 +76,8 @@ var DNT = window.DNT || {};
                 msg: 'Dette feltet er påkrevd.'
             },
             sesong: {
-                arrayMinLength: 1,
+                // arrayMinLength: 1,
+                required: true,
                 msg: 'Velg minst én måned det normalt er mulig å gjennomføre turen.'
             },
             turtype: {
@@ -160,6 +157,11 @@ var DNT = window.DNT || {};
 
             attrs = attrs || this.toJSON();
             options = options || {};
+
+            // Remove geojson if empty
+            if (!this.hasRoute()) {
+                delete attrs.geojson;
+            }
 
             if (!!attrs._method) {
                 method = attrs._method;

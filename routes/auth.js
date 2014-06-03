@@ -34,7 +34,6 @@ module.exports = function (app, options) {
     };
 
     var getLogin = function (req, res) {
-        // req.session.userId = "testUserId";
         res.render('login', { status: 'unid' });
     };
 
@@ -54,8 +53,13 @@ module.exports = function (app, options) {
         var data;
         if (req && req.query && req.query.data) {
             try {
-                data = client.decryptJSON(req.query.data);
+                data = client.decrypt(req.query);
+                if (data[1] === false) {
+                    throw new Error('HMAC verification failed');
+                }
+                data = data[0]; // this is the user data
             } catch (e) {
+                console.error(e);
                 // @TODO handle this error properly
                 data = {er_autentisert: false};
             }
