@@ -6,21 +6,6 @@ block routeNavigation
 
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
-
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="#") Mine turer
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="#") Opprett ny tur
-
-        // Divider
-        li.divider.hidden-lg.hidden-md.hidden-sm
-
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="#") Hjelp
-
-        // Divider
-        li.divider.hidden-lg.hidden-md.hidden-sm
-
         li.hidden-lg.hidden-md.hidden-sm
             a(href="/logout") Logg ut
 
@@ -31,17 +16,6 @@ block routeNavigation
                 | &nbsp;Meny
 
             ul.dropdown-menu
-                li
-                    a(href="/") Mine turer
-                li
-                    a(href="/tur") Opprett ny tur
-                // Divider
-                li.divider
-                li
-                    a(href="#") Hjelp
-
-                // Divider
-                li.divider
                 li
                     a(href="/logout") Logg ut
 
@@ -55,20 +29,22 @@ block content
             // TODO: Move styles to CSS-file
             p(style="margin-bottom: 20px;") Før du tar i bruk tjenesten må du godkjenne våre brukervilkår.
 
-            //- iframe(src="")
+            div.row
+                div.col-lg-6.col-md-6.col-sm-8.col-xs-8
+                    iframe(src="" width="100%").terms-and-conditions.hidden
 
             form(role="form" action="/")
                 div.checkbox
                     label
                         input(type="checkbox")
                         | Jeg har lest og godtatt&nbsp;
-                    a.href("#") Vilkår for brukergenerert innhold på ut.no
+                    a(href="#" data-toggle="terms-and-conditions-iframe") Vilkår for brukergenerert innhold på ut.no
+                        script.
+                            $(document).on('click', '[data-toggle="terms-and-conditions-iframe"]', function () {
+                                $('iframe.terms-and-conditions').removeClass('hidden');
+                            });
+                div.form-group
+                    button.btn.btn-primary(type="submit") Godkjenn
 
-                //- div.checkbox
-                //-     label
-                //-         input(type="checkbox")
-                //-         | Jeg har lest og godtatt brukervilkårene
-
-                button.btn.btn-default(type="submit") Godkjenn
-
-            p Ønsker du ikke å godkjenne vilkårene kan du avbryte ved å
+            p.help-block Ønsker du ikke å godkjenne vilkårene kan du avbryte ved å gå til&nbsp;
+                a(href="http://www.ut.no") ut.no
