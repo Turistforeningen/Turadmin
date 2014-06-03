@@ -1,4 +1,3 @@
-
 /**
  * GET home page
  */
@@ -15,7 +14,7 @@ module.exports = function (app, options) {
     var getIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
-        var userDefaultGroup = (!!req.signedCookies) ? req.signedCookies.userLastUsedGroup : undefined;
+        var userDefaultGroup = (!!req.signedCookies && !!req.signedCookies.userLastUsedGroup) ? req.signedCookies.userLastUsedGroup : undefined;
 
         var renderOptions = {
             title: 'Mine turer',
