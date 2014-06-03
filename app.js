@@ -71,13 +71,15 @@ if (app.get('env') === 'development') {
 var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
 
 require('./routes/auth')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
+
+require('./routes/termsAndConditions')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
+
 require('./routes')(app, {
     dntConnect: new Connect(dntConnectUser, dntConnectKey),
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
     userGroupsFetcher: userGroupsFetcher
 });
 
-require('./routes/termsAndConditions')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
 
 // var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });

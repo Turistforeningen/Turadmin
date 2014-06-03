@@ -33,16 +33,45 @@ block content
                 div.col-lg-6.col-md-6.col-sm-8.col-xs-8
                     iframe(src="" width="100%").terms-and-conditions.hidden
 
-            form(role="form" action="/")
+            form(role="form" action="" method="POST")
                 div.checkbox
                     label
-                        input(type="checkbox")
+                        input(type="checkbox" name="terms-and-conditions-accept")
                         | Jeg har lest og godtatt&nbsp;
-                    a(href="#" data-toggle="terms-and-conditions-iframe") Vilkår for brukergenerert innhold på ut.no
-                        script.
-                            $(document).on('click', '[data-toggle="terms-and-conditions-iframe"]', function () {
-                                $('iframe.terms-and-conditions').removeClass('hidden');
-                            });
+                    a(data-toggle="terms-and-conditions-iframe") Vilkår for brukergenerert innhold på ut.no
+
+                div.form-group.has-error(data-container-for="checkbox-missing-error")
+
+                script.
+                    var applyErrorText = function () {
+                        $('[data-container-for="checkbox-missing-error"]').html('<p class="help-block">Du må krysse av for at du godkjenner villkårene før du kan gå videre.</p>');
+                    };
+
+                    var isCheckboxChecked = function () {
+                        return !!$('input[name="terms-and-conditions-accept"]').prop('checked');
+                    };
+
+                    $(document).on('click', '[data-toggle="terms-and-conditions-iframe"]', function (e) {
+                        $('iframe.terms-and-conditions').removeClass('hidden');
+                    });
+
+                    $(document).on('click', 'button', function (e) {
+                        var checked = isCheckboxChecked();
+                        if (!checked) {
+                            e.preventDefault();
+                            applyErrorText();
+                        }
+                    });
+
+                    $(document).on('click', 'input[type="checkbox"]', function (e) {
+                        var checked = isCheckboxChecked();
+                        if (checked) {
+                            $('[data-container-for="checkbox-missing-error"]').html('');
+                        } else {
+                            applyErrorText();
+                        }
+                    });
+
                 div.form-group
                     button.btn.btn-primary(type="submit") Godkjenn
 
