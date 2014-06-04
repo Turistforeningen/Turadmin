@@ -31,14 +31,13 @@ html
         div#view-route
 
             // Navbar
-            div.navbar.navbar-fixed-top.navbar-inverse.navbar-route(style="height: 50px;")
+            div.navbar.navbar-fixed-top.navbar-inverse.navbar-route
                 div.container
                     div.navbar-header
 
                         block navbarHeader
-                            // TODO: Move styling to stylesheet!
-                            a.navbar-brand(href="http://www.ut.no" alt="Til ut.no" style="padding: 13px;")
-                                img(src="/images/ut-no-logo-hvit.png" style="height: 24px;")
+                            a.navbar-brand(href="http://www.ut.no" alt="Til ut.no")
+                                img(src="/images/ut-no-logo-hvit.png")
 
                     div.collapse.navbar-collapse#route-navigation-collapse
                         block routeNavigation

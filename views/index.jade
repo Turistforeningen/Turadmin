@@ -38,48 +38,22 @@ block extraHeadContent
         | new DNT.IndexView(appData);
         | });
 
+block navbarHeader
+    a.navbar-brand(href="http://www.ut.no" alt="Til ut.no")
+        img(src="/images/ut-no-logo-hvit.png")
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
 block routeNavigation
 
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
 
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="#") Mine turer
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="#") Opprett ny tur
-
-        // Divider
-        li.divider.hidden-lg.hidden-md.hidden-sm
-
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="http://artikkel.ut.no/1.6678023") Hjelp
-
-        // Divider
-        li.divider.hidden-lg.hidden-md.hidden-sm
-
-        li.hidden-lg.hidden-md.hidden-sm
-            a(href="/logout") Logg ut
-
-        li.dropdown.hidden-xs
-
-            a.dropdown-toggle(href="#" data-toggle="dropdown")
-                span.glyphicon.glyphicon-align-justify
-                | &nbsp;Meny
-
-            ul.dropdown-menu
-                li
-                    a(href="/") Mine turer
-                li
-                    a(href="/tur") Opprett ny tur
-                // Divider
-                li.divider
-                li
-                    a(href="http://artikkel.ut.no/1.6678023") Hjelp
-
-                // Divider
-                li.divider
-                li
-                    a(href="/logout") Logg ut
+        include dropDownNavigation
 
 
 

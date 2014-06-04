@@ -89,6 +89,18 @@ a {
 	}
 }
 
+.navbar {
+	height: 50px;
+}
+
+.navbar-brand {
+	padding: 13px;
+}
+
+.navbar-brand img {
+	 height: 24px;
+}
+
 .navbar-brand.route-name {
 	overflow: hidden;
 	text-overflow: ellipsis;

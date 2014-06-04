@@ -79,9 +79,8 @@ block extraHeadContent
         | });
 
 block navbarHeader
-    // TODO: Move styling to stylesheet!
-    a.navbar-brand(href="http://www.ut.no" alt="Til ut.no" style="padding: 13px;")
-        img(src="/images/ut-no-logo-hvit.png" style="height: 24px;")
+    a.navbar-brand(href="http://www.ut.no" alt="Til ut.no")
+        img(src="/images/ut-no-logo-hvit.png")
     a#headerRouteName.navbar-brand.hidden-xs.route-name(data-toggle="tooltip" title="" data-original-title="Klikk for å gi turen et navn" data-placeholder-for="route-name")
         if routeData
             | #{routeName}
