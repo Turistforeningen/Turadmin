@@ -72,6 +72,7 @@ module.exports = function (app, options) {
             if (err) { console.log(err); return next(err); }
 
             if (result.authenticated === true) {
+                // @TODO is this user object on the correct format?
                 req.session.user = {
                     email: result['http://axschema.org/contact/email'],
                     name: result['http://axschema.org/namePerson/first'] + ' ' + result['http://axschema.org/namePerson/last']
