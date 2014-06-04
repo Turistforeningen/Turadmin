@@ -59,6 +59,14 @@ module.exports = function (app, options) {
         ]
     );
 
+    var getLoginNrkBounce = function (req, res, next) {
+        relyingParty.authenticate('http://mitt.nrk.no/user.aspx', false, function (err, authUrl) {
+            if (err) { return next(err); }
+            if (!authUrl) { return next(new Error('Unable to aquire OpenID auth URL')); }
+            res.redirect(301, authUrl);
+        });
+    };
+
     var getConnect = function (req, res) {
         // Check for ?data= query
         var data;
