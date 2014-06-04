@@ -48,6 +48,17 @@ module.exports = function (app, options) {
         }
     };
 
+    var openid = require('openid');
+    var relyingParty = new openid.RelyingParty(
+        BASE_URL + '/login/nrk/verify', null, false, false, [
+            new openid.AttributeExchange({
+                "http://axschema.org/contact/email": "required",
+                "http://axschema.org/namePerson/first": "required",
+                "http://axschema.org/namePerson/last": "required"
+            })
+        ]
+    );
+
     var getConnect = function (req, res) {
         // Check for ?data= query
         var data;
