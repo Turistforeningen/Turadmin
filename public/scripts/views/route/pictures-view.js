@@ -82,7 +82,13 @@ var DNT = window.DNT || {};
         addNewFile: function (file) {
             file.ordinal = this.pictureCollection.getNextOrdinal();
             file.fotograf = {navn: this.user.get('navn'), epost: this.user.get('epost')};
-            file.privat = {opprettet_av: {id: this.user.get('id')}};
+            file.privat = {
+                opprettet_av: {
+                    id: this.user.get('id'),
+                    navn: this.user.get('navn'),
+                    epost: this.user.get('epost')
+                }
+            };
             var picture = new ns.Picture(file);
             this.pictureCollection.add(picture);
             this.appendPicture(picture);

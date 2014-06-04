@@ -33,7 +33,15 @@ var DNT = window.DNT || {};
         },
 
         addPoi: function () {
-            this.event_aggregator.trigger("map:positionPicture", new DNT.Poi({privat: {opprettet_av: {id: this.user.get('id')}}}));
+            this.event_aggregator.trigger("map:positionPicture", new DNT.Poi({
+                privat: {
+                    opprettet_av: {
+                        id: this.user.get('id'),
+                        navn: this.user.get('navn'),
+                        epost: this.user.get('epost')
+                    }
+                }
+            }));
         },
 
         poiMarkerIsCreated: function (poi) {
