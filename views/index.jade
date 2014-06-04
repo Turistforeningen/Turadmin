@@ -5,6 +5,12 @@ block extraHeadContent
     script(src='lib/underscore/underscore-min.js')
     script(src='lib/backbone/backbone-min.js')
 
+    // Select2 plugin
+    script(src='/lib/select2/select2.min.js')
+    link(rel='stylesheet', href='/lib/select2/select2.css')
+    link(rel='stylesheet', href='/lib/select2/select2-bootstrap.css')
+
+
     include indexTemplates
 
     script(src='scripts/models/user.js')
@@ -69,9 +75,9 @@ block content
                 a#nyTurButton.btn.btn-primary.pull-right(href="/tur") Ny tur
 
             // TODO: Move styles to CSS-file
-            div#groupSelectContainer(style="margin-bottom: 20px;")
+            div.group-select-container(style="margin-bottom: 20px;")
                 p Din har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for.
-                div#groupSelectPlaceholder
+                div(data-placeholder-for="group-select")
 
             table.table.table-bordered.table-hover
                 thead

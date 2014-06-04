@@ -13,10 +13,6 @@ var DNT = window.DNT || {};
 
         el: '#listContainer',
 
-        events: {
-            'click #nyTurButton': 'openNewRoutePage'
-        },
-
         initialize : function (options) {
 
             var mergedUserData = options.userData || {};
@@ -49,10 +45,6 @@ var DNT = window.DNT || {};
             });
         },
 
-        openNewRoutePage : function () {
-            // window.location = '/tur';
-        },
-
         onGroupChange: function (e) {
             var groupId = e.target.value;
             this.fetchQuery = {'gruppe': groupId};
@@ -65,7 +57,8 @@ var DNT = window.DNT || {};
 
             if (!!this.fetchQuery && !!this.fetchQuery.gruppe) {
                 var groupSelect = new ns.SelectView({model: this.model, selectOptions: this.groups, selectValue: this.fetchQuery.gruppe});
-                this.$('#groupSelectPlaceholder').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
+                this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
+                this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
             }
 
             that.$el.find('#listItems').empty();
