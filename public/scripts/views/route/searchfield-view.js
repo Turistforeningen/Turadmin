@@ -24,7 +24,9 @@ var DNT = window.DNT || {};
                 minimumInputLength: 2,
                 query: this.search,
                 formatResult: this.format,
-                escapeMarkup: function (m) { return m; }
+                escapeMarkup: function (m) { return m; },
+                formatSearching: function () { return 'Søker'; },
+                formatInputTooShort: function (term, minLength) { return 'Minimum to bokstaver'; }
             });
         },
 
