@@ -39,7 +39,7 @@ AWS_KEY=`cat ./env/AWS_SECRET_ACCESS_KEY`
 echo "Setting environment variables..."
 echo "export NODE_ENV=development"                       >> /home/vagrant/.bashrc
 echo "export PORT_WWW=8080"                              >> /home/vagrant/.bashrc
-echo "export APP_URL=http://localhost:3004"              >> /home/vagrant/.bashrc
+echo "export APP_URL=http://mintur.ut.no"                >> /home/vagrant/.bashrc
 echo "export NTB_API_KEY=$NTB_API_KEY"                   >> /home/vagrant/.bashrc
 echo "export NTB_API_URL=http://dev.nasjonalturbase.no"  >> /home/vagrant/.bashrc
 echo "export DNT_CONNECT_USER=$DNT_CONNECT_USER"         >> /home/vagrant/.bashrc
@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network :forwarded_port, guest: 8080, host: 3004
+  # config.vm.network :forwarded_port, guest: 8080, host: 3004
 
   # The shell provisioner allows you to upload and execute a script as the root
   # user within the guest machine.
@@ -78,7 +78,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network :private_network, ip: "192.168.33.10"
+  config.vm.network :private_network, ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
