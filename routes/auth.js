@@ -131,6 +131,8 @@ module.exports = function (app, options) {
     };
 
     app.all('*', authenticate);
+    app.get('/login/nrk/bounce', getLoginNrkBounce);
+    app.get('/login/nrk/verify', getLoginNrkVerify);
     app.get('/connect', getConnect);
     app.get('/login', getLogin);
     app.post('/login/dnt', postLogin);
