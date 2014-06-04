@@ -39,8 +39,8 @@ block content
 
                 div.mitt-nrk
                     h3 Mitt NRK
-                    form.form-signin(action="/login/nrk" method="POST")
-                        button.btn.btn-lg.btn-default.btn-block(type="submit" onclick="alert('Innlogging via Mitt NRK er ikke implementert.'); event.preventDefault();")
+                    form.form-signin
+                        a.btn.btn-lg.btn-default.btn-block(href="/login/nrk/bounce")
                             span.glyphicon.glyphicon.glyphicon-arrow-right
                             | &nbsp;Gå til innlogging
                         p.help-block Klikk her dersom du ønsker å logge inn via Mitt NRK
