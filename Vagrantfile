@@ -32,6 +32,8 @@ NTB_API_KEY=`cat ./env/NTB_API_KEY`
 ROUTING_API_URL=`cat ./env/ROUTING_API_URL`
 DNT_CONNECT_USER=`cat ./env/DNT_CONNECT_USER`
 DNT_CONNECT_KEY=`cat ./env/DNT_CONNECT_KEY`
+AWS_ID=`cat ./env/AWS_ACCESS_KEY_ID`
+AWS_KEY=`cat ./env/AWS_SECRET_ACCESS_KEY`
 
 # Vagratnt Environment Varaibles
 echo "Setting environment variables..."
@@ -43,6 +45,9 @@ echo "export NTB_API_URL=http://dev.nasjonalturbase.no"  >> /home/vagrant/.bashr
 echo "export DNT_CONNECT_USER=$DNT_CONNECT_USER"         >> /home/vagrant/.bashrc
 echo "export DNT_CONNECT_KEY=$DNT_CONNECT_KEY"           >> /home/vagrant/.bashrc
 echo "export ROUTING_API_URL=$ROUTING_API_URL"           >> /home/vagrant/.bashrc
+echo "export AWS_ACCESS_KEY_ID=$AWS_ID"                  >> /home/vagrant/.bashrc
+echo "export AWS_SECRET_ACCESS_KEY=$AWS_KEY"             >> /home/vagrant/.bashrc
+echo "export AWS_BUCKET_PATH=images_dev/"                >> /home/vagrant/.bashrc
 echo "\ncd /vagrant"                                     >> /home/vagrant/.bashrc
 
 chown vagrant:vagrant /home/vagrant/.nvm
