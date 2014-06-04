@@ -77,7 +77,9 @@ module.exports = function (app, options) {
         var onComplete = onCompleteOverride || onCompleteDefault;
 
         var onCompletePost = function (data, response) {
-            res.statusCode = response.statusCode;
+            if (!!response && !!response.statusCode) {
+                res.statusCode = response.statusCode;
+            }
             console.log("Response:", data);
             moveId(data);
             res.json(data);
