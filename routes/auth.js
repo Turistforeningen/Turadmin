@@ -67,6 +67,25 @@ module.exports = function (app, options) {
         });
     };
 
+    var getLoginNrkVerify = function (req, res, next) {
+        relyingParty.verifyAssertion(req, function(err, result) {
+            if (err) { console.log(err); return next(err); }
+
+            if (result.authenticated === true) {
+                req.session.user = {
+                    email: result['http://axschema.org/contact/email'],
+                    name: result['http://axschema.org/namePerson/first'] + ' ' + result['http://axschema.org/namePerson/last']
+                };
+                req.session.userId = result.claimedIdentifier;
+                req.session.authType = 'mitt-nrk';
+                res.redirect('/');
+            } else {
+                // @TODO handle this error in view
+                res.redirect(401, '/login?error=MITTNRK-503');
+            }
+        });
+    };
+
     var getConnect = function (req, res) {
         // Check for ?data= query
         var data;
