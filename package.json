@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "mocha -b -c --check-leaks test/suite.js -R progress",
+    "test": "mocha -b -c test/suite.js -R progress",
     "test-drone": "node_modules/.bin/mocha test/suite.js -R spec"
   },
   "dependencies": {
