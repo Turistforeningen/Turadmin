@@ -1,18 +1,14 @@
 script(type="text/template" id="listRouteItemTemplate").
     <td class="route-title">
-        <span><%= navn %></span>
+        <span>
+            <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %><em>Tur uten navn</em><% } %>
+        </span>
     </td>
     <td>
         <span>N/A</span>
     </td>
     <td>
-        <span class="label
-        <%if (status === "Kladd") { %>
-            label-warning
-        <% } else { %>
-            label-success
-        <% } %>
-        ">
+        <span class="label <%if (status === "Kladd") { %>label-warning<% } else { %>label-success<% } %>">
             <%= erPublisert %>
         </span>
     </td>
@@ -37,7 +33,13 @@ script(type="text/template" id="listRouteItemTemplate").
                         <h4 class="modal-title">Slette tur?</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Er du sikker på at du vil slette turen <span data-placeholder-for="route-name"><%= navn %></span>?</p>
+                        <p>
+                            Er du sikker på at du vil slette turen
+                            <span data-placeholder-for="route-name">
+                                <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %>Tur uten navn<% } %>
+                            </span>
+                            ?
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
