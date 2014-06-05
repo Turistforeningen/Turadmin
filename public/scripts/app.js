@@ -89,14 +89,6 @@ var DNT = window.DNT || {};
 
         route = new ns.Route(routeData);
 
-        // var turId = options.turId;
-
-        // NOTE: Route data is now passed directly to app. No need to fetch.
-        // if(!!turId){
-        //     route.set('_id', turId);
-        //     route.fetch();
-        // }
-
         var pictureCollection = new DNT.PictureCollection();
 
         // Add all pictures passed to app to pictureCollection
