@@ -36,6 +36,7 @@ var DNT = require('dnt-api');
 var app = module.exports = express();
 
 // All environments
+app.set('url', process.env.APP_URL);
 app.set('port', process.env.PORT_WWW || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -59,9 +60,9 @@ if (app.get('env') === 'development') {
         showStack: true
     }));
     app.set('view cache', false);
+    app.set('url', process.env.APP_URL + ':' + app.get('port'));
 
 } else if (app.get('env') === 'production') {}
-
 
 /**
  * Routes and middleware

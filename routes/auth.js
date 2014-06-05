@@ -11,9 +11,7 @@ module.exports = function (app, options) {
 
     var client = options.dntConnect;
 
-    var APP_URL = process.env.APP_URL;
-    var PORT_WWW = process.env.PORT_WWW || null;
-    var BASE_URL = APP_URL + (PORT_WWW !== null ? ':' + PORT_WWW : '');
+    var BASE_URL = app.get('url');
 
     var authenticate = function (req, res, next) {
 
