@@ -84,18 +84,10 @@ var DNT = window.DNT || {};
         if (options.routeData) {
             routeData = options.routeData;
         } else {
-            routeData = {privat: {opprettet_av: {id: user.get('id')}}};
+            routeData = {privat: {opprettet_av: {id: user.get('id'), navn: user.get('navn'), epost: user.get('epost')}}};
         }
 
         route = new ns.Route(routeData);
-
-        // var turId = options.turId;
-
-        // NOTE: Route data is now passed directly to app. No need to fetch.
-        // if(!!turId){
-        //     route.set('_id', turId);
-        //     route.fetch();
-        // }
 
         var pictureCollection = new DNT.PictureCollection();
 

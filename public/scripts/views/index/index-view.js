@@ -20,21 +20,26 @@ var DNT = window.DNT || {};
             var user = new ns.User(mergedUserData);
 
             _.bindAll(this, 'render');
-            $('#headerRouteName').addClass('hidden');
+
             this.collection = new ns.RouteCollection();
             this.collection.on('reset', this.render);
 
-            if (!!options && options.authType === 'dnt-connect' && !!options.userGroups) {
-                this.groups = options.userGroups;
-                var userGroup = options.userDefaultGroup || _.first(options.userGroups).object_id;
-                this.fetchQuery = {'gruppe': userGroup};
-                this.fetchRoutes();
+            var provider = user.get('provider'),
+                groups = user.get('groups') || [],
+                group;
 
+            if (provider == 'DNT Connect' && groups.length) {
+                this.groups = groups;
+                group = options.userDefaultGroup || _.first(groups).object_id;
+                this.fetchQuery = {'gruppe': group};
+
+            // } else if (provider = 'Mitt NRK') {
             } else {
-                var userId = options.userData.sherpa_id;
                 this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
-                this.fetchRoutes();
             }
+            // debugger;
+
+            this.fetchRoutes();
 
         },
 

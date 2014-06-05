@@ -35,9 +35,8 @@ var DNT = require('dnt-api');
 // Start app
 var app = module.exports = express();
 
-
 // All environments
-app.set('port', process.env.PORT_WWW || 3000);
+app.set('port', process.env.WWW_PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

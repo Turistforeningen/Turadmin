@@ -19,20 +19,26 @@ var DNT = window.DNT || {};
             options = options || {};
 
             var userType, id, navn; // Possible userType values: 'sherpa', 'mittnrk', 'gruppebruker'
+            id = options._id;
 
-            if (!!options.sherpa_id) {
-                userType = 'sherpa';
-                id = options.sherpa_id;
-                navn = options.fornavn + ' ' + options.etternavn;
+            switch(options.provider) {
+                case 'DNT Connect':
+                    // Special handling of DNT Connect users
+                    break;
+                case 'Mitt NRK':
+                    // Special handling of Mitt NRK users
+                    break;
+                case 'Ekstern gruppebruker':
+                    // Special handling of Ekstern gruppebruker users
+                    break;
+                default:
+                    // No default
             }
 
-            // else if (someWayToIdentifyMittNrkUser) {
-            // } else if (someWayToIdentifyGruppebruker) {
-            // } else {}
-
+            this.set('navn', options.fornavn + ' ' + options.etternavn);
             this.set('_id', id);
             this.set('id', id);
-            this.set('navn', navn);
+            // this.set('navn', navn);
         }
 
     });
