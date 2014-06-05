@@ -1,6 +1,7 @@
-
-/**
- * GET home page
+/*
+ * Copyright (c) $year, Den Norske Turistforening (DNT)
+ *
+ * https://github.com/Turistforeningen/turadmin
  */
 
 module.exports = function (app, options) {
@@ -23,7 +24,7 @@ module.exports = function (app, options) {
             next();
 
         } else {
-            if (req.session && req.session.user && (req.session.user.er_autentisert === true)) {
+            if (req.session && req.session.isAuthneticated === true) {
                 // User has a session and is authenticated
                 next();
             } else {
@@ -34,16 +35,13 @@ module.exports = function (app, options) {
     };
 
     var getLogin = function (req, res) {
-        res.render('login', { status: 'unid' });
+        res.render('login', {status: 'unid'});
     };
 
     var postLogin = function (req, res) {
-        // console.log('postLogin');
         if (req && req.auth && req.auth.isAuthneticated) {
-            // console.log('redirect /');
             res.redirect('/');
         } else {
-            // console.log('redirect /connect');
             res.redirect(client.signon(BASE_URL + '/connect'));
         }
     };
@@ -69,16 +67,21 @@ module.exports = function (app, options) {
 
     var getLoginNrkVerify = function (req, res, next) {
         relyingParty.verifyAssertion(req, function(err, result) {
+
             if (err) { console.log(err); return next(err); }
 
             if (result.authenticated === true) {
-                // @TODO is this user object on the correct format?
-                req.session.user = {
-                    email: result['http://axschema.org/contact/email'],
-                    name: result['http://axschema.org/namePerson/first'] + ' ' + result['http://axschema.org/namePerson/last']
-                };
-                req.session.userId = result.claimedIdentifier;
+                req.session.isAuthneticated = true;
                 req.session.authType = 'mitt-nrk';
+
+                req.session.user = {
+                    _id: result.claimedIdentifier,
+                    epost: result['http://axschema.org/contact/email'],
+                    fornavn: result['http://axschema.org/namePerson/first'],
+                    etternavn: result['http://axschema.org/namePerson/last']
+                };
+
+                req.session.userId = result.claimedIdentifier;
                 res.redirect('/');
             } else {
                 // @TODO handle this error in view
@@ -104,30 +107,26 @@ module.exports = function (app, options) {
             }
 
             if (data.er_autentisert === true) {
+                req.session.isAuthneticated = true;
+                req.session.authType = 'dnt-connect';
 
                 req.session.user = data;
+                req.session.user._id = data.sherpa_id;
                 req.session.userId = data.sherpa_id;
-
-                req.session.authType = 'dnt-connect';
                 res.redirect('/');
 
             } else {
                 res.redirect(401, '/login?error=DNTC-503');
             }
 
-      // Initiate DNT Connect signon
+        // Initiate DNT Connect signon
         } else {
             res.redirect(client.signon('/'));
         }
     };
 
     var getLogout = function (req, res) {
-        // console.log('Logging out...');
-        // console.log('Setting session to null...');
         req.session = null;
-        // console.log('Done!');
-        // console.log('session.user');
-        // console.log(req.session);
         res.redirect('/');
     };
 
@@ -140,4 +139,3 @@ module.exports = function (app, options) {
     app.get('/logout', getLogout);
 
 };
-
