@@ -60,6 +60,6 @@ script(type="text/template" id="pictureTemplate").
     </div>
 
 script(type="text/template" id="picturePopupTemplate").
-   <strong class="poi-navn"><%= navn %></strong>
+   <strong class="poi-navn"><% if (typeof navn != 'undefined') { %><%= navn %><% } %></strong>
    <br>
    <img src=<%= thumbnailUrl %> width="200">
