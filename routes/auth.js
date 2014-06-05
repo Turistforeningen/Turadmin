@@ -8,8 +8,9 @@ module.exports = function (app, options) {
     "use strict";
 
     var underscore = require('underscore');
+    var Connect = require('dnt-connect');
 
-    var client = options.dntConnect;
+    var dntConnectClient = new Connect(process.env.DNT_CONNECT_USER, process.env.DNT_CONNECT_KEY);
 
     var BASE_URL = app.get('url');
 
@@ -89,7 +90,7 @@ module.exports = function (app, options) {
         if (req && req.auth && req.auth.isAuthneticated) {
             res.redirect('/');
         } else {
-            res.redirect(client.signon(BASE_URL + '/login/dnt/verify'));
+            res.redirect(dntConnectClient.signon(BASE_URL + '/login/dnt/verify'));
         }
     };
 
@@ -98,7 +99,7 @@ module.exports = function (app, options) {
         var data;
         if (req && req.query && req.query.data) {
             try {
-                data = client.decrypt(req.query);
+                data = dntConnectClient.decrypt(req.query);
                 if (data[1] === false) {
                     throw new Error('HMAC verification failed');
                 }
@@ -125,7 +126,7 @@ module.exports = function (app, options) {
 
         // Initiate DNT Connect signon
         } else {
-            res.redirect(client.signon('/'));
+            res.redirect(dntConnectClient.signon('/'));
         }
     };
 

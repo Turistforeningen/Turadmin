@@ -6,9 +6,6 @@ var routeApiUri = process.env.ROUTING_API_URL;
 var ntbApiUri = process.env.NTB_API_URL;
 var ntbApiKey = process.env.NTB_API_KEY;
 
-var dntConnectUser = process.env.DNT_CONNECT_USER;
-var dntConnectKey = process.env.DNT_CONNECT_KEY;
-
 var dntApiKey = process.env.DNT_CONNECT_KEY;
 
 var sessionSecret = process.env.SessionSecret || "0rdisObMCVXWawtji4B2iIGIKKqlsgAOPJhcHw4IREiCf7PGnAxY2isXfXd2Is7a";
@@ -28,7 +25,6 @@ var methodOverride = require('method-override');
 var favicon = require('serve-favicon');
 var morgan = require('morgan'); // previously logger
 var upload = require('jquery-file-upload-middleware');
-var Connect = require('dnt-connect');
 var DNT = require('dnt-api');
 
 
@@ -70,12 +66,11 @@ if (app.get('env') === 'development') {
 
 var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
 
-require('./routes/auth')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
+require('./routes/auth')(app);
 
-require('./routes/termsAndConditions')(app, {dntConnect: new Connect(dntConnectUser, dntConnectKey)});
+require('./routes/termsAndConditions')(app);
 
 require('./routes')(app, {
-    dntConnect: new Connect(dntConnectUser, dntConnectKey),
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
     userGroupsFetcher: userGroupsFetcher
 });
