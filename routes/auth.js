@@ -34,8 +34,12 @@ module.exports = function (app, options) {
         }
     };
 
-    var getLogin = function (req, res) {
-        res.render('login', {status: 'unid'});
+    var getLogin = function (req, res, next) {
+        if (req.session && req.session.isAuthneticated === true) {
+            res.redirect('/');
+        } else {
+            res.render('login');
+        }
     };
 
     var postLogin = function (req, res) {
