@@ -52,7 +52,7 @@ module.exports = function (app, options) {
 
     var openid = require('openid');
     var relyingParty = new openid.RelyingParty(
-        BASE_URL + '/login/nrk/verify', null, false, false, [
+        BASE_URL + '/login/nrk/verify', null, true, false, [
             new openid.AttributeExchange({
                 "http://axschema.org/contact/email": "required",
                 "http://axschema.org/namePerson/first": "required",
@@ -80,9 +80,10 @@ module.exports = function (app, options) {
 
                 req.session.user = {
                     _id: result.claimedIdentifier,
-                    epost: result['http://axschema.org/contact/email'],
-                    fornavn: result['http://axschema.org/namePerson/first'],
-                    etternavn: result['http://axschema.org/namePerson/last']
+                    epost: decodeURIComponent(result['http://axschema.org/contact/email']),
+                    fornavn: decodeURIComponent(result['http://axschema.org/namePerson/first']),
+                    etternavn: decodeURIComponent(result['http://axschema.org/namePerson/last']),
+                    provider: 'Mitt NRK'
                 };
 
                 req.session.userId = result.claimedIdentifier;
@@ -115,6 +116,7 @@ module.exports = function (app, options) {
                 req.session.authType = 'dnt-connect';
 
                 req.session.user = data;
+                req.session.user.provider = 'DNT Connect';
                 req.session.user._id = data.sherpa_id;
                 req.session.userId = data.sherpa_id;
                 res.redirect('/');
