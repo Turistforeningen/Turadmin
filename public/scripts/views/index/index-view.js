@@ -25,7 +25,7 @@ var DNT = window.DNT || {};
             this.collection.on('reset', this.render);
 
             var provider = user.get('provider'),
-                groups = user.get('groups') || [],
+                groups = user.get('grupper') || [],
                 group;
 
             if (provider == 'DNT Connect' && groups.length) {
