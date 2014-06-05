@@ -31,16 +31,14 @@ block content
 
                 div.dnt-connect
                     h3 DNT Connect
-                    form.form-signin(action="/login/dnt" method="POST")
-                        button.btn.btn-lg.btn-default.btn-block(type="submit")
-                            span.glyphicon.glyphicon.glyphicon-arrow-right
-                            | &nbsp;Gå til innlogging
-                        p.help-block Klikk her dersom du ønsker å logge inn med DNT Connect
+                    a.btn.btn-lg.btn-default.btn-block(href="/login/dnt/connect")
+                        span.glyphicon.glyphicon.glyphicon-arrow-right
+                        | &nbsp;Gå til innlogging
+                    p.help-block Klikk her dersom du ønsker å logge inn med DNT Connect
 
                 div.mitt-nrk
                     h3 Mitt NRK
-                    form.form-signin
-                        a.btn.btn-lg.btn-default.btn-block(href="/login/nrk/bounce")
-                            span.glyphicon.glyphicon.glyphicon-arrow-right
-                            | &nbsp;Gå til innlogging
-                        p.help-block Klikk her dersom du ønsker å logge inn via Mitt NRK
+                    a.btn.btn-lg.btn-default.btn-block(href="/login/nrk/bounce")
+                        span.glyphicon.glyphicon.glyphicon-arrow-right
+                        | &nbsp;Gå til innlogging
+                    p.help-block Klikk her dersom du ønsker å logge inn via Mitt NRK

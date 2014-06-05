@@ -40,14 +40,6 @@ module.exports = function (app, options) {
         }
     };
 
-    var postLogin = function (req, res) {
-        if (req && req.auth && req.auth.isAuthneticated) {
-            res.redirect('/');
-        } else {
-            res.redirect(client.signon(BASE_URL + '/connect'));
-        }
-    };
-
     var openid = require('openid');
     var relyingParty = new openid.RelyingParty(
         BASE_URL + '/login/nrk/verify', null, true, false, [
@@ -93,7 +85,15 @@ module.exports = function (app, options) {
         });
     };
 
-    var getConnect = function (req, res) {
+    var getLoginDntConnect = function (req, res) {
+        if (req && req.auth && req.auth.isAuthneticated) {
+            res.redirect('/');
+        } else {
+            res.redirect(client.signon(BASE_URL + '/login/dnt/verify'));
+        }
+    };
+
+    var getLoginDntVerify = function (req, res) {
         // Check for ?data= query
         var data;
         if (req && req.query && req.query.data) {
@@ -137,9 +137,9 @@ module.exports = function (app, options) {
     app.all('*', authenticate);
     app.get('/login/nrk/bounce', getLoginNrkBounce);
     app.get('/login/nrk/verify', getLoginNrkVerify);
-    app.get('/connect', getConnect);
+    app.get('/login/dnt/connect', getLoginDntConnect);
+    app.get('/login/dnt/verify', getLoginDntVerify);
     app.get('/login', getLogin);
-    app.post('/login/dnt', postLogin);
     app.get('/logout', getLogout);
 
 };
