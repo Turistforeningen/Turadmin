@@ -67,8 +67,8 @@ module.exports = function (app, options) {
         // console.log("Request URL:", url);
 
         var onCompleteDefault = function (data, response) {
-            res.statusCode = response.statusCode;
-            if (data.document !== undefined) {
+            res.statusCode = (!!response) ? response.statusCode : 0;
+            if (data.document !== undefined) { // NOTE: Why the if?
                 data.document = undefined;
             }
             res.json(data);
