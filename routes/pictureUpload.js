@@ -129,7 +129,7 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
         };
 
         ntbApi.makeApiRequest('/bilder', request, undefined, function (data, result) {
-            var err = (result instanceof Error === true) ? result : undefined; // https://github.com/danwrong/restler#events see `complete: function(result, response)`
+            var err = (result instanceof Error === true) ? result : null; // https://github.com/danwrong/restler#events see `complete: function(result, response)`
             if (err) {
                 console.error('Error when saving picture to Nasjonal Turbase', err);
             } else {
