@@ -8,6 +8,7 @@
     "test-drone": "node_modules/.bin/mocha test/suite.js -R spec"
   },
   "dependencies": {
+    "blueimp-file-upload-expressjs": "^0.2.7",
     "body-parser": "~1.2.1",
     "chalk": "~0.4.0",
     "cookie-parser": "~1.1.0",
