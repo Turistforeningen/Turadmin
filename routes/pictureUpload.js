@@ -1,103 +1,156 @@
-
 /*
  * Copyright (c) $year, Den Norske Turistforening (DNT)
  *
  * https://github.com/Turistforeningen/turadmin
  */
 
-module.exports = function (app, express, options) {
+module.exports = function (router) {
     "use strict";
 
-    var bodyParser = require('body-parser');
-    var upload = require('jquery-file-upload-middleware');
-    var underscore = require('underscore');
+    var gm = require('gm').subClass({imageMagick: true});
+    var dms2dec = require('dms2dec');
+    var path = require('path');
+    var fs = require('fs');
+    var _ = require('underscore');
 
-    var width = 380;
-    var height = 260;
-    var createOptions =  function (userId) {
-        return {
-            uploadDir: function () {
-                return options.dirname + '/public/uploads/' + userId + '/tmp';
-            },
-            uploadUrl: function () {
-                return '/uploads/' + userId + '/tmp';
-            }
-        };
+    var options = {
+        tmpDir: '/tmp', // tmp dir to upload files to
+        uploadDir: '/tmp', // actual location of the file
+        uploadUrl: '/uploads/', // end point for delete route
+        maxPostSize: 11000000000, // 11 GB
+        minFileSize: 1,
+        maxFileSize: 10000000000, // 10 GB
+        acceptFileTypes: /.+/i,
+        inlineFileTypes: /\.(gif|jpe?g|png)/i,
+        imageTypes:  /\.(gif|jpe?g|png)/i,
+        accessControl: {
+            allowOrigin: '*',
+            allowMethods: 'OPTIONS, HEAD, GET, POST, PUT, DELETE',
+            allowHeaders: 'Content-Type, Content-Range, Content-Disposition'
+        },
+        storage : {
+            type : 'local' // local or aws
+        }
     };
 
-    upload.configure({
-        imageVersions: {
-            thumbnail: {
-                width: width,
-                height: height
+    var uploader = require('blueimp-file-upload-expressjs')(options);
+
+    var s3Uploader = require('s3-uploader');
+
+    var s3Client = new Upload('turadmin', {
+        awsBucketUrl: 'https://s3-eu-west-1.amazonaws.com/turadmin/',
+        awsBucketPath: process.env.AWS_BUCKET_PATH + '/',
+        awsBucketAcl: 'public-read',
+        versions: [
+            {
+                original: true
+            },
+            {
+                maxHeight: 1040,
+                maxWidth: 1040,
+                suffix: '-large',
+                quality: 80
+            },
+            {
+                maxHeight: 780,
+                maxWidth: 780,
+                suffix: '-medium'
+            },
+            {
+                maxHeight: 320,
+                maxWidth: 320,
+                suffix: '-small'
             }
-        }
+        ]
     });
 
-    /*
-        Register fileHandler to listen to /uploads and to store images on server
-     */
-    app.use('/upload/picture', function (req, res, next) {
-        var options = createOptions(req.session.userId);
-        var fileHandler = upload.fileHandler(options);
-        fileHandler(req, res, next);
-    });
 
-    app.use('/upload/picture', bodyParser());
+    // Return image path based on file upload module options and image name
+    var getImagePath = function (image) {
+        return path.join(options.uploadDir, image.name);
+    };
 
-    /*
-        Listen to end processing event and change fileInfo object to match Nasjonal Turbase Bilde API, and client side backbone Picture-model.
-     */
-    upload.on('end', function (fileInfo) {
+    // Returns an image object with `geojson` property appended if image has gps info
+    var getImagePosition = function (image, callback) {
 
-        if (!!fileInfo && !!fileInfo.type && fileInfo.type.match('image')) {
+        var imagePath = getImagePath(image);
 
-            console.log('Picture uploaded.');
-            console.log(fileInfo);
+        gm(imagePath).identify(function (err, value) {
 
-            var res = {
-                navn: fileInfo.originalName,
+            if (value['Properties']) {
+                var lat = value['Properties']['exif:GPSLatitude'];
+                var latRef = value['Properties']['exif:GPSLatitudeRef'];
+                var lon = value['Properties']['exif:GPSLongitude'];
+                var lonRef = value['Properties']['exif:GPSLongitudeRef'];
 
-                img: [
-                    {
-                        url: fileInfo.url,
-                        size: fileInfo.size,
-                        type: fileInfo.type
-                    },
-                    {
-                        url: fileInfo.thumbnailUrl,
-                        width:  width,
-                        height: height,
-                        type: fileInfo.type
-                    }
-                ]
-            };
-            var prop;
-            for (prop in fileInfo) {
-                if (fileInfo.hasOwnProperty(prop)) {
-                    delete fileInfo[prop];
+                if (!!lat && !!latRef && !!lon && !!lonRef) {
+                    var dec = dms2dec(lat, latRef, lon, lonRef),
+                        decLat = dec[0],
+                        decLon = dec[1];
+
+                    image.geojson = {
+                        type: 'Point',
+                        coordinates: [decLon, decLat]
+                    };
+
                 }
             }
 
-            underscore.extend(fileInfo, res);
+            callback(err, image);
 
-        }
-
-    });
-
-    var movePictureToPermanentStorage = function (url, userId, cb) {
-        var options = createOptions(userId);
-        var fileManager = upload.fileManager(options);
-        fileManager.move(url, "../permanent", function (error, result) {
-            if (!error) {
-                result.url = result.url.replace("tmp/../", "");
-                result.thumbnailUrl = result.thumbnailUrl.replace("tmp/../", "");
-            }
-            cb(error, result);
         });
+
     };
 
-    return {movePictureToPermanentStorage: movePictureToPermanentStorage};
+    var uploadImageToS3 = function (image, callback) {
+
+        var imagePath = getImagePath(image);
+
+        s3Client.upload(imagePath, function (err, images, exifData) {
+            console.log('s3Client.upload(err, images, exifData)', err, images, exifData);
+            if (err) {
+                callback(err, images);
+            } else {
+                fs.unlink(imagePath);
+                callback(err, images);
+            }
+        });
+
+    };
+
+
+    /**
+     * Routes
+     */
+
+    router.get('/upload/picture', function(req, res) {
+      uploader.get(req, res, function (obj) {
+            res.send(JSON.stringify(obj));
+      });
+    });
+
+    router.post('/upload/picture', function(req, res) {
+      uploader.post(req, res, function (obj) {
+        getImagePosition(obj.files[0], function (err, image) {
+            uploadImageToS3(image, function (err, images) {
+
+                var original = _.findWhere(images, {original: true});
+                var resized = _.without(images, original);
+                resized.push(original);
+
+                res.send(JSON.stringify({files: [{img: resized, geojson: image.geojson}]})); // Wrapping image in files object and array to match jQuery uploader plugin format
+            });
+        });
+      });
+    });
+
+    // the path SHOULD match options.uploadUrl
+    router.delete('/uploaded/files/:name', function(req, res) {
+      uploader.delete(req, res, function (obj) {
+            res.send(JSON.stringify(obj));
+      });
+    });
+
+    return router;
+
 };
-
-
