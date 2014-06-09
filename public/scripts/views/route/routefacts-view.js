@@ -14,7 +14,7 @@ var DNT = window.DNT || {};
 
     var passerForOptions = ['Barn', 'Voksen', 'Senior'];
 
-    var tilrettelagtForOptions = ['Barnevogn', 'Rullestol', 'Handikap'];
+    var tilrettelagtForOptions = ['Barnevogn', 'Rullestol'];
 
     ns.RouteFactsView = Backbone.View.extend({
 
