@@ -71,12 +71,21 @@ var DNT = window.DNT || {};
                 this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
             }
 
-            that.$el.find('#listItems').empty();
+            if (this.collection.length > 0) {
+                that.$el.find('#listItems').empty();
+                this.collection.each(function (route) {
+                    var itemView = new ns.ListItemView({model: route});
+                    that.$el.find("#listItems").append(itemView.render().el);
+                });
+                that.$('[data-placeholder-for="no-routes-alert"]').addClass('hidden');
+                that.$('.routes-table').removeClass('hidden');
 
-            this.collection.each(function (route) {
-                var itemView = new ns.ListItemView({model: route});
-                that.$el.find("#listItems").append(itemView.render().el);
-            });
+            } else {
+                that.$('.routes-table').addClass('hidden');
+                that.$('[data-placeholder-for="no-routes-alert"]').removeClass('hidden');
+                that.$('[data-placeholder-for="no-routes-alert"]').html('<div class="alert alert-info"><strong>Ingen turer:</strong> Fant ingen turer tilhørende valgt bruker eller gruppe.</div>');
+            }
+
 
         }
 
