@@ -74,11 +74,11 @@ var DNT = window.DNT || {};
         initialize: function (options) {
 
             this.model.on('change:navn', this.updateRouteNamePlaceholders, this);
-            this.model.on('change:tidsbrukDager', this.toggleHoursAndMinutesVisiblity);
+            this.model.on('change:tidsbrukDager', this.toggleHoursAndMinutesVisiblity, this);
             this.model.on('change:turtype', this.updateFlereTurtyperOptions);
 
             // Bind these methods to this scope
-            _.bindAll(this, 'toggleHoursAndMinutesVisiblity', 'updateFlereTurtyperOptions', 'onGetPasserForBarn', 'onSetPasserForBarn');
+            _.bindAll(this, 'updateFlereTurtyperOptions', 'onGetPasserForBarn', 'onSetPasserForBarn');
 
             this.user = options.user;
 
