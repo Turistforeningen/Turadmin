@@ -9,42 +9,9 @@ module.exports = function (app, options) {
 
     var ntbApiUri = options.ntbApiUri;
     var ntbApiKey = options.ntbApiKey;
-    var pictureFileManager = options.pictureFileManager;
     var restler = require('restler');
     var underscore = require('underscore');
     var util = require('util');
-
-    /*
-        Move picture to permanent storage using jquery-file-upload-middleware'filehandler
-     */
-    var movePicture = function (req, picture) {
-        var status = {ok: true, error: ""};
-        var userId = req.session.userId;
-        pictureFileManager.movePictureToPermanentStorage(picture.url, userId, function (error, result) {
-
-            if (!error && !!result) {
-                picture.url = result.url;
-                picture.thumbnailUrl = result.thumbnailUrl;
-
-                underscore.each(picture.img, function (image) {
-                    //is thumbnail if width and height is set
-                    if (!!image.width && !!image.height) {
-                        image.url = result.thumbnailUrl;
-                    } else {
-                        image.url = result.url;
-                    }
-                });
-
-                console.log("moved picture: ", picture);
-
-            } else {
-                status.error = 'Error moving file to permanent storage';
-                status.ok = false;
-                console.error(status.error);
-            }
-        });
-        return status;
-    };
 
     /*
         Move id from document object to _id on result object, to update client side model with id.
@@ -85,10 +52,12 @@ module.exports = function (app, options) {
             res.json(data);
         };
 
-        var onCompletePostPicture = function (data, picture) {
-            data = underscore.extend(data, picture);
-            onCompletePost(data);
-        };
+        onCompletePost = onCompleteOverride || onCompletePost;
+
+        // var onCompletePostPicture = function (data, picture) {
+        //     data = underscore.extend(data, picture);
+        //     onCompletePost(data);
+        // };
 
         var onCompletePostGpx = function (data, picture) {
             data = underscore.extend(data, picture);
@@ -96,31 +65,11 @@ module.exports = function (app, options) {
         };
 
         if (method === "GET") {
-            // console.log("getUrl = " + url);
-            restler.get(url, {})
-                .on('complete', onComplete);
+            restler.get(url, {}).on('complete', onComplete);
 
         } else if (method === "POST") {
             console.log("Posting:", util.inspect(req.body));
-
-            //Move pictures to permanent storage when saving to rest api. Updates results object with new urls.
-            if (path.indexOf("bilder") > -1) {
-                var result = movePicture(req, req.body);
-                var resultOk = result.ok;
-                var error = result.error;
-                if (resultOk) {
-                    restler.postJson(url, req.body)
-                        .on('complete', function (data) {
-                            onCompletePostPicture(data, req.body);
-                        });
-                } else {
-                    restler.abort(error);
-                }
-
-            } else {
-                restler.postJson(url, req.body)
-                    .on('complete', onCompletePost);
-            }
+            restler.postJson(url, req.body).on('complete', onCompletePost);
 
         } else if (method === "PUT") {
             json = JSON.stringify(req.body);

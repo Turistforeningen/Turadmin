@@ -24,12 +24,13 @@ var DNT = window.DNT || {};
             return apiUri();
         },
 
+         // NOTE: These should not be necessary when picture is saved directly to Nasjonal turbase on upload, as they are created server side
         defaults: {
-            lisens: 'CC BY-NC 3.0 NO',
-            status: 'Kladd',
-            fotograf: {},
-            tags: [],
-            isPositioned: false
+            // lisens: 'CC BY-NC 3.0 NO',
+            // status: 'Kladd',
+            // fotograf: {},
+            // tags: [],
+            // isPositioned: false
         },
 
         serverAttrs: [

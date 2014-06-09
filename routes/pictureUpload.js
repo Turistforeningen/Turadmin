@@ -13,6 +13,8 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
     var fs = require('fs');
     var _ = require('underscore');
 
+    var ntbApi = require('./restProxy')(router, {ntbApiUri: process.env.NTB_API_URL, ntbApiKey: process.env.NTB_API_KEY});
+
     var options = {
         tmpDir: '/tmp', // tmp dir to upload files to
         uploadDir: '/tmp', // actual location of the file
@@ -118,6 +120,22 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
 
     };
 
+    var saveToNasjonalturbase = function (picture, callback) {
+
+        // Need a request object for the ntbApi proxy
+        var request = {
+            method: 'POST',
+            body: picture
+        };
+
+        ntbApi.makeApiRequest('/bilder', request, undefined, function (data, result) {
+            var err = (result instanceof Error === true) ? result : undefined; // https://github.com/danwrong/restler#events see `complete: function(result, response)`
+            picture._id = data.document._id;
+            callback(err, picture);
+        });
+
+    };
+
 
     /**
      * Routes
@@ -129,10 +147,15 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
             uploadImageToS3(image, function (err, images) {
 
                 var original = _.findWhere(images, {original: true});
-                var resized = _.without(images, original);
-                resized.push(original);
 
-                res.send(JSON.stringify({files: [{img: resized, geojson: image.geojson}]})); // Wrapping image in files object and array to match jQuery uploader plugin format
+                var picture = {img: [], geojson: image.geojson};
+                picture.img = _.without(images, original);
+                picture.img.push(original);
+
+                saveToNasjonalturbase(picture, function (err, picture) {
+                    // console.log('saveToNasjonalturbase.callback', err, picture);
+                    res.send(JSON.stringify({files: [picture]})); // Wrapping image in files object and array to match jQuery uploader plugin format
+                });
             });
         });
       });
