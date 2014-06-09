@@ -145,8 +145,6 @@ module.exports = function (app, options) {
         }
     };
 
-    // var makeRequest = function (path, method, req, res, onCompleteOverride) {
-
     app.get('/restProxy/turer', function (req, res, next) {
         if (req.query && req.query.gruppe) {
             res.cookie('userLastUsedGroup', req.query.gruppe, {signed: true, maxAge: 2628000000});
@@ -155,11 +153,10 @@ module.exports = function (app, options) {
     });
 
     app.all('/restProxy/*', function (req, res) {
-        // console.log(req);
         var path = req.url;
-        path = path.replace("restProxy/", "");
+        path = path.replace('restProxy/', '');
         makeRequest(path, req, res);
     });
 
-    return { makeApiRequest : makeRequest };
+    return {makeApiRequest: makeRequest};
 };
