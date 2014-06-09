@@ -18,6 +18,7 @@ var DNT = window.DNT || {};
             var mergedUserData = options.userData || {};
             mergedUserData.grupper = options.userGroups;
             var user = new ns.User(mergedUserData);
+            this.user = user;
 
             _.bindAll(this, 'render');
 
@@ -30,14 +31,12 @@ var DNT = window.DNT || {};
 
             if (provider == 'DNT Connect' && groups.length) {
                 this.groups = groups;
-                group = options.userDefaultGroup || _.first(groups).object_id;
-                this.fetchQuery = {'gruppe': group};
+                this.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')}; // {'gruppe': _.first(groups).object_id}
 
             // } else if (provider = 'Mitt NRK') {
             } else {
                 this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
             }
-            // debugger;
 
             this.fetchRoutes();
 
@@ -51,17 +50,23 @@ var DNT = window.DNT || {};
         },
 
         onGroupChange: function (e) {
-            var groupId = e.target.value;
-            this.fetchQuery = {'gruppe': groupId};
+            var id = e.target.value;
+            if (id == this.user.get('id')) {
+                this.fetchQuery = {'privat.opprettet_av.id': id};
+            } else {
+                this.fetchQuery = {'gruppe': id};
+            }
             this.fetchRoutes();
 
         },
 
         render: function () {
             var that = this;
+            var userGroups = this.user.get('grupper');
 
-            if (!!this.fetchQuery && !!this.fetchQuery.gruppe) {
-                var groupSelect = new ns.SelectView({model: this.model, selectOptions: this.groups, selectValue: this.fetchQuery.gruppe});
+            if (userGroups && userGroups.length > 0) {
+                this.$('.group-select-container').removeClass('hidden');
+                var groupSelect = new ns.SelectView({model: this.model, selectOptions: {user: this.user.get('id'), groups: this.groups}, selectValue: this.fetchQuery.gruppe});
                 this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
                 this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
             }

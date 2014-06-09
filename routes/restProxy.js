@@ -95,8 +95,10 @@ module.exports = function (app, options) {
     };
 
     app.get('/restProxy/turer', function (req, res, next) {
-        if (req.query && req.query.gruppe) {
-            res.cookie('userLastUsedGroup', req.query.gruppe, {signed: true, maxAge: 2628000000});
+        if (req.query && req.query['gruppe']) {
+            res.cookie('userDefaultRouteFetchQuery', {'gruppe': req.query.gruppe}, {signed: true, maxAge: 2628000000});
+        } else if ((req.session.authType == 'dnt-connect') && (req.query && req.query['privat.opprettet_av.id'])) {
+            res.cookie('userDefaultRouteFetchQuery', {'privat.opprettet_av.id': req.query['privat.opprettet_av.id']}, {signed: true, maxAge: 2628000000});
         }
         next();
     });

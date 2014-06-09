@@ -52,6 +52,11 @@ script(type="text/template" id="listRouteItemTemplate").
 
 
 script(type="text/template" id="selectOptionsTemplate").
-    <% _.each(selectOptions, function(element) { %>
+
+
+    <option value=<%= selectOptions.user %>>Mine turer</option>
+    <optgroup value="groups" label="Turer tilhørende mine grupper">
+    <% _.each(selectOptions.groups, function(element) { %>
         <option value=<%= element.object_id %>><%= element.navn %></option>
     <% }); %>
+    </optgroup>
