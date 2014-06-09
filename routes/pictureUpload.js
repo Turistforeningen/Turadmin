@@ -123,12 +123,6 @@ module.exports = function (router) {
      * Routes
      */
 
-    router.get('/upload/picture', function(req, res) {
-      uploader.get(req, res, function (obj) {
-            res.send(JSON.stringify(obj));
-      });
-    });
-
     router.post('/upload/picture', function(req, res) {
       uploader.post(req, res, function (obj) {
         getImagePosition(obj.files[0], function (err, image) {
@@ -141,13 +135,6 @@ module.exports = function (router) {
                 res.send(JSON.stringify({files: [{img: resized, geojson: image.geojson}]})); // Wrapping image in files object and array to match jQuery uploader plugin format
             });
         });
-      });
-    });
-
-    // the path SHOULD match options.uploadUrl
-    router.delete('/uploaded/files/:name', function(req, res) {
-      uploader.delete(req, res, function (obj) {
-            res.send(JSON.stringify(obj));
       });
     });
 
