@@ -13,6 +13,7 @@
     "chalk": "~0.4.0",
     "cookie-parser": "~1.1.0",
     "cookie-session": "~1.0.2",
+    "dms2dec": "^1.0.1",
     "dnt-api": "~1.1.0",
     "dnt-connect": "~2",
     "errorhandler": "~1.0.1",
