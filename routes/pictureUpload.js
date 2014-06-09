@@ -4,7 +4,7 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-module.exports = function (router) {
+module.exports = function (router) { // TODO: Pass router instead of app as argument in app.js
     "use strict";
 
     var gm = require('gm').subClass({imageMagick: true});
