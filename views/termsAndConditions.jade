@@ -29,16 +29,12 @@ block content
             // TODO: Move styles to CSS-file
             p(style="margin-bottom: 20px;") Før du tar i bruk tjenesten må du godkjenne våre brukervilkår.
 
-            div.row
-                div.col-lg-6.col-md-6.col-sm-8.col-xs-8
-                    iframe(src="" width="100%").terms-and-conditions.hidden
-
             form(role="form" action="" method="POST")
                 div.checkbox
                     label
                         input(type="checkbox" name="terms-and-conditions-accept")
                         | Jeg har lest og godtatt&nbsp;
-                    a(data-toggle="terms-and-conditions-iframe") Vilkår for brukergenerert innhold på ut.no
+                    a(data-toggle="terms-and-conditions-popup") Vilkår for brukergenerert innhold på UT.no
 
                 div.form-group.has-error(data-container-for="checkbox-missing-error")
 
@@ -51,8 +47,8 @@ block content
                         return !!$('input[name="terms-and-conditions-accept"]').prop('checked');
                     };
 
-                    $(document).on('click', '[data-toggle="terms-and-conditions-iframe"]', function (e) {
-                        $('iframe.terms-and-conditions').removeClass('hidden');
+                    $(document).on('click', '[data-toggle="terms-and-conditions-popup"]', function (e) {
+                        window.open('http://artikkel.ut.no/1.6676610', 'Villkår for brukergenerert innhold på UT.no', 'width=768, toolbar=yes, menubar=yes, location=no, resizable=yes, scrollbars=yes, status=no');
                     });
 
                     $(document).on('click', 'button', function (e) {
