@@ -31,7 +31,9 @@ var DNT = window.DNT || {};
                 this.groups = groups;
                 this.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')}; // {'gruppe': _.first(groups).object_id}
 
-            // } else if (provider = 'Mitt NRK') {
+            } else if (provider == 'Innholdspartner') {
+                this.fetchQuery = {'gruppe': user.get('gruppe')._id};
+
             } else {
                 this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
             }

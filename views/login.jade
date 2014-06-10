@@ -14,18 +14,29 @@ block content
             div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-1.col-md-offset-1
                 div.gruppebruker
                     h3 Gruppebruker
-                    form.form-signin(action="/login/guppebruker" method="POST")
+
+                    form.form-signin(action="/login/turbasen" method="POST")
                         p.help-block Fyll inn brukernavn og passord her dersom du ønsker å logge inn med en ekstern gruppebruker.
+
+                        if error && error == 'TBAUTH-401'
+                            div.form-group.has-error
+                                div.alert.alert-danger
+                                    span Du har oppgitt feil brukernavn eller passord.
+                            script.
+                                $(function () {
+                                    $('.gruppebruker .form-group').addClass('has-error');
+                                });
+
 
                         div.form-group
                             label(for="login-groupuser-username") Brukernavn
-                            input.form-control(id="login-groupuser-username")
+                            input.form-control(id="login-groupuser-username" name="username")
 
                         div.form-group
                             label(for="login-groupuser-username") Passord
-                            input.form-control(id="login-groupuser-username")
+                            input.form-control(type="password" id="login-groupuser-username" name="password")
 
-                        button.btn.btn-lg.btn-primary.btn-block(type="submit" onclick="alert('Innlogging med gruppebruker er ikke implementert.'); event.preventDefault();") <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp; Logg inn
+                        button.btn.btn-lg.btn-primary.btn-block(type="submit") <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp; Logg inn
 
             div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-2.col-md-offset-2.col-sm-offset-2
 

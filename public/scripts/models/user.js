@@ -28,14 +28,17 @@ var DNT = window.DNT || {};
                 case 'Mitt NRK':
                     // Special handling of Mitt NRK users
                     break;
-                case 'Ekstern gruppebruker':
-                    // Special handling of Ekstern gruppebruker users
+                case 'Innholdspartner':
+                    // Special handling of Innholdspartner users
                     break;
                 default:
                     // No default
             }
 
-            this.set('navn', options.fornavn + ' ' + options.etternavn);
+            if (!this.get('navn')) {
+                this.set('navn', options.fornavn + ' ' + options.etternavn);
+            }
+
             this.set('_id', id);
             this.set('id', id);
             // this.set('navn', navn);

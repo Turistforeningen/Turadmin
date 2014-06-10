@@ -9,8 +9,10 @@ module.exports = function (app, options) {
 
     var underscore = require('underscore');
     var Connect = require('dnt-connect');
+    var TurbasenAuth = require('turbasen-auth');
 
     var dntConnectClient = new Connect(process.env.DNT_CONNECT_USER, process.env.DNT_CONNECT_KEY);
+    var turbasenAuthClient = new TurbasenAuth('Turadmin', process.env.NTB_API_KEY, {env: 'dev'});
 
     var BASE_URL = app.get('url');
 
@@ -37,7 +39,8 @@ module.exports = function (app, options) {
         if (req.session && req.session.isAuthneticated === true) {
             res.redirect('/');
         } else {
-            res.render('login');
+            var options = {error: req.query.error};
+            res.render('login', options);
         }
     };
 
@@ -130,6 +133,34 @@ module.exports = function (app, options) {
         }
     };
 
+    var getLoginTurbasenAuth = function (req, res) {
+        res.redirect('/login');
+    };
+
+    var postLoginTurbasenAuth = function (req, res) {
+        turbasenAuthClient.authenticate(req.body.username, req.body.password, function(error, user) {
+            if (error) {
+                // Something went horrible wrong
+                console.error(error);
+
+            } else if (user) {
+                req.session.isAuthneticated = true;
+                req.session.authType = 'innholdspartner';
+
+                req.session.user = user;
+                req.session.user._id = user.epost;
+                req.session.user.provider = 'Innholdspartner';
+
+                req.session.userId = user.epost;
+                res.redirect('/');
+
+            } else {
+                console.log('Authentication failed!');
+                res.redirect('/login?error=TBAUTH-401');
+            }
+        });
+    };
+
     var getLogout = function (req, res) {
         req.session = null;
         res.redirect('/');
@@ -140,6 +171,8 @@ module.exports = function (app, options) {
     app.get('/login/nrk/verify', getLoginNrkVerify);
     app.get('/login/dnt/connect', getLoginDntConnect);
     app.get('/login/dnt/verify', getLoginDntVerify);
+    app.get('/login/turbasen', getLoginTurbasenAuth);
+    app.post('/login/turbasen', postLoginTurbasenAuth);
     app.get('/login', getLogin);
     app.get('/logout', getLogout);
 
