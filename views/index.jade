@@ -77,16 +77,18 @@ block content
             // TODO: Move styles to CSS-file
             div.group-select-container(style="margin-bottom: 20px;" class="hidden")
                 div(data-placeholder-for="group-select")
-                p.help-block Din har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for, eller om du vil se turer knyttet til din bruker.
+                p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for, eller om du vil se turer knyttet til din bruker.
 
-            table.table.table-bordered.table-hover.routes-table
-                thead
-                    tr
-                        th Tittel
-                        th Område
-                        th Publisert
-                        th Lagret
-                        th(colspan="2") Valg
-                tbody(id="listItems")
+            div(class="hidden" data-container-for="routes-table")
+                table.table.table-bordered.table-hover
+                    thead
+                        tr
+                            th Tittel
+                            th Område
+                            th Publisert
+                            th Lagret
+                            th(colspan="2") Valg
+                    tbody(id="listItems")
 
-            div(class="hidden" data-placeholder-for="no-routes-alert")
+            div(class="hidden" data-container-for="no-routes-alert")
+            div(class="hidden" data-container-for="loading-routes-message")
