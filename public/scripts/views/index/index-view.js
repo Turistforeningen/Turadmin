@@ -32,7 +32,8 @@ var DNT = window.DNT || {};
                 this.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')}; // {'gruppe': _.first(groups).object_id}
 
             } else if (provider == 'Innholdspartner') {
-                this.fetchQuery = {'gruppe': user.get('gruppe')._id};
+                group = user.get('gruppe');
+                this.fetchQuery = (!!group && !!group._id) ? {gruppe: group._id} : {};
 
             } else {
                 this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
