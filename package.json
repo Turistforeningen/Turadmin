@@ -32,7 +32,7 @@
     "serve-favicon": "~2.0.0",
     "supertest": "~0",
     "togeojson": "~0.7.0",
-    "turbasen-auth": "^1.0.0",
+    "turbasen-auth": "^1.1.0",
     "underscore": "*"
   }
 }
