@@ -82,9 +82,16 @@ var DNT = window.DNT || {};
         user = new ns.User(mergedUserData);
 
         if (options.routeData) {
+            // Existing route
             routeData = options.routeData;
         } else {
+            // New route
             routeData = {privat: {opprettet_av: {id: user.get('id'), navn: user.get('navn'), epost: user.get('epost')}}};
+
+            var userGroup = user.get('gruppe');
+            if (userGroup && userGroup._id) {
+                routeData.grupper = [userGroup._id];
+            }
         }
 
         route = new ns.Route(routeData);
