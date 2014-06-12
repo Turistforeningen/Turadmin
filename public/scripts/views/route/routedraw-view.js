@@ -342,7 +342,7 @@ var DNT = window.DNT || {};
             }
         },
 
-        render: function () {
+        initMap: function () {
             // this.map = L.map(this.$('#mapContainer')[0], {
             this.map = L.map($('#mapContainer')[0], {
                 layers: [this.mapLayers.baseLayerConf["Topo 2"]],
@@ -355,6 +355,15 @@ var DNT = window.DNT || {};
 
             this.snapLayer.addTo(this.map);
             this.addRouting();
+
+
+
+        },
+
+        render: function () {
+
+            this.initMap();
+
 
             this.map.addControl(this.drawControl);
             this.poiCollection.getGeoJsonLayer().addTo(this.map);
