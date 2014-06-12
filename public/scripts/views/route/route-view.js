@@ -18,7 +18,7 @@ var DNT = window.DNT || {};
             this.searchCollection = new ns.SearchCollection();
             this.searchFieldView = new ns.SearchFieldView({collection: this.searchCollection});
             this.gpxUploadView = new ns.GpxUploadView({model: this.model });
-            this.mapView = new ns.MapView({ model: this.model });
+            this.routeDrawView = new ns.RouteDrawView({ model: this.model });
             this.pictureView = new ns.PicturesView({ model: this.model });
             this.route = this.model.get('route');
             this.user = this.model.get('user');
@@ -43,7 +43,7 @@ var DNT = window.DNT || {};
 
         render: function () {
             this.searchFieldView.render();
-            this.mapView.render();
+            this.routeDrawView.render();
             this.pictureView.render();
             this.poiCollectionView.render();
             this.routeFactsView.render();
@@ -104,10 +104,10 @@ var DNT = window.DNT || {};
             var route = this.model.get('route');
             route.unset('geojson');
 
-            this.mapView.remove();
+            this.routeDrawView.remove();
             $('#mapContainerContainer').html('<div id="mapContainer" style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;"></div>');
-            this.mapView = new ns.MapView({model: this.model});
-            this.mapView.render();
+            this.routeDrawView = new ns.RouteDrawView({model: this.model});
+            this.routeDrawView.render();
         },
 
         publish: function() {

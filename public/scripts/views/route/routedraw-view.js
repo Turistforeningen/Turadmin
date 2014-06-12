@@ -87,7 +87,7 @@ var DNT = window.DNT || {};
     }
 
 
-    ns.MapView = Backbone.View.extend({
+    ns.RouteDrawView = Backbone.View.extend({
         el: '#mapContainer',
         // el: "#mapAndControlsContainer",
         drawMarkerTool: undefined,
@@ -270,7 +270,7 @@ var DNT = window.DNT || {};
 
             $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
                 // $('#mapAndControls').appendTo(this.$el);
-                $('#mapAndControls').appendTo($('mapAndControlsContainer'));
+                $('#mapAndControls').appendTo($('#mapAndControlsContainer'));
                 this.drawMarkerTool.disable();
             }, this));
         },
