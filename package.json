@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js",
+    "start": "supervisor -w routes/ app.js",
     "test": "mocha -b -c test/suite.js -R progress",
     "test-drone": "node_modules/.bin/mocha test/suite.js -R spec"
   },
@@ -24,15 +24,18 @@
     "jquery-file-upload-middleware": "*",
     "jsdom": "~0.10.5",
     "method-override": "~1.0.2",
-    "mocha": "~1",
     "morgan": "~1.1.1",
     "openid": "^0.5.9",
     "restler": "*",
     "s3-uploader": "^0.1.1",
     "serve-favicon": "~2.0.0",
-    "supertest": "~0",
     "togeojson": "~0.7.0",
     "turbasen-auth": "^1.1.0",
     "underscore": "*"
+  },
+  "devDependencies": {
+    "mocha": "^1.20.1",
+    "supertest": "^0.13.0",
+    "supervisor": "^0.6.0"
   }
 }
