@@ -145,24 +145,48 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
      * Routes
      */
 
-    router.post('/upload/picture', function(req, res) {
-      uploader.post(req, res, function (obj) {
-        getImagePosition(obj.files[0], function (err, image) {
-            uploadImageToS3(image, function (err, images) {
+    var JFUM = require('jfum');
+    var jfum = new JFUM();
 
-                var originalImage = _.findWhere(images, {original: true});
+    var async = require('async');
 
-                var picture = {img: [], geojson: image.geojson};
-                picture.img = _.without(images, originalImage);
-                picture.img.push(originalImage);
-
-                saveToNasjonalturbase(picture, function (err, picture) {
-                    res.send(JSON.stringify({files: [picture]})); // Wrapping image in files object and array to match jQuery uploader plugin format
-                });
+    router.options('/upload/picture', jfum.optionsHandler.bind(jfum));
+    router.post('/upload/picture', jfum.postHandler.bind(jfum), function(req, res, next) {
+        console.log('POST /upload/picture')
+        async.mapSeries(req.jfum.files, function(image, cb) {
+            if (image.error) {
+                console.log(image.error);
+                return process.nextTick(async.apply(cb, null, image));
+            }
+            console.log(image);
+            s3Client.upload(image.file, function(err, image, exif) {
+                console.log('s3Client cb');
+                console.log(arguments);
             });
+
+        }, function(images) {
+            console.log(images);
         });
-      });
     });
+
+    //router.post('/upload/picture', function(req, res) {
+    //  uploader.post(req, res, function (obj) {
+    //    getImagePosition(obj.files[0], function (err, image) {
+    //        uploadImageToS3(image, function (err, images) {
+
+    //            var originalImage = _.findWhere(images, {original: true});
+
+    //            var picture = {img: [], geojson: image.geojson};
+    //            picture.img = _.without(images, originalImage);
+    //            picture.img.push(originalImage);
+
+    //            saveToNasjonalturbase(picture, function (err, picture) {
+    //                res.send(JSON.stringify({files: [picture]})); // Wrapping image in files object and array to match jQuery uploader plugin format
+    //            });
+    //        });
+    //    });
+    //  });
+    //});
 
     return router;
 
