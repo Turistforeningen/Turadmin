@@ -214,28 +214,7 @@ var DNT = window.DNT || {};
         },
 
         routeDrawReset: function (e) {
-
             this.event_aggregator.trigger('map:routeReset');
-            // this.remove();
-            // this.render();
-
-            // var geoJson = {
-            //     "type": "LineString",
-            //     "properties": {
-            //         "waypoints": []
-            //     },
-            //     "coordinates": []
-            // };
-
-            // this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function(err) {
-            //     if (err) {
-            //         // console.log(err);
-            //     } else {
-            //         // console.log('Finished loading GeoJSON');
-            //     }
-            // });
-
-            // e.preventDefault();
         },
 
         addOnDrawCreatedEventHandler: function () {
