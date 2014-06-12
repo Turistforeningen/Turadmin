@@ -1,4 +1,4 @@
-div.row.page-block.route-draw(id="route-draw")
+div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
     div.col-lg-12
         h3 Inntegning
         div.row
@@ -26,9 +26,9 @@ div.row.page-block.route-draw(id="route-draw")
                                         input#fileupload-gpx(type="file" name="files[]")
                                     span.upload-button-status(data-placeholder-for="gpx-upload-status")
 
-        div#mapAndControlsContainer
+        div(data-container-for="map-and-controls")
 
-                div#mapAndControls
+                div(data-wrapper-for="map-and-controls")
 
                     div.row.mapControlsRow
                         div.col-lg-8.col-md-8.col-sm-8
@@ -92,9 +92,10 @@ div.row.page-block.route-draw(id="route-draw")
                                             p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 
                     div.row
-                        div.col-lg-12#mapContainerContainer
-                            // TODO: Move styles to CSS
-                            #mapContainer(style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;")
+                        div.col-lg-12
+                            div(data-container-for="map")
+                                // TODO: Move styles to CSS
+                                div(data-view="map")
 
     // Modal map container
     div#modal-map.modal.fade.modal-map(tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true")

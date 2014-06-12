@@ -100,16 +100,6 @@ var DNT = window.DNT || {};
             }
         },
 
-        routeDrawReset: function (e) {
-            var route = this.model.get('route');
-            route.unset('geojson');
-
-            this.routeDrawView.remove();
-            $('#mapContainerContainer').html('<div id="mapContainer" style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;"></div>');
-            this.routeDrawView = new ns.RouteDrawView({model: this.model});
-            this.routeDrawView.render();
-        },
-
         publish: function() {
             this.route.set('status', 'Offentlig', { silent: true });
             this.pictureCollection.setPublished();

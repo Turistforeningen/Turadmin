@@ -9,28 +9,6 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    function createSnapLayer() {
-        return new L.geoJson(null, {
-            style: {
-                opacity: 0,
-                clickable: false
-            }
-        });
-    }
-
-    function createDrawControl() {
-        var drawControl = new L.Control.Draw({
-            draw: {
-                polyline  : null,
-                circle    : null,
-                rectangle : null,
-                polygon   : null,
-                marker : null
-            }
-        });
-        return drawControl;
-    }
-
     function createIconConfig() {
         return new L.icon({
             iconUrl: '/images/markers/21.png',
@@ -52,13 +30,11 @@ var DNT = window.DNT || {};
 
 
     ns.RouteDrawView = Backbone.View.extend({
-        el: '#mapContainer',
-        // el: "#mapAndControlsContainer",
+        el: '[data-view="route-draw"]',
         drawMarkerTool: undefined,
         draw: false,
         routeModel: undefined,
         modelToPosition: undefined,
-        markers: [],
         routingEnabled: true,
         snappingEnabled: true,
 
@@ -72,12 +48,10 @@ var DNT = window.DNT || {};
 
         initialize: function () {
 
-            this.snapLayer = createSnapLayer();
-            this.drawControl = createDrawControl();
             this.poiCollection = this.model.get('poiCollection');
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'registerPopover', 'zoomAndCenter', 'addGeoJsonToLayer', 'loadGpxGeometry', 'renderDrawButton', 'toggleSnapping', 'toggleRouting', 'showPicturePosition');
+            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'registerPopover', 'zoomAndCenter', 'loadGpxGeometry', 'renderDrawButton', 'toggleRouting', 'showPicturePosition');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
@@ -96,7 +70,7 @@ var DNT = window.DNT || {};
         toggleDraw: function (e) {
             e.preventDefault();
             this.draw = !this.draw;
-            this.routing.enable(this.draw);
+            this.mapView.routing.enable(this.draw);
 
             this.renderDrawButton();
 
@@ -113,7 +87,7 @@ var DNT = window.DNT || {};
                 $drawButton.addClass('active');
                 $drawButton.find('.buttonText').html('&nbsp;Avslutt inntegning');
             } else {
-                var geojson = this.routing.getGeoJson();
+                var geojson = this.mapView.routing.getGeoJson();
                 $drawButton.removeClass("active");
                 var label = "&nbsp;Start inntegning";
                 if (geojson.coordinates.length > 0) {
@@ -125,7 +99,7 @@ var DNT = window.DNT || {};
         },
 
         setRouteModelGeoJsonFromMap: function () {
-            var geojson = this.routing.getGeoJson();
+            var geojson = this.mapView.routing.getGeoJson();
             this.routeModel.set({geojson: geojson});
         },
 
@@ -139,25 +113,19 @@ var DNT = window.DNT || {};
         toggleRouting: function (e) {
             e.preventDefault();
             this.routingEnabled = !this.routingEnabled;
-            this.routing.enableSnapping(this.routingEnabled);
+            this.mapView.routing.enableSnapping(this.routingEnabled);
             this.updateRoutingToggle();
         },
 
         updateRoutingToggle: function () {
-            if (this.routingEnabled === true) {
-                // $('[data-route-draw-toggle-routing]').addClass('active'); // This is for options dropdown.
-                $('[data-route-draw-toggle-routing] input[type="checkbox"]').prop('checked', true);
-            } else {
-                // $('[data-route-draw-toggle-routing]').removeClass('active'); // This is for options dropdown.
-                $('[data-route-draw-toggle-routing] input[type="checkbox"]').prop('checked', false);
-            }
+            var routingEnabled = (this.routingEnabled) ? true : false;
+            $('[data-route-draw-toggle-routing] input[type="checkbox"]').prop('checked', routingEnabled);
         },
 
         toggleSnapping: function (e) {
             e.preventDefault();
             this.snappingEnabled = !this.snappingEnabled;
-            this.routing.enableSnapping(this.snappingEnabled);
-            // this.updateSnappingToggle();
+            this.mapView.routing.enableSnapping(this.snappingEnabled);
         },
 
         updateRouteDirectionSelect: function () {
@@ -178,7 +146,18 @@ var DNT = window.DNT || {};
         },
 
         routeDrawReset: function (e) {
-            this.event_aggregator.trigger('map:routeReset');
+            var route = this.model.get('route');
+            route.unset('geojson');
+
+            this.mapView.remove();
+
+            $('[data-container-for="map"]').html('<div data-view="map"></div>');
+            this.mapView = new ns.MapView({model: this.model});
+            this.mapView.render();
+
+            this.$('.findplace-gpxupload-container').removeClass('hidden');
+
+            this.renderDrawButton();
         },
 
         addOnDrawCreatedEventHandler: function () {
@@ -207,14 +186,6 @@ var DNT = window.DNT || {};
             new ns.PopoverView(options).render();
         },
 
-        addRouting: function () {
-            var routing = new ns.Routing(this.mapView.map, this.snapLayer);
-            routing.addRouting();
-            routing.enableSnapping(true);
-
-            this.routing = routing;
-        },
-
         createDrawMarkerTool: function () {
             this.drawMarkerTool = new L.Draw.Marker(this.mapView.map, {
                 icon: createIconConfig()
@@ -222,19 +193,16 @@ var DNT = window.DNT || {};
         },
 
         moveMap: function (options, callback) {
-            // Set the height of mapAndControlsContainerHeight to the height it already has,
-            // but as a style attribute, to avoid collapsing when moving map to modal.
-            // this.$el.height(this.$el.height());
-            $('mapAndControlsContainer').height($('mapAndControlsContainer').height());
+            // Set the height of [data-container-for="map-and-controls"] to the height it already has,
+            // as a style attribute, to avoid collapsing when moving map to modal.
+            $('[data-container-for="map-and-controls"]').height($('[data-container-for="map-and-controls"]').height());
 
-            // this.$('#mapAndControls').appendTo('#modal-map .modal-body');
-            $('#mapAndControls').appendTo('#modal-map .modal-body');
+            $('[data-wrapper-for="map-and-controls"]').appendTo('#modal-map .modal-body');
 
             $('#modal-map').modal('show');
 
             $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
-                // $('#mapAndControls').appendTo(this.$el);
-                $('#mapAndControls').appendTo($('#mapAndControlsContainer'));
+                $('[data-wrapper-for="map-and-controls"]').appendTo($('[data-container-for="map-and-controls"]'));
                 this.drawMarkerTool.disable();
             }, this));
         },
@@ -272,23 +240,8 @@ var DNT = window.DNT || {};
 
         loadGpxGeometry: function (gpxGeometry) {
             this.addGeoJsonToLayer(gpxGeometry);
-            var geoJson = this.routing.getGeoJson();
+            var geoJson = this.mapView.routing.getGeoJson();
             this.routeModel.set('geojson', geoJson);
-        },
-
-        addGeoJsonToLayer: function (geoJson) {
-            geoJson = geoJson || this.routeModel.get('geojson');
-            if (!!geoJson && (!!geoJson.properties || !!geoJson.coordinates)) {
-                this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function(err) {
-                    if (err) {
-                        // console.log(err);
-                    } else {
-                        // console.log('Finished loading GeoJSON');
-                    }
-                });
-            } else {
-                // console.warn('GeoJSON is not found, or does not have a properties property.');
-            }
         },
 
         startPoiPositioning: function (poi) {
@@ -307,19 +260,8 @@ var DNT = window.DNT || {};
         },
 
         initMap: function () {
-            // this.mapView.map = L.map(this.$('#mapContainer')[0], {
 
-            this.mapView = new ns.MapView({model: this.model.get('route')});
-            this.mapView.render();
-
-            L.control.layers(this.mapView.mapLayers.baseLayerConf, this.mapView.mapLayers.overlayConf, {
-                position: 'topleft'
-            }).addTo(this.mapView.map);
-
-            this.snapLayer.addTo(this.mapView.map);
-            this.addRouting();
-
-            this.mapView.map.addControl(this.drawControl);
+            this.mapView = new ns.MapView({model: this.model.get('route')}).render();
 
             this.poiCollection.getGeoJsonLayer().addTo(this.mapView.map);
             this.pictureCollection.getGeoJsonLayer().addTo(this.mapView.map);
@@ -328,9 +270,7 @@ var DNT = window.DNT || {};
 
             this.createDrawMarkerTool();
 
-            this.addGeoJsonToLayer();
-
-            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
+            this.mapView.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
 
 
         },
