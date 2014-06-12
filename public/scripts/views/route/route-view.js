@@ -29,6 +29,7 @@ var DNT = window.DNT || {};
             this.pictureCollection = this.model.get('pictureCollection');
             this.poiCollectionView = new ns.PoiCollectionView({model: this.model, pictureCollection: this.pictureCollection});
             this.pictureCollection.on('add', this.unsavedChanges, this);
+            this.event_aggregator.on('map:routeReset', this.routeDrawReset, this);
 
             this.updatePublishButtons();
 
@@ -99,42 +100,28 @@ var DNT = window.DNT || {};
             }
         },
 
-        publish: function() {
+        routeDrawReset: function (e) {
+            var route = this.model.get('route');
+            route.unset('geojson');
 
+            this.mapView.remove();
+            $('#mapContainerContainer').html('<div id="mapContainer" style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;"></div>');
+            this.mapView = new ns.MapView({model: this.model});
+            this.mapView.render();
+        },
+
+        publish: function() {
             this.route.set('status', 'Offentlig', { silent: true });
             this.pictureCollection.setPublished();
             this.poiCollection.setPublished();
             this.save();
-
-            // this.route.save(undefined, {
-            // // NOTE: Should we use PATCH?
-            // this.route.save({status: 'Offentlig'}, {
-            //     silent: true,
-            //     success: function() {
-            //         me.updatePublishButtons();
-            //     }
-            // });
-
         },
 
         unpublish: function() {
-
-            var me = this;
             this.route.set('status', 'Kladd', { silent: true });
-
             this.pictureCollection.setUnpublished();
             this.poiCollection.setUnpublished();
-
             this.save();
-
-            // NOTE: Should we use PATCH?
-            // this.route.save({status: 'Kladd'}, {
-            //     silent: true,
-            //     success: function() {
-            //         me.updatePublishButtons();
-            //     }
-            // });
-
         },
 
         save: function() {
