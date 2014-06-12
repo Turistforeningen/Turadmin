@@ -9,42 +9,6 @@ var DNT = window.DNT || {};
 (function (ns) {
     "use strict";
 
-    function createMapLayers() {
-        var topo, summer, winter, cabin, baseLayerConf, overlayConf;
-
-        topo =  L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
-            maxZoom: 16,
-            attribution: '<a href="http://www.statkart.no/">Statens kartverk</a>'
-        });
-
-        summer = L.tileLayer('http://mt3.turistforeningen.no/prod/trail_summer/{z}/{x}/{y}.png', {
-            maxZoom: 16,
-            attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
-        });
-
-        winter = L.tileLayer('http://mt3.turistforeningen.no/prod/trail_winter/{z}/{x}/{y}.png', {
-            maxZoom: 16,
-            attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
-        });
-
-        cabin = L.tileLayer('http://mt3.turistforeningen.no/prod/cabin/{z}/{x}/{y}.png', {
-            maxZoom: 16,
-            attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
-        });
-
-        baseLayerConf = {'Topo 2': topo};
-        overlayConf = {
-            'DNTs merkede stier': summer,
-            'DNTs merkede vinterruter': winter,
-            'DNTs turisthytter': cabin
-        };
-
-        return {
-            baseLayerConf: baseLayerConf,
-            overlayConf: overlayConf
-        };
-    }
-
     function createSnapLayer() {
         return new L.geoJson(null, {
             style: {
@@ -107,7 +71,7 @@ var DNT = window.DNT || {};
         },
 
         initialize: function () {
-            this.mapLayers = createMapLayers();
+
             this.snapLayer = createSnapLayer();
             this.drawControl = createDrawControl();
             this.poiCollection = this.model.get('poiCollection');
@@ -218,7 +182,7 @@ var DNT = window.DNT || {};
         },
 
         addOnDrawCreatedEventHandler: function () {
-            this.map.on('draw:created', this.createPoiOrPositionPicture, this);
+            this.mapView.map.on('draw:created', this.createPoiOrPositionPicture, this);
         },
 
         createPoiOrPositionPicture: function (coordinates) {
@@ -244,7 +208,7 @@ var DNT = window.DNT || {};
         },
 
         addRouting: function () {
-            var routing = new ns.Routing(this.map, this.snapLayer);
+            var routing = new ns.Routing(this.mapView.map, this.snapLayer);
             routing.addRouting();
             routing.enableSnapping(true);
 
@@ -252,7 +216,7 @@ var DNT = window.DNT || {};
         },
 
         createDrawMarkerTool: function () {
-            this.drawMarkerTool = new L.Draw.Marker(this.map, {
+            this.drawMarkerTool = new L.Draw.Marker(this.mapView.map, {
                 icon: createIconConfig()
             });
         },
@@ -286,7 +250,7 @@ var DNT = window.DNT || {};
         showPicturePosition: function (picture) {
 
             var mapShowCallback = function (picture) {
-                // this.map.panTo(picture.marker.getLatLng(), { animate: true }); // Using autoPan
+                // this.mapView.map.panTo(picture.marker.getLatLng(), { animate: true }); // Using autoPan
                 picture.marker.openPopup().update();
                 $('#modal-map').off('shown.bs.modal'); // Remove event listener
             };
@@ -338,43 +302,40 @@ var DNT = window.DNT || {};
                 if (!zoomLevel) {
                     zoomLevel = 13;
                 }
-                this.map.setView(latlng, zoomLevel);
+                this.mapView.map.setView(latlng, zoomLevel);
             }
         },
 
         initMap: function () {
-            // this.map = L.map(this.$('#mapContainer')[0], {
-            this.map = L.map($('#mapContainer')[0], {
-                layers: [this.mapLayers.baseLayerConf["Topo 2"]],
-                scrollWheelZoom: false
-            }).setView([61.5, 9], 13);
+            // this.mapView.map = L.map(this.$('#mapContainer')[0], {
 
-            L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
+            this.mapView = new ns.MapView({model: this.model.get('route')});
+            this.mapView.render();
+
+            L.control.layers(this.mapView.mapLayers.baseLayerConf, this.mapView.mapLayers.overlayConf, {
                 position: 'topleft'
-            }).addTo(this.map);
+            }).addTo(this.mapView.map);
 
-            this.snapLayer.addTo(this.map);
+            this.snapLayer.addTo(this.mapView.map);
             this.addRouting();
 
+            this.mapView.map.addControl(this.drawControl);
+
+            this.poiCollection.getGeoJsonLayer().addTo(this.mapView.map);
+            this.pictureCollection.getGeoJsonLayer().addTo(this.mapView.map);
+
+            this.addOnDrawCreatedEventHandler();
+
+            this.createDrawMarkerTool();
+
+            this.addGeoJsonToLayer();
+
+            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
 
 
         },
 
-        render: function () {
-
-            this.initMap();
-
-
-            this.map.addControl(this.drawControl);
-            this.poiCollection.getGeoJsonLayer().addTo(this.map);
-            this.pictureCollection.getGeoJsonLayer().addTo(this.map);
-            this.addOnDrawCreatedEventHandler();
-            this.createDrawMarkerTool();
-            this.updateRoutingToggle();
-            this.updateRouteDirectionSelect();
-
-            this.addGeoJsonToLayer();
-
+        initPopovers: function () {
             this.poiCollection.each($.proxy(function(element, index, list){
                 this.registerPopover({model: element, templateId: '#poiPopupTemplate'});
                 this.listenTo(element, 'registerPopover', this.registerPopover);
@@ -385,8 +346,17 @@ var DNT = window.DNT || {};
                 this.listenTo(element, 'registerPopover', this.registerPopover);
             }, this));
 
+        },
+
+        render: function () {
+
+            this.initMap();
+            this.initPopovers();
+
+            this.updateRoutingToggle();
+            this.updateRouteDirectionSelect();
+
             this.renderDrawButton();
-            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
 
             return this;
         }
