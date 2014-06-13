@@ -239,6 +239,9 @@ var DNT = window.DNT || {};
             // Change draw state to false
             this.draw = false;
 
+            // Enable routing by default when resetting route
+            this.routingEnabled = true;
+
             var route = this.model.get('route');
             route.unset('geojson');
 
@@ -263,6 +266,7 @@ var DNT = window.DNT || {};
             this.initPopovers();
 
             this.renderDrawButton();
+            this.updateRoutingToggle();
         },
 
         initMap: function () {
