@@ -53,11 +53,11 @@ var DNT = window.DNT || {};
             '.route-facts-field-sesong input': {
                 observe: 'sesong',
                 onGet: function(val) {
-                    for (var i = 0; i < val.length; i++) {
-                        val[i] = '' + val[i];
+                    if (val.length) {
+                        for (var i = 0; i < val.length; i++) {
+                            val[i] = '' + val[i];
+                        }
                     }
-                    // console.log('onGet');
-                    // console.log(val);
                     return val;
                 },
                 onSet: function(val) {
