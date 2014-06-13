@@ -36,6 +36,17 @@ var DNT = window.DNT || {};
             return this.geojsonLayer;
         },
 
+        getNewGeoJsonLayer: function () {
+            this.geojsonLayer = new L.GeoJSON(null);
+            this.each($.proxy(function(element, index, list){
+                if (element.hasPosition()) {
+                    element.createMarker(element.get('geojson'));
+                    this.geojsonLayer.addLayer(element.getMarker());
+                }
+            }, this));
+            return this.geojsonLayer;
+        },
+
         getNextOrdinal: function () {
             this.nextOrdinal = this.nextOrdinal + 1;
             return this.nextOrdinal - 1;

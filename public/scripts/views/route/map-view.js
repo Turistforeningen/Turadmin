@@ -13,7 +13,12 @@ var DNT = window.DNT || {};
 
         el: '[data-view="map"]',
 
-        initialize: function () {
+        initialize: function (options) {
+            options = options || {};
+
+            this.mapCenter = options.mapCenter || L.latLng(61.5, 9);
+            this.mapZoom = options.mapZoom || 13;
+
             this.mapLayers = this.createMapLayers();
             this.snapLayer = this.createSnapLayer();
             this.drawControl = this.createDrawControl();
@@ -23,10 +28,14 @@ var DNT = window.DNT || {};
 
             this.$el.html('<div data-placeholder-for="map" style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;">');
 
-            this.map = L.map($('[data-placeholder-for="map"]')[0], {
+            var mapOptions = {
                 layers: [this.mapLayers.baseLayerConf["Topo 2"]],
-                scrollWheelZoom: false
-            }).setView([61.5, 9], 13);
+                scrollWheelZoom: false,
+                center: this.mapCenter,
+                zoom: this.mapZoom
+            };
+
+            this.map = L.map($('[data-placeholder-for="map"]')[0], mapOptions);
 
             // Add layer controls for selecting layer to map
             L.control.layers(this.mapLayers.baseLayerConf, this.mapLayers.overlayConf, {
@@ -45,7 +54,6 @@ var DNT = window.DNT || {};
             // Add GeoJSON to map
             this.addGeoJsonToLayer();
 
-
             return this;
         },
 
@@ -53,6 +61,15 @@ var DNT = window.DNT || {};
             this.routing = new ns.Routing(this.map, this.snapLayer);
             this.routing.addRouting();
             this.routing.enableSnapping(true);
+        },
+
+        zoomAndCenter: function (latlng, zoomLevel) {
+            if (!!latlng) {
+                if (!zoomLevel) {
+                    zoomLevel = 13;
+                }
+                this.map.setView(latlng, zoomLevel);
+            }
         },
 
         addGeoJsonToLayer: function (geoJson) {
@@ -118,11 +135,11 @@ var DNT = window.DNT || {};
         createDrawControl: function () {
             var drawControl = new L.Control.Draw({
                 draw: {
-                    polyline  : null,
-                    circle    : null,
-                    rectangle : null,
-                    polygon   : null,
-                    marker : null
+                    polyline: null,
+                    circle: null,
+                    rectangle: null,
+                    polygon: null,
+                    marker: null
                 }
             });
             return drawControl;

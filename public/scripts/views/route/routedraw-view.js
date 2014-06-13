@@ -39,11 +39,10 @@ var DNT = window.DNT || {};
         snappingEnabled: true,
 
         events: {
-            // Events are no longer in context of view, need to set them up in initialize()
-            // 'click #startDraw': 'toggleDraw',
-            // 'click [data-route-draw-toggle-routing]': 'toggleRouting',
-            // 'click [data-route-direction-option]': 'setRouteDirection',
-            // 'click [data-action="route-draw-reset"]': 'routeDrawReset'
+            'click #startDraw': 'toggleDraw',
+            'click [data-route-draw-toggle-routing]': 'toggleRouting',
+            'click [data-route-direction-option]': 'setRouteDirection',
+            'click [data-action="route-draw-reset"]': 'routeDrawReset'
         },
 
         initialize: function () {
@@ -60,11 +59,6 @@ var DNT = window.DNT || {};
             this.event_aggregator.on("map:showPopup", this.registerPopover);
             this.event_aggregator.on("map:zoomAndCenter", this.zoomAndCenter);
 
-            $(document).on('click', '#startDraw', $.proxy(this.toggleDraw, this));
-            $(document).on('click', '[data-route-draw-toggle-routing]', $.proxy(this.toggleRouting, this));
-            $(document).on('click', '[data-route-direction-option]', $.proxy(this.setRouteDirection, this));
-            $(document).on('click', '[data-action="route-draw-reset"]', $.proxy(this.routeDrawReset, this));
-
         },
 
         toggleDraw: function (e) {
@@ -80,7 +74,6 @@ var DNT = window.DNT || {};
         },
 
         renderDrawButton: function () {
-            // var $drawButton = this.$('button#startDraw');
             var $drawButton = $('button#startDraw');
 
             if (this.draw === true) {
@@ -143,21 +136,6 @@ var DNT = window.DNT || {};
             })(routeDirection);
 
             $('[data-route-direction-value-placeholder]').text(labelValue);
-        },
-
-        routeDrawReset: function (e) {
-            var route = this.model.get('route');
-            route.unset('geojson');
-
-            this.mapView.remove();
-
-            $('[data-container-for="map"]').html('<div data-view="map"></div>');
-            this.mapView = new ns.MapView({model: this.model});
-            this.mapView.render();
-
-            this.$('.findplace-gpxupload-container').removeClass('hidden');
-
-            this.renderDrawButton();
         },
 
         addOnDrawCreatedEventHandler: function () {
@@ -259,12 +237,38 @@ var DNT = window.DNT || {};
             }
         },
 
+        routeDrawReset: function (e) {
+
+            var route = this.model.get('route');
+            route.unset('geojson');
+
+            var mapCenter = this.mapView.map.getCenter();
+            var mapZoom = this.mapView.map.getZoom();
+
+            this.mapView.remove();
+
+            $('[data-container-for="map"]').html('<div data-view="map"></div>');
+
+            this.mapView = new ns.MapView({
+                model: route,
+                mapCenter: mapCenter,
+                mapZoom: mapZoom
+            });
+
+            this.mapView.render();
+
+            this.$('.findplace-gpxupload-container').removeClass('hidden');
+
+            this.initMap();
+            this.initPopovers();
+
+            this.renderDrawButton();
+        },
+
         initMap: function () {
 
-            this.mapView = new ns.MapView({model: this.model.get('route')}).render();
-
-            this.poiCollection.getGeoJsonLayer().addTo(this.mapView.map);
-            this.pictureCollection.getGeoJsonLayer().addTo(this.mapView.map);
+            this.poiCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
+            this.pictureCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
 
             this.addOnDrawCreatedEventHandler();
 
@@ -272,10 +276,12 @@ var DNT = window.DNT || {};
 
             this.mapView.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
 
-
         },
 
         initPopovers: function () {
+
+            // this.geojsonLayer = new L.GeoJSON(null);
+
             this.poiCollection.each($.proxy(function(element, index, list){
                 this.registerPopover({model: element, templateId: '#poiPopupTemplate'});
                 this.listenTo(element, 'registerPopover', this.registerPopover);
@@ -289,6 +295,7 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
+            this.mapView = new ns.MapView({model: this.model.get('route')}).render();
 
             this.initMap();
             this.initPopovers();

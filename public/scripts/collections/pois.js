@@ -31,6 +31,18 @@ var DNT = window.DNT || {};
             return this.geojsonLayer;
         },
 
+        getNewGeoJsonLayer: function () {
+            this.geojsonLayer = new L.GeoJSON(null);
+            this.each($.proxy(function(element, index, list){
+                if (element.hasPosition()) {
+                    element.createMarker(element.get('geojson'));
+                    this.geojsonLayer.addLayer(element.getMarker());
+                    element.on("deletePoi", function () { this.deletePoi(element); }, this);
+                }
+            }, this));
+            return this.geojsonLayer;
+        },
+
         setPublished: function() {
             this.each(function (model, index) {
                 model.setPublished();
