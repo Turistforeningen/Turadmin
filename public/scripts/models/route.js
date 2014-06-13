@@ -147,12 +147,21 @@ var DNT = window.DNT || {};
             return (geojson && geojson.coordinates.length) ? true : false;
         },
 
+        updateSeason: function () {
+            var season = this.get('sesong');
+            for (var i = 0; i < season.length; i++) {
+                season[i] = parseInt(season[i], 10);
+            }
+            this.set('sesong', season);
+        },
+
         save: function (attrs, options) {
 
             var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
             var method;
 
             // this.updateLenker();
+            this.updateSeason();
             this.updateTidsbruk();
 
             attrs = attrs || this.toJSON();

@@ -52,6 +52,22 @@ var DNT = window.DNT || {};
             'select.form-control.route-facts-field-tidsbruk-normal-minutter': 'tidsbrukMinutter',
             '.route-facts-field-sesong input': {
                 observe: 'sesong',
+                onGet: function(val) {
+                    if (!!val && val.length) {
+                        for (var i = 0; i < val.length; i++) {
+                            val[i] = '' + val[i];
+                        }
+                    }
+                    return val;
+                },
+                onSet: function(val) {
+                    // for (var i = 0; i < val.length; i++) {
+                    //     val[i] = parseInt(val[i], 10);
+                    // }
+                    // console.log('onSet');
+                    // console.log(val);
+                    return val;
+                },
                 setOptions: {
                     validate: true
                 }
