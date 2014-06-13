@@ -174,9 +174,7 @@ var DNT = window.DNT || {};
             // Set the height of [data-container-for="map-and-controls"] to the height it already has,
             // as a style attribute, to avoid collapsing when moving map to modal.
             $('[data-container-for="map-and-controls"]').height($('[data-container-for="map-and-controls"]').height());
-
             $('[data-wrapper-for="map-and-controls"]').appendTo('#modal-map .modal-body');
-
             $('#modal-map').modal('show');
 
             $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
@@ -238,6 +236,8 @@ var DNT = window.DNT || {};
         },
 
         routeDrawReset: function (e) {
+            // Change draw state to false
+            this.draw = false;
 
             var route = this.model.get('route');
             route.unset('geojson');
