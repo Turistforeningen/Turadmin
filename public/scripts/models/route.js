@@ -149,10 +149,12 @@ var DNT = window.DNT || {};
 
         updateSeason: function () {
             var season = this.get('sesong');
-            for (var i = 0; i < season.length; i++) {
-                season[i] = parseInt(season[i], 10);
+            if (!!season && season.length) {
+                for (var i = 0; i < season.length; i++) {
+                    season[i] = parseInt(season[i], 10);
+                }
+                this.set('sesong', season);
             }
-            this.set('sesong', season);
         },
 
         save: function (attrs, options) {
