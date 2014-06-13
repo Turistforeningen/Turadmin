@@ -53,7 +53,7 @@ var DNT = window.DNT || {};
             '.route-facts-field-sesong input': {
                 observe: 'sesong',
                 onGet: function(val) {
-                    if (val.length) {
+                    if (!!val && val.length) {
                         for (var i = 0; i < val.length; i++) {
                             val[i] = '' + val[i];
                         }
