@@ -34,7 +34,7 @@ var DNT = window.DNT || {};
                 }
             },
             '[name="route-facts-field-adkomst_generell"]': 'adkomst',
-            '[name="route-facts-field-adkomst_kollektivtransport"]': 'kollektiv',
+            '[name="route-facts-field-ankomst_kollektivtransport"]': 'kollektiv',
             '[name="route-facts-field-typetur"]': {
                 observe: 'turtype',
                 setOptions: {
@@ -152,12 +152,12 @@ var DNT = window.DNT || {};
 
         toggleKollektivFieldVisibility: function (event) {
             if (event.currentTarget.checked) {
-                this.$("#route-facts-field-adkomst_kollektivtransport").removeClass("hidden");
-                this.$("#route-facts-field-adkomst_kollektivtransport_description").removeClass("hidden");
+                this.$("#route-facts-field-ankomst_kollektivtransport").removeClass("hidden");
+                this.$("#route-facts-field-ankomst_kollektivtransport_description").removeClass("hidden");
             } else {
-                this.$("#route-facts-field-adkomst_kollektivtransport").addClass("hidden");
-                this.$("#route-facts-field-adkomst_kollektivtransport").val("");
-                this.$("#route-facts-field-adkomst_kollektivtransport_description").addClass("hidden");
+                this.$("#route-facts-field-ankomst_kollektivtransport").addClass("hidden");
+                this.$("#route-facts-field-ankomst_kollektivtransport").val("");
+                this.$("#route-facts-field-ankomst_kollektivtransport_description").addClass("hidden");
             }
         },
 
@@ -244,8 +244,8 @@ var DNT = window.DNT || {};
             var publicTransportation = this.model.get('kollektiv');
 
             if (!!publicTransportation && publicTransportation.length > 0) {
-                this.$('.route-facts-field-adkomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
-                this.$('.route-facts-field-adkomst_kollektivtransport textarea').removeClass('hidden');
+                this.$('.route-facts-field-ankomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
+                this.$('.route-facts-field-ankomst_kollektivtransport textarea').removeClass('hidden');
             }
 
             this.stickit(); // Uses view.bindings and view.model to setup bindings
