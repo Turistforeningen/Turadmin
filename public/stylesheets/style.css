@@ -84,6 +84,16 @@ a {
 }
 
 
+/* Index - routes listing */
+
+.routes-list .paginator {
+	text-align: center;
+}
+
+.routes-list .paginator .pagination {
+	margin-top: 0;
+}
+
 /* If a save-status indicator is to be implemented, this CSS could be used */
 
 .nav > li > a.has-unsaved-changes {

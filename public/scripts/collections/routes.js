@@ -19,7 +19,8 @@ var DNT = window.DNT || {};
         mode: 'server',
         state: {
             pageSize: 20,
-            currentPage: 1
+            currentPage: 1,
+            paginatorRequired: false
         },
 
         // Order routes by date changed, descending
@@ -42,6 +43,8 @@ var DNT = window.DNT || {};
             this.state.prevPageSkip = (prevPageSkip < 0) ? false : prevPageSkip;
 
             this.state.totalPages = Math.ceil((this.state.totalRecords / this.state.pageSize));
+
+            this.state.paginatorRequired = (this.state.totalRecords > this.state.pageSize) ? true : false;
         },
 
         parse: function (resp, options) {

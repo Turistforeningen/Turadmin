@@ -85,12 +85,16 @@ var DNT = window.DNT || {};
             this.$('[data-container-for="loading-routes-message"]').html('<span>Laster turer...</span>');
             this.$('[data-container-for="no-routes-alert"]').addClass('hidden');
             this.$('[data-container-for="routes-table"]').addClass('hidden');
+            this.$('[data-container-for="paginator"]').addClass('hidden');
+
         },
 
         showRoutes: function () {
             this.$('[data-container-for="no-routes-alert"]').addClass('hidden');
             this.$('[data-container-for="loading-routes-message"]').addClass('hidden');
             this.$('[data-container-for="routes-table"]').removeClass('hidden');
+            this.$('[data-container-for="paginator"]').removeClass('hidden');
+
         },
 
         showNoRoutes: function () {
@@ -98,6 +102,8 @@ var DNT = window.DNT || {};
             this.$('[data-container-for="routes-table"]').addClass('hidden');
             this.$('[data-container-for="no-routes-alert"]').removeClass('hidden');
             this.$('[data-container-for="no-routes-alert"]').html('<div class="alert alert-info"><strong>Ingen turer:</strong> Fant ingen turer tilhørende valgt bruker eller gruppe.</div>');
+            this.$('[data-container-for="paginator"]').addClass('hidden');
+
         },
 
         render: function () {
@@ -129,8 +135,13 @@ var DNT = window.DNT || {};
         },
 
         renderPaginator: function () {
-            var template = _.template($('#template-index-paginator').html());
-            var html = template({state: this.collection.state});
+            var html = '';
+
+            if (this.collection.state.paginatorRequired) {
+                var template = _.template($('#template-index-paginator').html());
+                html = template({state: this.collection.state});
+            }
+
             this.$('[data-container-for="paginator"]').html(html);
         }
 
