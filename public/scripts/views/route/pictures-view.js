@@ -41,32 +41,74 @@ var DNT = window.DNT || {};
         },
 
         setupFileupload: function () {
+            var ended = false;
+
             var that = this;
             var fileUpload = this.$('#fileupload').fileupload({
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                sequentialUploads: true,
                 url: this.uploadUrl,
                 dataType: 'json',
+
+                // Before sending file
+                send: function (e, data) {
+                    ended = false;
+                    that.endProcessBar();
+                },
+
+                // Current file upload progress
+                progress: function (e, data) {
+                    if (data.loaded === data.total) {
+                        that.startProcessBar();
+                    }
+                },
+
+                // Total upload progress
+                progressall: function (e, data) {
+                    if (data.loaded === data.total) {
+                        ended = true;
+                    }
+                    that.renderProgressBar(data);
+                },
+
+                // On response from server
                 done: function (e, data) {
+                    if (ended) {
+                        that.endProcessBar();
+                        setTimeout(that.hideAndResetProgressBar, 1500);
+                    }
+
                     $.each(data.result.files, function (index, file) {
                         that.addNewFile(file);
                     });
                 },
-                progressall: function (e, data) {
-                    that.renderProgressBar(data);
-                },
+
+                // On error
                 fail: function (e, data) {
-                    console.error("fail", e);
+                    console.error("fileupload.opts.fail", e);
                 }
             }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        },
 
-            fileUpload.on("fileuploadprocessfail", function (e, data) {
-                console.log(data.files[0].error);
-            });
+        startProcessBar: function (data) {
+            this.$("#progress").addClass("progress-striped active");
+            this.$("#progress .progress-bar").html('<strong>Prossesserer fil...</strong>');
+        },
 
-            fileUpload.on("fileuploadprocessdone", function (e, data) {
-                that.$($("#progress").removeClass("hidden"));
-            });
+        endProcessBar: function (data) {
+            this.$("#progress .progress-bar").html('');
+            this.$($("#progress").removeClass("progress-striped active hidden"));
+        },
+
+        renderProgressBar: function (data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            this.$("#progress .progress-bar").css('width', progress + '%');
+        },
+
+        hideAndResetProgressBar: function () {
+            this.$($("#progress").addClass("hidden"));
+            this.$("#progress .progress-bar").css('width', 0);
         },
 
         picturePositionUpdated: function (event, ui) {
@@ -94,17 +136,7 @@ var DNT = window.DNT || {};
             this.appendPicture(picture);
             this.$("#noPictures").addClass("hidden");
             this.$("#hintInfo").removeClass("hidden");
-            setTimeout(this.hideAndResetProgressBar, 1500);
-        },
-
-        renderProgressBar: function (data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            this.$("#progress .progress-bar").css('width', progress + '%');
-        },
-
-        hideAndResetProgressBar: function () {
-            this.$($("#progress").addClass("hidden"));
-            this.$("#progress .progress-bar").css('width', 0);
+            //setTimeout(this.hideAndResetProgressBar, 1500);
         },
 
         appendPicture: function (picture) {
