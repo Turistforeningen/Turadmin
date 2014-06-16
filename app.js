@@ -23,7 +23,6 @@ var errorHandler = require('errorhandler');
 var cookieSession = require('cookie-session');
 var methodOverride = require('method-override');
 var favicon = require('serve-favicon');
-var morgan = require('morgan'); // previously logger
 var upload = require('jquery-file-upload-middleware');
 var DNT = require('dnt-api');
 
@@ -38,7 +37,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(morgan('dev')); // this should be disabled during testing
 app.use(bodyParser());
 app.use(methodOverride());
 app.use(cookieParser(sessionSecret));
@@ -51,6 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 if (app.get('env') === 'development') {
     // Development only
+    app.use(require('morgan')('dev'));
     app.use(errorHandler({
         dumpExceptions: true,
         showStack: true
