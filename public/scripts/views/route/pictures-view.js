@@ -51,7 +51,7 @@ var DNT = window.DNT || {};
                 dataType: 'json',
 
                 // Before sending file
-                send: function (e, data) {
+                submit: function (e, data) {
                     ended = false;
                     that.endProcessBar();
 
