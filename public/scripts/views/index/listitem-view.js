@@ -66,7 +66,7 @@ var DNT = window.DNT || {};
             if (!this.model) {
                 this.remove();
             } else {
-                var html =  this.template(this.makeJsonModel());
+                var html = this.template(this.makeJsonModel());
                 $(this.el).html(html);
             }
             return this;

@@ -14,6 +14,10 @@ var DNT = window.DNT || {};
         el: '#listContainer',
         isLoading: true,
 
+        events: {
+            'click [data-paginator]': 'paginate'
+        },
+
         initialize : function (options) {
             var mergedUserData = options.userData || {};
             mergedUserData.grupper = options.userGroups;
@@ -22,6 +26,8 @@ var DNT = window.DNT || {};
 
             this.collection = new ns.RouteCollection();
             this.collection.on('reset', this.onRoutesFetched, this);
+
+            _.bindAll(this, 'paginate');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -65,6 +71,13 @@ var DNT = window.DNT || {};
             }
             this.fetchRoutes();
             this.showLoading();
+        },
+
+        paginate: function (e) {
+            var page = $(e.target).data('paginator');
+            this.collection.state.currentPage = page;
+            this.fetchQuery.skip = (page - 1) * this.collection.state.pageSize;
+            this.fetchRoutes();
         },
 
         showLoading: function () {
@@ -111,7 +124,14 @@ var DNT = window.DNT || {};
             } else {
                 this.showNoRoutes();
             }
+            this.renderPaginator();
 
+        },
+
+        renderPaginator: function () {
+            var template = _.template($('#template-index-paginator').html());
+            var html = template({state: this.collection.state});
+            this.$('[data-container-for="paginator"]').html(html);
         }
 
     });
