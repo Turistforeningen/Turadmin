@@ -23,6 +23,7 @@
     "jsdom": "^0.10.6",
     "method-override": "^1.0.2",
     "openid": "^0.5.9",
+    "raven": "^0.6.3",
     "restler": "^3.2.2",
     "s3-uploader": "^0.2.2",
     "serve-favicon": "^2.0.0",
