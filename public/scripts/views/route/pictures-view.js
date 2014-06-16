@@ -54,6 +54,8 @@ var DNT = window.DNT || {};
                 send: function (e, data) {
                     ended = false;
                     that.endProcessBar();
+
+                    return true;
                 },
 
                 // Current file upload progress
