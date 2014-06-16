@@ -39,7 +39,7 @@ AWS_KEY=`cat ./env/AWS_SECRET_ACCESS_KEY`
 echo "Setting environment variables..."
 echo "export NODE_ENV=development"                       >> /home/vagrant/.bashrc
 echo "export PORT_WWW=8080"                              >> /home/vagrant/.bashrc
-echo "export APP_URL=http://mintur.ut.no"                >> /home/vagrant/.bashrc
+echo "export APP_URL=http://192.168.33.10"               >> /home/vagrant/.bashrc
 echo "export NTB_API_KEY=$NTB_API_KEY"                   >> /home/vagrant/.bashrc
 echo "export NTB_API_URL=http://dev.nasjonalturbase.no"  >> /home/vagrant/.bashrc
 echo "export DNT_CONNECT_USER=$DNT_CONNECT_USER"         >> /home/vagrant/.bashrc
@@ -47,7 +47,7 @@ echo "export DNT_CONNECT_KEY=$DNT_CONNECT_KEY"           >> /home/vagrant/.bashr
 echo "export ROUTING_API_URL=$ROUTING_API_URL"           >> /home/vagrant/.bashrc
 echo "export AWS_ACCESS_KEY_ID=$AWS_ID"                  >> /home/vagrant/.bashrc
 echo "export AWS_SECRET_ACCESS_KEY=$AWS_KEY"             >> /home/vagrant/.bashrc
-echo "export AWS_BUCKET_PATH=images_dev/"                >> /home/vagrant/.bashrc
+echo "export AWS_BUCKET_PATH=images_test/"               >> /home/vagrant/.bashrc
 echo "\ncd /vagrant"                                     >> /home/vagrant/.bashrc
 
 chown vagrant:vagrant /home/vagrant/.nvm
