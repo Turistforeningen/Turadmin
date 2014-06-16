@@ -25,7 +25,7 @@ var methodOverride = require('method-override');
 var favicon = require('serve-favicon');
 var upload = require('jquery-file-upload-middleware');
 var DNT = require('dnt-api');
-
+var raven = require('raven');
 
 // Start app
 var app = module.exports = express();
@@ -42,7 +42,7 @@ app.use(methodOverride());
 app.use(cookieParser(sessionSecret));
 app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(raven.middleware.express(process.env.SENTRY_DNS));
 
 /**
  * Configure environments
