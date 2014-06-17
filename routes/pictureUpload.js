@@ -89,16 +89,19 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
 
     router.options('/upload/picture', jfum.optionsHandler.bind(jfum));
     router.post('/upload/picture', jfum.postHandler.bind(jfum), function(req, res, next) {
-        console.log('POST /upload/picture')
+        if (jfum.error) { return next(new Error(jfum.error)); }
+        console.log('POST /upload/picture');
+
         async.mapSeries(req.jfum.files, function(image, cb) {
             if (image.error) {
-                console.log(image.error);
+                console.error(image.error);
                 return process.nextTick(async.apply(cb, null, {err: image.err, src: image}));
             }
 
             // Resize and upload image to S3
             s3Client.upload(image.path, {}, function(err, image, meta) {
-                // @TODO handle error
+                if (err) { return cb(err); }
+                if (!image) { return cb(new Error('No image returned from s3-uploader')); }
 
                 var geojson;
 
@@ -115,7 +118,7 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
             });
 
         }, function(err, images) {
-            // @TODO handle error
+            if (err) { return next(err); }
             res.json({files: images});
         });
     });
