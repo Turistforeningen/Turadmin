@@ -57,7 +57,9 @@ if (app.get('env') === 'development') {
     app.set('view cache', false);
     app.set('url', process.env.APP_URL + ':' + app.get('port'));
 
-} else if (app.get('env') === 'production') {}
+} else if (app.get('env') === 'production') {
+    raven.patchGlobal(process.env.SENTRY_DNS);
+}
 
 /**
  * Routes and middleware
