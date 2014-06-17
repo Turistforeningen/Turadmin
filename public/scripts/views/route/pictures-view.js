@@ -95,7 +95,7 @@ var DNT = window.DNT || {};
 
         startProcessBar: function (data) {
             this.$("#progress").addClass("progress-striped active");
-            this.$("#progress .progress-bar").html('<strong>Prossesserer fil...</strong>');
+            this.$("#progress .progress-bar").html('<strong>Behandler bilde...</strong>');
         },
 
         endProcessBar: function (data) {
