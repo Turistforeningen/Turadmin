@@ -27,20 +27,20 @@ var DNT = window.DNT || {};
             '[name="foto-fotograf-epost"]': 'fotografEpost'
         },
 
-        initialize: function (options) {
-            // Listen to url changes (when saving, picture is moved from tmp to permanent storage)
-            this.model.on('change:thumbnailUrl', this.render, this);
-            this.model.on('change:isPositioned', this.render, this);
-            this.app = options.app;
-
-        },
-
         events: {
             'click #positionPicture': 'positionPicture',
             'click [data-action="picture-show-position"]': 'showPicturePosition',
             'click [data-toggle-current-user-is-fotograf]': 'toggleCurrentUserIsFotograf',
             'click #deletePicture': 'deletePicture',
             'pictureDropped': 'pictureIndexChanged'
+        },
+
+        initialize: function (options) {
+            // Listen to url changes (when saving, picture is moved from tmp to permanent storage)
+            this.model.on('change:thumbnailUrl', this.render, this);
+            this.model.on('change:isPositioned', this.render, this);
+            this.app = options.app;
+
         },
 
         toggleCurrentUserIsFotograf: function (e) {
