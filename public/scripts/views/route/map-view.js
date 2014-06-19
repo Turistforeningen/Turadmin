@@ -77,7 +77,7 @@ var DNT = window.DNT || {};
             if (!!geoJson && (!!geoJson.properties || !!geoJson.coordinates)) {
                 this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function(err) {
                     if (err) {
-                        // console.log(err);
+                        console.log(err);
                     } else {
                         // console.log('Finished loading GeoJSON');
                     }
