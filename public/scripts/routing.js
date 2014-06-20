@@ -94,6 +94,9 @@ var DNT = window.DNT || {};
                     layers: [snappingLayer],
                     sensitivity: 15,
                     vertexonly: false
+                },
+                icons: {
+                    draw: false
                 }
             });
 
