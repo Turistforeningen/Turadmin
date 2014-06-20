@@ -91,7 +91,6 @@ var DNT = window.DNT || {};
             var saveErrorCount = 0;
 
             var afterSave = function () {
-                console.log('pictures aftersave');
                 if (saveErrorCount > 0) {
                     if (error) {
                         error.call(self, saveErrorCount);
@@ -111,8 +110,6 @@ var DNT = window.DNT || {};
                 success.call(self);
 
             } else {
-
-                console.log('allPicturesCount', allPicturesCount);
                 var saveDone = _.after(allPicturesCount, afterSave);
 
                 if (this.removedModels.length) {

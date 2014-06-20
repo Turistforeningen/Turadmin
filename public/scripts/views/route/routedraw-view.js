@@ -39,18 +39,17 @@ var DNT = window.DNT || {};
         snappingEnabled: true,
 
         events: {
-            'click #startDraw': 'toggleDraw',
+            'click [data-toggle="route-draw-tool"]': 'toggleDraw',
             'click [data-route-draw-toggle-routing]': 'toggleRouting',
             'click [data-route-direction-option]': 'setRouteDirection',
             'click [data-action="route-draw-reset"]': 'routeDrawReset'
         },
 
         initialize: function () {
-
             this.poiCollection = this.model.get('poiCollection');
             this.pictureCollection = this.model.get("pictureCollection");
             this.routeModel = this.model.get("route");
-            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'registerPopover', 'zoomAndCenter', 'loadGpxGeometry', 'renderDrawButton', 'toggleRouting', 'showPicturePosition');
+            _.bindAll(this, 'startPicturePositioning', 'startPoiPositioning', 'zoomAndCenter', 'loadGpxGeometry', 'renderDrawButton', 'toggleRouting', 'showPicturePosition');
             this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
@@ -74,7 +73,7 @@ var DNT = window.DNT || {};
         },
 
         renderDrawButton: function () {
-            var $drawButton = $('button#startDraw');
+            var $drawButton = $('button[data-toggle="route-draw-tool"]');
 
             if (this.draw === true) {
                 $drawButton.addClass('active');
@@ -150,19 +149,12 @@ var DNT = window.DNT || {};
         },
 
         setupMarker: function (coordinates) {
-            console.log('mapView:setupMarker');
             var model = this.modelToPosition;
             delete this.modelToPosition;
             this.drawMarkerTool.disable();
-            // this.listenTo(model, 'registerPopover', this.registerPopover);
             var geojson = createGeojson(coordinates);
             model.set('geojson', geojson);
             this.event_aggregator.trigger('map:markerIsCreated', model);
-        },
-
-        registerPopover: function (options) {
-            // console.log('mapView:registerPopover');
-            // new ns.PopoverView(options).render();
         },
 
         createDrawMarkerTool: function () {
@@ -280,13 +272,10 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-            // this.mapView = new ns.MapView().render();
-
             this.initMap({model: this.model.get('route'), pictures: this.pictureCollection, pois: this.poiCollection});
 
             this.updateRoutingToggle();
             this.updateRouteDirectionSelect();
-
             this.renderDrawButton();
 
             return this;
