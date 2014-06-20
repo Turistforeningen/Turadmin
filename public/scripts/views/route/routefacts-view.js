@@ -91,10 +91,10 @@ var DNT = window.DNT || {};
 
             this.model.on('change:navn', this.updateRouteNamePlaceholders, this);
             this.model.on('change:tidsbrukDager', this.toggleHoursAndMinutesVisiblity, this);
-            this.model.on('change:turtype', this.updateFlereTurtyperOptions);
+            this.model.on('change:turtype', this.updateFlereTurtyperOptions, this);
 
             // Bind these methods to this scope
-            _.bindAll(this, 'updateFlereTurtyperOptions', 'onGetPasserForBarn', 'onSetPasserForBarn');
+            _.bindAll(this, 'onGetPasserForBarn', 'onSetPasserForBarn');
 
             this.user = options.user;
 
@@ -119,7 +119,6 @@ var DNT = window.DNT || {};
         },
 
         updateFlereTurtyperOptions: function () {
-
             var $flereTurtyperInput = this.$('[name="route-facts-field-flere-typer"]');
 
             if ($flereTurtyperInput.hasClass('select2-offscreen')) {
@@ -130,6 +129,7 @@ var DNT = window.DNT || {};
             var turtype = this.model.get('turtype');
 
             $flereTurtyperInput.select2({
+                formatNoMatches: function () { return 'Type tur ikke valgt eller ingen treff'; },
                 tags: (!!turtype && turtype !== '') ? turtyper[turtype] : [], // If turtype is not set, no tags are available
                 createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
             }).on('change', $.proxy(this.onFlereTurtyperChange, this));
