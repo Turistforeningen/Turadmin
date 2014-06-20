@@ -253,7 +253,7 @@ var DNT = window.DNT || {};
 
             $('[data-container-for="map"]').html('<div data-view="map"></div>');
 
-            this.mapView = new ns.MapView({
+            this.initMap({
                 model: route,
                 mapCenter: mapCenter,
                 mapZoom: mapZoom,
@@ -261,50 +261,28 @@ var DNT = window.DNT || {};
                 pois: this.poiCollection
             });
 
-
-            this.mapView.render();
-
-            this.$('.findplace-gpxupload-container').removeClass('hidden');
-
-            this.initMap();
-            // this.initPopovers();
-
+            this.showFindPlaceAndGpxUpload();
             this.renderDrawButton();
             this.updateRoutingToggle();
         },
 
-        initMap: function () {
-
-            // this.poiCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
-            // this.pictureCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
+        initMap: function (options) {
+            this.mapView = new ns.MapView(options);
+            this.mapView.render();
 
             this.addOnDrawCreatedEventHandler();
 
             this.createDrawMarkerTool();
 
-            this.mapView.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this); // TODO: Handle routing event in DNT.Routing?
+            // TODO: Handle routing event in DNT.Routing?
+            this.mapView.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this);
 
         },
 
-        // initPopovers: function () {
-
-            // this.poiCollection.each($.proxy(function(element, index, list){
-            //     this.registerPopover({model: element, templateId: '#poiPopupTemplate'});
-            //     this.listenTo(element, 'registerPopover', this.registerPopover);
-            // }, this));
-
-            // this.pictureCollection.each($.proxy(function(element, index, list){
-            //     this.registerPopover({model: element, templateId: '#picturePopupTemplate'});
-            //     this.listenTo(element, 'registerPopover', this.registerPopover);
-            // }, this));
-
-        // },
-
         render: function () {
-            this.mapView = new ns.MapView({model: this.model.get('route'), pictures: this.pictureCollection, pois: this.poiCollection}).render();
+            // this.mapView = new ns.MapView().render();
 
-            this.initMap();
-            // this.initPopovers();
+            this.initMap({model: this.model.get('route'), pictures: this.pictureCollection, pois: this.poiCollection});
 
             this.updateRoutingToggle();
             this.updateRouteDirectionSelect();
@@ -312,7 +290,16 @@ var DNT = window.DNT || {};
             this.renderDrawButton();
 
             return this;
+        },
+
+        showFindPlaceAndGpxUpload: function () {
+            this.$('.findplace-gpxupload-container').removeClass('hidden');
+        },
+
+        hideFindPlaceAndGpxUpload: function () {
+            this.$('.findplace-gpxupload-container').addClass('hidden');
         }
+
     });
 
 }(DNT));

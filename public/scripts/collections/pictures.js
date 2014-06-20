@@ -29,29 +29,13 @@ var DNT = window.DNT || {};
 
         initialize: function () {
             this.nextOrdinal = 0;
-            // this.geojsonLayer = new L.GeoJSON(null, {});
             this.on('add', this.modelAdded, this);
             this.on('remove', this.onRemove, this);
-            // this.on("picture:markerCreated", this.addMarker, this);
         },
 
         onRemove: function (model) {
             this.removedModels.push(model);
         },
-        // getGeoJsonLayer: function () {
-        //     return this.geojsonLayer;
-        // },
-
-        // getNewGeoJsonLayer: function () {
-        //     this.geojsonLayer = new L.GeoJSON(null);
-        //     this.each($.proxy(function(element, index, list){
-        //         if (element.hasPosition()) {
-        //             element.createMarker(element.get('geojson'));
-        //             this.geojsonLayer.addLayer(element.getMarker());
-        //         }
-        //     }, this));
-        //     return this.geojsonLayer;
-        // },
 
         getNextOrdinal: function () {
             this.nextOrdinal = this.nextOrdinal + 1;
@@ -59,33 +43,11 @@ var DNT = window.DNT || {};
         },
 
         modelAdded: function (model) {
-            // if (model.hasPosition()) {
-            //     this.geojsonLayer.addLayer(model.getMarker());
-            // }
             model.on("deletePicture", function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
         },
 
-        // addMarker: function (model) {
-        //     console.log('pictures:addMarker');
-        //     if (model.hasPosition()) {
-        //         // this.geojsonLayer.addLayer(model.getMarker());
-        //         this.getGeoJsonLayer().addLayer(model.getMarker());
-        //     }
-        // },
-
         deletePicture: function (model) {
-            // if (model.isDeleted && model.hasPosition()) {
-            //     this.getGeoJsonLayer().removeLayer(model.getMarker());
-            // }
-            // NOTE: Keeping this code, in case my fixes for TURADMIN-49 has broken something
-            // If model is new (not synced with server) - silently remove it from the collection
-            // if (model.isNew()) {
-            //     // this.remove(model, { silent: true });
-            //     this.remove(model); // NOTE: Removed silently removal, because we want to catch this in poipicturesView
-            // }
-
             this.remove(model);
-
         },
 
         countPictures: function () {

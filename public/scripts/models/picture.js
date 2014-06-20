@@ -73,9 +73,6 @@ var DNT = window.DNT || {};
             this.on("change:fotografNavn", this.onFotografNavnChange, this);
             this.on("change:fotografEpost", this.onFotografEpostChange, this);
 
-            // this.positionChanged();
-            // this.on("change:geojson", this.positionChanged);
-
             this.updateIsPositioned();
             this.on("change:geojson", this.updateIsPositioned, this);
 
@@ -94,7 +91,6 @@ var DNT = window.DNT || {};
             var fotograf = this.get('fotograf');
             fotograf.epost = this.get('fotografEpost');
             this.set('fotograf', fotograf);
-            // console.log('fotograf changed to', fotograf);
         },
 
         hasChanged: function () {
@@ -139,42 +135,6 @@ var DNT = window.DNT || {};
             this.trigger('deletePicture');
         },
 
-        // positionChanged: function () {
-        //     if (this.hasPosition() && this.getMarker() === undefined) {
-        //         this.createMarker(this.get('geojson'));
-        //     }
-        // },
-
-
-
-        // createMarker: function (geojson) {
-        //     // console.log('picture:createMarker');
-        //     var icon = new L.icon({
-        //         iconUrl: '/images/markers/map-icon-image.png',
-        //         iconRetinaUrl: '/images/markers/map-icon-image@2x.png',
-        //         iconSize: [26, 32],
-        //         iconAnchor: [13, 32],
-        //         popupAnchor: [-0, -30]
-        //     });
-        //     var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], { draggable: true });
-        //     this.marker = marker;
-        //     marker.setIcon(icon);
-
-        //     var urls = this.getUrls();
-        //     this.set("thumbnailUrl", urls.thumbnail);
-        //     this.set("url", urls.url);
-
-        //     // console.log('picture:registerPopover');
-        //     new ns.PopoverView({model: this, templateId: "#picturePopupTemplate"}).render();
-
-        //     marker.on('dragend', function () {
-        //         var lat = marker.getLatLng().lat;
-        //         var lng = marker.getLatLng().lng;
-        //         this.updateGeojson(lat, lng);
-        //     }, this);
-        //     this.trigger("picture:markerCreated", this);
-        // },
-
         updateIsPositioned: function () {
             var geojson = this.get('geojson');
             var isPositioned = (!!geojson && !!geojson.coordinates);
@@ -191,28 +151,14 @@ var DNT = window.DNT || {};
             var urls = {thumbnail: "", url: ""};
             var imageArray = this.get("img");
             if (!!imageArray && imageArray.length) {
-
                 urls.thumbnail = imageArray[imageArray.length-1]['url'];
                 urls.url = imageArray[0]['url'];
             }
 
-            // if (!!imageArray) {
-            //     _.each(imageArray, function (image) {
-            //         if (!!image.width && !!image.height) {
-            //             urls.thumbnail = image.url;
-            //         } else {
-            //             urls.url = image.url;
-            //         }
-            //     });
-            // }
             return urls;
         },
 
         save: function (attrs, options) {
-
-            // debugger;
-            console.log('saving picture in picture save');
-
             attrs = attrs || this.toJSON();
             options = options || {};
 
@@ -225,7 +171,6 @@ var DNT = window.DNT || {};
             options.attrs = attrs;
 
             // Call super with attrs moved to options
-
             return Backbone.Model.prototype.save.call(this, attrs, options);
 
         }

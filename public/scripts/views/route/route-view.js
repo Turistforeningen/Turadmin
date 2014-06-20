@@ -50,7 +50,7 @@ var DNT = window.DNT || {};
 
             var modelHasRoute = this.model.get('route').hasRoute();
             if (modelHasRoute === true) {
-                this.$('.findplace-gpxupload-container').addClass('hidden');
+                this.routeDrawView.hideFindPlaceAndGpxUpload();
             }
 
         },

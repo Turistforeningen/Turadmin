@@ -114,7 +114,7 @@ var DNT = window.DNT || {};
         },
 
         picturePositionUpdated: function (event, ui) {
-            // trigg event on ui-item so that the correct picture item listener is trigged.
+            // Trig event on ui-item so that the correct picture item listener is trigged.
             // (In correct pictureView.js instance, which contains the model)
             ui.item.trigger('pictureDropped', ui.item.index());
         },

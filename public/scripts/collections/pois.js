@@ -10,7 +10,7 @@ var DNT = window.DNT || {};
     "use strict";
 
     var apiUri = function () {
-        return "/restProxy/steder";
+        return '/restProxy/steder';
     };
 
     ns.PoiCollection = Backbone.Collection.extend({
@@ -23,26 +23,8 @@ var DNT = window.DNT || {};
         removedModels: [],
 
         initialize: function () {
-            // this.geojsonLayer = new L.GeoJSON(null);
             this.on('add', this.onAdd, this);
-            // this.on("poi:markerCreated", this.addMarker, this);
             this.on('remove', this.onRemove, this);
-        },
-
-        getGeoJsonLayer: function () {
-            // return this.geojsonLayer;
-        },
-
-        getNewGeoJsonLayer: function () {
-            // this.geojsonLayer = new L.GeoJSON(null);
-            // this.each($.proxy(function(element, index, list){
-            //     if (element.hasPosition()) {
-            //         element.createMarker(element.get('geojson'));
-            //         this.geojsonLayer.addLayer(element.getMarker());
-            //         element.on("deletePoi", function () { this.deletePoi(element); }, this);
-            //     }
-            // }, this));
-            // return this.geojsonLayer;
         },
 
         setPublished: function() {
@@ -58,7 +40,8 @@ var DNT = window.DNT || {};
         },
 
         onRemove: function (model) {
-            if (!!this.model.get('id')) {
+            // Add to removedModels if saved to server, to send a DELETE request when route is saved
+            if (!!model.get('id')) {
                 this.removedModels.push(model);
             }
         },
@@ -69,23 +52,8 @@ var DNT = window.DNT || {};
             }, this);
         },
 
-        // addMarker: function (model) {
-        //     // console.log('pois.addMarker');
-        //     if (model.hasPosition()) {
-        //         this.geojsonLayer.addLayer(model.getMarker());
-        //     }
-        // },
-
         deletePoi: function (model) {
-            // if (model.isDeleted) {
-            //     this.getGeoJsonLayer().removeLayer(model.getMarker());
-            // }
-            //If model is new (not synced with server) - silently remove it from the collection
-            // if (model.isNew()) {
-                // this.remove(model, {silent: true});
-                // debugger;
             this.remove(model);
-            // }
         },
 
         countPois: function () {

@@ -146,12 +146,6 @@ var DNT = window.DNT || {};
             }
         },
 
-        // positionChanged: function () {
-        //     if (this.hasPosition() && this.getMarker() === undefined) {
-        //         this.createMarker(this.get('geojson'));
-        //     }
-        // },
-
         hasChanged: function () {
             return !!this.changed;
         },
@@ -212,19 +206,6 @@ var DNT = window.DNT || {};
             this.set('deleted', true);
             this.trigger('deletePoi');
         },
-
-        // createMarker: function () {
-        //     var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
-        //     this.marker = marker;
-        //     this.setMarkerIcon(); // Using this.defaultMarkerIcon
-        //     this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'}); // This event is only signed up for on POI create, setupMarker in mapView, and not when marker is being drawn on route load
-        //     marker.on('dragend', function () {
-        //         var lat = marker.getLatLng().lat;
-        //         var lng = marker.getLatLng().lng;
-        //         this.updateGeojson(lat, lng);
-        //     }, this);
-        //     this.trigger('poi:markerCreated', this);
-        // },
 
         updateGeojson: function (lat, lng) {
             var geoJson = this.getGeoJson();
