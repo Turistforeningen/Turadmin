@@ -142,7 +142,7 @@ var DNT = window.DNT || {};
         },
 
         appendPicture: function (picture) {
-            var view = new DNT.PictureView({ model: picture, app: this.model });
+            var view = new DNT.PictureView({model: picture, app: this.model});
 
             this.$("#route-images-all-container").append(view.render().el);
         },

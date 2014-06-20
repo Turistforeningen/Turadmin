@@ -73,6 +73,7 @@ module.exports = function (app, restProxy, options) {
             // console.log('Fetching', picturesCount, 'pictures...');
             for (var i = 0; i < picturesCount; i++) {
                 var pictureId = data.bilder[i];
+                // TODO: If request returns 404, remove picture from route pictures array
                 restProxy.makeApiRequest('/bilder/' + pictureId, req, undefined, onCompletePictureRequest);
             }
             // console.log('Done!');

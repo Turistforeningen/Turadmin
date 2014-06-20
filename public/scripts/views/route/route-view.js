@@ -117,14 +117,13 @@ var DNT = window.DNT || {};
         save: function() {
 
             var me = this;
-
             var afterPictureAndPoiSync = function () {
+
                 me.route.setPoiIds(me.poiCollection.getPoiIds());
                 me.route.setPictureIds(me.pictureCollection.getPictureIds());
 
                 me.route.save(undefined, {
                     success: function () {
-                        // console.log('saved route');
                         me.updateSaveButton(true);
                         me.updatePublishButtons();
                     },

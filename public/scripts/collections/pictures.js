@@ -21,31 +21,37 @@ var DNT = window.DNT || {};
 
         model: ns.Picture,
 
+        removedModels: [],
+
         comparator: function (model) {
             return model.get("ordinal");
         },
 
         initialize: function () {
             this.nextOrdinal = 0;
-            this.geojsonLayer = new L.GeoJSON(null, {});
-            this.on("add", this.modelAdded, this);
-            this.on("picture:markerCreated", this.addMarker, this);
+            // this.geojsonLayer = new L.GeoJSON(null, {});
+            this.on('add', this.modelAdded, this);
+            this.on('remove', this.onRemove, this);
+            // this.on("picture:markerCreated", this.addMarker, this);
         },
 
-        getGeoJsonLayer: function () {
-            return this.geojsonLayer;
+        onRemove: function (model) {
+            this.removedModels.push(model);
         },
+        // getGeoJsonLayer: function () {
+        //     return this.geojsonLayer;
+        // },
 
-        getNewGeoJsonLayer: function () {
-            this.geojsonLayer = new L.GeoJSON(null);
-            this.each($.proxy(function(element, index, list){
-                if (element.hasPosition()) {
-                    element.createMarker(element.get('geojson'));
-                    this.geojsonLayer.addLayer(element.getMarker());
-                }
-            }, this));
-            return this.geojsonLayer;
-        },
+        // getNewGeoJsonLayer: function () {
+        //     this.geojsonLayer = new L.GeoJSON(null);
+        //     this.each($.proxy(function(element, index, list){
+        //         if (element.hasPosition()) {
+        //             element.createMarker(element.get('geojson'));
+        //             this.geojsonLayer.addLayer(element.getMarker());
+        //         }
+        //     }, this));
+        //     return this.geojsonLayer;
+        // },
 
         getNextOrdinal: function () {
             this.nextOrdinal = this.nextOrdinal + 1;
@@ -53,22 +59,24 @@ var DNT = window.DNT || {};
         },
 
         modelAdded: function (model) {
-            if (model.hasPosition()) {
-                this.geojsonLayer.addLayer(model.getMarker());
-            }
+            // if (model.hasPosition()) {
+            //     this.geojsonLayer.addLayer(model.getMarker());
+            // }
             model.on("deletePicture", function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
         },
 
-        addMarker: function (model) {
-            if (model.hasPosition()) {
-                this.geojsonLayer.addLayer(model.getMarker());
-            }
-        },
+        // addMarker: function (model) {
+        //     console.log('pictures:addMarker');
+        //     if (model.hasPosition()) {
+        //         // this.geojsonLayer.addLayer(model.getMarker());
+        //         this.getGeoJsonLayer().addLayer(model.getMarker());
+        //     }
+        // },
 
         deletePicture: function (model) {
-            if (model.isDeleted && model.hasPosition()) {
-                this.getGeoJsonLayer().removeLayer(model.getMarker());
-            }
+            // if (model.isDeleted && model.hasPosition()) {
+            //     this.getGeoJsonLayer().removeLayer(model.getMarker());
+            // }
             // NOTE: Keeping this code, in case my fixes for TURADMIN-49 has broken something
             // If model is new (not synced with server) - silently remove it from the collection
             // if (model.isNew()) {
@@ -121,6 +129,7 @@ var DNT = window.DNT || {};
             var saveErrorCount = 0;
 
             var afterSave = function () {
+                console.log('pictures aftersave');
                 if (saveErrorCount > 0) {
                     if (error) {
                         error.call(self, saveErrorCount);
@@ -134,42 +143,46 @@ var DNT = window.DNT || {};
                 }
             };
 
-            var syncablePictures = this.filter(function (picture) {
-                return picture.isNew() || picture.hasChanged() || picture.isDeleted();
-            });
+            var allPicturesCount = this.length + this.removedModels.length;
 
-            var saveDone = _.after(syncablePictures.length, afterSave);
+            if (allPicturesCount === 0) {
+                success.call(self);
 
-            if (syncablePictures.length === 0) {
-                afterSave();
-            }
+            } else {
 
-            _.each(syncablePictures, function (picture) {
-                if (picture.isDeleted()) {
-                    picture.destroy({
-                        wait: true,
-                        success : function () {
-                            saveDone();
-                        },
-                        error: function () {
-                            saveErrorCount += 1;
-                            saveDone();
-                        }
-                    });
-                } else {
-                    var isNew = picture.isNew();
-                    picture.save(undefined, {
-                        success : function () {
-                            picture.resetHasChanged();
-                            saveDone();
-                        },
-                        error: function () {
-                            saveErrorCount += 1;
-                            saveDone();
-                        }
+                console.log('allPicturesCount', allPicturesCount);
+                var saveDone = _.after(allPicturesCount, afterSave);
+
+                if (this.removedModels.length) {
+                    _.each(this.removedModels, function (picture) {
+                         picture.destroy({
+                            wait: true,
+                            success: function () {
+                                saveDone();
+                            },
+                            error: function () {
+                                saveErrorCount += 1;
+                                saveDone();
+                            }
+                        });
                     });
                 }
-            });
+
+                _.each(this.models, function (picture) {
+
+                    picture.save(undefined, {
+                        wait: true,
+                        success: function (model, response, options) {
+                            saveDone();
+                        },
+                        error: function (model, response, options) {
+                            saveErrorCount += 1;
+                            saveDone();
+                        }
+                    });
+                });
+            }
         }
     });
+
 }(DNT));

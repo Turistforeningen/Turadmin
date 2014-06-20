@@ -150,10 +150,11 @@ var DNT = window.DNT || {};
         },
 
         setupMarker: function (coordinates) {
+            console.log('mapView:setupMarker');
             var model = this.modelToPosition;
             delete this.modelToPosition;
             this.drawMarkerTool.disable();
-            this.listenTo(model, 'registerPopover', this.registerPopover);
+            // this.listenTo(model, 'registerPopover', this.registerPopover);
             var geojson = createGeojson(coordinates);
             model.set('geojson', geojson);
             this.event_aggregator.trigger('map:markerIsCreated', model);
@@ -161,7 +162,7 @@ var DNT = window.DNT || {};
 
         registerPopover: function (options) {
             // console.log('mapView:registerPopover');
-            new ns.PopoverView(options).render();
+            // new ns.PopoverView(options).render();
         },
 
         createDrawMarkerTool: function () {
@@ -255,15 +256,18 @@ var DNT = window.DNT || {};
             this.mapView = new ns.MapView({
                 model: route,
                 mapCenter: mapCenter,
-                mapZoom: mapZoom
+                mapZoom: mapZoom,
+                pictures: this.pictureCollection,
+                pois: this.poiCollection
             });
+
 
             this.mapView.render();
 
             this.$('.findplace-gpxupload-container').removeClass('hidden');
 
             this.initMap();
-            this.initPopovers();
+            // this.initPopovers();
 
             this.renderDrawButton();
             this.updateRoutingToggle();
@@ -271,8 +275,8 @@ var DNT = window.DNT || {};
 
         initMap: function () {
 
-            this.poiCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
-            this.pictureCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
+            // this.poiCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
+            // this.pictureCollection.getNewGeoJsonLayer().addTo(this.mapView.map);
 
             this.addOnDrawCreatedEventHandler();
 
@@ -282,27 +286,25 @@ var DNT = window.DNT || {};
 
         },
 
-        initPopovers: function () {
+        // initPopovers: function () {
 
-            // this.geojsonLayer = new L.GeoJSON(null);
+            // this.poiCollection.each($.proxy(function(element, index, list){
+            //     this.registerPopover({model: element, templateId: '#poiPopupTemplate'});
+            //     this.listenTo(element, 'registerPopover', this.registerPopover);
+            // }, this));
 
-            this.poiCollection.each($.proxy(function(element, index, list){
-                this.registerPopover({model: element, templateId: '#poiPopupTemplate'});
-                this.listenTo(element, 'registerPopover', this.registerPopover);
-            }, this));
+            // this.pictureCollection.each($.proxy(function(element, index, list){
+            //     this.registerPopover({model: element, templateId: '#picturePopupTemplate'});
+            //     this.listenTo(element, 'registerPopover', this.registerPopover);
+            // }, this));
 
-            this.pictureCollection.each($.proxy(function(element, index, list){
-                this.registerPopover({model: element, templateId: '#picturePopupTemplate'});
-                this.listenTo(element, 'registerPopover', this.registerPopover);
-            }, this));
-
-        },
+        // },
 
         render: function () {
-            this.mapView = new ns.MapView({model: this.model.get('route')}).render();
+            this.mapView = new ns.MapView({model: this.model.get('route'), pictures: this.pictureCollection, pois: this.poiCollection}).render();
 
             this.initMap();
-            this.initPopovers();
+            // this.initPopovers();
 
             this.updateRoutingToggle();
             this.updateRouteDirectionSelect();

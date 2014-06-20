@@ -19,6 +19,7 @@ var DNT = window.DNT || {};
         type: 'poi',
         changed: false,
         deleted: false,
+        popoverTemplateId: '#poiPopupTemplate',
 
         urlRoot: function () {
             return apiUri();
@@ -43,7 +44,8 @@ var DNT = window.DNT || {};
             navn: '',
             lisens: 'CC BY-NC 3.0 NO',
             status: 'Kladd',
-            tags: []
+            tags: [],
+            markerIcon: '21'
         },
 
         validation: {
@@ -89,18 +91,21 @@ var DNT = window.DNT || {};
             {name: 'Togstasjon', markerIcon: undefined}
         ],
 
-        defaultMarkerIcon: '21',
-
         initialize: function (options) {
+
+            if (!!this.idAttribute && !!this.get(this.idAttribute)) {
+                this.set('id', this.get(this.idAttribute));
+            }
+
             this.on('change', function () {
                 this.changed = true;
             });
 
-            this.positionChanged();
+            // this.positionChanged();
 
             this.on('change:navn', this.onNameChange, this);
             this.on('change:kategori', this.onCategoryChange, this);
-            this.on('change:geojson', this.positionChanged);
+            // this.on('change:geojson', this.positionChanged);
 
             var tags = this.get('tags');
             if (tags.length > 0) {
@@ -124,17 +129,28 @@ var DNT = window.DNT || {};
                 category = _.findWhere(this.availableCategories, {name: categoryName}),
                 markerIcon;
 
-            if (!!category) {
+            if (!!category && category['markerIcon']) {
                 markerIcon = category['markerIcon'];
-                this.setMarkerIcon(markerIcon);
+
+            } else if (!!this.defaults && this.defaults.markerIcon) {
+                markerIcon = this.defaults.markerIcon;
+            }
+
+            this.set('markerIcon', markerIcon);
+
+            // NOTE: Concider moving this to an onMarkerIconChange method.
+            if (!!this.marker) {
+                if (!!category) {
+                    this.setMarkerIcon();
+                }
             }
         },
 
-        positionChanged: function () {
-            if (this.hasPosition() && this.getMarker() === undefined) {
-                this.createMarker(this.get('geojson'));
-            }
-        },
+        // positionChanged: function () {
+        //     if (this.hasPosition() && this.getMarker() === undefined) {
+        //         this.createMarker(this.get('geojson'));
+        //     }
+        // },
 
         hasChanged: function () {
             return !!this.changed;
@@ -160,9 +176,8 @@ var DNT = window.DNT || {};
             return !!this.marker;
         },
 
-        setMarkerIcon: function (iconName) {
-            var marker = this.marker;
-            iconName = iconName || this.defaultMarkerIcon;
+        setMarkerIcon: function () {
+            var iconName = this.get('markerIcon');
 
             var icon = L.icon({
                 iconUrl: '/images/markers/' + iconName + '.png',
@@ -172,7 +187,12 @@ var DNT = window.DNT || {};
                 popupAnchor: [-0, -30]
             });
 
-            marker.setIcon(icon);
+            try {
+                this.marker.setIcon(icon);
+            }
+            catch(err) {
+                console.error('Could not set marker icon', err);
+            }
         },
 
         hasPosition: function () {
@@ -193,18 +213,18 @@ var DNT = window.DNT || {};
             this.trigger('deletePoi');
         },
 
-        createMarker: function () {
-            var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
-            this.marker = marker;
-            this.setMarkerIcon(); // Using this.defaultMarkerIcon
-            this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'}); // This event is only signed up for on POI create, setupMarker in mapView, and not when marker is being drawn on route load
-            marker.on('dragend', function () {
-                var lat = marker.getLatLng().lat;
-                var lng = marker.getLatLng().lng;
-                this.updateGeojson(lat, lng);
-            }, this);
-            this.trigger('poi:markerCreated', this);
-        },
+        // createMarker: function () {
+        //     var marker = new L.Marker([this.getGeoJson().coordinates[1], this.getGeoJson().coordinates[0]], {draggable: true});
+        //     this.marker = marker;
+        //     this.setMarkerIcon(); // Using this.defaultMarkerIcon
+        //     this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'}); // This event is only signed up for on POI create, setupMarker in mapView, and not when marker is being drawn on route load
+        //     marker.on('dragend', function () {
+        //         var lat = marker.getLatLng().lat;
+        //         var lng = marker.getLatLng().lng;
+        //         this.updateGeojson(lat, lng);
+        //     }, this);
+        //     this.trigger('poi:markerCreated', this);
+        // },
 
         updateGeojson: function (lat, lng) {
             var geoJson = this.getGeoJson();

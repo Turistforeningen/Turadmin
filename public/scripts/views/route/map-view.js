@@ -22,6 +22,18 @@ var DNT = window.DNT || {};
             this.mapLayers = this.createMapLayers();
             this.snapLayer = this.createSnapLayer();
             this.drawControl = this.createDrawControl();
+
+            if (!!options.pictures) {
+                this.pictures = options.pictures;
+                this.pictures.on('add', this.addPictureMarker, this);
+                this.pictures.on('remove', this.removePictureMarker, this);
+            }
+
+            if (!!options.pois) {
+                this.pois = options.pois;
+                this.pois.on('add', this.addPoiMarker, this);
+                this.pois.on('remove', this.removePoiMarker, this);
+            }
         },
 
         render: function () {
@@ -54,7 +66,110 @@ var DNT = window.DNT || {};
             // Add GeoJSON to map
             this.addGeoJsonToLayer();
 
+            // Add GeoJSON layer for pictures to map
+            if (!!this.pictures) {
+                this.createPicturesGeoJsonLayer().addTo(this.map);
+            }
+
+            // Add GeoJSON layer for POIs to map
+            if (!!this.pois) {
+                this.createPoisGeoJsonLayer().addTo(this.map);
+            }
+
             return this;
+        },
+
+        createMarker: function (model) {
+
+            var icon = model.get('markerIcon') || '21';
+
+            var icon = new L.icon({
+                iconUrl: '/images/markers/' + icon + '.png',
+                iconRetinaUrl: '/images/markers/' + icon + '@2x.png',
+                iconSize: [26, 32],
+                iconAnchor: [13, 32],
+                popupAnchor: [-0, -30]
+            });
+
+            var marker = new L.Marker([model.getGeoJson().coordinates[1], model.getGeoJson().coordinates[0]], {draggable: true});
+            marker.setIcon(icon);
+            model.marker = marker;
+
+            if (!!model.popoverTemplateId) {
+                new ns.PopoverView({model: model, marker: marker, templateId: model.popoverTemplateId}).render();
+            }
+
+            marker.on('dragend', function () {
+                var lat = marker.getLatLng().lat;
+                var lng = marker.getLatLng().lng;
+                model.updateGeojson(lat, lng);
+            }, this);
+
+            return marker;
+
+        },
+
+        addPictureMarker: function (picture) {
+            var marker = picture.marker || this.createMarker(picture);
+            if (!!marker) {
+                this.picturesGeoJsonLayer.addLayer(picture.marker);
+            }
+        },
+
+        removePictureMarker: function (picture) {
+            var marker = picture.marker;
+            if (!!marker) {
+                this.picturesGeoJsonLayer.removeLayer(marker);
+            }
+        },
+
+        createPicturesGeoJsonLayer: function () {
+            this.picturesGeoJsonLayer = new L.GeoJSON(null);
+
+            this.pictures.each($.proxy(function(picture, index, list){
+                if (picture.hasPosition()) {
+                    var marker = this.createMarker(picture);
+                    if (!!marker) {
+                        this.picturesGeoJsonLayer.addLayer(marker);
+                    }
+                }
+            }, this));
+
+            return this.picturesGeoJsonLayer;
+        },
+
+
+        /**
+         * POI Markers
+         */
+
+        addPoiMarker: function (poi) {
+            var marker = poi.marker || this.createMarker(poi);
+            if (!!marker) {
+                this.poisGeoJsonLayer.addLayer(poi.marker);
+            }
+        },
+
+        removePoiMarker: function (poi) {
+            var marker = poi.marker;
+            if (!!marker) {
+                this.poisGeoJsonLayer.removeLayer(marker);
+            }
+        },
+
+        createPoisGeoJsonLayer: function () {
+            this.poisGeoJsonLayer = new L.GeoJSON(null);
+
+            this.pois.each($.proxy(function(poi, index, list){
+                if (poi.hasPosition()) {
+                    var marker = this.createMarker(poi);
+                    if (!!marker) {
+                        this.poisGeoJsonLayer.addLayer(marker);
+                    }
+                }
+            }, this));
+
+            return this.poisGeoJsonLayer;
         },
 
         addRouting: function () {

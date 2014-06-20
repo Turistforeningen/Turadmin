@@ -20,27 +20,29 @@ var DNT = window.DNT || {};
         },
 
         model: ns.Poi,
+        removedModels: [],
 
         initialize: function () {
-            this.geojsonLayer = new L.GeoJSON(null);
-            this.on("add", this.modelAdded, this);
-            this.on("poi:markerCreated", this.addMarker, this);
+            // this.geojsonLayer = new L.GeoJSON(null);
+            this.on('add', this.onAdd, this);
+            // this.on("poi:markerCreated", this.addMarker, this);
+            this.on('remove', this.onRemove, this);
         },
 
         getGeoJsonLayer: function () {
-            return this.geojsonLayer;
+            // return this.geojsonLayer;
         },
 
         getNewGeoJsonLayer: function () {
-            this.geojsonLayer = new L.GeoJSON(null);
-            this.each($.proxy(function(element, index, list){
-                if (element.hasPosition()) {
-                    element.createMarker(element.get('geojson'));
-                    this.geojsonLayer.addLayer(element.getMarker());
-                    element.on("deletePoi", function () { this.deletePoi(element); }, this);
-                }
-            }, this));
-            return this.geojsonLayer;
+            // this.geojsonLayer = new L.GeoJSON(null);
+            // this.each($.proxy(function(element, index, list){
+            //     if (element.hasPosition()) {
+            //         element.createMarker(element.get('geojson'));
+            //         this.geojsonLayer.addLayer(element.getMarker());
+            //         element.on("deletePoi", function () { this.deletePoi(element); }, this);
+            //     }
+            // }, this));
+            // return this.geojsonLayer;
         },
 
         setPublished: function() {
@@ -55,29 +57,35 @@ var DNT = window.DNT || {};
             });
         },
 
-        modelAdded: function (model) {
-            // console.log('pois.modelAdded');
-            if (model.hasPosition()) {
-                this.geojsonLayer.addLayer(model.getMarker());
+        onRemove: function (model) {
+            if (!!this.model.get('id')) {
+                this.removedModels.push(model);
             }
-            model.on("deletePoi", function () { this.deletePoi(model); }, this);
         },
 
-        addMarker: function (model) {
-            // console.log('pois.addMarker');
-            if (model.hasPosition()) {
-                this.geojsonLayer.addLayer(model.getMarker());
-            }
+        onAdd: function (model) {
+            model.on('deletePoi', function () {
+                this.deletePoi(model);
+            }, this);
         },
+
+        // addMarker: function (model) {
+        //     // console.log('pois.addMarker');
+        //     if (model.hasPosition()) {
+        //         this.geojsonLayer.addLayer(model.getMarker());
+        //     }
+        // },
 
         deletePoi: function (model) {
-            if (model.isDeleted) {
-                this.getGeoJsonLayer().removeLayer(model.getMarker());
-            }
+            // if (model.isDeleted) {
+            //     this.getGeoJsonLayer().removeLayer(model.getMarker());
+            // }
             //If model is new (not synced with server) - silently remove it from the collection
-            if (model.isNew()) {
-                this.remove(model, {silent: true});
-            }
+            // if (model.isNew()) {
+                // this.remove(model, {silent: true});
+                // debugger;
+            this.remove(model);
+            // }
         },
 
         countPois: function () {
@@ -112,37 +120,41 @@ var DNT = window.DNT || {};
                 return poi.isNew() || poi.hasChanged() || poi.isDeleted();
             });
 
-            var saveDone = _.after(unsyncedPois.length, afterSave);
+            var unsyncedPoisCount = unsyncedPois.length + this.removedModels.length;
 
-            if (unsyncedPois.length === 0) {
+            var saveDone = _.after(unsyncedPoisCount, afterSave);
+
+            if (unsyncedPois.length === 0 && this.removedModels.length === 0) {
                 afterSave();
             }
 
+            // Delete removed POI's from server
+            _.each(this.removedModels, function (poi) {
+                poi.destroy({
+                    wait: true,
+                    success : function () {
+                        saveDone();
+                    },
+                    error: function () {
+                        saveErrorCount += 1;
+                        saveDone();
+                    }
+                });
+            });
+
+            // Save unsynced POI's
             _.each(unsyncedPois, function (poi) {
-                if (poi.isDeleted()) {
-                    poi.destroy({
-                        wait: true,
-                        success : function () {
-                            saveDone();
-                        },
-                        error: function () {
-                            saveErrorCount += 1;
-                            saveDone();
-                        }
-                    });
-                } else {
-                    var isNew = poi.isNew();
-                    poi.save(undefined, {
-                        success : function () {
-                            poi.resetHasChanged();
-                            saveDone();
-                        },
-                        error: function () {
-                            saveErrorCount += 1;
-                            saveDone();
-                        }
-                    });
-                }
+                var isNew = poi.isNew();
+                poi.save(undefined, {
+                    success : function () {
+                        poi.resetHasChanged();
+                        saveDone();
+                    },
+                    error: function () {
+                        saveErrorCount += 1;
+                        saveDone();
+                    }
+                });
             });
         }
     });

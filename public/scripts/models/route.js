@@ -87,6 +87,11 @@ var DNT = window.DNT || {};
         },
 
         initialize: function () {
+
+            if (!!this.idAttribute && !!this.get(this.idAttribute)) {
+                this.set('id', this.get(this.idAttribute));
+            }
+
             this.on('change:linkText', this.updateLinks);
             this.on('change:turtype', this.updateTurtypeInTags);
             this.on('change:flereTurtyper', this.updateFlereTurtyperInTags);
@@ -101,7 +106,6 @@ var DNT = window.DNT || {};
 
             this.set('turtype', this.getRouteType());
             this.set('flereTurtyper', this.getAdditionalRouteTypes());
-
         },
 
         urlRoot: function () {
@@ -158,7 +162,6 @@ var DNT = window.DNT || {};
         },
 
         save: function (attrs, options) {
-
             var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
             var method;
 

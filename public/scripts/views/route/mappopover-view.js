@@ -16,6 +16,7 @@ var DNT = window.DNT || {};
             this.template =  _.template($(templateId).html());
             // Listen to URL changes (when saving, picture is moved from tmp to permanent storage)
             this.model.on('change:thumbnailUrl', this.render, this);
+            this.marker = options.marker;
         },
 
         events: {
@@ -34,12 +35,13 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
-            var marker = this.model.getMarker();
+
+            var marker = this.marker;
             var html =  this.template(this.model.toJSON());
 
+
             if (!!marker && !!html) {
-                // $(this.el).html(html);
-                // marker.bindPopup(this.el);
+                // console.log('binding popover', this.el, 'to marker', marker);
                 var popup = L.popup({
                     autoPan: true,
                     autoPanPaddingTopLeft: L.point(100, 300), // NOTE: These L.point values may have to be adjusted. They are used because autoPan, which is supposed to make sure the popup is within the map viewport, does not work perfectly, because it does not know what size the popup will have.
