@@ -122,6 +122,11 @@ var DNT = window.DNT || {};
         },
 
         updateFlereTurtyperOptions: function () {
+
+            if (!!this.model.get('turtype')) {
+                $('.form-group.route-facts-field-tags-other').removeClass('hidden');
+            }
+
             var $flereTurtyperInput = this.$('[name="route-facts-field-flere-typer"]');
 
             if ($flereTurtyperInput.hasClass('select2-offscreen')) {
