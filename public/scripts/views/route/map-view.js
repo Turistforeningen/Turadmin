@@ -27,6 +27,7 @@ var DNT = window.DNT || {};
                 this.pictures = options.pictures;
                 this.pictures.on('add', this.addPictureMarker, this);
                 this.pictures.on('remove', this.removePictureMarker, this);
+                this.pictures.on('change:geojson', this.onPictureGeoJsonChange, this);
             }
 
             if (!!options.pois) {
@@ -107,6 +108,13 @@ var DNT = window.DNT || {};
 
             return marker;
 
+        },
+
+        // Only supports creating marker if picture does not already have marker, will not move existing marker to new position.
+        onPictureGeoJsonChange: function (picture, value, options) {
+            if (!picture.marker) {
+                this.addPictureMarker(picture);
+            }
         },
 
         addPictureMarker: function (picture) {
