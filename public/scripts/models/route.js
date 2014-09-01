@@ -151,6 +151,7 @@ var DNT = window.DNT || {};
             return (geojson && geojson.coordinates.length) ? true : false;
         },
 
+        // Season months must be saved as integers
         updateSeason: function () {
             var season = this.get('sesong');
             if (!!season && season.length) {

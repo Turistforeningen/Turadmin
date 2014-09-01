@@ -55,17 +55,17 @@ var DNT = window.DNT || {};
                 onGet: function(val) {
                     if (!!val && val.length) {
                         for (var i = 0; i < val.length; i++) {
+                            // Validation need month number as string, to compare with field value
                             val[i] = '' + val[i];
                         }
                     }
                     return val;
                 },
                 onSet: function(val) {
+                    // Season month conversion to integer is moved to route.js model
                     // for (var i = 0; i < val.length; i++) {
                     //     val[i] = parseInt(val[i], 10);
                     // }
-                    // console.log('onSet');
-                    // console.log(val);
                     return val;
                 },
                 setOptions: {
@@ -170,15 +170,15 @@ var DNT = window.DNT || {};
         },
 
         selectAllSeasons: function () {
-            this.$('.route-facts-field-sesong input[type="checkbox"]').prop('checked', true);
             this.$('#route-facts-field-sesong-deselect-all').removeClass('hidden');
             this.$('#route-facts-field-sesong-select-all').addClass('hidden');
+            this.model.set('sesong', [1,2,3,4,5,6,7,8,9,10,11,12]);
         },
 
         deselectAllSeasons: function () {
-            this.$('.route-facts-field-sesong input[type="checkbox"]').prop('checked', false);
             this.$('#route-facts-field-sesong-deselect-all').addClass('hidden');
             this.$('#route-facts-field-sesong-select-all').removeClass('hidden');
+            this.model.set('sesong', []);
         },
 
         updateSeasonSelection: function () {
@@ -188,7 +188,9 @@ var DNT = window.DNT || {};
                 var val = this.$(checked[i]).val();
                 seasons.push(val);
             }
+
             this.model.set('sesong', seasons);
+
         },
 
         onGetPasserForBarn: function (val, options) {
@@ -258,6 +260,12 @@ var DNT = window.DNT || {};
 
             this.stickit(); // Uses view.bindings and view.model to setup bindings
             Backbone.Validation.bind(this);
+
+            if ($('.route-facts-field-sesong input[type="checkbox"]:not(:checked)').length === 0) {
+                this.$('#route-facts-field-sesong-deselect-all').removeClass('hidden');
+                this.$('#route-facts-field-sesong-select-all').addClass('hidden');
+            }
+
 
         },
 
