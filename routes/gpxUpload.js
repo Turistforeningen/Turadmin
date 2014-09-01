@@ -34,7 +34,9 @@ module.exports = function (app, express, options) {
         fileHandler(req, res, next);
     });
 
-    app.use('/upload/gpx', bodyParser());
+    app.use('/upload/gpx', bodyParser.urlencoded({extended: true}));
+    app.use('/upload/gpx', bodyParser.json({extended: true}));
+
 
     // When upload is done, convert gpx file to GeoJSON using togeojson
     upload.on('end', function (fileInfo) {
