@@ -88,7 +88,6 @@ var DNT = window.DNT || {};
         },
 
         initialize: function (options) {
-
             this.model.on('change:navn', this.updateRouteNamePlaceholders, this);
             this.model.on('change:tidsbrukDager', this.toggleHoursAndMinutesVisiblity, this);
             this.model.on('change:turtype', this.updateFlereTurtyperOptions, this);
@@ -114,6 +113,10 @@ var DNT = window.DNT || {};
             if (!!this.model.get('gradering')) {
                 var $graderingElement = this.$('input[value="' + this.model.get('gradering') + '"]');
                 $graderingElement.parent('label').addClass('active');
+            }
+
+            if (this.model.get('kollektiv') === '') {
+                this.$('#route-facts-field-ankomst_kollektivtransport_description').addClass('hidden');
             }
 
         },
