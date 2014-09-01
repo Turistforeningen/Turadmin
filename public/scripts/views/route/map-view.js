@@ -110,9 +110,11 @@ var DNT = window.DNT || {};
         },
 
         addPictureMarker: function (picture) {
-            var marker = picture.marker || this.createMarker(picture);
-            if (!!marker) {
-                this.picturesGeoJsonLayer.addLayer(picture.marker);
+            if (picture.get('isPositioned') === true) {
+                var marker = picture.marker || this.createMarker(picture);
+                if (!!marker) {
+                    this.picturesGeoJsonLayer.addLayer(picture.marker);
+                }
             }
         },
 
