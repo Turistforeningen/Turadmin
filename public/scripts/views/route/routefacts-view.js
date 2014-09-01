@@ -150,14 +150,14 @@ var DNT = window.DNT || {};
             }
         },
 
-        toggleKollektivFieldVisibility: function (event) {
-            if (event.currentTarget.checked) {
-                this.$("#route-facts-field-ankomst_kollektivtransport").removeClass("hidden");
-                this.$("#route-facts-field-ankomst_kollektivtransport_description").removeClass("hidden");
+        toggleKollektivFieldVisibility: function (e) {
+            if (e.currentTarget.checked) {
+                this.$('#route-facts-field-ankomst_kollektivtransport').removeClass('hidden');
+                this.$('#route-facts-field-ankomst_kollektivtransport_description').removeClass('hidden');
             } else {
-                this.$("#route-facts-field-ankomst_kollektivtransport").addClass("hidden");
-                this.$("#route-facts-field-ankomst_kollektivtransport").val("");
-                this.$("#route-facts-field-ankomst_kollektivtransport_description").addClass("hidden");
+                this.$('#route-facts-field-ankomst_kollektivtransport').addClass('hidden');
+                this.$('#route-facts-field-ankomst_kollektivtransport_description').addClass('hidden');
+                this.model.set('kollektiv', '');
             }
         },
 
