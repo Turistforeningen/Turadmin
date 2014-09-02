@@ -12,7 +12,7 @@ module.exports = function (app, express, options) {
     var togeojson = require('togeojson');
     var fs = require('fs');
     var jsdom = require('jsdom').jsdom;
-    var JFUM = require('JFUM');
+    var JFUM = require('jfum');
 
     var jfum = new JFUM({
         tmpDir: '/tmp',
