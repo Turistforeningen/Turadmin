@@ -37,7 +37,8 @@ module.exports = function (app, express, options) {
         } else {
             // the file was rejected or not uploaded correctly
             // error message will be in req.jfum.error
-            res.status(500).send({error: req.jfum.error});
+            var error = req.jfum.error || 'Ukjent feil ved opplasting av fil.';
+            res.status(500).send({"error": error});
 
         }
 

@@ -32,7 +32,13 @@ var DNT = window.DNT || {};
                 //     me.renderProgressBar(data);
                 // },
                 fail: function (e, data) {
-                    // console.error('Upload failed.', e);
+                    var error = 'Ukjent feil ved opplasting av GPX.';
+
+                    if (data && data.jqXHR && data.jqXHR.responseJSON && data.jqXHR.responseJSON.error) {
+                        error = data.jqXHR.responseJSON.error;
+                    }
+
+                    me.$('[data-placeholder-for="gpx-upload-status"]').html(error).addClass('has-error');
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
