@@ -256,6 +256,11 @@ div.line-mouse-marker {
     color: #000 !important;
 }
 
+/* Picture upload */
+.route-images .fileinput-button {
+	margin-bottom: 20px;
+}
+
 /* Route Pictures, removable */
 
 .thumbnail.removable .removeItem {

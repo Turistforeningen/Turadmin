@@ -14,6 +14,9 @@ var DNT = window.DNT || {};
             'updatePictureIndexes': 'updateIndexes'
         },
 
+        $errorContainer: null,
+        $errorMsg: null,
+
         initialize: function (options) {
 
             this.user = options.model.get('user');
@@ -52,6 +55,8 @@ var DNT = window.DNT || {};
 
                 // Before sending file
                 submit: function (e, data) {
+                    that.$errorContainer.addClass('hidden');
+
                     ended = false;
                     that.endProcessBar();
 
@@ -60,6 +65,7 @@ var DNT = window.DNT || {};
 
                 // Current file upload progress
                 progress: function (e, data) {
+
                     if (data.loaded === data.total) {
                         that.startProcessBar();
                     }
@@ -87,7 +93,10 @@ var DNT = window.DNT || {};
 
                 // On error
                 fail: function (e, data) {
-                    console.error("fileupload.opts.fail", e);
+                    that.endProcessBar();
+                    that.hideAndResetProgressBar();
+                    that.$errorMsg.html('En feil oppstod ved bildeopplasting. Du kan prøve igjen med et annet bilde.');
+                    that.$errorContainer.removeClass('hidden');
                 }
             }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
@@ -158,6 +167,9 @@ var DNT = window.DNT || {};
             }
 
             this.pictureCollection.each(this.appendPicture, this);
+
+            this.$errorContainer = this.$el.find('[data-container-for="picture-upload-error"]');
+            this.$errorMsg = this.$el.find('[data-container-for="picture-upload-error-msg"]');
 
             return this;
         }
