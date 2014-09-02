@@ -120,6 +120,17 @@ var DNT = window.DNT || {};
             this.set('bilder', ids);
         },
 
+        updateStartpunkt: function () {
+            var geojson = this.get('geojson'),
+                privat = this.get('privat') || {},
+                startpunkt;
+
+            if (geojson && geojson.coordinates && geojson.coordinates.length) {
+                startpunkt = geojson.coordinates[0]
+                privat.startpunkt = startpunkt;
+            }
+        },
+
         updateTurtypeInTags: function () {
             var tags = this.get('tags');
             var turtype = this.get('turtype');
@@ -167,6 +178,7 @@ var DNT = window.DNT || {};
             var method;
 
             // this.updateLenker();
+            this.updateStartpunkt();
             this.updateSeason();
             this.updateTidsbruk();
 
