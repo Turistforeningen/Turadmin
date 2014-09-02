@@ -14,8 +14,10 @@ var DNT = window.DNT || {};
         el: '#gpxUploadView',
         uploadUrl: '/upload/gpx',
 
+        $uploadButton: null,
         $uploadButtonLabel: null,
         $uploadSpinner: null,
+        $uploadStatus: null,
 
         initialize: function (options) {
             this.setupFileUpload();
@@ -30,11 +32,18 @@ var DNT = window.DNT || {};
                 url: this.uploadUrl,
                 dataType: 'json',
                 done: function (e, data) {
-                    me.uploadDone(data.result.features[0]['geometry']);
+
+                    if (data.result.features && data.result.features.length) {
+                        me.uploadDone(data.result.features[0]['geometry']);
+                    } else {
+                        me.$uploadStatus.html('Kunne ikke hente tur fra GPX-fil').addClass('has-error');
+                    }
+
                 },
                 processstart: function (e) {
                     console.log('Processing started...');
 
+                    me.$uploadStatus.removeClass('has-error').html('');
                     me.$uploadButton.addClass('disabled');
                     me.$uploadButtonLabel.attr('data-default-value', me.$uploadButtonLabel.text());
                     me.$uploadButtonLabel.html('Laster opp...');
@@ -47,7 +56,7 @@ var DNT = window.DNT || {};
                         error = data.jqXHR.responseJSON.error;
                     }
 
-                    me.$('[data-placeholder-for="gpx-upload-status"]').html(error).addClass('has-error');
+                    me.$uploadStatus.html(error).addClass('has-error');
                 },
                 always: function (e, data) {
                     var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
@@ -58,13 +67,6 @@ var DNT = window.DNT || {};
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
-            fileUpload.on('fileuploadprocessfail', function (e, data) {
-                me.$('[data-placeholder-for="gpx-upload-status"]').html(data.files[data.index].error).addClass('has-error');
-            });
-
-            fileUpload.on('fileuploadprocessdone', function (e, data) {
-                me.$('[data-placeholder-for="gpx-upload-status"]').removeClass('has-error').html('');
-            });
         },
 
         uploadDone: function (geometry) {
@@ -75,6 +77,7 @@ var DNT = window.DNT || {};
             this.$uploadButton = this.$el.find('.btn.btn-default');
             this.$uploadButtonLabel = this.$el.find('[data-container-for="btn-label"]');
             this.$uploadSpinner = this.$el.find('[data-container-for="gpx-upload-spinner"]');
+            this.$uploadStatus = this.$el.find('[data-container-for="gpx-upload-status"]');
 
             return this;
         }
