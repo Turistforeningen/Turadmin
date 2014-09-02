@@ -128,6 +128,10 @@ var DNT = window.DNT || {};
             if (geojson && geojson.coordinates && geojson.coordinates.length) {
                 startpunkt = geojson.coordinates[0]
                 privat.startpunkt = startpunkt;
+            } else {
+                if (privat.startpunkt) {
+                    delete privat.startpunkt;
+                }
             }
         },
 
