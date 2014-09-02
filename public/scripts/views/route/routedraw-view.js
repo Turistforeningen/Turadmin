@@ -208,7 +208,7 @@ var DNT = window.DNT || {};
         },
 
         loadGpxGeometry: function (gpxGeometry) {
-            this.addGeoJsonToLayer(gpxGeometry);
+            this.mapView.addGeoJsonToLayer(gpxGeometry);
             var geoJson = this.mapView.routing.getGeoJson();
             this.routeModel.set('geojson', geoJson);
         },
