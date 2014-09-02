@@ -31,23 +31,30 @@ var DNT = window.DNT || {};
                 acceptFileTypes: /(\.|\/)(gpx)$/i,
                 url: this.uploadUrl,
                 dataType: 'json',
-                done: function (e, data) {
-
-                    if (data.result.features && data.result.features.length) {
-                        me.uploadDone(data.result.features[0]['geometry']);
-                    } else {
-                        me.$uploadStatus.html('Kunne ikke hente tur fra GPX-fil').addClass('has-error');
-                    }
-
-                },
                 processstart: function (e) {
-                    console.log('Processing started...');
-
-                    me.$uploadStatus.removeClass('has-error').html('');
+                    me.$uploadStatus.removeClass('error').removeClass('success').html('');
                     me.$uploadButton.addClass('disabled');
                     me.$uploadButtonLabel.attr('data-default-value', me.$uploadButtonLabel.text());
                     me.$uploadButtonLabel.html('Laster opp...');
                     me.$uploadSpinner.removeClass('hidden');
+                },
+                always: function (e, data) {
+                    var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
+                    me.$uploadButtonLabel.removeAttr('data-default-value');
+                    me.$uploadButton.removeClass('disabled');
+                    me.$uploadButtonLabel.html(uploadButtonDefaultValue);
+                    me.$uploadSpinner.addClass('hidden');
+                },
+                done: function (e, data) {
+
+                    if (data.result.features && data.result.features.length) {
+                        me.uploadDone(data.result.features[0]['geometry']);
+                        me.$uploadStatus.html('Turen er hentet fra GPX-fil til kart').addClass('success');
+
+                    } else {
+                        me.$uploadStatus.html('Kunne ikke hente tur fra GPX-fil').addClass('error');
+                    }
+
                 },
                 fail: function (e, data) {
                     var error = 'Ukjent feil ved opplasting av GPX.';
@@ -56,14 +63,7 @@ var DNT = window.DNT || {};
                         error = data.jqXHR.responseJSON.error;
                     }
 
-                    me.$uploadStatus.html(error).addClass('has-error');
-                },
-                always: function (e, data) {
-                    var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
-                    me.$uploadButtonLabel.removeAttr('data-default-value');
-                    me.$uploadButton.removeClass('disabled');
-                    me.$uploadButtonLabel.html(uploadButtonDefaultValue);
-                    me.$uploadSpinner.addClass('hidden');
+                    me.$uploadStatus.html(error).addClass('error');
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 

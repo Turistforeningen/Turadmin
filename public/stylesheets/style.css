@@ -212,8 +212,12 @@ span.error-msg {
 	margin-left: 10px;
 }
 
-.upload-button-status.has-error {
+.upload-button-status.error {
 	color: #a94442;
+}
+
+.upload-button-status.success{
+	color: #333;
 }
 
 
