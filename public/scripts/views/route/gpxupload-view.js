@@ -26,7 +26,7 @@ var DNT = window.DNT || {};
                 url: this.uploadUrl,
                 dataType: 'json',
                 done: function (e, data) {
-                    me.uploadDone(data.result.files[0]['features'][0]['geometry']);
+                    me.uploadDone(data.result.features[0]['geometry']);
                 },
                 // progressall: function (e, data) {
                 //     me.renderProgressBar(data);
@@ -37,8 +37,7 @@ var DNT = window.DNT || {};
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
             fileUpload.on('fileuploadprocessfail', function (e, data) {
-                me.$('[data-placeholder-for="gpx-upload-status"]').html(data.files[0].error).addClass('has-error');
-                // console.log(data.files[0].error);
+                me.$('[data-placeholder-for="gpx-upload-status"]').html(data.files[data.index].error).addClass('has-error');
             });
 
             fileUpload.on('fileuploadprocessdone', function (e, data) {
@@ -47,7 +46,6 @@ var DNT = window.DNT || {};
         },
 
         uploadDone: function (geometry) {
-            console.log('File is uploaded.');
             this.event_aggregator.trigger('map:loadGpxGeometry', geometry);
         },
 
