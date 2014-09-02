@@ -14,8 +14,12 @@ var DNT = window.DNT || {};
         el: '#gpxUploadView',
         uploadUrl: '/upload/gpx',
 
+        $uploadButtonLabel: null,
+        $uploadSpinner: null,
+
         initialize: function (options) {
             this.setupFileUpload();
+            this.render();
         },
 
         setupFileUpload: function () {
@@ -28,9 +32,14 @@ var DNT = window.DNT || {};
                 done: function (e, data) {
                     me.uploadDone(data.result.features[0]['geometry']);
                 },
-                // progressall: function (e, data) {
-                //     me.renderProgressBar(data);
-                // },
+                processstart: function (e) {
+                    console.log('Processing started...');
+
+                    me.$uploadButton.addClass('disabled');
+                    me.$uploadButtonLabel.attr('data-default-value', me.$uploadButtonLabel.text());
+                    me.$uploadButtonLabel.html('Laster opp...');
+                    me.$uploadSpinner.removeClass('hidden');
+                },
                 fail: function (e, data) {
                     var error = 'Ukjent feil ved opplasting av GPX.';
 
@@ -39,6 +48,13 @@ var DNT = window.DNT || {};
                     }
 
                     me.$('[data-placeholder-for="gpx-upload-status"]').html(error).addClass('has-error');
+                },
+                always: function (e, data) {
+                    var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
+                    me.$uploadButtonLabel.removeAttr('data-default-value');
+                    me.$uploadButton.removeClass('disabled');
+                    me.$uploadButtonLabel.html(uploadButtonDefaultValue);
+                    me.$uploadSpinner.addClass('hidden');
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
@@ -56,6 +72,10 @@ var DNT = window.DNT || {};
         },
 
         render: function () {
+            this.$uploadButton = this.$el.find('.btn.btn-default');
+            this.$uploadButtonLabel = this.$el.find('[data-container-for="btn-label"]');
+            this.$uploadSpinner = this.$el.find('[data-container-for="gpx-upload-spinner"]');
+
             return this;
         }
 

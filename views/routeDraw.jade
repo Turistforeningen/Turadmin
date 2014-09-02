@@ -22,9 +22,16 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                                 div.col-lg-7.col-md-7.col-sm-6.col-xs-12
                                     span.btn.btn-default.fileinput-button
                                         span.glyphicon.glyphicon-folder-open
-                                        | &nbsp;&nbsp;Last opp GPX-fil
+                                        | &nbsp;&nbsp;
+                                        span(data-container-for="btn-label") Last opp GPX-fil
                                         input#fileupload-gpx(type="file" name="files[]")
                                     span.upload-button-status(data-placeholder-for="gpx-upload-status")
+                                    div.upload-button-spinner.spinner.hidden(data-container-for="gpx-upload-spinner")
+                                        div.rect1
+                                        div.rect2
+                                        div.rect3
+                                        div.rect4
+
 
         div(data-container-for="map-and-controls")
 
