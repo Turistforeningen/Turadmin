@@ -23,7 +23,6 @@ var errorHandler = require('errorhandler');
 var cookieSession = require('cookie-session');
 var methodOverride = require('method-override');
 var favicon = require('serve-favicon');
-var upload = require('jquery-file-upload-middleware');
 var DNT = require('dnt-api');
 var raven = require('raven');
 
