@@ -93,8 +93,11 @@ var DNT = window.DNT || {};
 
                 // On error
                 fail: function (e, data) {
+                    console.error(e, data)
+
                     that.endProcessBar();
                     that.hideAndResetProgressBar();
+
                     that.$errorMsg.html('En feil oppstod ved bildeopplasting. Du kan prøve igjen med et annet bilde.');
                     that.$errorContainer.removeClass('hidden');
                 }
