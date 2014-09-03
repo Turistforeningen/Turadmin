@@ -119,11 +119,19 @@ a {
 	opacity: 1;
 }
 
-.action-route-save *,
-.action-route-switch-publish-state * {
+.action-route-save span,
+.action-route-save a,
+.action-route-switch-publish-state span,
+.action-route-switch-publish-state a {
 	color: #fff !important;
 }
 
+.action-route-save .disabled span,
+.action-route-save .disabled,
+.action-route-switch-publish-state .disabled span,
+.action-route-switch-publish-state .disabled {
+	color: #999 !important;
+}
 
 /* Page blocks */
 

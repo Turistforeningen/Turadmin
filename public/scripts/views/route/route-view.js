@@ -74,18 +74,21 @@ var DNT = window.DNT || {};
 
         updateSaveButton: function (allChangesSaved) {
 
+            var $saveButton = this.$('.navbar .route-save');
+
             switch (allChangesSaved) {
                 case true:
-                    this.$('.navbar .route-save').removeClass('has-unsaved-changes');
-                    this.$('.navbar .route-save').tooltip({title: ''});
-                    this.$('.navbar .route-save').tooltip('hide');
-                    this.$('.navbar .route-save').tooltip('disable');
+                    $saveButton.removeClass('has-unsaved-changes');
+                    $saveButton.tooltip({title: ''});
+                    $saveButton.tooltip('hide');
+                    $saveButton.tooltip('disable');
+                    $saveButton.removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer');
                     break;
 
                 case false:
-                    this.$('.navbar .route-save').addClass('has-unsaved-changes');
-                    this.$('.navbar .route-save').tooltip({title: 'Du har gjort endringer som ikke er lagret'});
-                    this.$('.navbar .route-save').tooltip('enable');
+                    $saveButton.addClass('has-unsaved-changes');
+                    $saveButton.tooltip({title: 'Du har gjort endringer som ikke er lagret'});
+                    $saveButton.tooltip('enable');
                     break;
             }
 
@@ -119,6 +122,10 @@ var DNT = window.DNT || {};
         save: function() {
 
             var me = this;
+            var $saveButton = this.$('.navbar .route-save');
+
+            $saveButton.addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
+
             var afterPictureAndPoiSync = function () {
 
                 me.route.setPoiIds(me.poiCollection.getPoiIds());
