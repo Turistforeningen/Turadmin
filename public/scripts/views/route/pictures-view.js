@@ -15,7 +15,6 @@ var DNT = window.DNT || {};
         },
 
         $errorContainer: null,
-        $errorMsg: null,
 
         initialize: function (options) {
 
