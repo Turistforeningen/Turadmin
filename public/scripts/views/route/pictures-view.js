@@ -52,7 +52,7 @@ var DNT = window.DNT || {};
                 sequentialUploads: true,
                 url: this.uploadUrl,
                 dataType: 'json',
-                maxFileSize: 10000000,
+                maxFileSize: 6000000,
 
                 // Before sending file
                 submit: function (e, data) {
@@ -111,13 +111,13 @@ var DNT = window.DNT || {};
 
                 if ((data.files.length > 0) && (data.files.length === data.originalFiles.length)) {
                     if (data.files.length === 1) {
-                        errorMsg = 'Bildet du forsøkte å laste opp var for stort eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 10 MB og av typen gif, jpg eller png.';
+                        errorMsg = 'Bildet du forsøkte å laste opp var for stort eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 6 MB og av typen gif, jpg eller png.';
                     } else {
-                        errorMsg = 'Bildene du forsøkte å laste opp var for store eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 10 MB og av typen gif, jpg eller png.';
+                        errorMsg = 'Bildene du forsøkte å laste opp var for store eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 6 MB og av typen gif, jpg eller png.';
                     }
 
                 } else {
-                    errorMsg = 'Et eller flere av bildene var for store eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 10 MB og av typen gif, jpg eller png.. Bildene som ikke overstiger denne grensen blir lastet opp.';
+                    errorMsg = 'Et eller flere av bildene var for store eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 6 MB og av typen gif, jpg eller png.. Bildene som ikke overstiger denne grensen blir lastet opp.';
                 }
 
                 that.addUploadError(errorMsg);
