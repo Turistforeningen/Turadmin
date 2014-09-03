@@ -18,6 +18,5 @@ div.row.page-block.route-images#route-images
             input#fileupload(type="file" name="files[]" multiple="")
         div#progress.progress.hidden
             div.progress-bar.progress-bar-success
-        div.hidden(data-container-for="picture-upload-error")
-            div.alert.alert-danger.alert-dismissable(role="alert")
-                span(data-container-for="picture-upload-error-msg")
+        div(data-container-for="picture-upload-error")
+

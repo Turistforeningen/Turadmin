@@ -52,11 +52,10 @@ var DNT = window.DNT || {};
                 sequentialUploads: true,
                 url: this.uploadUrl,
                 dataType: 'json',
+                maxFileSize: 10000000,
 
                 // Before sending file
                 submit: function (e, data) {
-                    that.$errorContainer.addClass('hidden');
-
                     ended = false;
                     that.endProcessBar();
 
@@ -97,12 +96,33 @@ var DNT = window.DNT || {};
 
                     that.endProcessBar();
                     that.hideAndResetProgressBar();
-
-                    that.$errorMsg.html('En feil oppstod ved bildeopplasting. Du kan prøve igjen med et annet bilde.');
-                    that.$errorContainer.removeClass('hidden');
+                    that.addUploadError('En feil oppstod ved bildeopplasting. Du kan prøve igjen med et annet bilde.');
                 }
-            }).prop('disabled', !$.support.fileInput)
-                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+            });
+
+            fileUpload.prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+            fileUpload.on('fileuploadadd', function (e, data) {
+                that.resetUploadErrors();
+            });
+
+            fileUpload.on('fileuploadprocessfail', function (e, data) {
+                var errorMsg = '';
+
+                if ((data.files.length > 0) && (data.files.length === data.originalFiles.length)) {
+                    if (data.files.length === 1) {
+                        errorMsg = 'Bildet du forsøkte å laste opp var for stort eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 10 MB og av typen gif, jpg eller png.';
+                    } else {
+                        errorMsg = 'Bildene du forsøkte å laste opp var for store eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 10 MB og av typen gif, jpg eller png.';
+                    }
+
+                } else {
+                    errorMsg = 'Et eller flere av bildene var for store eller feil format, og ble ikke lastet opp. Hvert bilde må være mindre enn 10 MB og av typen gif, jpg eller png.. Bildene som ikke overstiger denne grensen blir lastet opp.';
+                }
+
+                that.addUploadError(errorMsg);
+            });
+
         },
 
         startProcessBar: function (data) {
@@ -153,6 +173,15 @@ var DNT = window.DNT || {};
             //setTimeout(this.hideAndResetProgressBar, 1500);
         },
 
+        addUploadError: function (err) {
+            var $error = $('<div class="alert alert-danger"></div>').text(err);
+            this.$errorContainer.append($error);
+        },
+
+        resetUploadErrors: function () {
+            this.$errorContainer.html('');
+        },
+
         appendPicture: function (picture) {
             var view = new DNT.PictureView({model: picture, app: this.model});
 
@@ -172,7 +201,6 @@ var DNT = window.DNT || {};
             this.pictureCollection.each(this.appendPicture, this);
 
             this.$errorContainer = this.$el.find('[data-container-for="picture-upload-error"]');
-            this.$errorMsg = this.$el.find('[data-container-for="picture-upload-error-msg"]');
 
             return this;
         }
