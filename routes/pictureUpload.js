@@ -18,6 +18,7 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
         awsBucketUrl: 'https://s3-eu-west-1.amazonaws.com/turadmin/',
         awsBucketPath: process.env.AWS_BUCKET_PATH,
         awsBucketAcl: 'public-read',
+        awsHttpTimeout: 10000,
         returnExif: true,
 
         versions: [

@@ -24,7 +24,7 @@
     "openid": "~0.5.9",
     "raven": "~0.7.1",
     "restler": "~3.2.2",
-    "s3-uploader": "~0.2.3",
+    "s3-uploader": "~0.3.0",
     "serve-favicon": "~2.1.1",
     "togeojson": "~0.8.0",
     "turbasen-auth": "~1.1.0",

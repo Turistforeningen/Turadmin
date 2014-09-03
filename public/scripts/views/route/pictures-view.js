@@ -65,7 +65,6 @@ var DNT = window.DNT || {};
 
                 // Current file upload progress
                 progress: function (e, data) {
-
                     if (data.loaded === data.total) {
                         that.startProcessBar();
                     }
@@ -81,8 +80,9 @@ var DNT = window.DNT || {};
 
                 // On response from server
                 done: function (e, data) {
+                    that.endProcessBar();
+
                     if (ended) {
-                        that.endProcessBar();
                         setTimeout(that.hideAndResetProgressBar, 1500);
                     }
 
@@ -93,8 +93,11 @@ var DNT = window.DNT || {};
 
                 // On error
                 fail: function (e, data) {
+                    console.error(e, data)
+
                     that.endProcessBar();
                     that.hideAndResetProgressBar();
+
                     that.$errorMsg.html('En feil oppstod ved bildeopplasting. Du kan prøve igjen med et annet bilde.');
                     that.$errorContainer.removeClass('hidden');
                 }
