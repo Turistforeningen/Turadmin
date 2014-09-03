@@ -32,18 +32,15 @@ var DNT = window.DNT || {};
                 url: this.uploadUrl,
                 dataType: 'json',
                 processstart: function (e) {
-                    me.$uploadStatus.removeClass('error').removeClass('success').html('');
-                    me.$uploadButton.addClass('disabled');
-                    me.$uploadButtonLabel.attr('data-default-value', me.$uploadButtonLabel.text());
-                    me.$uploadButtonLabel.html('Laster opp...');
-                    me.$uploadSpinner.removeClass('hidden');
+                    me.renderUploading();
                 },
                 always: function (e, data) {
-                    var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
-                    me.$uploadButtonLabel.removeAttr('data-default-value');
-                    me.$uploadButton.removeClass('disabled');
-                    me.$uploadButtonLabel.html(uploadButtonDefaultValue);
-                    me.$uploadSpinner.addClass('hidden');
+                    // var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
+                    // me.$uploadButtonLabel.removeAttr('data-default-value');
+                    // me.$uploadButton.removeClass('disabled');
+                    // me.$uploadButtonLabel.html(uploadButtonDefaultValue);
+                    // me.$uploadSpinner.addClass('hidden');
+                    me.renderReady();
                 },
                 done: function (e, data) {
 
@@ -67,10 +64,33 @@ var DNT = window.DNT || {};
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
+            fileUpload.on('fileuploadprocessfail', function (e, data) {
+                me.renderReady();
+                me.$uploadStatus.html(data.files[0].error).addClass('has-error');
+                // console.log(data.files[0].error);
+            });
+
         },
 
         uploadDone: function (geometry) {
             this.event_aggregator.trigger('map:loadGpxGeometry', geometry);
+        },
+
+        renderUploading: function () {
+            this.$uploadStatus.removeClass('error').removeClass('success').html('');
+            this.$uploadButton.addClass('disabled');
+            this.$uploadButtonLabel.attr('data-default-value', this.$uploadButtonLabel.text());
+            this.$uploadButtonLabel.html('Laster opp...');
+            this.$uploadSpinner.removeClass('hidden');
+        },
+
+        renderReady: function () {
+            var uploadButtonDefaultValue = this.$uploadButtonLabel.attr('data-default-value');
+
+            this.$uploadButtonLabel.removeAttr('data-default-value');
+            this.$uploadButton.removeClass('disabled');
+            this.$uploadButtonLabel.html(uploadButtonDefaultValue);
+            this.$uploadSpinner.addClass('hidden');
         },
 
         render: function () {
