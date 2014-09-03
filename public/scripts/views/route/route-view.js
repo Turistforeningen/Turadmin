@@ -77,12 +77,14 @@ var DNT = window.DNT || {};
             switch (allChangesSaved) {
                 case true:
                     this.$('.navbar .route-save').removeClass('has-unsaved-changes');
+                    this.$('.navbar .route-save').tooltip({title: ''});
                     this.$('.navbar .route-save').tooltip('hide');
                     this.$('.navbar .route-save').tooltip('disable');
                     break;
 
                 case false:
                     this.$('.navbar .route-save').addClass('has-unsaved-changes');
+                    this.$('.navbar .route-save').tooltip({title: 'Du har gjort endringer som ikke er lagret'});
                     this.$('.navbar .route-save').tooltip('enable');
                     break;
             }
