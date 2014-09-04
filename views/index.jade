@@ -80,11 +80,9 @@ block content
                 p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for, eller om du vil se turer knyttet til din bruker.
 
             div.search.well
-                form(role="search")
-                    div
-                        label Søk etter tur
-                        input(type="text" class="form-control" placeholder="")
-                        button.btn.btn-default(data-action="search" type="button") Søk
+                label Søk etter tur
+                input(type="text" class="form-control" placeholder="" name="search-term")
+                button.btn.btn-default(data-action="search" type="button") Søk
 
 
             div(class="hidden" data-container-for="routes-table")

@@ -15,10 +15,11 @@ var DNT = window.DNT || {};
         isLoading: true,
 
         events: {
-            'click [data-paginator]': 'paginate'
+            'click [data-paginator]': 'paginate',
+            'click [data-action="search"]': 'doSearch'
         },
 
-        initialize : function (options) {
+        initialize: function (options) {
             var mergedUserData = options.userData || {};
             mergedUserData.grupper = options.userGroups;
             var user = new ns.User(mergedUserData);
@@ -27,7 +28,7 @@ var DNT = window.DNT || {};
             this.collection = new ns.RouteCollection();
             this.collection.on('reset', this.onRoutesFetched, this);
 
-            _.bindAll(this, 'paginate');
+            _.bindAll(this, 'paginate', 'doSearch');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -69,6 +70,7 @@ var DNT = window.DNT || {};
             } else {
                 this.fetchQuery = {'gruppe': id};
             }
+            this.clearSearch();
             this.fetchRoutes();
             this.showLoading();
         },
@@ -78,6 +80,18 @@ var DNT = window.DNT || {};
             this.collection.state.currentPage = page;
             this.fetchQuery.skip = (page - 1) * this.collection.state.pageSize;
             this.fetchRoutes();
+        },
+
+        doSearch: function () {
+            var term = this.$el.find('[name="search-term"]').val();
+            this.fetchQuery = this.fetchQuery || {};
+            this.fetchQuery.term = term;
+            this.fetchRoutes();
+            this.render();
+        },
+
+        clearSearch: function () {
+            this.$el.find('[name="search-term"]').val('');
         },
 
         showLoading: function () {
