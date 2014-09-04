@@ -13,12 +13,16 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
     var dms2dec = require('dms2dec');
 
     var ntbApi = require('./restProxy')(router, {ntbApiUri: process.env.NTB_API_URL, ntbApiKey: process.env.NTB_API_KEY});
-    var jfum = new JFUM();
+    var jfum = new JFUM({
+        minFileSize: 1,       // 200 kB
+        maxFileSize: 6000000  // 5 mB
+    });
     var s3Client = new Upload('turadmin', {
         awsBucketUrl: 'https://s3-eu-west-1.amazonaws.com/turadmin/',
         awsBucketPath: process.env.AWS_BUCKET_PATH,
         awsBucketAcl: 'public-read',
         awsHttpTimeout: 10000,
+        asyncLimit: 4,
         returnExif: true,
 
         versions: [
@@ -90,13 +94,17 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
 
     router.options('/upload/picture', jfum.optionsHandler.bind(jfum));
     router.post('/upload/picture', jfum.postHandler.bind(jfum), function(req, res, next) {
-        if (jfum.error) { return next(new Error(jfum.error)); }
         console.log('POST /upload/picture');
+        console.log(req.jfum);
+
+        req.setTimeout(300000)
+
+        if (jfum.error) { return next(new Error(jfum.error)); }
 
         async.mapSeries(req.jfum.files, function(image, cb) {
-            if (image.error) {
-                console.error(image.error);
-                return process.nextTick(async.apply(cb, null, {err: image.err, src: image}));
+            if (image.errors.length > 0) {
+                console.error(image.errors);
+                return process.nextTick(async.apply(cb, null, {err: image.errors[0].message, src: image}));
             }
 
             // Resize and upload image to S3
