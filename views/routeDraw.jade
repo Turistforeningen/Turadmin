@@ -24,9 +24,22 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                                         span.glyphicon.glyphicon-folder-open
                                         | &nbsp;&nbsp;
                                         span(data-container-for="btn-label") Last opp GPX-fil
-                                        input#fileupload-gpx(type="file" name="files[]")
+                                        input(type="file" name="files[]" data-action="gpx-fileupload")
                                     span.upload-button-status(data-container-for="gpx-upload-status")
                                     div.upload-button-spinner.spinner.hidden.three-quarters(data-container-for="gpx-upload-spinner")
+                            // Modal confirm replacing map route
+                            div#modal-confirm-route-replace.modal.fade(tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true")
+                                div.modal-dialog
+                                    div.modal-content
+                                        div.modal-header
+                                            button(type="button" class="close" data-dismiss="modal" aria-hidden="true") &times;
+                                            h4.modal-title(id="modal-map-title") Overskrive inntegning?
+                                        div.modal-body(id="modal-map-body")
+                                            p Dersom du laster opp GPX-fil vil inntegningen som allerede finnes i kartet overskrives med ruten i GPX-filen som lastes opp. Vil du fortsette?
+                                        div.modal-footer
+                                            button(type="button" class="btn btn-primary" data-dismiss="modal") Nei, behold inntegning
+                                            button(type="button" class="btn btn-primary" data-action="gpx-upload-confirm") Ja, overskriv innhold
+
 
         div(data-container-for="map-and-controls")
             div(data-wrapper-for="map-and-controls")
@@ -75,7 +88,6 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                 div.row
                     div.col-lg-12
                         div(data-container-for="map")
-                            // TODO: Move styles to CSS
                             div(data-view="map")
 
     // Modal map container
@@ -88,3 +100,5 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                 div.modal-body(id="modal-map-body")
                 div.modal-footer
                     button(type="button" class="btn btn-primary" data-dismiss="modal") Ferdig
+
+
