@@ -29,56 +29,54 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                                     div.upload-button-spinner.spinner.hidden.three-quarters(data-container-for="gpx-upload-spinner")
 
         div(data-container-for="map-and-controls")
+            div(data-wrapper-for="map-and-controls")
+                div.row.mapControlsRow
+                    div.col-lg-8.col-md-8.col-sm-8
+                        div.mapControls
+                            div.startStopDraw
+                                button.btn.btn-success.btn-group.pull-left(data-toggle="route-draw-tool")
+                                    span.glyphicon.glyphicon-pencil
+                                    span.buttonText &nbsp;Start inntegning
 
-                div(data-wrapper-for="map-and-controls")
+                            div.deleteRoute
+                                button.btn.btn-danger(data-action="route-draw-reset")
+                                    span.glyphicon.glyphicon-trash
+                                    span.buttonText &nbsp;Slett inntegning
 
-                    div.row.mapControlsRow
-                        div.col-lg-8.col-md-8.col-sm-8
-                            div.mapControls
-                                div.startStopDraw
-                                    button.btn.btn-success.btn-group.pull-left(data-toggle="route-draw-tool")
-                                        span.glyphicon.glyphicon-pencil
-                                        span.buttonText &nbsp;Start inntegning
+                            div.toggleRouting
+                                button.btn.btn-default(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på." data-placement="top" data-route-draw-toggle-routing)
+                                    input(type="checkbox")
+                                    <span>&nbsp;Ruting</span>
+                                script.
+                                    $('.toggleRouting button').tooltip();
 
-                                div.deleteRoute
-                                    button.btn.btn-danger(data-action="route-draw-reset")
-                                        span.glyphicon.glyphicon-trash
-                                        span.buttonText &nbsp;Slett inntegning
+                    div.col-lg-4.col-md-4.col-sm-4
+                        div.dropdown.dropdown-select.pull-right.route-field-facts-retning
+                            button.btn.btn-default(data-toggle="dropdown" data-target="#")
+                                span.glyphicon.glyphicon-arrow-right
+                                | &nbsp; Turens retning:&nbsp;
+                                span('data-route-direction-value-placeholder') A-B-A
+                                | &nbsp;
+                                span.caret
+                            ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                                li.selected
+                                    a#route-retning-a-b-a(href="#" data-route-direction-option="aba")
+                                        label A-B-A
+                                        p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
+                                li
+                                    a#route-retning-a-b(href="#" data-route-direction-option="ab")
+                                        label A-B
+                                        p.help-block Turen går fra startpunktet til endepunktet av inntegning.
+                                li
+                                    a#route-retning-b-a(href="#" data-route-direction-option="ba")
+                                        label B-A
+                                        p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 
-                                div.toggleRouting
-                                    button.btn.btn-default(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på." data-placement="top" data-route-draw-toggle-routing)
-                                        input(type="checkbox")
-                                        <span>&nbsp;Ruting</span>
-                                    script.
-                                        $('.toggleRouting button').tooltip();
-
-                        div.col-lg-4.col-md-4.col-sm-4
-                            div.dropdown.dropdown-select.pull-right.route-field-facts-retning
-                                button.btn.btn-default(data-toggle="dropdown" data-target="#")
-                                    span.glyphicon.glyphicon-arrow-right
-                                    | &nbsp; Turens retning:&nbsp;
-                                    span('data-route-direction-value-placeholder') A-B-A
-                                    | &nbsp;
-                                    span.caret
-                                ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
-                                    li.selected
-                                        a#route-retning-a-b-a(href="#" data-route-direction-option="aba")
-                                            label A-B-A
-                                            p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
-                                    li
-                                        a#route-retning-a-b(href="#" data-route-direction-option="ab")
-                                            label A-B
-                                            p.help-block Turen går fra startpunktet til endepunktet av inntegning.
-                                    li
-                                        a#route-retning-b-a(href="#" data-route-direction-option="ba")
-                                            label B-A
-                                            p.help-block Turen går fra endepunktet til startpunktet av inntegning.
-
-                    div.row
-                        div.col-lg-12
-                            div(data-container-for="map")
-                                // TODO: Move styles to CSS
-                                div(data-view="map")
+                div.row
+                    div.col-lg-12
+                        div(data-container-for="map")
+                            // TODO: Move styles to CSS
+                            div(data-view="map")
 
     // Modal map container
     div#modal-map.modal.fade.modal-map(tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true")
