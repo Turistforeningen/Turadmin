@@ -35,11 +35,6 @@ var DNT = window.DNT || {};
                     me.renderUploading();
                 },
                 always: function (e, data) {
-                    // var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
-                    // me.$uploadButtonLabel.removeAttr('data-default-value');
-                    // me.$uploadButton.removeClass('disabled');
-                    // me.$uploadButtonLabel.html(uploadButtonDefaultValue);
-                    // me.$uploadSpinner.addClass('hidden');
                     me.renderReady();
                 },
                 done: function (e, data) {
