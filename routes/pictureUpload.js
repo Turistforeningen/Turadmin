@@ -127,7 +127,7 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
 
         }, function(err, images) {
             if (err) { return next(err); }
-            // res.json({files: images});
+            res.json({files: images});
         });
     });
 
