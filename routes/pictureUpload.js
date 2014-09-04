@@ -22,7 +22,7 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
         awsBucketPath: process.env.AWS_BUCKET_PATH,
         awsBucketAcl: 'public-read',
         awsHttpTimeout: 10000,
-        asyncLimit: 4,
+        asyncLimit: 1,
         returnExif: true,
 
         versions: [
