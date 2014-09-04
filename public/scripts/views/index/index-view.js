@@ -67,6 +67,8 @@ var DNT = window.DNT || {};
             var id = e.target.value;
             if (id == this.user.get('id')) {
                 this.fetchQuery = {'privat.opprettet_av.id': id};
+            } else if (id === 'alle') {
+                this.fetchQuery = {};
             } else {
                 this.fetchQuery = {'gruppe': id};
             }
@@ -126,7 +128,15 @@ var DNT = window.DNT || {};
 
             if (userGroups && userGroups.length > 0) {
                 this.$('.group-select-container').removeClass('hidden');
-                var groupSelect = new ns.SelectView({model: this.model, selectOptions: {user: this.user.get('id'), groups: this.groups}, selectValue: this.fetchQuery.gruppe});
+                var groupSelect = new ns.SelectView({
+                    model: this.model,
+                    selectOptions: {
+                        user: this.user.get('id'),
+                        groups: this.groups,
+                        admin: this.user.get('admin')
+                    }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
+                });
+
                 this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
                 this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
             }
