@@ -15,10 +15,11 @@ var DNT = window.DNT || {};
         isLoading: true,
 
         events: {
-            'click [data-paginator]': 'paginate'
+            'click [data-paginator]': 'paginate',
+            'click [data-action="search"]': 'doSearch'
         },
 
-        initialize : function (options) {
+        initialize: function (options) {
             var mergedUserData = options.userData || {};
             mergedUserData.grupper = options.userGroups;
             var user = new ns.User(mergedUserData);
@@ -27,7 +28,7 @@ var DNT = window.DNT || {};
             this.collection = new ns.RouteCollection();
             this.collection.on('reset', this.onRoutesFetched, this);
 
-            _.bindAll(this, 'paginate');
+            _.bindAll(this, 'paginate', 'doSearch');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -66,9 +67,12 @@ var DNT = window.DNT || {};
             var id = e.target.value;
             if (id == this.user.get('id')) {
                 this.fetchQuery = {'privat.opprettet_av.id': id};
+            } else if (id === 'alle') {
+                this.fetchQuery = {};
             } else {
                 this.fetchQuery = {'gruppe': id};
             }
+            this.clearSearch();
             this.fetchRoutes();
             this.showLoading();
         },
@@ -78,6 +82,18 @@ var DNT = window.DNT || {};
             this.collection.state.currentPage = page;
             this.fetchQuery.skip = (page - 1) * this.collection.state.pageSize;
             this.fetchRoutes();
+        },
+
+        doSearch: function () {
+            var term = this.$el.find('[name="search-term"]').val();
+            this.fetchQuery = this.fetchQuery || {};
+            this.fetchQuery.term = term;
+            this.fetchRoutes();
+            this.render();
+        },
+
+        clearSearch: function () {
+            this.$el.find('[name="search-term"]').val('');
         },
 
         showLoading: function () {
@@ -112,7 +128,15 @@ var DNT = window.DNT || {};
 
             if (userGroups && userGroups.length > 0) {
                 this.$('.group-select-container').removeClass('hidden');
-                var groupSelect = new ns.SelectView({model: this.model, selectOptions: {user: this.user.get('id'), groups: this.groups}, selectValue: this.fetchQuery.gruppe});
+                var groupSelect = new ns.SelectView({
+                    model: this.model,
+                    selectOptions: {
+                        user: this.user.get('id'),
+                        groups: this.groups,
+                        admin: this.user.get('admin')
+                    }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
+                });
+
                 this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
                 this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
             }

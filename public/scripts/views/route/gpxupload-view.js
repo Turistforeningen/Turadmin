@@ -19,7 +19,13 @@ var DNT = window.DNT || {};
         $uploadSpinner: null,
         $uploadStatus: null,
 
+        events: {
+            'click [data-action="gpx-upload-confirm"]': 'gpxUploadConfirm'
+        },
+
         initialize: function (options) {
+            _.bindAll(this, 'gpxUploadConfirm');
+
             this.setupFileUpload();
             this.render();
         },
@@ -27,7 +33,7 @@ var DNT = window.DNT || {};
         setupFileUpload: function () {
             var me = this;
 
-            var fileUpload = this.$('#fileupload-gpx').fileupload({
+            var fileUpload = this.$('[data-action="gpx-fileupload"]').fileupload({
                 acceptFileTypes: /(\.|\/)(gpx)$/i,
                 url: this.uploadUrl,
                 dataType: 'json',
@@ -35,26 +41,21 @@ var DNT = window.DNT || {};
                     me.renderUploading();
                 },
                 always: function (e, data) {
-                    // var uploadButtonDefaultValue = me.$uploadButtonLabel.attr('data-default-value');
-                    // me.$uploadButtonLabel.removeAttr('data-default-value');
-                    // me.$uploadButton.removeClass('disabled');
-                    // me.$uploadButtonLabel.html(uploadButtonDefaultValue);
-                    // me.$uploadSpinner.addClass('hidden');
                     me.renderReady();
                 },
                 done: function (e, data) {
 
                     if (data.result.features && data.result.features.length) {
                         me.uploadDone(data.result.features[0]['geometry']);
-                        me.$uploadStatus.html('Turen er hentet fra GPX-fil til kart').addClass('success');
+                        me.$uploadStatus.html('Turen er hentet til kart').addClass('success');
 
                     } else {
-                        me.$uploadStatus.html('Kunne ikke hente tur fra GPX-fil').addClass('error');
+                        me.$uploadStatus.html('Kunne ikke hente tur').addClass('error');
                     }
 
                 },
                 fail: function (e, data) {
-                    var error = 'Ukjent feil ved opplasting av GPX.';
+                    var error = 'Feil ved opplasting';
 
                     if (data && data.jqXHR && data.jqXHR.responseJSON && data.jqXHR.responseJSON.error) {
                         error = data.jqXHR.responseJSON.error;
@@ -72,8 +73,26 @@ var DNT = window.DNT || {};
 
         },
 
+        gpxUploadConfirm: function (e) {
+            $('#modal-confirm-route-replace').modal('hide');
+            this.loadUploadedGpxInMap();
+        },
+
         uploadDone: function (geometry) {
-            this.event_aggregator.trigger('map:loadGpxGeometry', geometry);
+
+            var routeGeoJsonExists = this.model.get('route').hasRoute();
+
+            this.geometry = geometry;
+
+            if (routeGeoJsonExists === true) {
+                $('#modal-confirm-route-replace').modal('show');
+            } else {
+                this.loadUploadedGpxInMap();
+            }
+        },
+
+        loadUploadedGpxInMap: function () {
+            this.event_aggregator.trigger('map:loadGpxGeometry', this.geometry);
         },
 
         renderUploading: function () {

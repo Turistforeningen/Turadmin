@@ -208,6 +208,13 @@ var DNT = window.DNT || {};
         },
 
         loadGpxGeometry: function (gpxGeometry) {
+            var routeGeoJson = this.routeModel.get('geojson'),
+                routeGeoJsonExists = !!routeGeoJson && !!routeGeoJson.coordinates && (routeGeoJson.coordinates.length > 0);
+
+            if (routeGeoJsonExists === true) {
+                this.routeDrawReset();
+            }
+
             this.mapView.addGeoJsonToLayer(gpxGeometry);
             var geoJson = this.mapView.routing.getGeoJson();
             this.routeModel.set('geojson', geoJson);

@@ -24,80 +24,71 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                                         span.glyphicon.glyphicon-folder-open
                                         | &nbsp;&nbsp;
                                         span(data-container-for="btn-label") Last opp GPX-fil
-                                        input#fileupload-gpx(type="file" name="files[]")
+                                        input(type="file" name="files[]" data-action="gpx-fileupload")
                                     span.upload-button-status(data-container-for="gpx-upload-status")
                                     div.upload-button-spinner.spinner.hidden.three-quarters(data-container-for="gpx-upload-spinner")
+                            // Modal confirm replacing map route
+                            div#modal-confirm-route-replace.modal.fade(tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true")
+                                div.modal-dialog
+                                    div.modal-content
+                                        div.modal-header
+                                            button(type="button" class="close" data-dismiss="modal" aria-hidden="true") &times;
+                                            h4.modal-title(id="modal-map-title") Overskrive inntegning?
+                                        div.modal-body(id="modal-map-body")
+                                            p Dersom du laster opp GPX-fil vil inntegningen som allerede finnes i kartet overskrives med ruten i GPX-filen som lastes opp. Vil du fortsette?
+                                        div.modal-footer
+                                            button(type="button" class="btn btn-primary" data-dismiss="modal") Nei, behold inntegning
+                                            button(type="button" class="btn btn-primary" data-action="gpx-upload-confirm") Ja, overskriv innhold
+
 
         div(data-container-for="map-and-controls")
+            div(data-wrapper-for="map-and-controls")
+                div.row.mapControlsRow
+                    div.col-lg-8.col-md-8.col-sm-8
+                        div.mapControls
+                            div.startStopDraw
+                                button.btn.btn-success.btn-group.pull-left(data-toggle="route-draw-tool")
+                                    span.glyphicon.glyphicon-pencil
+                                    span.buttonText &nbsp;Start inntegning
 
-                div(data-wrapper-for="map-and-controls")
+                            div.deleteRoute
+                                button.btn.btn-danger(data-action="route-draw-reset")
+                                    span.glyphicon.glyphicon-trash
+                                    span.buttonText &nbsp;Slett inntegning
 
-                    div.row.mapControlsRow
-                        div.col-lg-8.col-md-8.col-sm-8
-                            div.mapControls
-                                div.startStopDraw
-                                    button.btn.btn-success.btn-group.pull-left(data-toggle="route-draw-tool")
-                                        span.glyphicon.glyphicon-pencil
-                                        span.buttonText &nbsp;Start inntegning
+                            div.toggleRouting
+                                button.btn.btn-default(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på." data-placement="top" data-route-draw-toggle-routing)
+                                    input(type="checkbox")
+                                    <span>&nbsp;Ruting</span>
+                                script.
+                                    $('.toggleRouting button').tooltip();
 
-                                div.deleteRoute
-                                    button.btn.btn-danger(data-action="route-draw-reset")
-                                        span.glyphicon.glyphicon-trash
-                                        span.buttonText &nbsp;Slett inntegning
+                    div.col-lg-4.col-md-4.col-sm-4
+                        div.dropdown.dropdown-select.pull-right.route-field-facts-retning
+                            button.btn.btn-default(data-toggle="dropdown" data-target="#")
+                                span.glyphicon.glyphicon-arrow-right
+                                | &nbsp; Turens retning:&nbsp;
+                                span('data-route-direction-value-placeholder') A-B-A
+                                | &nbsp;
+                                span.caret
+                            ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                                li.selected
+                                    a#route-retning-a-b-a(href="#" data-route-direction-option="aba")
+                                        label A-B-A
+                                        p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
+                                li
+                                    a#route-retning-a-b(href="#" data-route-direction-option="ab")
+                                        label A-B
+                                        p.help-block Turen går fra startpunktet til endepunktet av inntegning.
+                                li
+                                    a#route-retning-b-a(href="#" data-route-direction-option="ba")
+                                        label B-A
+                                        p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 
-                                div.toggleRouting
-                                    button.btn.btn-default(data-toggle="tooltip" title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på." data-placement="top" data-route-draw-toggle-routing)
-                                        input(type="checkbox")
-                                        <span>&nbsp;Ruting</span>
-                                    script.
-                                        $('.toggleRouting button').tooltip();
-
-                                //div.dropdown.dropdown-select.dropdown-select-toggles
-                                    button.btn.btn-link(data-toggle="dropdown" data-target="#")
-                                        span.glyphicon.glyphicon-cog
-                                        | &nbsp; Alternativer &nbsp;
-                                        span.caret
-                                    ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
-                                        // li
-                                            a(data-route-draw-toggle-autocenter="")
-                                                label Automatisk sentrering
-                                                p.help-block Med automatisk sentrering vil kartet flytte seg automatisk når du tegner nær kanten av kartet. Du kan skru av denne funksjonen.
-                                        li
-                                            a(data-route-draw-toggle-routing="")
-                                                label Ruting
-                                                p.help-block Når du tegner inn ruten vil inntegningen automatisk legge seg til nærmeste stier og veier. Du kan skru av og på denne funksjonen.
-                                        // li
-                                            a(data-route-draw-toggle-snapping="")
-                                                label Magnetisk markør
-                                                p.help-block Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Du kan skru av og på denne funksjonen.
-
-                        div.col-lg-4.col-md-4.col-sm-4
-                            div.dropdown.dropdown-select.pull-right.route-field-facts-retning
-                                button.btn.btn-default(data-toggle="dropdown" data-target="#")
-                                    span.glyphicon.glyphicon-arrow-right
-                                    | &nbsp; Turens retning:&nbsp;
-                                    span('data-route-direction-value-placeholder') A-B-A
-                                    | &nbsp;
-                                    span.caret
-                                ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
-                                    li.selected
-                                        a#route-retning-a-b-a(href="#" data-route-direction-option="aba")
-                                            label A-B-A
-                                            p.help-block Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.
-                                    li
-                                        a#route-retning-a-b(href="#" data-route-direction-option="ab")
-                                            label A-B
-                                            p.help-block Turen går fra startpunktet til endepunktet av inntegning.
-                                    li
-                                        a#route-retning-b-a(href="#" data-route-direction-option="ba")
-                                            label B-A
-                                            p.help-block Turen går fra endepunktet til startpunktet av inntegning.
-
-                    div.row
-                        div.col-lg-12
-                            div(data-container-for="map")
-                                // TODO: Move styles to CSS
-                                div(data-view="map")
+                div.row
+                    div.col-lg-12
+                        div(data-container-for="map")
+                            div(data-view="map")
 
     // Modal map container
     div#modal-map.modal.fade.modal-map(tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true")
@@ -109,3 +100,5 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                 div.modal-body(id="modal-map-body")
                 div.modal-footer
                     button(type="button" class="btn btn-primary" data-dismiss="modal") Ferdig
+
+

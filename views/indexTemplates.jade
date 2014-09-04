@@ -51,6 +51,9 @@ script(type="text/template" id="listRouteItemTemplate").
 script(type="text/template" id="selectOptionsTemplate").
 
     <option value=<%= selectOptions.user %>>Mine turer</option>
+    <% if (selectOptions.admin === true) { %>
+    <option value="alle">Alle turer</option>
+    <% } %>
     <optgroup value="groups" label="Turer tilhørende mine grupper">
     <% _.each(selectOptions.groups, function(element) { %>
         <option value=<%= element.object_id %>><%= element.navn %></option>
