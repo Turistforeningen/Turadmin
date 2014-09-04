@@ -94,6 +94,16 @@ a {
 	margin-top: 0;
 }
 
+.routes-list .search label {
+	margin-right: 10px;
+}
+
+.routes-list .search input {
+	display: inline-block;
+	width: 200px;
+	margin-right: 10px;
+}
+
 /* If a save-status indicator is to be implemented, this CSS could be used */
 
 .nav > li > a.has-unsaved-changes {
