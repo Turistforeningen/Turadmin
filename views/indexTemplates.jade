@@ -13,14 +13,6 @@ script(type="text/template" id="listRouteItemTemplate").
         <span><%= endret %></span>
     </td>
     <td>
-        <%if (status === "Kladd") { %>
-            <a href="#" data-action="route-publish">Publiser</a>
-        <% } else { %>
-            <a href="#" data-action="route-unpublish">Avpubliser</a>
-        <% } %>
-        </a>
-    </td>
-    <td>
         <a id="deleteRoute" data-action="route-delete-modal-open">Slett</a>
         <div class="modal fade">
             <div class="modal-dialog">
