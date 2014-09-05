@@ -82,7 +82,7 @@ var DNT = window.DNT || {};
                     $saveButton.tooltip({title: ''});
                     $saveButton.tooltip('hide');
                     $saveButton.tooltip('disable');
-                    $saveButton.removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer');
+                    $saveButton.removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagre');
                     break;
 
                 case false:
