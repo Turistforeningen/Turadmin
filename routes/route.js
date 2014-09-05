@@ -42,9 +42,6 @@ module.exports = function (app, restProxy, options) {
 
         var turId = req.params.id;
 
-        // TODO: Fix dynamic URL
-        var url = 'http://localhost:3000/restProxy/turer/' + turId;
-
         var onCompleteTurRequest = function (data) {
 
             var routeData = data;
