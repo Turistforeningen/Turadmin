@@ -143,10 +143,6 @@ var DNT = window.DNT || {};
                     trigger: 'manual'
                 }).tooltip('show');
 
-
-
-
-
                 var $firstError = $('.has-error').first();
 
                 $('html, body').animate({
