@@ -94,3 +94,8 @@ if (!module.parent) {
         console.log('Express server listening on port ' + app.get('port'));
     });
 }
+
+// 404 handling
+app.use(function(req, res, next){
+  req.redirect(307, '/');
+});
