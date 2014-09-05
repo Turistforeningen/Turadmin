@@ -63,6 +63,11 @@ var DNT = window.DNT || {};
         ],
 
         validation: {
+            'geojson.coordinates': function (value) {
+                if (!this.hasRoute()) {
+                    return 'Turforslaget må inneholde en inntegning av turen.';
+                }
+            },
             navn: {
                 required: true,
                 msg: 'Dette feltet er påkrevd.'
