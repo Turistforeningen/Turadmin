@@ -106,10 +106,53 @@ var DNT = window.DNT || {};
         },
 
         publish: function() {
-            this.route.set('status', 'Offentlig', { silent: true });
-            this.pictureCollection.setPublished();
-            this.poiCollection.setPublished();
-            this.save();
+
+            var isValid = this.route.isValid(true);
+
+            if (isValid === true) {
+                this.pictureCollection.setPublished();
+                this.poiCollection.setPublished();
+                this.save();
+
+            } else {
+
+                var doHide = 0;
+                var hideTooltip = function () {
+                    // NOTE: The first click event on publish button is fired twice. Because of that,
+                    // the document click listener that will hide the tooltip can not be applied directly
+                    // after the tooltip is shown, as that will cause the tooltip to be hidden on the "second"
+                    // which is supposedly happening instantnly. That is the reason for this quite dirty hack.
+                    if (doHide === 3) {
+                        $('[data-action="route-publish"]').tooltip('hide');
+                        $('[data-action="route-publish"]').on('hidden.bs.tooltip', function () {
+                            $(document).off('click.tooltip');
+                        });
+                    }
+                    doHide++;
+                };
+
+                $('[data-action="route-publish"]').on('shown.bs.tooltip', function () {
+                    $(document).on('click.tooltip', $.proxy(function (e) {
+                        hideTooltip();
+                    }, this));
+                });
+
+                $('[data-action="route-publish"]').tooltip({
+                    title: 'Turen kan ikke publiseres uten at alle de påkrevde feltene er fyllt ut.',
+                    placement: 'bottom',
+                    trigger: 'manual'
+                }).tooltip('show');
+
+
+
+
+
+                var $firstError = $('.has-error').first();
+
+                $('html, body').animate({
+                    scrollTop: ($firstError.offset().top - 80)
+                }, 1000);
+            }
         },
 
         unpublish: function() {
