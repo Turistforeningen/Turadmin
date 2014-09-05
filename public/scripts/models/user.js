@@ -39,9 +39,12 @@ var DNT = window.DNT || {};
                 this.set('navn', options.fornavn + ' ' + options.etternavn);
             }
 
+            var grupper = this.get('grupper');
+            var admin = !!_.findWhere(grupper, {navn: 'Den Norske Turistforening'});
+
+            this.set('admin', admin);
             this.set('_id', id);
             this.set('id', id);
-            // this.set('navn', navn);
         }
 
     });
