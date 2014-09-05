@@ -85,6 +85,12 @@ div.row.page-block.route-draw(id="route-draw" data-view="route-draw")
                                         label B-A
                                         p.help-block Turen går fra endepunktet til startpunktet av inntegning.
 
+                div.row.geojson-validation
+                    div.col-lg-12
+                        div.form-group.required
+                            div(data-model-validation-field-name="geojson.coordinates")
+
+
                 div.row
                     div.col-lg-12
                         div(data-container-for="map")

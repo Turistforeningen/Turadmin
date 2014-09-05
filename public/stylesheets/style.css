@@ -246,6 +246,13 @@ span.error-msg {
 	color: #333;
 }
 
+.geojson-validation .form-group {
+	margin-bottom: 0;
+}
+
+.geojson-validation .help-block {
+	margin-top: 10px;
+}
 
 /* Draw tool styles */
 div.line-mouse-marker {
