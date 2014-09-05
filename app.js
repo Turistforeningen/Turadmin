@@ -49,17 +49,18 @@ app.use(raven.middleware.express(process.env.SENTRY_DNS));
  */
 if (app.get('env') === 'development') {
     // Development only
-    app.use(require('morgan')('dev'));
-    app.use(errorHandler({
-        dumpExceptions: true,
-        showStack: true
-    }));
     app.set('view cache', false);
     app.set('url', process.env.APP_URL + ':' + app.get('port'));
 
 } else if (app.get('env') === 'production') {
     raven.patchGlobal(process.env.SENTRY_DNS);
 }
+
+app.use(require('morgan')('dev'));
+app.use(errorHandler({
+    dumpExceptions: true,
+    showStack: true
+}));
 
 /**
  * Routes and middleware
