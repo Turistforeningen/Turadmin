@@ -137,7 +137,9 @@ var DNT = window.DNT || {};
                     }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
                 });
 
-                this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change', $.proxy(this.onGroupChange, this));
+                this.$('[data-placeholder-for="group-select"]').off('change.groupselect');
+                this.$('[data-placeholder-for="group-select"] select').select2('destroy');
+                this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change.groupselect', $.proxy(this.onGroupChange, this));
                 this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
             }
 
