@@ -26,6 +26,12 @@ var favicon = require('serve-favicon');
 var DNT = require('dnt-api');
 var raven = require('raven');
 
+raven.patchGlobal(process.env.SENTRY_DNS, function(success, err) {
+    console.error('Uncaught Exception');
+    console.error('Logged to Sentry:', success);
+    console.error(err);
+});
+
 // Start app
 var app = module.exports = express();
 
@@ -53,11 +59,7 @@ if (app.get('env') === 'development') {
     app.set('url', process.env.APP_URL + ':' + app.get('port'));
 
 } else if (app.get('env') === 'production') {
-    raven.patchGlobal(process.env.SENTRY_DNS, function(success, err) {
-        console.error('Uncaught Exception');
-        console.error('Logged to Sentry:', success);
-        console.error(err);
-    });
+    // Production only
 }
 
 app.use(require('morgan')('dev'));
