@@ -97,7 +97,8 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
         console.log('POST /upload/picture');
         console.log(req.jfum);
 
-        req.setTimeout(300000)
+        req.setTimeout(0);
+        res.setTimeout(0);
 
         if (req.jfum.error) { return next(new Error(jfum.error)); }
 
