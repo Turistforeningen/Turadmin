@@ -105,6 +105,7 @@ if (!module.parent) {
 app.use(function(req, res, next){
     if (req.originalUrl === '/upload/picture') {
         //throw new Error('This route exists!');
+        console.log(req.jfum);
         return;
     }
     res.redirect(307, '/');
