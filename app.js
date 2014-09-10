@@ -101,5 +101,6 @@ if (!module.parent) {
 
 // 404 handling
 app.use(function(req, res, next){
-  req.redirect(307, '/');
+    res.redirect(307, '/');
 });
+
