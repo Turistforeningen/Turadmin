@@ -6,6 +6,8 @@ api:
   process: node app.js
   approot: .
   node_version: v0.10.31
+  environment:
+    MAGICK_MEMORY_LIMIT: 32MB
   systempackages:
     - imagemagick
 
