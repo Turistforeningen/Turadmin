@@ -104,7 +104,8 @@ if (!module.parent) {
 // 404 handling
 app.use(function(req, res, next){
     if (req.originalUrl === '/upload/picture') {
-        throw new Error('This route exists!');
+        //throw new Error('This route exists!');
+        return;
     }
     res.redirect(307, '/');
 });
