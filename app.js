@@ -103,7 +103,9 @@ if (!module.parent) {
 
 // 404 handling
 app.use(function(req, res, next){
-    console.log('NOT FOUND', req.method, req.originalUrl);
+    if (req.originalUrl === '/upload/picture') {
+        throw new Error('This route exists!');
+    }
     res.redirect(307, '/');
 });
 
