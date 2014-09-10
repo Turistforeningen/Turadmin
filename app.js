@@ -53,7 +53,11 @@ if (app.get('env') === 'development') {
     app.set('url', process.env.APP_URL + ':' + app.get('port'));
 
 } else if (app.get('env') === 'production') {
-    raven.patchGlobal(process.env.SENTRY_DNS);
+    raven.patchGlobal(process.env.SENTRY_DNS, function(success, err) {
+        console.error('Uncaught Exception');
+        console.error('Logged to Sentry:', success);
+        console.error(err);
+    });
 }
 
 app.use(require('morgan')('dev'));
