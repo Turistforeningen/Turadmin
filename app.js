@@ -101,6 +101,7 @@ if (!module.parent) {
 
 // 404 handling
 app.use(function(req, res, next){
+    console.log('NOT FOUND', req.method, req.originalUrl);
     res.redirect(307, '/');
 });
 
