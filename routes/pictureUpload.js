@@ -99,7 +99,7 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
 
         req.setTimeout(300000)
 
-        if (jfum.error) { return next(new Error(jfum.error)); }
+        if (req.jfum.error) { return next(new Error(jfum.error)); }
 
         async.mapSeries(req.jfum.files, function(image, cb) {
             if (image.errors.length > 0) {
