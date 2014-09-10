@@ -105,6 +105,7 @@ if (!module.parent) {
 app.use(function(req, res, next){
     if (req.originalUrl === '/upload/picture') {
         //throw new Error('This route exists!');
+        console.log('404 handling');
         console.log(req.jfum);
         return;
     }
