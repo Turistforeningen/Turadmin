@@ -102,6 +102,8 @@ module.exports = function (router) { // TODO: Pass router instead of app as argu
 
         if (req.jfum.error) { return next(new Error(jfum.error)); }
 
+        //return;
+
         async.mapSeries(req.jfum.files, function(image, cb) {
             if (image.errors.length > 0) {
                 console.error(image.errors);
