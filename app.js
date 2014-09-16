@@ -78,7 +78,7 @@ require('./routes/auth')(app);
 
 require('./routes/termsAndConditions')(app);
 
-require('./routes')(app, {
+require('./routes/routes-index')(app, {
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
     userGroupsFetcher: userGroupsFetcher
 });
@@ -100,6 +100,11 @@ if (!module.parent) {
         console.log('Express server listening on port ' + app.get('port'));
     });
 }
+
+// Redirect requests to '/' to '/turer'
+app.use('/', function(req, res, next){
+  res.redirect(301, '/turer');
+});
 
 // 404 handling
 app.use(function(req, res, next){

@@ -11,7 +11,7 @@ module.exports = function (app, options) {
     /**
      * GET list of routes (index page)
      */
-    var getIndex = function (req, res) {
+    var getRoutesIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies.userDefaultRouteFetchQuery : undefined;
@@ -28,9 +28,7 @@ module.exports = function (app, options) {
 
     };
 
-    app.get('/', userGroupsFetcher);
-    app.get('/', getIndex);
-    app.get('/index', userGroupsFetcher);
-    app.get('/index', getIndex);
+    app.get('/turer', userGroupsFetcher);
+    app.get('/turer', getRoutesIndex);
 
 };
