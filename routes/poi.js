@@ -34,7 +34,7 @@ module.exports = function (app, restProxy, options) {
     var poiNew = function (req, res, next) {
         req.renderOptions = req.renderOptions || {};
         req.renderOptions.title = 'Opprett nytt sted';
-        res.render('poi', req.renderOptions);
+        res.render('pois/edit', req.renderOptions);
     };
 
     var poiEdit = function (req, res, next) {
@@ -78,7 +78,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.poiData = JSON.stringify(poiData);
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
 
-                res.render('poi', req.renderOptions);
+                res.render('pois/edit', req.renderOptions);
             });
 
             allResourcesLoaded();
