@@ -182,6 +182,18 @@ var DNT = window.DNT || {};
             }
         },
 
+        cleanTags: function () {
+            var tags = this.get('tags');
+
+            for (var i = 0; i < tags.length; i++) {
+                if (tags[i] === '') {
+                    tags.splice(i, 1);
+                }
+            }
+
+            this.set('tags', tags);
+        },
+
         save: function (attrs, options) {
             var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
             var method;
@@ -190,6 +202,7 @@ var DNT = window.DNT || {};
             this.updateStartpunkt();
             this.updateSeason();
             this.updateTidsbruk();
+            this.cleanTags();
 
             attrs = attrs || this.toJSON();
             options = options || {};
