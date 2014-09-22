@@ -83,6 +83,10 @@ require('./routes/routes-index')(app, {
     userGroupsFetcher: userGroupsFetcher
 });
 
+require('./routes/pois-index')(app, {
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher
+});
 
 // var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });

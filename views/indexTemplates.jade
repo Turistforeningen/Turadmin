@@ -1,7 +1,7 @@
 script(type="text/template" id="listRouteItemTemplate").
     <td class="route-title">
         <span>
-            <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %><em>Tur uten navn</em><% } %>
+            <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %><em>Uten navn</em><% } %>
         </span>
     </td>
     <td>
@@ -19,15 +19,11 @@ script(type="text/template" id="listRouteItemTemplate").
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Slette tur?</h4>
+                        <h4 class="modal-title">Slette?</h4>
                     </div>
                     <div class="modal-body">
                         <p>
-                            Er du sikker på at du vil slette turen
-                            <span data-placeholder-for="route-name">
-                                <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %>Tur uten navn<% } %>
-                            </span>
-                            ?
+                            Er du sikker på at du vil slette<span data-placeholder-for="route-name"><% if (typeof navn != 'undefined') { %> <%= navn %><% } %></span>?
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -39,14 +35,14 @@ script(type="text/template" id="listRouteItemTemplate").
         </div><!-- /.modal -->
     </td>
 
-
+//- Shared template for options for filtering which routes or pois to see on index page
 script(type="text/template" id="selectOptionsTemplate").
 
-    <option value=<%= selectOptions.user %>>Mine turer</option>
+    <option value=<%= selectOptions.user %>>Mine <%= selectOptions.itemType %>er</option>
     <% if (selectOptions.admin === true) { %>
-    <option value="alle">Alle turer</option>
+    <option value="alle">Alle <%= selectOptions.itemType %>er</option>
     <% } %>
-    <optgroup value="groups" label="Turer tilhørende mine grupper">
+    <optgroup value="groups" label="<%= selectOptions.itemType.charAt(0).toUpperCase() + selectOptions.itemType.slice(1) %>er tilhørende mine grupper">
     <% _.each(selectOptions.groups, function(element) { %>
         <option value=<%= element.object_id %>><%= element.navn %></option>
     <% }); %>

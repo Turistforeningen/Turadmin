@@ -13,7 +13,7 @@ var DNT = window.DNT || {};
         return '/restProxy/steder';
     };
 
-    ns.PoiCollection = Backbone.Collection.extend({
+    ns.PoiCollection = ns.NtbCollection.extend({
 
         url: function () {
             return apiUri();
@@ -21,6 +21,13 @@ var DNT = window.DNT || {};
 
         model: ns.Poi,
         removedModels: [],
+
+        state: {
+            pageSize: 20,
+            currentPage: 1,
+            paginatorRequired: false
+        },
+
 
         initialize: function () {
             this.on('add', this.onAdd, this);

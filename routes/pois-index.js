@@ -11,25 +11,25 @@ module.exports = function (app, options) {
     /**
      * GET list of routes (index page)
      */
-    var getRoutesIndex = function (req, res) {
+    var getPoisIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies.userDefaultRouteFetchQuery : undefined;
 
         var renderOptions = {
-            title: 'Mine turer',
+            title: 'Mine steder',
             userData: JSON.stringify(req.session.user),
             userGroups: JSON.stringify(userGroups),
             userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
             authType: req.session.authType,
-            itemType: 'tur'
+            itemType: 'sted'
         };
 
-        res.render('routes/index', renderOptions);
+        res.render('pois/index', renderOptions);
 
     };
 
-    app.get('/turer', userGroupsFetcher);
-    app.get('/turer', getRoutesIndex);
+    app.get('/steder', userGroupsFetcher);
+    app.get('/steder', getPoisIndex);
 
 };

@@ -86,19 +86,19 @@ a {
 
 /* Index - routes listing */
 
-.routes-list .paginator {
+.item-list .paginator {
 	text-align: center;
 }
 
-.routes-list .paginator .pagination {
+.item-list .paginator .pagination {
 	margin-top: 0;
 }
 
-.routes-list .search label {
+.item-list .search label {
 	margin-right: 10px;
 }
 
-.routes-list .search input {
+.item-list .search input {
 	display: inline-block;
 	width: 200px;
 	margin-right: 10px;

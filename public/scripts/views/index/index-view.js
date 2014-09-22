@@ -11,7 +11,7 @@ var DNT = window.DNT || {};
 
     ns.IndexView = Backbone.View.extend({
 
-        el: '#listContainer',
+        el: '[data-container-for="items"]',
         isLoading: true,
 
         events: {
@@ -25,8 +25,22 @@ var DNT = window.DNT || {};
             var user = new ns.User(mergedUserData);
             this.user = user;
 
-            this.collection = new ns.RouteCollection();
-            this.collection.on('reset', this.onRoutesFetched, this);
+            switch (options.itemType) {
+                case 'tur':
+                    this.collection = new ns.RouteCollection();
+                    break;
+
+                case 'sted':
+                    this.collection = new ns.PoiCollection();
+                    break;
+
+                default:
+                    break;
+            }
+
+            this.itemType = options.itemType;
+
+            this.collection.on('reset', this.onItemsFetched, this);
 
             _.bindAll(this, 'paginate', 'doSearch');
 
@@ -46,11 +60,11 @@ var DNT = window.DNT || {};
                 this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
             }
 
-            this.fetchRoutes();
+            this.fetchItems();
             this.render();
         },
 
-        fetchRoutes: function () {
+        fetchItems: function () {
             this.isLoading = true;
             this.collection.fetch({
                 reset: true,
@@ -58,7 +72,7 @@ var DNT = window.DNT || {};
             });
         },
 
-        onRoutesFetched: function (e) {
+        onItemsFetched: function (e) {
             this.isLoading = false;
             this.render();
         },
@@ -73,7 +87,7 @@ var DNT = window.DNT || {};
                 this.fetchQuery = {'gruppe': id};
             }
             this.clearSearch();
-            this.fetchRoutes();
+            this.fetchItems();
             this.showLoading();
         },
 
@@ -81,14 +95,14 @@ var DNT = window.DNT || {};
             var page = $(e.target).data('paginator');
             this.collection.state.currentPage = page;
             this.fetchQuery.skip = (page - 1) * this.collection.state.pageSize;
-            this.fetchRoutes();
+            this.fetchItems();
         },
 
         doSearch: function () {
             var term = this.$el.find('[name="search-term"]').val();
             this.fetchQuery = this.fetchQuery || {};
             this.fetchQuery.term = term;
-            this.fetchRoutes();
+            this.fetchItems();
             this.render();
         },
 
@@ -97,27 +111,24 @@ var DNT = window.DNT || {};
         },
 
         showLoading: function () {
-            this.$('[data-container-for="loading-routes-message"]').removeClass('hidden')
-            this.$('[data-container-for="loading-routes-message"]').html('<span>Laster turer...</span>');
-            this.$('[data-container-for="no-routes-alert"]').addClass('hidden');
-            this.$('[data-container-for="routes-table"]').addClass('hidden');
+            this.$('[data-container-for="loading-items-message"]').removeClass('hidden')
+            this.$('[data-container-for="no-items-alert"]').addClass('hidden');
+            this.$('[data-container-for="items-table"]').addClass('hidden');
             this.$('[data-container-for="paginator"]').addClass('hidden');
-
         },
 
         showRoutes: function () {
-            this.$('[data-container-for="no-routes-alert"]').addClass('hidden');
-            this.$('[data-container-for="loading-routes-message"]').addClass('hidden');
-            this.$('[data-container-for="routes-table"]').removeClass('hidden');
+            this.$('[data-container-for="no-items-alert"]').addClass('hidden');
+            this.$('[data-container-for="loading-items-message"]').addClass('hidden');
+            this.$('[data-container-for="items-table"]').removeClass('hidden');
             this.$('[data-container-for="paginator"]').removeClass('hidden');
 
         },
 
         showNoRoutes: function () {
-            this.$('[data-container-for="loading-routes-message"]').addClass('hidden');
-            this.$('[data-container-for="routes-table"]').addClass('hidden');
-            this.$('[data-container-for="no-routes-alert"]').removeClass('hidden');
-            this.$('[data-container-for="no-routes-alert"]').html('<div class="alert alert-info"><strong>Ingen turer:</strong> Fant ingen turer tilhørende valgt bruker eller gruppe.</div>');
+            this.$('[data-container-for="loading-items-message"]').addClass('hidden');
+            this.$('[data-container-for="items-table"]').addClass('hidden');
+            this.$('[data-container-for="no-items-alert"]').removeClass('hidden');
             this.$('[data-container-for="paginator"]').addClass('hidden');
 
         },
@@ -133,7 +144,8 @@ var DNT = window.DNT || {};
                     selectOptions: {
                         user: this.user.get('id'),
                         groups: this.groups,
-                        admin: this.user.get('admin')
+                        admin: this.user.get('admin'),
+                        itemType: this.itemType
                     }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
                 });
 
@@ -146,10 +158,10 @@ var DNT = window.DNT || {};
             if (this.isLoading === true) {
                 this.showLoading();
             } else if (this.collection.length > 0) {
-                this.$el.find('#listItems').empty();
+                this.$el.find('[data-container-for="item-rows"]').empty();
                 this.collection.each(function (route) {
-                    var itemView = new ns.ListItemView({model: route});
-                    this.$el.find("#listItems").append(itemView.render().el);
+                    var itemView = new ns.ListItemView({model: route, path: this.itemType});
+                    this.$el.find('[data-container-for="item-rows"]').append(itemView.render().el);
                 }, this);
                 this.showRoutes();
 

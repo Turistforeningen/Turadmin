@@ -23,15 +23,14 @@ var DNT = window.DNT || {};
             'click [data-action="route-unpublish"]': 'unpublishRoute'
         },
 
-        initialize : function (options) {
-            this.path = options.path;
+        initialize : function () {
             this.model.on('destroy', this.removeItemView, this);
             _.bindAll(this, 'publishRoute', 'unpublishRoute');
         },
 
         loadRoute: function () {
-            var url = '/' + this.path + '/' + this.model.get('id');
-            window.location.href = url;
+            var turId = this.model.get('_id');
+            window.location = '/tur/' + turId;
         },
 
         deleteRoute: function (e) {

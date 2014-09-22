@@ -1,0 +1,42 @@
+extends ../index
+
+block content
+
+    div.container
+        div.masthead
+            h2.page-header Mine steder
+
+        div.item-list.item-list-pois(data-container-for="items")
+            // TODO: Move styles to CSS-file
+            p(style="margin-bottom: 30px;") Her er alle stedene du har lagt inn. Klikk på de enkelte stedene for å gjøre endringer.
+                a.btn.btn-primary.pull-right(href="/sted") Nytt sted
+
+            // TODO: Move styles to CSS-file
+            div.group-select-container(style="margin-bottom: 20px;" class="hidden")
+                div(data-placeholder-for="group-select")
+                p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se steder for, eller om du vil se steder knyttet til din bruker.
+
+            div.search.well
+                label Søk etter sted
+                input(type="text" class="form-control" placeholder="" name="search-term")
+                button.btn.btn-default(data-action="search" type="button") Søk
+
+            div(class="hidden" data-container-for="items-table")
+                table.table.table-bordered.table-hover
+                    thead
+                        tr
+                            th Tittel
+                            th Publisert
+                            th Lagret
+                            th Valg
+                    tbody(data-container-for="item-rows")
+
+            div(class="hidden" data-container-for="no-items-alert")
+                div.alert.alert-info
+                    strong Ingen steder:
+                    span Fant ingen steder tilhørende valgt bruker eller gruppe.
+
+            div(class="hidden" data-container-for="loading-items-message")
+                span Henter steder...
+
+            div.paginator(data-container-for="paginator")
