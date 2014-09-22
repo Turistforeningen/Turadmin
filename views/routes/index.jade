@@ -1,5 +1,16 @@
 extends ../index
 
+
+block navbarCollapse
+
+    +navbarCollapseIndex('routes')
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        include ../dropDownNavigation
+
+
 block content
 
     div.container

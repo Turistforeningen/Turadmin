@@ -44,7 +44,13 @@ a {
 		position: absolute;
 		left: 50%;
 		margin-left: -190px;
+		text-align: center;
 	}
+}
+
+ul.nav.navbar-nav.navbar-center li {
+	float: none;
+	display: inline-block;
 }
 
 .navbar {

@@ -51,6 +51,20 @@ block extraHeadContent
         | new DNT.PoiIndexView(appData);
         | });
 
+mixin navbarCollapseIndex(active)
+    ul.nav.navbar-nav.navbar-center.hidden-sm
+
+        li(class=(active == 'routes' ? 'link-routes active' : 'link-routes'))
+            a(href="/turer")
+                span.glyphicon.glyphicon-globe
+                | &nbsp;Mine turer
+
+        li(class=(active == 'pois' ? 'link-pois active' : 'link-pois'))
+            a(href="/steder")
+                span.glyphicon.glyphicon-pushpin
+                | &nbsp;Mine steder
+
+
 block navbarHeader
     a.navbar-brand(href="/" alt="Til mine turer")
         img(src="/images/ut-no-logo-hvit.png")
@@ -60,10 +74,3 @@ block navbarHeader
         span.icon-bar
         span.icon-bar
         span.icon-bar
-
-block routeNavigation
-
-    // Right side navigation
-    ul.nav.navbar-nav.navbar-right
-
-        include dropDownNavigation
