@@ -109,12 +109,12 @@ if (!module.parent) {
 }
 
 // Redirect requests to '/' to '/turer'
-app.use('/', function(req, res, next){
-  // res.redirect(301, '/turer');
+app.use('/', function (req, res, next) {
+  res.redirect(301, '/turer');
 });
 
 // 404 handling
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     if (req.originalUrl === '/upload/picture') {
         //throw new Error('This route exists!');
         console.log('404 handling');
