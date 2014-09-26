@@ -296,7 +296,7 @@ div.line-mouse-marker {
 }
 
 /* Picture upload */
-.route-images .fileinput-button {
+.route-pictures .fileinput-button {
 	margin-bottom: 20px;
 }
 
@@ -324,15 +324,15 @@ div.line-mouse-marker {
 	line-height: 20px;
 }
 
-.route-images-all-container .thumbnail {
+.route-pictures-all-container .thumbnail {
 	height: 160px;
 }
 
-.route-images-all-container .thumbnail img {
+.route-pictures-all-container .thumbnail img {
     max-height: 100%;
 }
 
-.route-images .progress {
+.route-pictures .progress {
 	margin-top: 20px;
 }
 
@@ -697,4 +697,39 @@ body.modal-open {
 	height: 20px;
 	position: relative;
 	top: 6px;
+}
+
+/* POI Admin */
+
+.position-by-coordinates .popover {
+
+}
+
+.position-by-coordinates .form-inline .input-group .input-group-addon {
+	width: 36px;
+}
+.position-by-coordinates .popover {
+	width: 220px;
+}
+
+.position-by-coordinates .popover button {
+	margin-right: 10px;
+	width: 89px;
+}
+
+.position-by-coordinates .popover button:last-child {
+	margin-right: 0;
+}
+
+.position-by-coordinates .input-group {
+	margin-bottom: 10px;
+}
+
+.btn-label {
+	display: inline-block;
+	padding: 6px 0;
+}
+
+.position-by-marker .btn-block {
+	margin: 0;
 }

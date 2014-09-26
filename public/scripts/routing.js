@@ -128,4 +128,12 @@ var DNT = window.DNT || {};
         };
     };
 
+    // Expose Routing as an Asynchronous Module
+    if (typeof define !== 'undefined') {
+        define('routing', [], function () {
+            return ns.Routing;
+        });
+
+    }
+
 }(DNT));

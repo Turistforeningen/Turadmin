@@ -1,6 +1,32 @@
 extends ../index
 
 
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded route with userData:', !{userData});
+        - if (typeof(userDefaultRouteFetchQuery) !== 'undefined')
+            | appData.userDefaultRouteFetchQuery = !{userDefaultRouteFetchQuery};
+            //- | console.log('Loaded route with userDefaultGroup:', '#{userDefaultGroup}');
+        - if (typeof(authType) !== 'undefined')
+            | appData.authType = '#{authType}';
+            //- | console.log('Loaded route with authType:', '#{authType}');
+
+        | appData.itemType = '#{itemType}';
+
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/poi-index.js']);
+
+
+
 block navbarCollapse
 
     +navbarCollapseIndex('pois')
@@ -9,7 +35,6 @@ block navbarCollapse
     ul.nav.navbar-nav.navbar-right
 
         include ../dropDownNavigation
-
 
 
 block content

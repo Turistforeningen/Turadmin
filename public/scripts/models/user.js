@@ -4,12 +4,16 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    ns.User = Backbone.Model.extend({
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone');
+
+    // Module
+    return Backbone.Model.extend({
 
         idAttribute: '_id',
         type: 'user',
@@ -49,4 +53,4 @@ var DNT = window.DNT || {};
 
     });
 
-}(DNT));
+});

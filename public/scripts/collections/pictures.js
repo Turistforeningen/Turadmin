@@ -4,22 +4,26 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
+
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        Picture = require('models/picture');
 
     var apiUri = function () {
         return "/restProxy/bilder";
     };
 
-    ns.PictureCollection = Backbone.Collection.extend({
+    return Backbone.Collection.extend({
 
         url: function () {
             return apiUri();
         },
 
-        model: ns.Picture,
+        model: Picture,
 
         removedModels: [],
 
@@ -27,7 +31,13 @@ var DNT = window.DNT || {};
             return model.get("ordinal");
         },
 
-        initialize: function () {
+        initialize: function (pictures) {
+            if (!!pictures && pictures.length) {
+                for (var i = 0; i < pictures.length; i++) {
+                    this.add(new Picture(pictures[i]));
+                }
+            }
+
             this.nextOrdinal = 0;
             this.on('add', this.modelAdded, this);
             this.on('remove', this.onRemove, this);
@@ -144,4 +154,4 @@ var DNT = window.DNT || {};
         }
     });
 
-}(DNT));
+});

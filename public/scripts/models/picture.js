@@ -4,16 +4,19 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
+
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone');
 
     var apiUri = function () {
         return '/restProxy/bilder';
     };
 
-    ns.Picture = Backbone.Model.extend({
+    return Backbone.Model.extend({
 
         idAttribute: '_id',
         type: 'picture',
@@ -177,4 +180,4 @@ var DNT = window.DNT || {};
 
     });
 
-}(DNT));
+});

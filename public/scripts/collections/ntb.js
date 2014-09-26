@@ -4,12 +4,15 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    ns.NtbCollection = Backbone.Collection.extend({
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone');
+
+    return Backbone.Collection.extend({
 
         state: {
             pageSize: 20,
@@ -45,4 +48,4 @@ var DNT = window.DNT || {};
 
     });
 
-}(DNT));
+});

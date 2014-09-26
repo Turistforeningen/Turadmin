@@ -1,52 +1,66 @@
 doctype html
 html
     head
-        title= pageTitle
-        link(rel='stylesheet', href='/lib/bootstrap/css/bootstrap.min.css')
-        link(rel='stylesheet', href='/stylesheets/style.css')
-        script(src='/lib/jquery/jquery-1.10.2.min.js')
-        script(src='/lib/bootstrap/js/bootstrap.min.js')
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        block head
+            title= pageTitle
+            link(rel='stylesheet', href='/lib/bootstrap/css/bootstrap.min.css')
+            link(rel='stylesheet', href='/lib/select2-3.5.1/select2.css')
+            link(rel='stylesheet', href='/lib/select2-3.5.1/select2-bootstrap3.css')
+            link(rel='stylesheet', href='/lib/jquery.fileupload/css/jquery.fileupload.css')
+            link(rel='stylesheet', href='/lib/leaflet-0.7.2/leaflet.css')
+            link(rel='stylesheet', href='/lib/Leaflet.draw/leaflet.draw.css')
+            link(rel='stylesheet', href='/stylesheets/style.css')
 
-        link(rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-touch-icon-57x57.png")
-        link(rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-touch-icon-114x114.png")
-        link(rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-touch-icon-72x72.png")
-        link(rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-touch-icon-144x144.png")
-        link(rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-touch-icon-60x60.png")
-        link(rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png")
-        link(rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-touch-icon-76x76.png")
-        link(rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png")
-        link(rel="icon" type="image/png" href="/images/favicons/favicon-196x196.png" sizes="196x196")
-        link(rel="icon" type="image/png" href="/images/favicons/favicon-160x160.png" sizes="160x160")
-        link(rel="icon" type="image/png" href="/images/favicons/favicon-96x96.png" sizes="96x96")
-        link(rel="icon" type="image/png" href="/images/favicons/favicon-32x32.png" sizes="32x32")
-        link(rel="icon" type="image/png" href="/images/favicons/favicon-16x16.png" sizes="16x16")
-        meta(name="msapplication-TileColor" content="#da532c")
-        meta(name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png")
-        <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
-        block extraHeadContent
+            meta(name="viewport" content="width=device-width, initial-scale=1.0")
 
-    body(data-apiUri=routeApiUri data-spy="scroll" data-target=".navbar-route")
+            link(rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-touch-icon-57x57.png")
+            link(rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-touch-icon-114x114.png")
+            link(rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-touch-icon-72x72.png")
+            link(rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-touch-icon-144x144.png")
+            link(rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-touch-icon-60x60.png")
+            link(rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png")
+            link(rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-touch-icon-76x76.png")
+            link(rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png")
+            link(rel="icon" type="image/png" href="/images/favicons/favicon-196x196.png" sizes="196x196")
+            link(rel="icon" type="image/png" href="/images/favicons/favicon-160x160.png" sizes="160x160")
+            link(rel="icon" type="image/png" href="/images/favicons/favicon-96x96.png" sizes="96x96")
+            link(rel="icon" type="image/png" href="/images/favicons/favicon-32x32.png" sizes="32x32")
+            link(rel="icon" type="image/png" href="/images/favicons/favicon-16x16.png" sizes="16x16")
+            meta(name="msapplication-TileColor" content="#da532c")
+            meta(name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png")
+            <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
 
-        div#view-route
+            script(src="/lib/requirejs-2.1.15/require.js")
+            script(src="/scripts/apps/config.js")
 
-            // Navbar
-            div.navbar.navbar-fixed-top.navbar-inverse.navbar-route
-                div.container
-                    div.navbar-header
 
-                        block navbarHeader
-                            a.navbar-brand(href="/" alt="Til mine turer")
-                                img(src="/images/ut-no-logo-hvit.png")
+    body(data-apiUri=routeApiUri data-spy="scroll" data-target=".navbar-app")
 
-                    div.collapse.navbar-collapse#route-navigation-collapse
-                        block navbarCollapse
+        block body
 
-            block content
+            block app
 
-            // TODO: Move CSS to stylesheet
-            div.container
-                div.row
-                    div.col-lg-12
-                        div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
-                            p Opphavsrett &copy; 2008 - 2014 Den Norske Turistforening og NRK. Alle rettigheter reservert.
+                div.app(data-view="app")
+
+                    div#view-app
+
+                        // Navbar
+                        div.navbar.navbar-fixed-top.navbar-inverse.navbar-app
+                            div.container
+                                div.navbar-header
+
+                                    block navbarHeader
+                                        a.navbar-brand(href="/" alt="Til mine turer")
+                                            img(src="/images/ut-no-logo-hvit.png")
+
+                                div.collapse.navbar-collapse#app-navigation-collapse
+                                    block navbarCollapse
+
+                        block content
+
+                        // TODO: Move CSS to stylesheet
+                        div.container
+                            div.row
+                                div.col-lg-12
+                                    div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
+                                        p Opphavsrett &copy; 2008 - 2014 Den Norske Turistforening og NRK. Alle rettigheter reservert.

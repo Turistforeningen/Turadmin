@@ -110,7 +110,7 @@ if (!module.parent) {
 
 // Redirect requests to '/' to '/turer'
 app.use('/', function(req, res, next){
-  res.redirect(301, '/turer');
+  // res.redirect(301, '/turer');
 });
 
 // 404 handling

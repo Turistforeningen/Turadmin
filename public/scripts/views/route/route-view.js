@@ -15,6 +15,64 @@ var DNT = window.DNT || {};
 
         initialize: function (options) {
 
+            options = options || {};
+
+            var model = new ns.App(),
+                mergedUserData = options.userData || {},
+                user,
+                routeData,
+                route;
+
+            mergedUserData.grupper = options.userGroups;
+            user = new ns.User(mergedUserData);
+
+            if (options.routeData) {
+                // Existing route
+                routeData = options.routeData;
+            } else {
+                // New route
+                routeData = {privat: {opprettet_av: {id: user.get('id'), navn: user.get('navn'), epost: user.get('epost')}}};
+
+                var userGroup = user.get('gruppe');
+                if (userGroup && userGroup._id) {
+                    routeData.grupper = [userGroup._id];
+                }
+            }
+
+            route = new ns.Route(routeData);
+
+            var pictureCollection = new DNT.PictureCollection();
+
+            // Add all pictures passed to app to pictureCollection
+            if (!!options.picturesData && options.picturesData.length > 0) {
+                for (var i = 0; i < options.picturesData.length; i++) {
+                    var picture = new DNT.Picture(options.picturesData[i]);
+                    pictureCollection.add(picture);
+                }
+            }
+
+            var poiCollection = new DNT.PoiCollection();
+
+            if (!!options.poisData && options.poisData.length > 0) {
+                for (var j = 0; j < options.poisData.length; j++) {
+                    var poi = new DNT.Poi(options.poisData[j]);
+                    poiCollection.add(poi);
+                }
+            }
+
+            model.set({
+                route: route,
+                user: user,
+                poiCollection: poiCollection,
+                pictureCollection: pictureCollection
+            });
+
+
+            this.model = model;
+
+            /* End import from app.js */
+
+
             this.searchCollection = new ns.SearchCollection();
             this.searchFieldView = new ns.SearchFieldView({collection: this.searchCollection});
             this.gpxUploadView = new ns.GpxUploadView({model: this.model });

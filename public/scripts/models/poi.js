@@ -4,25 +4,26 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    var apiUri = function () {
-        return "/restProxy/steder";
-    };
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        L = require('leaflet'),
+        NtbModel = require('models/ntb');
 
-    ns.Poi = Backbone.Model.extend({
+    // Module
+    return NtbModel.extend({
 
         idAttribute: '_id',
         type: 'poi',
         changed: false,
         deleted: false,
-        popoverTemplateId: '#poiPopupTemplate',
 
         urlRoot: function () {
-            return apiUri();
+            return '/restProxy/steder';
         },
 
         serverAttrs: [
@@ -31,13 +32,22 @@ var DNT = window.DNT || {};
             'bilder',
             'checksum',
             'endret',
+            'fasiliteter',
+            'fylke',
+            'grupper',
             'geojson',
+            'kommune',
+            'lenker',
             'lisens',
             'navn',
+            'navn_alt',
+            'områder',
             'privat',
             'status',
+            'ssr_id',
             'tags',
-            'tilbyder'
+            'tilbyder',
+            'tilrettelagt_for'
         ],
 
         defaults: {
@@ -101,11 +111,9 @@ var DNT = window.DNT || {};
                 this.changed = true;
             });
 
-            // this.positionChanged();
-
             this.on('change:navn', this.onNameChange, this);
             this.on('change:kategori', this.onCategoryChange, this);
-            // this.on('change:geojson', this.positionChanged);
+            this.on('change:geojson', this.onGeoJsonChange, this);
 
             var tags = this.get('tags');
             if (tags.length > 0) {
@@ -138,12 +146,56 @@ var DNT = window.DNT || {};
 
             this.set('markerIcon', markerIcon);
 
-            // NOTE: Concider moving this to an onMarkerIconChange method.
+            // NOTE: Consider moving this to an onMarkerIconChange method.
             if (!!this.marker) {
                 if (!!category) {
                     this.setMarkerIcon();
                 }
             }
+        },
+
+        getLatLng: function () {
+            var geojson = this.get('geojson');
+
+            if (typeof geojson === 'object' && typeof geojson.coordinates === 'object' && geojson.coordinates.length === 2) {
+                var lat = geojson.coordinates[1],
+                    lng = geojson.coordinates[0];
+
+                return [lat, lng];
+
+            } else {
+                return undefined;
+            }
+
+        },
+
+        setLatLng: function (latLng) {
+            var lat = latLng[0],
+                lng = latLng[1],
+                geojson = _.clone(this.get('geojson')); // Or else the change event won't fire! o_O
+
+            if (typeof geojson === 'object' && geojson.type === 'Point') {
+                geojson.coordinates = [lng, lat];
+            } else {
+                geojson = {type: 'Point', 'coordinates': [lng, lat], properties: {}};
+            }
+
+            this.set('geojson', geojson);
+
+        },
+
+        onGeoJsonChange: function (model, value, options) {
+            if (this.hasMarker()) {
+                try {
+                    var latLng = L.latLng(this.getLatLng());
+                    this.marker.setLatLng(latLng);
+                } catch (e) {
+                    console.error('Could not create L.latLng');
+                }
+            }
+
+            this.event_aggregator.trigger('poi:geoJsonChange', this);
+
         },
 
         hasChanged: function () {
@@ -194,14 +246,6 @@ var DNT = window.DNT || {};
             return !!geojson && !!geojson.coordinates;
         },
 
-        setPublished: function(){
-            this.set('status', 'Offentlig');
-        },
-
-        setUnpublished: function(){
-            this.set('status', 'Kladd');
-        },
-
         deletePoi: function () {
             this.set('deleted', true);
             this.trigger('deletePoi');
@@ -211,26 +255,8 @@ var DNT = window.DNT || {};
             var geoJson = this.getGeoJson();
             geoJson.coordinates = [lng, lat];
             this.set('geojson', geoJson);
-        },
-
-        save: function (attrs, options) {
-
-            attrs = attrs || this.toJSON();
-            options = options || {};
-
-            // If model defines serverAttrs, replace attrs with trimmed version
-            if (this.serverAttrs) {
-                attrs = _.pick(attrs, this.serverAttrs);
-            }
-
-            // Move attrs to options
-            options.attrs = attrs;
-
-            // Call super with attrs moved to options
-            return Backbone.Model.prototype.save.call(this, attrs, options);
-
         }
 
     });
 
-}(DNT));
+});

@@ -5,12 +5,12 @@ var DNT = window.DNT || {};
 
     ns.PicturesView = Backbone.View.extend({
 
-        el: '#route-images',
+        el: '#route-pictures',
 
         uploadUrl: '/upload/picture',
 
         events: {
-            'sortstop #route-images-all-container': 'picturePositionUpdated',
+            'sortstop #route-pictures-all-container': 'picturePositionUpdated',
             'updatePictureIndexes': 'updateIndexes'
         },
 
@@ -30,12 +30,12 @@ var DNT = window.DNT || {};
                 }
             }, this);
 
-            this.$('#route-images-all-container').sortable({
+            this.$('#route-pictures-all-container').sortable({
                 items: '.picture-sortable',
                 placeholder: 'sortable-placeholder col-sm-4'
             });
 
-            this.$('#route-images-all-container').disableSelection();
+            this.$('#route-pictures-all-container').disableSelection();
 
             this.user = this.model.get('user');
 
@@ -184,7 +184,7 @@ var DNT = window.DNT || {};
         appendPicture: function (picture) {
             var view = new DNT.PictureView({model: picture, app: this.model});
 
-            this.$("#route-images-all-container").append(view.render().el);
+            this.$("#route-pictures-all-container").append(view.render().el);
         },
 
         render: function () {
