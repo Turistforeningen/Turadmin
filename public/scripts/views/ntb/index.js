@@ -33,19 +33,6 @@ define(function (require, exports, module) {
             var user = new User(mergedUserData);
             this.user = user;
 
-            // switch (options.itemType) {
-            //     case 'tur':
-            //         this.collection = RouteCollection();
-            //         break;
-
-            //     case 'sted':
-            //         this.collection = new PoiCollection();
-            //         break;
-
-            //     default:
-            //         break;
-            // }
-
             this.itemType = options.itemType;
 
             this.collection.on('reset', this.onItemsFetched, this);

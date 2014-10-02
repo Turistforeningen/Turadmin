@@ -35,7 +35,7 @@ module.exports = function (app, restProxy, options) {
 
         req.renderOptions = req.renderOptions || {};
         req.renderOptions.title = 'Opprett ny tur';
-        res.render('routes/edit', req.renderOptions);
+        res.render('routes/editor', req.renderOptions);
     };
 
     var routeEdit = function (req, res, next) {
@@ -103,7 +103,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
                 req.renderOptions.poisData = JSON.stringify(poisData);
 
-                res.render('routes/edit', req.renderOptions);
+                res.render('routes/editor', req.renderOptions);
             });
 
             allResourcesLoaded();

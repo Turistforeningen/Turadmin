@@ -7,24 +7,11 @@
 define(function (require, exports, module) {
     "use strict";
 
-
-
-// requirejs(
-//     [
-//         'jquery',
-//         'underscore',
-//         'backbone',
-//         'state',
-//         'views/poi/editor'
-//     ],
-//     function ($, _, Backbone, state, EditorView) {
-
-
     // Dependencies
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
-        PoiEditorView = require('views/poi/editor'),
+        PoiEditorView = require('views/pois/editor'),
         state = require('state');
 
     require('bootstrap');

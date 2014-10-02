@@ -6,7 +6,7 @@ module.exports = function (app, options) {
      */
     var getTermsAndConditions = function (req, res) {
         var renderOptions = {title: 'Godkjenn villkår'};
-        res.render('termsAndConditions', renderOptions);
+        res.render('termsandconditions', renderOptions);
     };
 
     /**

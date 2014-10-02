@@ -24,7 +24,7 @@ var DNT = window.DNT || {};
         removedModels: [],
 
         comparator: function (model) {
-            return model.get("ordinal");
+            return model.get('ordinal');
         },
 
         initialize: function () {
@@ -43,7 +43,9 @@ var DNT = window.DNT || {};
         },
 
         modelAdded: function (model) {
-            model.on("deletePicture", function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
+            model.set('ordinal', this.getNextOrdinal());
+            model.on('deletePicture', function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
+            debugger;
         },
 
         deletePicture: function (model) {

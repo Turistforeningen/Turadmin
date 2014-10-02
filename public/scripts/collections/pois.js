@@ -14,55 +14,18 @@ define(function (require, exports, module) {
         Poi = require('models/poi'),
         NtbCollection = require('collections/ntb');
 
-    var apiUri = function () {
-        return '/restProxy/steder';
-    };
-
+    // Module
     return NtbCollection.extend({
 
         url: function () {
-            return apiUri();
+            return '/restProxy/steder';
         },
 
         model: Poi,
-        removedModels: [],
 
-        state: {
-            pageSize: 20,
-            currentPage: 1,
-            paginatorRequired: false
-        },
-
-
-        initialize: function () {
-            this.on('add', this.onAdd, this);
-            this.on('remove', this.onRemove, this);
-        },
-
-        setPublished: function() {
-            this.each(function (model, index) {
-                model.setPublished();
-            });
-        },
-
-        setUnpublished: function() {
-            this.each(function (model, index) {
-                model.setUnpublished();
-            });
-        },
-
-        onRemove: function (model) {
-            // Add to removedModels if saved to server, to send a DELETE request when route is saved
-            if (!!model.get('id')) {
-                this.removedModels.push(model);
-            }
-        },
-
-        onAdd: function (model) {
-            model.on('deletePoi', function () {
-                this.deletePoi(model);
-            }, this);
-        },
+        // initialize: function (pois) {
+        //     NtbCollection.prototype.initialize.call(this, pois);
+        // },
 
         deletePoi: function (model) {
             this.remove(model);
@@ -76,7 +39,7 @@ define(function (require, exports, module) {
         },
 
         getPoiIds: function () {
-            return this.pluck("_id");
+            return this.pluck('_id');
         },
 
         save: function (success, error, self) {
@@ -109,18 +72,23 @@ define(function (require, exports, module) {
             }
 
             // Delete removed POI's from server
-            _.each(this.removedModels, function (poi) {
+            _.each(this.removedModels, $.proxy(function (poi) {
                 poi.destroy({
                     wait: true,
-                    success : function () {
+                    success: $.proxy(function (model) {
+                        // var modelIndex = this.removedModels.indexOf(model);
+                        // if (modelIndex > -1) {
+                        //     this.removedModels.splice(modelIndex, 1);
+                        // }
+                        // debugger;
                         saveDone();
-                    },
+                    }, this, poi),
                     error: function () {
                         saveErrorCount += 1;
                         saveDone();
                     }
                 });
-            });
+            }, this));
 
             // Save unsynced POI's
             _.each(unsyncedPois, function (poi) {

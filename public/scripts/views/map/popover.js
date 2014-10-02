@@ -10,15 +10,15 @@ define(function (require, exports, module) {
     // Dependencies
     var $ = require('jquery'),
         _ = require('underscore'),
-        Backbone = require('backbone'),
-        Template = require('text!templates/map/popover.html');
+        Backbone = require('backbone');
+        // Template = require('text!templates/map/popover.html');
 
     return Backbone.View.extend({
 
         initialize: function (options) {
             // var templateId = options.templateId;
             // this.template =  _.template($(templateId).html());
-            var templateId = options.templateId;
+            var Template = options.template;
             this.template =  _.template(Template);
             // Listen to URL changes (when saving, picture is moved from tmp to permanent storage)
             this.model.on('change:thumbnailUrl', this.render, this);

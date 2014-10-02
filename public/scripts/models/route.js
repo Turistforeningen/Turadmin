@@ -4,16 +4,18 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    var apiUri = function () {
-        return '/restProxy/turer';
-    };
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        L = require('leaflet'),
+        NtbModel = require('models/ntb');
 
-    ns.Route = Backbone.Model.extend({
+    // Module
+    return NtbModel.extend({
 
         idAttribute: '_id',
 
@@ -91,11 +93,15 @@ var DNT = window.DNT || {};
             }
         },
 
-        initialize: function () {
+        initialize: function (options) {
 
             if (!!this.idAttribute && !!this.get(this.idAttribute)) {
                 this.set('id', this.get(this.idAttribute));
             }
+
+            this.on('change:lenker', function () {
+                debugger;
+            });
 
             this.on('change:linkText', this.updateLinks);
             this.on('change:turtype', this.updateTurtypeInTags);
@@ -111,10 +117,13 @@ var DNT = window.DNT || {};
 
             this.set('turtype', this.getRouteType());
             this.set('flereTurtyper', this.getAdditionalRouteTypes());
+
+            NtbModel.prototype.initialize.call(this, options);
+
         },
 
         urlRoot: function () {
-            return apiUri();
+            return '/restProxy/turer';
         },
 
         setPoiIds: function (ids) {
@@ -132,7 +141,7 @@ var DNT = window.DNT || {};
 
             if (geojson && geojson.coordinates && geojson.coordinates.length) {
                 startpunkt = geojson.coordinates[0];
-                privat.startpunkt = startpunkt;
+                privat.startpunkt = {type: 'Point', coordinates: startpunkt};
             } else {
                 if (privat.startpunkt) {
                     delete privat.startpunkt;
@@ -272,4 +281,4 @@ var DNT = window.DNT || {};
 
     });
 
-}(DNT));
+});

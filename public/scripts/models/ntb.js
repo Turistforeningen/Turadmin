@@ -4,10 +4,35 @@ define(function (require, exports, module) {
     // Dependencies
     var $ = require('jquery'),
         _ = require('underscore'),
-        Backbone = require('backbone');
+        Backbone = require('backbone'),
+        User = require('models/user'),
+        user = new User();
 
     // Module
     return Backbone.Model.extend({
+
+        initialize: function (options) {
+
+            if (!!this.idAttribute && !!this.get(this.idAttribute)) {
+                this.set('id', this.get(this.idAttribute));
+            }
+
+            if (typeof options === 'object' && typeof options._id !== 'undefined') {
+
+            } else {
+
+                var privat = {
+                    opprettet_av: {
+                        id: user.get('id'),
+                        navn: user.get('navn'),
+                        epost: user.get('epost')
+                    }
+                };
+
+                this.set('privat', privat);
+            }
+
+        },
 
 
         /* Setters and getters */
@@ -20,22 +45,42 @@ define(function (require, exports, module) {
             this.set('status', 'Kladd');
         },
 
+        getLatLng: function () {
+            var geojson = this.get('geojson');
+
+            if (typeof geojson === 'object' && typeof geojson.coordinates === 'object' && geojson.coordinates.length === 2) {
+                var lat = geojson.coordinates[1],
+                    lng = geojson.coordinates[0];
+
+                return [lat, lng];
+
+            } else {
+                return undefined;
+            }
+
+        },
+
+        setLatLng: function (latLng) {
+            var lat = latLng[0],
+                lng = latLng[1],
+                geojson = _.clone(this.get('geojson')); // Or else the change event won't fire! o_O
+
+            if (typeof geojson === 'object' && geojson.type === 'Point') {
+                geojson.coordinates = [lng, lat];
+            } else {
+                geojson = {type: 'Point', 'coordinates': [lng, lat], properties: {}};
+            }
+
+            this.set('geojson', geojson);
+
+        },
+
+        remove: function () {
+            this.set('removed', true);
+        },
+
 
         /* Process fields */
-
-        // Might not need this anymore
-
-        // cleanTags: function () {
-        //     var tags = this.get('tags');
-
-        //     for (var i = 0; i < tags.length; i++) {
-        //         if (tags[i] === '') {
-        //             tags.splice(i, 1);
-        //         }
-        //     }
-
-        //     this.set('tags', tags);
-        // },
 
         // Recursive method that will remove all object properties
         // and array items that are empty strings.
@@ -47,7 +92,7 @@ define(function (require, exports, module) {
 
                 for (var i = 0; i < output.length; i++) {
                     if (typeof output[i] === 'object') {
-                        this.removeEmpty(output[i]);
+                        output[i] = this.removeEmpty(output[i]);
                     } else if (typeof output[i] === 'string') {
                         if (output[i] === '') {
                             output.splice(i, 1);
@@ -59,7 +104,7 @@ define(function (require, exports, module) {
 
                 for (var prop in output) {
                     if (typeof output[prop] === 'object') {
-                        this.removeEmpty(output[prop]);
+                        output[prop] = this.removeEmpty(output[prop]);
                     } else if (typeof output[prop] === 'string') {
                         if (output[prop] === '') {
                             delete output[prop];
@@ -75,9 +120,28 @@ define(function (require, exports, module) {
         },
 
 
+        /* Hooks */
+
+        beforeSave: function () {
+
+            this.saveRelated();
+
+            return true;
+        },
+
+
         /* Server interactions */
 
+        saveRelated: function () {
+
+            // debugger;
+        },
+
         save: function (attrs, options) {
+
+            if (typeof this.beforeSave === 'function' && this.beforeSave() !== true) {
+                return false;
+            }
 
             attrs = attrs || this.toJSON();
             options = options || {};
@@ -86,6 +150,8 @@ define(function (require, exports, module) {
             if (this.serverAttrs) {
                 attrs = this.removeEmpty(_.pick(attrs, this.serverAttrs));
             }
+
+            attrs = this.removeEmpty(attrs);
 
             // Move attrs to options
             options.attrs = attrs;

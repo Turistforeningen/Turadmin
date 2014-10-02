@@ -1,0 +1,132 @@
+<div id="route-draw" data-view="route-draw" class="row page-block route-draw">
+  <div class="col-lg-12">
+    <h3>Inntegning</h3>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="findplace-gpxupload-container">
+          <div class="row">
+            <form class="form-horizontal">
+              <div class="col-lg-4 col-md-4 col-sm-5">
+                <div class="form-group findplace">
+                  <label for="" class="control-label">
+                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;Finn sted
+                  </label>
+                  <div class="col-sm-8">
+                    <div data-view="ssr-simple"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-1 col-md-1 col-sm-1">
+                <div class="form-group">
+                  <!-- TODO: Move styles to CSS-->
+                  <p style="text-align: center;" class="form-control-static">eller</p>
+                </div>
+              </div>
+            </form>
+            <div data-view="gpxupload">
+              <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                  <span class="btn btn-default fileinput-button">
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;
+                    <span data-container-for="btn-label">Last opp GPX-fil</span>
+                    <input type="file" name="files[]" data-action="gpx-fileupload">
+                  </span>
+                  <span data-container-for="gpx-upload-status" class="upload-button-status"></span>
+                  <div data-container-for="gpx-upload-spinner" class="upload-button-spinner spinner hidden three-quarters"></div>
+                </div>
+              </form>
+              <!-- Modal confirm replacing map route-->
+              <div id="modal-confirm-route-replace" tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true" class="modal fade">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                      <h4 id="modal-map-title" class="modal-title">Overskrive inntegning?</h4>
+                    </div>
+                    <div id="modal-map-body" class="modal-body">
+                      <p>Dersom du laster opp GPX-fil vil inntegningen som allerede finnes i kartet overskrives med ruten i GPX-filen som lastes opp. Vil du fortsette?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" data-dismiss="modal" class="btn btn-primary">Nei, behold inntegning</button>
+                      <button type="button" data-action="gpx-upload-confirm" class="btn btn-primary">Ja, overskriv innhold</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- / [data-view="gpxupload"] -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-container-for="map-and-controls">
+      <div data-wrapper-for="map-and-controls">
+        <div class="row mapControlsRow">
+          <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="mapControls">
+              <div class="startStopDraw">
+                <button data-toggle="route-draw-tool" class="btn btn-success btn-group pull-left">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                  <span class="buttonText">&nbsp;Fortsett inntegning</span>
+                </button>
+              </div>
+              <div class="deleteRoute">
+                <button data-action="route-draw-reset" class="btn btn-danger">
+                  <span class="glyphicon glyphicon-trash"></span>
+                  <span class="buttonText">&nbsp;Slett inntegning</span>
+                </button>
+              </div>
+              <div class="toggleRouting">
+                <button data-toggle="tooltip" title="" data-placement="top" data-route-draw-toggle-routing="" class="btn btn-default" data-original-title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på.">
+                  <input type="checkbox">
+                  <span>&nbsp;Ruting</span>
+                </button>
+                <script>
+                $('.toggleRouting button').tooltip();
+                </script>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="dropdown dropdown-select pull-right route-field-facts-retning">
+              <button data-toggle="dropdown" data-target="#" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-right"></span>&nbsp; Turens retning:&nbsp;
+                <span data-route-direction-value-placeholder="">A-B-A</span>&nbsp;
+                <span class="caret"></span>
+              </button>
+              <ul role="menu" aria-labelledby="dLabel" class="dropdown-menu">
+                <li class="selected">
+                  <a id="route-retning-a-b-a" href="#" data-route-direction-option="ABA" class="active">
+                    <label>A-B-A</label>
+                    <p class="help-block">Turen går fra startpunktet til endepunktet av inntegning og tilbake igjen.</p>
+                  </a>
+                </li>
+                <li>
+                  <a id="route-retning-a-b" href="#" data-route-direction-option="AB">
+                    <label>A-B</label>
+                    <p class="help-block">Turen går fra startpunktet til endepunktet av inntegning.</p>
+                  </a>
+                </li>
+                <li>
+                  <a id="route-retning-b-a" href="#" data-route-direction-option="BA">
+                    <label>B-A</label>
+                    <p class="help-block">Turen går fra endepunktet til startpunktet av inntegning.</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row geojson-validation">
+          <div class="col-lg-12">
+            <div class="form-group required">
+              <div data-model-validation-field-name="geojson.coordinates"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div data-container-for="map">
+      <div data-view="map"></div>
+    </div>-->
+  </div>
+</div>

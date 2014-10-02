@@ -11,10 +11,11 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
+        NtbCollection = require('collections/ntb'),
         Picture = require('models/picture');
 
     var apiUri = function () {
-        return "/restProxy/bilder";
+        return '/restProxy/bilder';
     };
 
     return Backbone.Collection.extend({
@@ -28,23 +29,17 @@ define(function (require, exports, module) {
         removedModels: [],
 
         comparator: function (model) {
-            return model.get("ordinal");
+            return model.get('ordinal');
         },
 
         initialize: function (pictures) {
-            if (!!pictures && pictures.length) {
-                for (var i = 0; i < pictures.length; i++) {
-                    this.add(new Picture(pictures[i]));
-                }
-            }
+
+            this.on('add', this.onAdd, this);
+            this.on('remove', this.onRemove, this);
 
             this.nextOrdinal = 0;
-            this.on('add', this.modelAdded, this);
-            this.on('remove', this.onRemove, this);
-        },
 
-        onRemove: function (model) {
-            this.removedModels.push(model);
+            NtbCollection.prototype.initialize.call(this, pictures);
         },
 
         getNextOrdinal: function () {
@@ -52,8 +47,9 @@ define(function (require, exports, module) {
             return this.nextOrdinal - 1;
         },
 
-        modelAdded: function (model) {
-            model.on("deletePicture", function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
+        onAdd: function (model) {
+            model.set('ordinal', this.getNextOrdinal());
+            model.on('deletePicture', function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
         },
 
         deletePicture: function (model) {
@@ -61,23 +57,24 @@ define(function (require, exports, module) {
         },
 
         countPictures: function () {
-            var count  = this.filter(function (picture) {
+            var count = this.filter(function (picture) {
                 return !picture.isDeleted();
             });
             return count.length;
         },
 
         reIndex: function (picture, newPosition) {
-            this.remove(picture, { silent: true }); // NOTE: This causes a bug which removes the picture from POI picture list.
-            picture.set("ordinal", newPosition);
+            console.log('reindexing');
+            this.remove(picture, {silent: true}); // NOTE: This causes a bug which removes the picture from POI picture list.
+            picture.set('ordinal', newPosition);
             this.each(function (model, index) {
                 var ordinal = index;
                 if (index >= newPosition) {
                     ordinal = ordinal + 1;
                 }
-                model.set("ordinal", ordinal);
+                model.set('ordinal', ordinal);
             });
-            this.add(picture, { silent: true, at: newPosition });
+            this.add(picture, {silent: true, at: newPosition});
             this.sort();
         },
 

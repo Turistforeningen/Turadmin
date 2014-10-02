@@ -5,7 +5,7 @@ requirejs(
         'underscore',
         'backbone',
         'state',
-        'views/poi/index'
+        'views/pois/index'
     ],
     function ($, _, Backbone, state, IndexView) {
 
@@ -13,8 +13,6 @@ requirejs(
         Backbone.View.prototype.event_aggregator = event_aggregator;
         Backbone.Model.prototype.event_aggregator = event_aggregator;
         Backbone.Collection.prototype.event_aggregator = event_aggregator;
-
-        console.log('App POI index init', state);
 
         var editorView = new IndexView(state);
     }

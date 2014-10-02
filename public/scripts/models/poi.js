@@ -12,7 +12,8 @@ define(function (require, exports, module) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         L = require('leaflet'),
-        NtbModel = require('models/ntb');
+        NtbModel = require('models/ntb'),
+        PopoverTemplate = require('text!templates/pois/popover.html');
 
     // Module
     return NtbModel.extend({
@@ -21,6 +22,7 @@ define(function (require, exports, module) {
         type: 'poi',
         changed: false,
         deleted: false,
+        popoverTemplate: PopoverTemplate,
 
         urlRoot: function () {
             return '/restProxy/steder';
@@ -103,10 +105,6 @@ define(function (require, exports, module) {
 
         initialize: function (options) {
 
-            if (!!this.idAttribute && !!this.get(this.idAttribute)) {
-                this.set('id', this.get(this.idAttribute));
-            }
-
             this.on('change', function () {
                 this.changed = true;
             });
@@ -125,6 +123,8 @@ define(function (require, exports, module) {
                 tags[0] = this.get('kategori');
                 this.set('tags', tags);
             });
+
+            NtbModel.prototype.initialize.call(this, options);
 
         },
 
@@ -152,36 +152,6 @@ define(function (require, exports, module) {
                     this.setMarkerIcon();
                 }
             }
-        },
-
-        getLatLng: function () {
-            var geojson = this.get('geojson');
-
-            if (typeof geojson === 'object' && typeof geojson.coordinates === 'object' && geojson.coordinates.length === 2) {
-                var lat = geojson.coordinates[1],
-                    lng = geojson.coordinates[0];
-
-                return [lat, lng];
-
-            } else {
-                return undefined;
-            }
-
-        },
-
-        setLatLng: function (latLng) {
-            var lat = latLng[0],
-                lng = latLng[1],
-                geojson = _.clone(this.get('geojson')); // Or else the change event won't fire! o_O
-
-            if (typeof geojson === 'object' && geojson.type === 'Point') {
-                geojson.coordinates = [lng, lat];
-            } else {
-                geojson = {type: 'Point', 'coordinates': [lng, lat], properties: {}};
-            }
-
-            this.set('geojson', geojson);
-
         },
 
         onGeoJsonChange: function (model, value, options) {
@@ -246,10 +216,10 @@ define(function (require, exports, module) {
             return !!geojson && !!geojson.coordinates;
         },
 
-        deletePoi: function () {
-            this.set('deleted', true);
-            this.trigger('deletePoi');
-        },
+        // deletePoi: function () {
+        //     this.set('deleted', true);
+        //     this.trigger('deletePoi');
+        // },
 
         updateGeojson: function (lat, lng) {
             var geoJson = this.getGeoJson();

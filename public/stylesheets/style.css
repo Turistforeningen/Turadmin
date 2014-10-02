@@ -169,7 +169,7 @@ ul.nav.navbar-nav.navbar-center li {
 
 .page-block h3,
 .page-block h4 {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #bbb;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
 }
@@ -420,63 +420,63 @@ div.line-mouse-marker {
 	}
 }
 
-.form-group.route-facts-field-passer_for_barn p.help-block label {
+.form-group.route-details-field-passer_for_barn p.help-block label {
 	font-weight: normal;
 	cursor:pointer;
 }
 
 
 /* Lenker */
-.route-facts-lenke {
+.route-details-lenke {
 	position: relative;
 	margin-bottom: 10px;
 }
 
-.route-facts-lenke .remove-link {
+.route-details-lenke .remove-link {
 	position: absolute;
 	right: -25px;
 	top: 6px;
 	display: none;
 }
 
-.route-facts-lenke:hover .remove-link {
+.route-details-lenke:hover .remove-link {
 	display: block;
 }
 
 
 /* Fargekoder gradering */
-.route-facts-field-gradering-enkel {
+.route-details-field-gradering-enkel {
 	color: #00984a;
 }
 
-.route-facts-field-gradering-enkel.active {
+.route-details-field-gradering-enkel.active {
 	color: #fff;
 	background-color: #00984a;
 }
 
-.route-facts-field-gradering-middels {
+.route-details-field-gradering-middels {
 	color: #0067af;
 }
 
-.route-facts-field-gradering-middels.active {
+.route-details-field-gradering-middels.active {
 	color: #fff;
 	background-color: #0067af;
 }
 
-.route-facts-field-gradering-krevende {
+.route-details-field-gradering-krevende {
 	color: #ed1c2e;
 }
 
-.route-facts-field-gradering-krevende.active {
+.route-details-field-gradering-krevende.active {
 	color: #fff;
 	background-color: #ed1c2e;
 }
 
-.route-facts-field-gradering-ekspert {
+.route-details-field-gradering-ekspert {
 	color: #000;
 }
 
-.route-facts-field-gradering-ekspert.active {
+.route-details-field-gradering-ekspert.active {
 	color: #fff;
 	background-color: #000;
 }
@@ -484,18 +484,18 @@ div.line-mouse-marker {
 
 /* Tidsbruk */
 
-select.route-facts-field-tidsbruk-normal-dager {
+select.route-details-field-tidsbruk-normal-dager {
 	width: 210px;
 }
 
-select.route-facts-field-tidsbruk-normal-timer,
-select.route-facts-field-tidsbruk-normal-minutter {
+select.route-details-field-tidsbruk-normal-timer,
+select.route-details-field-tidsbruk-normal-minutter {
 	float: left;
 	width: 100px;
 	margin-right: 10px;
 }
 
-.route-facts-field-kollektivtransport .checkbox {
+.route-details-field-kollektivtransport .checkbox {
 	margin-bottom: 10px;
 }
 
@@ -531,7 +531,7 @@ body.modal-open {
 
 /* Custom icons on primary tag selection */
 
-.form-group.route-facts-field-tags-primary .btn-group label {
+.form-group.route-details-field-tags-primary .btn-group label {
 	padding-top: 50px;
 	width: 90px;
 	background-repeat: no-repeat;
@@ -541,58 +541,58 @@ body.modal-open {
 }
 
 @media (max-width: 991px) {
-	.form-group.route-facts-field-tags-primary .btn-group label {
+	.form-group.route-details-field-tags-primary .btn-group label {
 		width: 79px;
 	}
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-gatur {
 	background-image: url('../images/icon-route-tag-gatur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-skitur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-skitur {
 	background-image: url('../images/icon-route-tag-skitur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-sykkeltur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-sykkeltur {
 	background-image: url('../images/icon-route-tag-sykkeltur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-padletur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-padletur {
 	background-image: url('../images/icon-route-tag-padletur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-klatretur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-klatretur {
 	background-image: url('../images/icon-route-tag-klatretur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-bretur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-bretur {
 	background-image: url('../images/icon-route-tag-klatretur.png');
 }
 
 /* Retina versions */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-gatur {
 		background-image: url('../images/icon-route-tag-gatur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-skitur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-skitur {
 		background-image: url('../images/icon-route-tag-skitur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-sykkeltur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-sykkeltur {
 		background-image: url('../images/icon-route-tag-sykkeltur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-padletur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-padletur {
 		background-image: url('../images/icon-route-tag-padletur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-klatretur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-klatretur {
 		background-image: url('../images/icon-route-tag-klatretur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-bretur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-bretur {
 		background-image: url('../images/icon-route-tag-klatretur@2x.png');
 	}
 

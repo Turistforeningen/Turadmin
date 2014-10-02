@@ -68,6 +68,7 @@ app.use(errorHandler({
     showStack: true
 }));
 
+
 /**
  * Routes and middleware
  */
@@ -110,7 +111,13 @@ if (!module.parent) {
 
 // Redirect requests to '/' to '/turer'
 app.use('/', function (req, res, next) {
-  res.redirect(301, '/turer');
+    // console.log('is xhr?');
+    // console.log(req.xhr);
+    // console.log(req.headers);
+    res.status(404).end();
+    // if (!req.xhr) {
+    //     res.redirect(301, '/turer');
+    // }
 });
 
 // 404 handling

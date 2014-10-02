@@ -10,24 +10,25 @@ define(function (require, exports, module) {
     // Dependencies
     var $ = require('jquery'),
         _ = require('underscore'),
-        Backbone = require('backbone');
+        Backbone = require('backbone'),
+        NtbModel = require('models/ntb'),
+        PopoverTemplate = require('text!templates/pictures/popover.html');
 
     var apiUri = function () {
         return '/restProxy/bilder';
     };
 
-    return Backbone.Model.extend({
+    return NtbModel.extend({
 
         idAttribute: '_id',
         type: 'picture',
         changed: false,
         deleted: false,
+        popoverTemplate: PopoverTemplate,
 
         urlRoot: function () {
             return apiUri();
         },
-
-        popoverTemplateId: "#picturePopupTemplate",
 
         defaults: {
             markerIcon: 'map-icon-picture'
@@ -61,6 +62,8 @@ define(function (require, exports, module) {
 
         initialize: function (options) {
 
+            NtbModel.prototype.initialize.call(this, options);
+
             if (!!this.idAttribute && !!this.get(this.idAttribute)) {
                 this.set('id', this.get(this.idAttribute));
             }
@@ -73,15 +76,15 @@ define(function (require, exports, module) {
             this.set('fotografNavn', fotograf.navn);
             this.set('fotografEpost', fotograf.epost);
 
-            this.on("change:fotografNavn", this.onFotografNavnChange, this);
-            this.on("change:fotografEpost", this.onFotografEpostChange, this);
+            this.on('change:fotografNavn', this.onFotografNavnChange, this);
+            this.on('change:fotografEpost', this.onFotografEpostChange, this);
 
             this.updateIsPositioned();
-            this.on("change:geojson", this.updateIsPositioned, this);
+            this.on('change:geojson', this.updateIsPositioned, this);
 
             var urls = this.getUrls();
-            this.set("thumbnailUrl", urls.thumbnail);
-            this.set("url", urls.url);
+            this.set('thumbnailUrl', urls.thumbnail);
+            this.set('url', urls.url);
         },
 
         onFotografNavnChange: function () {
@@ -134,8 +137,10 @@ define(function (require, exports, module) {
         },
 
         deletePicture: function () {
+            // debugger;
             this.set('deleted', true);
             this.trigger('deletePicture');
+
         },
 
         updateIsPositioned: function () {
@@ -159,23 +164,6 @@ define(function (require, exports, module) {
             }
 
             return urls;
-        },
-
-        save: function (attrs, options) {
-            attrs = attrs || this.toJSON();
-            options = options || {};
-
-            // If model defines serverAttrs, replace attrs with trimmed version
-            if (this.serverAttrs) {
-                attrs = _.pick(attrs, this.serverAttrs);
-            }
-
-            // Move attrs to options
-            options.attrs = attrs;
-
-            // Call super with attrs moved to options
-            return Backbone.Model.prototype.save.call(this, attrs, options);
-
         }
 
     });

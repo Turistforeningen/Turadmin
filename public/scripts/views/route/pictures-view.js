@@ -150,7 +150,8 @@ var DNT = window.DNT || {};
             ui.item.trigger('pictureDropped', ui.item.index());
         },
 
-        updateIndexes: function (event, picture, index) {
+        updateIndexes: function (e, picture, index) {
+            console.log('indexing!');
             this.pictureCollection.reIndex(picture, index);
         },
 

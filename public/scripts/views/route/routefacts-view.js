@@ -21,36 +21,36 @@ var DNT = window.DNT || {};
         el: "#route-facts",
 
         bindings: {
-            '[name="route-facts-field-navn"]': {
+            '[name="route-details-field-navn"]': {
                 observe: 'navn',
                 setOptions: {
                     validate: true
                 }
             },
-            '[name="route-facts-field-beskrivelse"]': {
+            '[name="route-details-field-beskrivelse"]': {
                 observe: 'beskrivelse',
                 setOptions: {
                     validate: true
                 }
             },
-            '[name="route-facts-field-adkomst_generell"]': 'adkomst',
-            '[name="route-facts-field-ankomst_kollektivtransport"]': 'kollektiv',
-            '[name="route-facts-field-typetur"]': {
+            '[name="route-details-field-adkomst_generell"]': 'adkomst',
+            '[name="route-details-field-ankomst_kollektivtransport"]': 'kollektiv',
+            '[name="route-details-field-typetur"]': {
                 observe: 'turtype',
                 setOptions: {
                     validate: true
                 }
             },
-            '[name="route-facts-field-gradering"]': {
+            '[name="route-details-field-gradering"]': {
                 observe: 'gradering',
                 setOptions: {
                     validate: true
                 }
             },
-            'select.form-control.route-facts-field-tidsbruk-normal-dager': 'tidsbrukDager',
-            'select.form-control.route-facts-field-tidsbruk-normal-timer': 'tidsbrukTimer',
-            'select.form-control.route-facts-field-tidsbruk-normal-minutter': 'tidsbrukMinutter',
-            '.route-facts-field-sesong input': {
+            'select.form-control.route-details-field-tidsbruk-normal-dager': 'tidsbrukDager',
+            'select.form-control.route-details-field-tidsbruk-normal-timer': 'tidsbrukTimer',
+            'select.form-control.route-details-field-tidsbruk-normal-minutter': 'tidsbrukMinutter',
+            '.route-details-field-sesong input': {
                 observe: 'sesong',
                 onGet: function(val) {
                     if (!!val && val.length) {
@@ -72,7 +72,7 @@ var DNT = window.DNT || {};
                     validate: true
                 }
             },
-            '[name="route-facts-field-passer_for_barn"]': {
+            '[name="route-details-field-passer_for_barn"]': {
                 observe: 'passer_for',
                 onGet: 'onGetPasserForBarn',
                 onSet: 'onSetPasserForBarn'
@@ -81,10 +81,10 @@ var DNT = window.DNT || {};
 
         events: {
             'click #checkbox_kollektivMulig': 'toggleKollektivFieldVisibility',
-            'click #route-facts-field-sesong-select-all': 'selectAllSeasons',
-            'click #route-facts-field-sesong-deselect-all': 'deselectAllSeasons',
-            'click .route-facts-field-sesong input[type="checkbox"]': 'updateSeasonSelection',
-            'click .route-facts-field-tags-primary label': 'setPrimaryTag'
+            'click #route-details-field-sesong-select-all': 'selectAllSeasons',
+            'click #route-details-field-sesong-deselect-all': 'deselectAllSeasons',
+            'click .route-details-field-sesong input[type="checkbox"]': 'updateSeasonSelection',
+            'click .route-details-field-tags-primary label': 'setPrimaryTag'
         },
 
         initialize: function (options) {
@@ -116,7 +116,7 @@ var DNT = window.DNT || {};
             }
 
             if (this.model.get('kollektiv') === '') {
-                this.$('#route-facts-field-ankomst_kollektivtransport_description').addClass('hidden');
+                this.$('#route-details-field-ankomst_kollektivtransport_description').addClass('hidden');
             }
 
         },
@@ -124,10 +124,10 @@ var DNT = window.DNT || {};
         updateFlereTurtyperOptions: function () {
 
             if (!!this.model.get('turtype')) {
-                $('.form-group.route-facts-field-tags-other').removeClass('hidden');
+                $('.form-group.route-details-field-tags-other').removeClass('hidden');
             }
 
-            var $flereTurtyperInput = this.$('[name="route-facts-field-flere-typer"]');
+            var $flereTurtyperInput = this.$('[name="route-details-field-flere-typer"]');
 
             if ($flereTurtyperInput.hasClass('select2-offscreen')) {
                 $flereTurtyperInput.select2('val', '');
@@ -152,37 +152,37 @@ var DNT = window.DNT || {};
         toggleHoursAndMinutesVisiblity: function () {
             var val = this.model.get('tidsbrukDager');
             if (val === '1') {
-                this.$('.form-group.route-facts-field-tidsbruk-normal-timer-minutter').removeClass('hidden');
+                this.$('.form-group.route-details-field-tidsbruk-normal-timer-minutter').removeClass('hidden');
             } else {
-                this.$('.form-group.route-facts-field-tidsbruk-normal-timer-minutter').addClass('hidden');
+                this.$('.form-group.route-details-field-tidsbruk-normal-timer-minutter').addClass('hidden');
             }
         },
 
         toggleKollektivFieldVisibility: function (e) {
             if (e.currentTarget.checked) {
-                this.$('#route-facts-field-ankomst_kollektivtransport').removeClass('hidden');
-                this.$('#route-facts-field-ankomst_kollektivtransport_description').removeClass('hidden');
+                this.$('#route-details-field-ankomst_kollektivtransport').removeClass('hidden');
+                this.$('#route-details-field-ankomst_kollektivtransport_description').removeClass('hidden');
             } else {
-                this.$('#route-facts-field-ankomst_kollektivtransport').addClass('hidden');
-                this.$('#route-facts-field-ankomst_kollektivtransport_description').addClass('hidden');
+                this.$('#route-details-field-ankomst_kollektivtransport').addClass('hidden');
+                this.$('#route-details-field-ankomst_kollektivtransport_description').addClass('hidden');
                 this.model.set('kollektiv', '');
             }
         },
 
         selectAllSeasons: function () {
-            this.$('#route-facts-field-sesong-deselect-all').removeClass('hidden');
-            this.$('#route-facts-field-sesong-select-all').addClass('hidden');
+            this.$('#route-details-field-sesong-deselect-all').removeClass('hidden');
+            this.$('#route-details-field-sesong-select-all').addClass('hidden');
             this.model.set('sesong', [1,2,3,4,5,6,7,8,9,10,11,12]);
         },
 
         deselectAllSeasons: function () {
-            this.$('#route-facts-field-sesong-deselect-all').addClass('hidden');
-            this.$('#route-facts-field-sesong-select-all').removeClass('hidden');
+            this.$('#route-details-field-sesong-deselect-all').addClass('hidden');
+            this.$('#route-details-field-sesong-select-all').removeClass('hidden');
             this.model.set('sesong', []);
         },
 
         updateSeasonSelection: function () {
-            var checked = this.$('.route-facts-field-sesong input[type="checkbox"]:checked');
+            var checked = this.$('.route-details-field-sesong input[type="checkbox"]:checked');
             var seasons = [];
             for (var i = 0; i < checked.length; i =  i + 1) {
                 var val = this.$(checked[i]).val();
@@ -211,9 +211,9 @@ var DNT = window.DNT || {};
         render: function () {
 
             this.updateFlereTurtyperOptions();
-            this.$('[name="route-facts-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
+            this.$('[name="route-details-field-flere-typer"]').select2('val', this.model.getAdditionalRouteTypes());
 
-            $('input[name="route-facts-field-tilrettelagt_for"]').select2({
+            $('input[name="route-details-field-tilrettelagt_for"]').select2({
                 tags: tilrettelagtForOptions,
                 createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
             }).on('change', $.proxy(function (e) {
@@ -221,7 +221,7 @@ var DNT = window.DNT || {};
                 this.model.set('tilrettelagt_for', tilrettelagt_for);
             }, this));
 
-            this.$('[name="route-facts-field-tilrettelagt_for"]').select2('val', this.model.get('tilrettelagt_for'));
+            this.$('[name="route-details-field-tilrettelagt_for"]').select2('val', this.model.get('tilrettelagt_for'));
 
             var userGroups = this.user.get('grupper');
             if (userGroups.length > 0) {
@@ -233,7 +233,7 @@ var DNT = window.DNT || {};
                     select2Groups[i].text = userGroups[i].navn;
                 }
 
-                $('input[name="route-facts-field-grupper"]').select2({
+                $('input[name="route-details-field-grupper"]').select2({
                     tags: select2Groups,
                     createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
                 }).on('change', $.proxy(function (e) {
@@ -241,11 +241,11 @@ var DNT = window.DNT || {};
                     this.model.set('grupper', routeGroups);
                 }, this));
 
-                this.$('[name="route-facts-field-grupper"]').select2('val', this.model.get('grupper'));
+                this.$('[name="route-details-field-grupper"]').select2('val', this.model.get('grupper'));
 
             } else {
                 // If user does not belong to any groups, do not show groups field.
-                this.$('.form-group.route-facts-field-grupper').remove();
+                this.$('.form-group.route-details-field-grupper').remove();
             }
 
             var routeFactsLinksView = new DNT.RouteFactsLinksView({ model: this.model });
@@ -254,16 +254,16 @@ var DNT = window.DNT || {};
             var publicTransportation = this.model.get('kollektiv');
 
             if (!!publicTransportation && publicTransportation.length > 0) {
-                this.$('.route-facts-field-ankomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
-                this.$('.route-facts-field-ankomst_kollektivtransport textarea').removeClass('hidden');
+                this.$('.route-details-field-ankomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
+                this.$('.route-details-field-ankomst_kollektivtransport textarea').removeClass('hidden');
             }
 
             this.stickit(); // Uses view.bindings and view.model to setup bindings
             Backbone.Validation.bind(this);
 
-            if ($('.route-facts-field-sesong input[type="checkbox"]:not(:checked)').length === 0) {
-                this.$('#route-facts-field-sesong-deselect-all').removeClass('hidden');
-                this.$('#route-facts-field-sesong-select-all').addClass('hidden');
+            if ($('.route-details-field-sesong input[type="checkbox"]:not(:checked)').length === 0) {
+                this.$('#route-details-field-sesong-deselect-all').removeClass('hidden');
+                this.$('#route-details-field-sesong-select-all').addClass('hidden');
             }
 
 

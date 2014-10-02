@@ -13,6 +13,8 @@ define(function (require, exports, module) {
         Backbone = require('backbone'),
         Template = require('text!templates/ntb/listitem.html');
 
+    require('bootstrap');
+
     // Module
     return Backbone.View.extend({
 

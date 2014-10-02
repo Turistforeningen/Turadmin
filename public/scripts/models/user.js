@@ -10,7 +10,8 @@ define(function (require, exports, module) {
     // Dependencies
     var $ = require('jquery'),
         _ = require('underscore'),
-        Backbone = require('backbone');
+        Backbone = require('backbone'),
+        state = require('state');
 
     // Module
     return Backbone.Model.extend({
@@ -20,6 +21,15 @@ define(function (require, exports, module) {
         defaults: {},
 
         initialize: function (options) {
+
+            // TODO: Major
+
+            options = state.userData;
+            options.grupper = state.userGroups;
+
+            this.set('epost', options.epost);
+            this.set('grupper', options.grupper);
+
             options = options || {};
 
             var userType, id, navn; // Possible userType values: 'sherpa', 'mittnrk', 'gruppebruker'
@@ -39,7 +49,7 @@ define(function (require, exports, module) {
                     // No default
             }
 
-            if (!this.get('navn')) {
+            if (!this.get('navn') && (!!options.fornavn && !!options.etternavn)) {
                 this.set('navn', options.fornavn + ' ' + options.etternavn);
             }
 

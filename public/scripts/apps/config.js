@@ -1,14 +1,26 @@
 requirejs.config({
+    config: {
+        text: {
+            onXhr: function (xhr, url) {
+                // Called after the XHR has been created and after the
+                // xhr.open() call, but before the xhr.send() call.
+                // Useful time to set headers.
+                // xhr: the xhr object
+                // url: the url that is being used with the xhr object.
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            }
+        }
+    },
     baseUrl: '/',
     paths: {
 
         // Libs
-        'jquery': '/lib/jquery/jquery-1.10.2.min',
+        'jquery': '/lib/jquery-1.11.1/jquery.min',
+        'jquery-ui': '/lib/jquery-ui-1.11.1/jquery-ui.min',
         'backbone': '/lib/backbone-1.1.2/backbone',
         'backbone-stickit': '/lib/backbone.stickit-0.8.0/backbone.stickit',
         'backbone-validation': '/lib/backbone-validation-0.9.1/backbone-validation',
-        'underscore': '/lib/underscore-1.7.0/underscore',
-        'text': '/lib/text-2.0.12/text',
+        'bootstrap': '/lib/bootstrap-3.2.0-dist/js/bootstrap',
         'leaflet': '/lib/leaflet-0.7.2/leaflet-src',
         'leaflet-draw': '/lib/Leaflet.draw/leaflet.draw',
         'leaflet-routing': '/lib/routing/L.Routing',
@@ -17,10 +29,17 @@ requirejs.config({
         'leaflet-routing-storage': '/lib/routing/L.Routing.Storage',
         'leaflet-routing-draw': '/lib/routing/L.Routing.Draw',
         'leaflet-routing-edit': '/lib/routing/L.Routing.Edit',
+        'jquery.fileupload': '/lib/jquery.fileupload/js/jquery.fileupload',
+        'jquery.ui.widget': '/lib/jquery.fileupload/js/vendor/jquery.ui.widget',
+        'jquery.iframe-transport': '/lib/jquery.fileupload/js/jquery.iframe-transport',
+        'jquery.fileupload-process': '/lib/jquery.fileupload/js/jquery.fileupload-process',
+        'jquery.iframe-validate': '/lib/jquery.fileupload/js/jquery.fileupload-validate',
+        'jquery-ssr': '/lib/jquery.ssr-1.0.0/jQuery.SSR',
         'select2': '/lib/select2-3.5.1/select2',
         'select2-locale_no': '/lib/select2-3.5.1/select2_locale_no',
+        'text': '/lib/text-2.0.12/text',
+        'underscore': '/lib/underscore-1.7.0/underscore',
         'xmltojson': '/lib/xmltojson-1.1/xmltojson',
-        'jquery-ssr': '/lib/jquery.ssr-1.0.0/jQuery.SSR',
 
         'routing': '/scripts/routing',
 
@@ -29,10 +48,7 @@ requirejs.config({
         'models': '/scripts/models',
         'collections': '/scripts/collections',
         'views': '/scripts/views',
-        'templates': '/scripts/templates',
-        'bootstrap': '/lib/bootstrap/js/bootstrap',
-
-        picturemanager: '/scripts/views/pictures/manager'
+        'templates': '/templates',
     },
     shim: {
         'backbone-validation': {
@@ -85,6 +101,12 @@ requirejs.config({
             }
         },
         'bootstrap': {
+            deps: ['jquery', 'jquery-ui']
+        },
+        'jquery-ui': {
+            deps: ['jquery']
+        },
+        'jquery.fileupload': {
             deps: ['jquery']
         },
         'routing': {
@@ -99,6 +121,18 @@ requirejs.config({
         },
         'xmltojson': {
             exports: 'xmlToJSON'
+        },
+        'jquery.ui.widget': {
+            deps: ['jquery']
+        },
+        'jquery.iframe-transport': {
+            deps: ['jquery']
+        },
+        'jquery.fileupload-process': {
+            deps: ['jquery']
+        },
+        'jquery.iframe-validate': {
+            deps: ['jquery']
         },
         'jquery-ssr': {
             deps: ['jquery', 'xmltojson'],

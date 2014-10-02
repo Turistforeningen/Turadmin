@@ -14,6 +14,7 @@ module.exports = function (app, options) {
     var getPoisIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
+
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies.userDefaultRouteFetchQuery : undefined;
 
         var renderOptions = {

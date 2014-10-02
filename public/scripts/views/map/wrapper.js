@@ -24,8 +24,18 @@ define(function (require, exports, module) {
     return Backbone.View.extend({
 
         el: '[data-view="map"]',
+        template: _.template(Template),
 
         initialize: function (options) {
+
+            // Bind methods scope to this view
+            // _.bindAll(this, '');
+
+            this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
+            this.event_aggregator.on("map:showPicturePosition", this.showPicturePosition);
+            this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
+
+            // Handle options
             options = options || {};
 
             this.mapLayers = this.createMapLayers();
@@ -50,12 +60,14 @@ define(function (require, exports, module) {
                 this.poi.on('change:geojson', this.onPoiGeoJsonChange, this);
             }
 
+            if (!!options.route) {
+                this.route = options.route;
+                this.route.on('change:geojson', this.onRouteGeoJsonChange, this);
+            }
+
             this.setMapView({center: options.mapCenter, zoom: options.mapZoom});
 
-            // this.model.on('change:geojson', this.onModelGeoJsonChange, this);
-
             // Focus on new position whenever a marker is moved.
-            // this.event_aggregator.on('poi:geoJsonChange', this.onPoiGeoJsonChange, this);
             this.event_aggregator.on('marker:positionChange', this.onMarkerPositionChange, this);
         },
 
@@ -65,16 +77,30 @@ define(function (require, exports, module) {
             this.mapCenter = L.latLng(61.5, 9);
 
             if (!!options.center) {
-                this.mapCenter = L.latLng(options.center[0], options.center[1]);
+                if (options.center instanceof L.LatLng) {
+                    this.mapCenter = options.center;
+                } else {
+                    this.mapCenter = L.latLng(options.center[0], options.center[1]);
+                }
 
             } else if (!!this.route) {
-                // TODO: Add route to center if route is set.
+                var routeGeoJson = this.route.get('geojson');
+
+                // TODO: Implement this (getlatlng) in route model
+                if (!!routeGeoJson && routeGeoJson.coordinates && routeGeoJson.coordinates[0].length === 2) {
+                    var firstLatLng = routeGeoJson.coordinates[0];
+                    this.mapCenter = L.latLng(firstLatLng[1], firstLatLng[0]);
+                }
 
             } else if (!!this.poi) {
                 var poiLatLng = this.poi.getLatLng();
                 if (!!poiLatLng) {
                     this.mapCenter = L.latLng(poiLatLng[0], poiLatLng[1]);
                 }
+            }
+
+            if (!!this.map && (typeof this.map.setView === 'function')) {
+                this.map.setView(this.mapCenter, this.mapZoom);
             }
 
         },
@@ -97,9 +123,29 @@ define(function (require, exports, module) {
             this.map.setView(newLatLng, zoom);
         },
 
+        reset: function (options) {
+
+            // COMPLETELY UNBIND THE VIEW
+            this.undelegateEvents();
+
+            this.$el.removeData().unbind();
+
+            this.$el.html('');
+
+            // Backbone.View.prototype.constructor.call(this);
+            this.initialize(options);
+
+            this.render();
+            // Remove view from DOM
+            // this.remove();
+            // Backbone.View.prototype.remove.call(this);
+
+        },
+
         render: function () {
 
-            this.$el.html('<div data-placeholder-for="map" style="height: 500px; width: 100%; margin-top: 10px; border: 1px solid #ccc;">');
+            var html = this.template();
+            this.$el.html(html);
 
             var mapOptions = {
                 layers: [this.mapLayers.baseLayerConf["Topo 2"]],
@@ -124,8 +170,8 @@ define(function (require, exports, module) {
             // Add routing to map
             this.addRouting();
 
-            // Add GeoJSON to map
-            this.addGeoJsonToLayer();
+            // Add GeoJSON to routing
+            this.addGeoJsonToRouting();
 
             // Add GeoJSON layer for pictures to map
             if (!!this.pictures) {
@@ -156,8 +202,8 @@ define(function (require, exports, module) {
             marker.setIcon(icon);
             model.marker = marker;
 
-            if (!!model.popoverTemplateId) {
-                new MapPopoverView({model: model, marker: marker, templateId: model.popoverTemplateId}).render();
+            if (!!model.popoverTemplate) {
+                new MapPopoverView({model: model, marker: marker, template: model.popoverTemplate}).render();
             }
 
             marker.on('dragend', function () {
@@ -196,7 +242,7 @@ define(function (require, exports, module) {
         createPicturesGeoJsonLayer: function () {
             this.picturesGeoJsonLayer = new L.GeoJSON(null);
 
-            this.pictures.each($.proxy(function(picture, index, list){
+            this.pictures.each($.proxy(function (picture, index, list) {
                 if (picture.hasPosition()) {
                     var marker = this.createMarker(picture);
                     if (!!marker) {
@@ -270,6 +316,15 @@ define(function (require, exports, module) {
             this.routing = new Routing(this.map, this.snapLayer);
             this.routing.addRouting();
             this.routing.enableSnapping(true);
+
+            // TODO: Improve code, by interacting directly with this routing.
+            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this);
+
+        },
+
+        setRouteModelGeoJsonFromMap: function () {
+            var geoJson = this.routing.getGeoJson();
+            this.route.set({geojson: geoJson});
         },
 
         zoomAndCenter: function (latlng, zoomLevel) {
@@ -281,8 +336,8 @@ define(function (require, exports, module) {
             }
         },
 
-        addGeoJsonToLayer: function (geoJson) {
-            geoJson = geoJson || (this.model && this.model.get('geojson'));
+        addGeoJsonToRouting: function (geoJson) {
+            geoJson = geoJson || (this.route && this.route.get('geojson'));
 
             if (!!geoJson && (geoJson.type === 'LineString') && (!!geoJson.properties || !!geoJson.coordinates)) {
                 this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function(err) {
@@ -354,8 +409,114 @@ define(function (require, exports, module) {
                 }
             });
             return drawControl;
-        }
+        },
 
+
+
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        //                            SOOOOOOOO THIS
+        //                         will need to be fixed
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+
+        modalizeMap: function (options, callback) {
+            // Set the height of [data-container-for="map-and-controls"] to the height it already has,
+            // as a style attribute, to avoid collapsing when moving map to modal.
+            this.$el.height(this.$el.height());
+
+            var $modalBody = $('#modal-map .modal-body');
+
+            this.$el.appendTo($modalBody);
+            $('#modal-map').modal('show');
+
+            $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
+                this.$el.appendTo($('[data-container-for="map"]'));
+            }, this));
+
+        },
+
+        positionModel: function (model, callback) {
+            this.modalizeMap();
+            this.createDrawMarkerTool();
+            this.enableMarkerTool(model, callback);
+        },
+
+        enableMarkerTool: function (model, callback) {
+            this.drawMarkerTool.enable();
+
+            this.map.on('draw:created', $.proxy(function (model, callback, e) {
+                var marker = e.layer,
+                    latLng = marker.getLatLng(),
+                    lat = latLng.lat,
+                    lng = latLng.lng;
+
+                this.map.off('draw:created');
+
+                callback(model, [lat, lng]);
+
+            }, this, model, callback), this);
+        },
+
+        disableMarkerTool: function () {
+            this.drawMarkerTool.disable();
+        },
+
+        showModelPosition: function (model) {
+
+            // TODO: Add boolean option modalize
+
+            var mapShowCallback = function (model) {
+                // this.mapWrapper.map.panTo(picture.marker.getLatLng(), {animate: true}); // Using autoPan
+                model.marker.openPopup().update();
+                $('#modal-map').off('shown.bs.modal'); // Remove event listener
+            };
+
+            var mapHideCallback = function (model) {
+                model.marker.closePopup();
+                $('#modal-map').off('hidden.bs.modal'); // Remove event listener
+            };
+
+            // Need to delay the popup showing until after the modal is shown, to prevent messed up popup layout.
+            $('#modal-map').on('shown.bs.modal', $.proxy(mapShowCallback, this, model));
+
+            // Listen to modal hide event, to close popup
+            $('#modal-map').on('hidden.bs.modal', $.proxy(mapHideCallback, this, model));
+
+            this.modalizeMap();
+
+        },
+
+        setupMarker: function (coordinates) {
+            var model = this.modelToPosition;
+            delete this.modelToPosition;
+            this.drawMarkerTool.disable();
+            var geojson = createGeojson(coordinates);
+            model.set('geojson', geojson);
+            this.event_aggregator.trigger('map:markerIsCreated', model);
+        },
+
+        createDrawMarkerTool: function () {
+            var icon = new L.icon({
+                iconUrl: '/images/markers/21.png',
+                iconRetinaUrl: '/images/markers/21@2x.png',
+                iconSize: [26, 32],
+                iconAnchor: [13, 32],
+                popupAnchor: [-0, -30]
+            });
+
+            this.drawMarkerTool = new L.Draw.Marker(this.map, {
+                icon: icon
+            });
+        }
 
     });
 
