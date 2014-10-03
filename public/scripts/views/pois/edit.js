@@ -66,14 +66,12 @@ define(function (require, exports, module) {
         },
 
         deletePoi: function (e) {
-
             this.$('.modal').on('hidden.bs.modal', $.proxy(function (e) {
                 this.model.remove();
                 this.render();
             }, this));
 
             this.$('.modal').modal('hide');
-
         },
 
         onFlereStedKategorierChange: function (e) {

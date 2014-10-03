@@ -81,7 +81,7 @@ define(function (require, exports, module) {
                 $formGroup = $titleInput.parent(),
                 $errorMsg = $titleInput.next('.error-msg'),
                 title = this.link.tittel,
-                titleIsValid = title.length > 0;
+                titleIsValid = !!title && title.length > 0;
 
             if (titleIsValid) {
                 $formGroup.removeClass('has-error');

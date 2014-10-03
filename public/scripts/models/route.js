@@ -242,23 +242,23 @@ define(function (require, exports, module) {
 
         },
 
-        updateLenker: function () {
-            var linkText = this.get('linkText');
-            var lenker = [];
-            if (!!linkText) {
-                var links = this.get('linkText').split("\n");
-                if (_.isArray(links) && links.length > 0) {
-                    var i;
-                    for (i = 0; i < links.length; i = i + 1) {
-                        var lenke = links[i];
-                        if (lenke.length > 0) {
-                            lenker.push({url: lenke});
-                        }
-                    }
-                }
-            }
-            this.set('lenker', lenker);
-        },
+        // updateLenker: function () {
+        //     var linkText = this.get('linkText');
+        //     var lenker = [];
+        //     if (!!linkText) {
+        //         var links = this.get('linkText').split("\n");
+        //         if (_.isArray(links) && links.length > 0) {
+        //             var i;
+        //             for (i = 0; i < links.length; i = i + 1) {
+        //                 var lenke = links[i];
+        //                 if (lenke.length > 0) {
+        //                     lenker.push({url: lenke});
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     this.set('lenker', lenker);
+        // },
 
         updateTidsbruk: function () {
             var days = this.get('tidsbrukDager');

@@ -38,8 +38,8 @@ block navbarCollapse
             a(href="#poi-pictures")
                 span.glyphicon.glyphicon-picture
                 | &nbsp;Bilder
-        li.link-poi-facts
-            a(href="#poi-facts")
+        li.link-poi-details
+            a(href="#poi-details")
                 span.glyphicon.glyphicon-list
                 | &nbsp;Fakta
 
@@ -70,7 +70,7 @@ block content
 
         div.page-block.poi-positioning(data-view="poi-positioning")
 
-        div.page-block.poi-facts(data-view="poi-facts" id="poi-facts")
+        div.page-block.poi-details(data-view="poi-details" id="poi-details")
             div.row
                 div.col-lg-12
                     form.form-horizontal
@@ -79,19 +79,67 @@ block content
                         h4 Beskrivelse
 
                         // Navn
-                        div.form-group.poi-facts-field-navn.required
-                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-facts-field-navn") Navn
+                        div.form-group.poi-details-field-navn.required
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-navn") Navn
                             div.col-lg-7.col-md-7.col-sm-7
-                                input.form-control(name="poi-facts-field-navn" placeholder="Navn" data-model-validation-field-name="navn")
+                                input.form-control(name="poi-details-field-navn" placeholder="Navn" data-model-validation-field-name="navn")
                             div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                                 p.help-block Hva er navnet på stedet?
 
                         // Beskrivelse
-                        div.form-group.poi-facts-field-beskrivelse.required
-                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-facts-field-beskrivelse") Beskrivelse
+                        div.form-group.poi-details-field-beskrivelse.required
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-beskrivelse") Beskrivelse
                             div.col-lg-7.col-md-7.col-sm-7
-                                textarea.form-control(name="poi-facts-field-beskrivelse" placeholder="Beskrivelse" rows="10" data-model-validation-field-name="beskrivelse")
+                                textarea.form-control(name="poi-details-field-beskrivelse" placeholder="Beskrivelse" rows="10" data-model-validation-field-name="beskrivelse")
                             div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                                 p.help-block Beskriv stedet.
+
+                        div.form-group.poi-details-field-lenker
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-lenker") Lenker
+                            div(data-view="poi-details-lenker")
+
+
+                        // Type sted
+                        div.form-group.poi-details-field-tags-primary.required
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-type-sted") Type sted
+                            div.col-lg-7.col-md-7.col-sm-7
+                                select.form-control.route-details-field-tags-primary(name="poi-details-field-type-sted")
+                                    option(value="") Velg en
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Velg type sted.
+
+
+                        // Flere turtyper
+                        div.form-group.poi-details-field-tags-other.hidden
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-flere-typer") Velg flere turtyper
+                            div.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(type="text" name="poi-details-field-flere-typer")
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Er det flere turtyper som beskriver denne turen? Velg alle som passer.
+
+
+                        // Tilrettelagt for
+                        div.form-group.poi-details-field-tilrettelagt_for
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-tilrettelagt_for") Tilrettelagt for
+                            div#tilrettelagtForSelect.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(type="text" name="poi-details-field-tilrettelagt_for")
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Er turen spesielt tilrettelagt for noen grupper? Velg alle som passer.
+
+
+                        // Eiere
+                        div.form-group.poi-details-field-grupper
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for=".poi-details-field-grupper") Eiere
+                            div#grupperSelect.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(type="text" name="poi-details-field-grupper")
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Velge hvilke foreninger som skal kunne gjøre endringer i dette turforslaget. Disse foreningene vil også bli kreditert når turforslaget vises på UT.no.
+
+
+
 
         div.page-block.poi-pictures(data-view="poi-pictures")

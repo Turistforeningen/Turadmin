@@ -16,7 +16,7 @@ define(function (require, exports, module) {
         MapWrapper = require('views/map/wrapper'),
         Poi = require('models/poi'),
         PoiPositioningView = require('views/pois/positioning'),
-        PoiFactsView = require('views/pois/facts');
+        PoiDetailsView = require('views/pois/details');
 
     require('backbone-stickit');
     require('backbone-validation');
@@ -33,11 +33,13 @@ define(function (require, exports, module) {
 
             this.model = new Poi(options.poiData);
 
-            var poiPositioningView = new PoiPositioningView({model: this.model});
-            poiPositioningView.render();
+            var poiPositioningView = new PoiPositioningView({
+                model: this.model
+            }).render();
 
-            var poiFactsView = new PoiFactsView({model: this.model});
-            poiFactsView.render();
+            var poiDetailsView = new PoiDetailsView({
+                model: this.model
+            }).render();
 
             this.pictures = new PictureCollection(options.picturesData);
 

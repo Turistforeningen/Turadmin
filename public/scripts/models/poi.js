@@ -54,6 +54,7 @@ define(function (require, exports, module) {
 
         defaults: {
             navn: '',
+            lenker: [],
             lisens: 'CC BY-NC 3.0 NO',
             status: 'Kladd',
             tags: [],
@@ -128,9 +129,9 @@ define(function (require, exports, module) {
 
         },
 
-        onNameChange: function (e) {
-            this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'});
-        },
+        // onNameChange: function (e) {
+        //     this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'});
+        // },
 
         onCategoryChange: function (e) {
             var categoryName = this.get('kategori'),
@@ -212,7 +213,7 @@ define(function (require, exports, module) {
         },
 
         hasPosition: function () {
-            var geojson = this.get("geojson");
+            var geojson = this.get('geojson');
             return !!geojson && !!geojson.coordinates;
         },
 

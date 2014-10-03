@@ -268,12 +268,13 @@ define(function (require, exports, module) {
                 this.$('.form-group.route-details-field-grupper').remove();
             }
 
+            // Links Manager
             var linksManagerView = new LinksManagerView({
                 model: this.model,
                 linksField: 'lenker',
                 el: '[data-view="route-details-lenker"]'
             }).render();
-            // this.$('#routeFactsLinksInput').append(routeFactsLinksView.render().el);
+
 
             var publicTransportation = this.model.get('kollektiv');
 

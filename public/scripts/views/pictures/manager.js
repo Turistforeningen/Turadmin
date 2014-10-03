@@ -56,7 +56,6 @@ define(function (require, exports, module) {
                 }
             }, this);
 
-
         },
 
         appendPicture: function (picture) {
