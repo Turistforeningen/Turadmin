@@ -230,6 +230,8 @@ define(function (require, exports, module) {
                 attrs = _.pick(attrs, this.serverAttrs);
             }
 
+            attrs = this.removeEmpty(attrs);
+
             // Move attrs to options
             options.attrs = attrs;
 

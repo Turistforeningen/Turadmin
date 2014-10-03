@@ -4,21 +4,31 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    ns.PoiPicturesView = Backbone.View.extend({
+    // Dependencies
+    var $ = require('jquery'),
+        Backbone = require('backbone'),
+        Template = require('text!templates/pictures/selector.html'),
+        PictureModel = require('models/picture'),
+        PictureCollection = require('collections/pictures'),
+        User = require('models/user'),
+        user = new User();
 
-        template: _.template($('#poiPicturesTemplate').html()),
+    // Module
+    return Backbone.View.extend({
+
+        el: $('[data-view="pictures-selector"]'),
+
+        template: _.template(Template),
 
         events: {
             'click .thumbnail': 'toggleRelated'
         },
 
         initialize: function (options) {
-            this.pictureCollection = options.pictureCollection;
+            this.pictureCollection = options.pictures;
             this.pictureCollection.on('add', this.render, this);
             this.pictureCollection.on('remove', this.render, this);
             this.pictureCollection.on('sort', this.render, this);
@@ -63,4 +73,4 @@ var DNT = window.DNT || {};
 
     });
 
-}(DNT));
+});

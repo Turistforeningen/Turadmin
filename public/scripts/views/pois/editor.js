@@ -223,7 +223,8 @@ define(function (require, exports, module) {
                     saveDone();
                     console.error('Failed to sync ' + errorCount + ' pictures');
                 },
-                this
+                this,
+                {destroyRemoved: false}
             );
 
         }

@@ -242,7 +242,8 @@ define(function (require, exports, module) {
                     saveDone();
                     console.error('Failed to sync ' + errorCount + ' pois');
                 },
-                this
+                this,
+                {destroyRemoved: true}
             );
 
             this.pictures.save(
@@ -254,7 +255,8 @@ define(function (require, exports, module) {
                     saveDone();
                     console.error('Failed to sync ' + errorCount + ' pictures');
                 },
-                this
+                this,
+                {destroyRemoved: true}
             );
 
         }

@@ -89,7 +89,6 @@ define(function (require, exports, module) {
             return this;
         },
 
-
         picturePositionUpdated: function (e, ui) {
             // Trig event on ui-item so that the correct picture item listener is trigged.
             // (In correct PictureEditView.js instance, which contains the model)

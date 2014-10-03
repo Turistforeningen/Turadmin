@@ -12,6 +12,8 @@ define(function (require, exports, module) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         Template = require('text!templates/pois/edit.html'),
+        PoiModel = require('models/poi'),
+        PictureSelectorView = require('views/pictures/selector'),
         User = require('models/user'),
         user = new User();
 
@@ -58,7 +60,7 @@ define(function (require, exports, module) {
             _.bindAll(this, 'deletePoi');
 
             this.model = options.model;
-            this.pictureCollection = options.pictureCollection;
+            this.pictures = options.pictures;
         },
 
         openDeleteModal: function (e) {
@@ -112,12 +114,13 @@ define(function (require, exports, module) {
 
             this.$('[data-container-for="flere-sted-kategorier-input"] input').select2('val', poiAdditionalCategories);
 
-            // this.poiPicturesView = new PoiPicturesView({ model: this.model, pictureCollection: this.pictureCollection });
-
-            // this.$('.currentRouteImages .routePicturesContainer').append(this.poiPicturesView.render().el);
+            this.pictureSelectorView = new PictureSelectorView({
+                model: this.model,
+                pictures: this.pictures,
+                el: this.$('[data-view="pictures-selector"]')
+            }).render();
 
             return this;
-
         },
 
         remove: function() {

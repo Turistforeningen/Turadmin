@@ -143,6 +143,12 @@ define(function (require, exports, module) {
 
         },
 
+        // This is in ntb base model
+        // removePicture: function () {
+        //     this.set('removed', true);
+        //     this.trigger('remove');
+        // },
+
         updateIsPositioned: function () {
             var geojson = this.get('geojson');
             var isPositioned = (!!geojson && !!geojson.coordinates);

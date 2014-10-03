@@ -90,11 +90,86 @@ define(function (require, exports, module) {
         },
 
         onRemove: function (model) {
-            // Add to removedModels if saved to server, to send a DELETE request when route is saved
+            // Add to removedModels if saved to server, to send a DELETE request when collection is saved
+            // IF option destroyRemoved === true is passed to collection save method
             if (!!model.get('id')) {
                 this.removedModels.push(model);
             }
+        },
+
+
+        // Server interactions
+
+        save: function (success, error, self, options) {
+            options = options || {};
+
+            var saveErrorCount = 0;
+
+            var afterSave = function () {
+                if (saveErrorCount > 0) {
+                    if (error) {
+                        error.call(self, saveErrorCount);
+                    } else {
+                        console.error("Error saving models! " + saveErrorCount + " models could not be saved.");
+                    }
+                } else {
+                    if (success) {
+                        success.call(self);
+                    }
+                }
+            };
+
+            var allModelsCount = this.length + this.removedModels.length;
+
+            if (allModelsCount === 0) {
+                success.call(self);
+
+            } else {
+                var saveDone = _.after(allModelsCount, afterSave);
+
+                if (this.removedModels.length) {
+
+                    if (options.destroyRemoved === true) {
+
+                        _.each(this.removedModels, function (model) {
+                             model.destroy({
+                                wait: true,
+                                success: function () {
+                                    saveDone();
+                                },
+                                error: function () {
+                                    saveErrorCount += 1;
+                                    saveDone();
+                                }
+                            });
+                        });
+
+                    } else {
+
+                        for (var i = 0; i < this.removedModels.length; i++) {
+                            saveDone();
+                        }
+
+                    }
+
+                }
+
+                _.each(this.models, function (model) {
+
+                    model.save(undefined, {
+                        wait: true,
+                        success: function (model, response, options) {
+                            saveDone();
+                        },
+                        error: function (model, response, options) {
+                            saveErrorCount += 1;
+                            saveDone();
+                        }
+                    });
+                });
+            }
         }
+
 
     });
 

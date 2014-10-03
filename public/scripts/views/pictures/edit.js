@@ -60,16 +60,6 @@ define(function (require, exports, module) {
             _.bindAll(this, 'deletePicture', 'positionPicture', 'showPicturePosition');
         },
 
-        // addPoi: function () {
-        //     var poi = new PoiModel();
-        //     this.map.positionModel(poi, $.proxy(this.onMarkerCreate, this));
-        // },
-
-        // onMarkerCreate: function (poi, latLng) {
-        //     poi.set('geojson', {type: 'Point', coordinates: latLng});
-        //     this.pois.add(poi);
-        // },
-
         positionPicture: function (e) {
             var picture = this.model;
             this.map.positionModel(picture, $.proxy(this.onPositionPicture, this));
@@ -100,8 +90,9 @@ define(function (require, exports, module) {
         },
 
         deletePicture: function (e) {
-            this.model.deletePicture();
-            this.render();
+            // this.model.deletePicture();
+            this.model.remove();
+            this.remove();
         },
 
         pictureIndexChanged: function (event, index) {
@@ -168,8 +159,6 @@ define(function (require, exports, module) {
     });
 
 });
-
-// var DNT = window.DNT || {};
 
 // (function (ns) {
 //     "use strict";

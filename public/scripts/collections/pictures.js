@@ -18,7 +18,7 @@ define(function (require, exports, module) {
         return '/restProxy/bilder';
     };
 
-    return Backbone.Collection.extend({
+    return NtbCollection.extend({
 
         url: function () {
             return apiUri();
@@ -26,21 +26,21 @@ define(function (require, exports, module) {
 
         model: Picture,
 
-        removedModels: [],
-
         comparator: function (model) {
             return model.get('ordinal');
         },
 
-        initialize: function (pictures) {
+        nextOrdinal: 0,
 
-            this.on('add', this.onAdd, this);
-            this.on('remove', this.onRemove, this);
+        // initialize: function (pictures) {
 
-            this.nextOrdinal = 0;
+        //     // this.on('add', this.onAdd, this);
+        //     // this.on('remove', this.onRemove, this);
 
-            NtbCollection.prototype.initialize.call(this, pictures);
-        },
+        //     this.nextOrdinal = 0;
+
+        //     NtbCollection.prototype.initialize.call(this, pictures);
+        // },
 
         getNextOrdinal: function () {
             this.nextOrdinal = this.nextOrdinal + 1;
@@ -48,13 +48,16 @@ define(function (require, exports, module) {
         },
 
         onAdd: function (model) {
+
+            NtbCollection.prototype.onAdd.apply(this, arguments);
+
             model.set('ordinal', this.getNextOrdinal());
-            model.on('deletePicture', function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
+            // model.on('deletePicture', function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
         },
 
-        deletePicture: function (model) {
-            this.remove(model);
-        },
+        // deletePicture: function (model) {
+        //     this.remove(model);
+        // },
 
         countPictures: function () {
             var count = this.filter(function (picture) {
@@ -92,63 +95,6 @@ define(function (require, exports, module) {
             this.each(function (model, index) {
                 model.setUnpublished();
             });
-        },
-
-        save: function (success, error, self) {
-            var saveErrorCount = 0;
-
-            var afterSave = function () {
-                if (saveErrorCount > 0) {
-                    if (error) {
-                        error.call(self, saveErrorCount);
-                    } else {
-                        console.error("Error saving pictures! " + saveErrorCount + " pictures could not be saved.");
-                    }
-                } else {
-                    if (success) {
-                        success.call(self);
-                    }
-                }
-            };
-
-            var allPicturesCount = this.length + this.removedModels.length;
-
-            if (allPicturesCount === 0) {
-                success.call(self);
-
-            } else {
-                var saveDone = _.after(allPicturesCount, afterSave);
-
-                if (this.removedModels.length) {
-                    _.each(this.removedModels, function (picture) {
-                         picture.destroy({
-                            wait: true,
-                            success: function () {
-                                saveDone();
-                            },
-                            error: function () {
-                                saveErrorCount += 1;
-                                saveDone();
-                            }
-                        });
-                    });
-                }
-
-                _.each(this.models, function (picture) {
-
-                    picture.save(undefined, {
-                        wait: true,
-                        success: function (model, response, options) {
-                            saveDone();
-                        },
-                        error: function (model, response, options) {
-                            saveErrorCount += 1;
-                            saveDone();
-                        }
-                    });
-                });
-            }
         }
     });
-
 });

@@ -41,20 +41,20 @@ block content
 
     div.container
         div.masthead
-            h2.page-header Mine steder
+            h2.page-header Mine turer
 
         div.item-list.item-list-routes(data-container-for="items")
             // TODO: Move styles to CSS-file
-            p(style="margin-bottom: 30px;") Her er alle stedene du har lagt inn. Klikk på de enkelte stedene for å gjøre endringer.
-                a.btn.btn-primary.pull-right(href="/sted") Nytt sted
+            p(style="margin-bottom: 30px;") Her er alle turene du har lagt inn. Klikk på de enkelte turene for å gjøre endringer.
+                a.btn.btn-primary.pull-right(href="/tur") Ny tur
 
             // TODO: Move styles to CSS-file
             div.group-select-container(style="margin-bottom: 20px;" class="hidden")
                 div(data-placeholder-for="group-select")
-                p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se steder for, eller om du vil se steder knyttet til din bruker.
+                p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for, eller om du vil se turer knyttet til din bruker.
 
             div.search.well
-                label Søk etter sted
+                label Søk etter tur
                 input(type="text" class="form-control" placeholder="" name="search-term")
                 button.btn.btn-default(data-action="search" type="button") Søk
 
@@ -70,11 +70,11 @@ block content
 
             div(class="hidden" data-container-for="no-items-alert")
                 div.alert.alert-info
-                    strong Ingen steder:
+                    strong Ingen turer:
                     |&#32;
-                    span Fant ingen steder tilhørende valgt bruker eller gruppe.
+                    span Fant ingen turer tilhørende valgt bruker eller gruppe.
 
             div(class="hidden" data-container-for="loading-items-message")
-                span Henter steder...
+                span Henter turer...
 
             div.paginator(data-container-for="paginator")
