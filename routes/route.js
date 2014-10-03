@@ -84,16 +84,23 @@ module.exports = function (app, restProxy, options) {
 
             var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
-                // console.log('All resources fetched!');
                 var sortedPicturesData = picturesData;
 
                 if (picturesCount > 0 && picturesData.length > 0) {
                     // console.log('Reorder pictures array...');
-
                     sortedPicturesData.sort(function(a, b) {
                         return data.bilder.indexOf(a._id) - data.bilder.indexOf(b._id);
                     });
+                }
 
+
+                var sortedPoisData = poisData;
+
+                if (poisCount > 0 && poisData.length > 0) {
+                    // console.log('Reorder pois array...');
+                    sortedPoisData.sort(function(a, b) {
+                        return data.steder.indexOf(a._id) - data.steder.indexOf(b._id);
+                    });
                 }
 
                 req.renderOptions = req.renderOptions || {};
@@ -101,7 +108,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.routeName = routeData.navn;
                 req.renderOptions.routeData = JSON.stringify(routeData);
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
-                req.renderOptions.poisData = JSON.stringify(poisData);
+                req.renderOptions.poisData = JSON.stringify(sortedPoisData);
 
                 res.render('routes/editor', req.renderOptions);
             });
