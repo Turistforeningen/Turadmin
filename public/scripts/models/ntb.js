@@ -57,7 +57,6 @@ define(function (require, exports, module) {
             } else {
                 return undefined;
             }
-
         },
 
         setLatLng: function (latLng) {
@@ -84,6 +83,7 @@ define(function (require, exports, module) {
 
         // Recursive method that will remove all object properties
         // and array items that are empty strings.
+        // TODO: Also remove empty link objects equal to {tittel: "", url: "http://"}
         removeEmpty: function (input) {
 
             var output = _.clone(input);
@@ -92,6 +92,7 @@ define(function (require, exports, module) {
 
                 for (var i = 0; i < output.length; i++) {
                     if (typeof output[i] === 'object') {
+                        // if ((output[i].tittel === '' && output[i].url === 'http://') || (typeof output[i].tittel === 'undefined' && output[i].url === 'http://')) { output.splice(i, 1); }
                         output[i] = this.removeEmpty(output[i]);
                     } else if (typeof output[i] === 'string') {
                         if (output[i] === '') {
@@ -148,7 +149,7 @@ define(function (require, exports, module) {
 
             // If model defines serverAttrs, replace attrs with trimmed version
             if (this.serverAttrs) {
-                attrs = this.removeEmpty(_.pick(attrs, this.serverAttrs));
+                attrs = _.pick(attrs, this.serverAttrs);
             }
 
             attrs = this.removeEmpty(attrs);

@@ -55,9 +55,9 @@ define(function (require, exports, module) {
 
             var html =  this.template({link: this.link});
             this.$el.html(html);
-            // debugger;
-            this.validateTitle();
-            this.validateUrl();
+
+            // this.validateTitle();
+            // this.validateUrl();
             return this;
         },
 

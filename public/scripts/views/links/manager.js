@@ -18,17 +18,6 @@ define(function (require, exports, module) {
 
         el: $('[data-view="links-manager"]'),
 
-        // events: {
-        //     // 'sortstop #route-pictures-all-container': 'picturePositionUpdated',
-        //     // 'updatePictureIndexes': 'updateIndexes'
-        // },
-
-        // initialize: function (options) {
-
-        //     // Set scope of methods to this view
-        //     // _.bindAll(this, 'picturePositionUpdated', 'updateIndexes');
-        // }
-
         template: _.template(Template),
 
         events: {
@@ -36,7 +25,12 @@ define(function (require, exports, module) {
         },
 
         initialize: function (options) {
+
+            // Set scope of methods to this view
+            _.bindAll(this, 'addLink');
+
             this.linksField = options.linksField || 'lenker';
+
             // var linksArray = this.model.get('lenker');
             // this.model.set('lenker', linksArray);
         },
@@ -44,9 +38,16 @@ define(function (require, exports, module) {
         render: function () {
             var html = this.template();
             $(this.el).html(html);
+
             var links = this.model.get('lenker');
 
             _.each(links, this.renderLink, this);
+
+            // Add link if empty. Do it after link looping, or else it will be rendered twice.
+            if (links.length === 0) {
+                this.addLink();
+            }
+
             return this;
         },
 
