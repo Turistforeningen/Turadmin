@@ -114,39 +114,6 @@ define(function (require, exports, module) {
             }
         },
 
-        // updateSaveButton: function (allChangesSaved) {
-
-        //     var $saveButton = this.$('.navbar .route-save');
-
-        //     switch (allChangesSaved) {
-        //         case true:
-        //             $saveButton.removeClass('has-unsaved-changes');
-        //             $saveButton.tooltip({title: ''});
-        //             $saveButton.tooltip('hide');
-        //             $saveButton.tooltip('disable');
-        //             $saveButton.removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagre');
-        //             break;
-
-        //         case false:
-        //             $saveButton.addClass('has-unsaved-changes');
-        //             $saveButton.tooltip({title: 'Du har gjort endringer som ikke er lagret'});
-        //             $saveButton.tooltip('enable');
-        //             break;
-        //     }
-
-        // },
-
-        // unsavedChanges: function(e) {
-        //     var routeModel = this.model.get('route'),
-        //         previousGeoJson = routeModel.previous('geojson'),
-        //         newGeoJson = routeModel.get('geojson');
-
-        //     // Prevent savebutton from indicating unsaved changes, on map init (which is setting model attribute geojson from undefined to empty route)
-        //     if (previousGeoJson && newGeoJson) {
-        //         this.updateSaveButton(false);
-        //     }
-        // },
-
         publish: function() {
 
             var isValid = this.model.isValid(true);
@@ -206,60 +173,7 @@ define(function (require, exports, module) {
             this.poiCollection.setUnpublished();
             this.updatePublishButtons();
             this.save();
-        },
-
-        // save: function () {
-
-        //     // var me = this;
-        //     this.$saveButton.addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
-
-        //     var afterPictureAndPoiSync = function () {
-
-        //         this.model.set('bilder', this.pictures.pluck('id'));
-        //         this.model.set('steder', this.pois.pluck('id'));
-
-        //         this.model.save(undefined, {
-        //             success: function () {
-        //                 // this.updateSaveButton(true);
-        //                 // this.updatePublishButtons();
-        //             },
-        //             error: function (e) {
-        //                 console.error('error', e);
-        //             }
-        //         });
-
-        //     };
-
-        //     var saveDone = _.after(2, $.proxy(afterPictureAndPoiSync, this));
-        //     // var saveDone = _.after(1, $.proxy(afterPictureAndPoiSync, this));
-
-        //     this.pois.save(
-        //         function () {
-        //             saveDone();
-        //             console.log('All pois synced with server');
-        //         },
-        //         function (errorCount) {
-        //             saveDone();
-        //             console.error('Failed to sync ' + errorCount + ' pois');
-        //         },
-        //         this,
-        //         {destroyRemoved: true}
-        //     );
-
-        //     this.pictures.save(
-        //         function () {
-        //             saveDone();
-        //             console.log('All pictures synced with server');
-        //         },
-        //         function (errorCount) {
-        //             saveDone();
-        //             console.error('Failed to sync ' + errorCount + ' pictures');
-        //         },
-        //         this,
-        //         {destroyRemoved: true}
-        //     );
-
-        // }
+        }
 
     });
 

@@ -17,17 +17,6 @@ define(function (require, exports, module) {
 
         el: '[data-view="links-edit"]',
 
-        // events: {
-        //     // 'sortstop #route-pictures-all-container': 'picturePositionUpdated',
-        //     // 'updatePictureIndexes': 'updateIndexes'
-        // },
-
-        // initialize: function (options) {
-
-        //     // Set scope of methods to this view
-        //     // _.bindAll(this, 'picturePositionUpdated', 'updateIndexes');
-        // }
-
         template: _.template(Template),
 
         events: {

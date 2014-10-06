@@ -49,9 +49,9 @@ define(function (require, exports, module) {
             // TODO: Map... Add some logic to set up a new map if one is not passed as an option
             this.map = options.map;
 
-            this.pictures.on('change:deleted', function () {
+            this.pictures.on('remove', function () {
                 // Render view when all pictures are removed
-                if (this.pictures.countPictures() === 0) {
+                if (this.pictures.length === 0) {
                     this.render();
                 }
             }, this);
@@ -78,6 +78,14 @@ define(function (require, exports, module) {
             this.pictures.each(this.appendPicture, this);
 
             this.setupFileupload();
+
+            // if (this.pictureCollection.length === 0) {
+            //     this.$("#noPictures").removeClass("hidden");
+            //     this.$("#hintInfo").addClass("hidden");
+            // } else {
+            //     this.$("#noPictures").addClass("hidden");
+            //     this.$("#hintInfo").removeClass("hidden");
+            // }
 
             this.$errorContainer = $('[data-container-for="picture-upload-error"]');
 
@@ -237,141 +245,6 @@ define(function (require, exports, module) {
             this.$errorContainer.html('');
         }
 
-//         render: function () {
-
-//             if (this.pictureCollection.countPictures() === 0) {
-//                 this.$("#noPictures").removeClass("hidden");
-//                 this.$("#hintInfo").addClass("hidden");
-//             } else {
-//                 this.$("#noPictures").addClass("hidden");
-//                 this.$("#hintInfo").removeClass("hidden");
-//             }
-
-//             this.pictureCollection.each(this.appendPicture, this);
-
-//             this.$errorContainer = this.$el.find('[data-container-for="picture-upload-error"]');
-
-//             return this;
-//         }
-
-
     });
 
 });
-
-
-//         events: {
-//             'sortstop #route-pictures-all-container': 'picturePositionUpdated',
-//             'updatePictureIndexes': 'updateIndexes'
-//         },
-
-//         $errorContainer: null,
-
-//         initialize: function (options) {
-
-//             user = options.model.get('user');
-
-//             this.pictureCollection = this.model.get('pictureCollection');
-
-//             this.pictureCollection.on('change:deleted', function () {
-//                 // Render view when all pictures are removed
-//                 if (this.pictureCollection.countPictures() === 0) {
-//                     this.render();
-//                 }
-//             }, this);
-
-//             this.$('#route-pictures-all-container').sortable({
-//                 items: '.picture-sortable',
-//                 placeholder: 'sortable-placeholder col-sm-4'
-//             });
-
-//             this.$('#route-pictures-all-container').disableSelection();
-
-//             user = this.model.get('user');
-
-//             _.bindAll(this, 'picturePositionUpdated');
-//         },
-
-
-
-//         startProcessBar: function (data) {
-//             this.$("#progress").addClass("progress-striped active");
-//             this.$("#progress .progress-bar").html('<strong>Behandler bilde...</strong>');
-//         },
-
-//         endProcessBar: function (data) {
-//             this.$("#progress .progress-bar").html('');
-//             this.$($("#progress").removeClass("progress-striped active hidden"));
-//         },
-
-//         renderProgressBar: function (data) {
-//             var progress = parseInt(data.loaded / data.total * 100, 10);
-//             this.$("#progress .progress-bar").css('width', progress + '%');
-//         },
-
-//         hideAndResetProgressBar: function () {
-//             this.$($("#progress").addClass("hidden"));
-//             this.$("#progress .progress-bar").css('width', 0);
-//         },
-
-//         picturePositionUpdated: function (event, ui) {
-//             // Trig event on ui-item so that the correct picture item listener is trigged.
-//             // (In correct PictureEditView.js instance, which contains the model)
-//             ui.item.trigger('pictureDropped', ui.item.index());
-//         },
-
-//         updateIndexes: function (event, picture, index) {
-//             this.pictureCollection.reIndex(picture, index);
-//         },
-
-//         addNewFile: function (file) {
-
-//             file.fotograf = {navn: user.get('navn'), epost: user.get('epost')};
-//             file.privat = {
-//                 opprettet_av: {
-//                     id: user.get('id'),
-//                     navn: user.get('navn'),
-//                     epost: user.get('epost')
-//                 }
-//             };
-//             var picture = new ns.Picture(file);
-//             this.pictureCollection.add(picture);
-//             this.appendPicture(picture);
-//             this.$("#noPictures").addClass("hidden");
-//             this.$("#hintInfo").removeClass("hidden");
-//             //setTimeout(this.hideAndResetProgressBar, 1500);
-//         },
-
-//         addUploadError: function (err) {
-//             var $error = $('<div class="alert alert-danger"></div>').text(err);
-//             this.$errorContainer.append($error);
-//         },
-
-//         resetUploadErrors: function () {
-//             this.$errorContainer.html('');
-//         },
-
-//         appendPicture: function (picture) {
-//             var view = new DNT.PictureEditView({model: picture, app: this.model});
-
-//             this.$("#route-pictures-all-container").append(view.render().el);
-//         },
-
-//         render: function () {
-
-//             if (this.pictureCollection.countPictures() === 0) {
-//                 this.$("#noPictures").removeClass("hidden");
-//                 this.$("#hintInfo").addClass("hidden");
-//             } else {
-//                 this.$("#noPictures").addClass("hidden");
-//                 this.$("#hintInfo").removeClass("hidden");
-//             }
-
-//             this.pictureCollection.each(this.appendPicture, this);
-
-//             this.$errorContainer = this.$el.find('[data-container-for="picture-upload-error"]');
-
-//             return this;
-//         }
-//     });
-// }(DNT));

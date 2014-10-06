@@ -34,16 +34,6 @@ define(function (require, exports, module) {
 
         nextOrdinal: 0,
 
-        // initialize: function (pictures) {
-
-        //     // this.on('add', this.onAdd, this);
-        //     // this.on('remove', this.onRemove, this);
-
-        //     this.nextOrdinal = 0;
-
-        //     NtbCollection.prototype.initialize.call(this, pictures);
-        // },
-
         getNextOrdinal: function () {
             this.nextOrdinal = this.nextOrdinal + 1;
             return this.nextOrdinal - 1;
@@ -54,18 +44,6 @@ define(function (require, exports, module) {
             NtbCollection.prototype.onAdd.apply(this, arguments);
 
             model.set('ordinal', this.getNextOrdinal());
-            // model.on('deletePicture', function () { this.deletePicture(model); }, this); // deletePicture is fired from picture model.
-        },
-
-        // deletePicture: function (model) {
-        //     this.remove(model);
-        // },
-
-        countPictures: function () {
-            var count = this.filter(function (picture) {
-                return !picture.isDeleted();
-            });
-            return count.length;
         },
 
         reIndex: function (picture, newPosition) {

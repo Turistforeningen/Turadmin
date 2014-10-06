@@ -136,19 +136,6 @@ define(function (require, exports, module) {
             this.set('status', 'Kladd');
         },
 
-        deletePicture: function () {
-            // debugger;
-            this.set('deleted', true);
-            this.trigger('deletePicture');
-
-        },
-
-        // This is in ntb base model
-        // removePicture: function () {
-        //     this.set('removed', true);
-        //     this.trigger('remove');
-        // },
-
         updateIsPositioned: function () {
             var geojson = this.get('geojson');
             var isPositioned = (!!geojson && !!geojson.coordinates);
