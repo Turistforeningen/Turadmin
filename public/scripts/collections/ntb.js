@@ -12,9 +12,11 @@ define(function (require, exports, module) {
         _ = require('underscore'),
         Backbone = require('backbone');
 
+    // Module
     return Backbone.Collection.extend({
 
-        removedModels: [],
+        // NOTE: DO NOT define properties that should not be shared
+        // between collections extending this collection, like removedModels
 
         state: {
             pageSize: 20,
@@ -92,7 +94,7 @@ define(function (require, exports, module) {
         onRemove: function (model) {
             // Add to removedModels if saved to server, to send a DELETE request when collection is saved
             // IF option destroyRemoved === true is passed to collection save method
-            if (!!model.get('id')) {
+            if (!!model.get('_id')) {
                 this.removedModels.push(model);
             }
         },
@@ -101,6 +103,7 @@ define(function (require, exports, module) {
         // Server interactions
 
         save: function (success, error, self, options) {
+
             options = options || {};
 
             var saveErrorCount = 0;
@@ -131,18 +134,23 @@ define(function (require, exports, module) {
 
                     if (options.destroyRemoved === true) {
 
-                        _.each(this.removedModels, function (model) {
-                             model.destroy({
+                        _.each(this.removedModels, function (model, index, list) {
+
+                            model.destroy({
                                 wait: true,
-                                success: function () {
+                                success: $.proxy(function (model) {
+                                    var removedModelIndex = this.removedModels.indexOf(model);
+                                    if (removedModelIndex !== -1) {
+                                        this.removedModels.splice(removedModelIndex, 1);
+                                    }
                                     saveDone();
-                                },
+                                }, this),
                                 error: function () {
                                     saveErrorCount += 1;
                                     saveDone();
                                 }
                             });
-                        });
+                        }, this);
 
                     } else {
 
@@ -155,6 +163,8 @@ define(function (require, exports, module) {
                 }
 
                 _.each(this.models, function (model) {
+
+                    // console.log('Saving model', model.get('_id'));
 
                     model.save(undefined, {
                         wait: true,

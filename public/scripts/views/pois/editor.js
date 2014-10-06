@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
+        NtbEditorView = require('views/ntb/editor'),
         PictureManagerView = require('views/pictures/manager'),
         PictureCollection = require('collections/pictures'),
         MapWrapper = require('views/map/wrapper'),
@@ -24,17 +25,11 @@ define(function (require, exports, module) {
     require('jquery-ssr');
 
     // Module
-    return Backbone.View.extend({
+    return NtbEditorView.extend({
 
         el: '[data-view="app"]',
 
         className: 'editor-poi',
-
-        events: {
-            'click [data-action="do-save"]': 'save',
-            'click [data-action="do-publish"]': 'publish',
-            'click [data-action="do-unpublish"]': 'unpublish'
-        },
 
         initialize: function (options) {
 
@@ -43,13 +38,18 @@ define(function (require, exports, module) {
 
             this.pictures = new PictureCollection(options.picturesData);
 
-            this.listenTo(this, 'save:start', this.onSaveStart);
-            this.listenTo(this, 'save:end', this.onSaveEnd);
+            this.relatedCollections = [
+                {
+                    field: 'bilder',
+                    collection: this.pictures,
+                    destroyRemoved: false
+                }
+            ];
 
             this.listenTo(this.model, 'change:status', this.updatePublishButtons);
             this.listenTo(this.model, 'change:synced', this.onSyncChange);
 
-            this.defaults = options.defaults || {};
+            NtbEditorView.prototype.initialize.call(this, options);
 
         },
 
@@ -79,70 +79,6 @@ define(function (require, exports, module) {
             this.updatePublishButtons();
 
         },
-
-        onSyncChange: function (e) {
-            if (this.model.get('synced') === false) {
-
-            }
-        },
-
-        onSaveStart: function (e) {
-            this.$('[data-action="do-save"]').addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
-        },
-
-        onSaveEnd: function (e) {
-            this.$('[data-action="do-save"]').removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagre');
-        },
-
-        updatePublishButtons: function () {
-
-            var status = this.model.get('status');
-
-            switch (status) {
-                case 'Kladd':
-                    $('[data-action="do-publish"]').removeClass('hidden');
-                    $('[data-action="do-unpublish"]').addClass('hidden');
-                    break;
-
-                case 'Offentlig':
-                    $('[data-action="do-publish"]').addClass('hidden');
-                    $('[data-action="do-unpublish"]').removeClass('hidden');
-                    break;
-            }
-        },
-
-        // updateSaveButton: function (allChangesSaved) {
-
-        //     var $saveButton = this.$('.navbar .route-save');
-
-        //     switch (allChangesSaved) {
-        //         case true:
-        //             $saveButton.removeClass('has-unsaved-changes');
-        //             $saveButton.tooltip({title: ''});
-        //             $saveButton.tooltip('hide');
-        //             $saveButton.tooltip('disable');
-        //             $saveButton.removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagre');
-        //             break;
-
-        //         case false:
-        //             $saveButton.addClass('has-unsaved-changes');
-        //             $saveButton.tooltip({title: 'Du har gjort endringer som ikke er lagret'});
-        //             $saveButton.tooltip('enable');
-        //             break;
-        //     }
-
-        // },
-
-        // unsavedChanges: function(e) {
-        //     var routeModel = this.model.get('route'),
-        //         previousGeoJson = routeModel.previous('geojson'),
-        //         newGeoJson = routeModel.get('geojson');
-
-        //     // Prevent savebutton from indicating unsaved changes, on map init (which is setting model attribute geojson from undefined to empty route)
-        //     if (previousGeoJson && newGeoJson) {
-        //         this.updateSaveButton(false);
-        //     }
-        // },
 
         publish: function() {
 
@@ -198,43 +134,6 @@ define(function (require, exports, module) {
             this.model.set('status', 'Kladd', {silent: true});
             this.updatePublishButtons();
             this.save();
-        },
-
-        save: function () {
-
-            this.trigger('save:start');
-
-            var afterPictureAndPoiSync = function () {
-
-                this.model.set('bilder', this.pictures.pluck('id'));
-
-                this.model.save(undefined, {
-                    success: $.proxy(function (e) {
-                        this.trigger('save:end');
-                    }, this),
-                    error: $.proxy(function (e) {
-                        console.error('error', e);
-                        this.trigger('save:end');
-                    }, this)
-                });
-
-            };
-
-            var saveDone = _.after(1, $.proxy(afterPictureAndPoiSync, this));
-
-            this.pictures.save(
-                function () {
-                    saveDone();
-                    console.log('All pictures synced with server');
-                },
-                function (errorCount) {
-                    saveDone();
-                    console.error('Failed to sync ' + errorCount + ' pictures');
-                },
-                this,
-                {destroyRemoved: false}
-            );
-
         }
 
     });

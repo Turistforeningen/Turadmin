@@ -21,6 +21,8 @@ define(function (require, exports, module) {
             return '/restProxy/steder';
         },
 
+        removedModels: [],
+
         model: Poi,
 
         // initialize: function (pois) {

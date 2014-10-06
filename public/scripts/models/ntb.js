@@ -17,6 +17,8 @@ define(function (require, exports, module) {
                 this.set('id', this.get(this.idAttribute));
             }
 
+            this.listenTo(this, 'change:' + this.idAttribute, this.onIdChange);
+
             if (typeof options === 'object' && typeof options._id !== 'undefined') {
 
             } else {
@@ -32,8 +34,37 @@ define(function (require, exports, module) {
                 this.set('privat', privat);
             }
 
+            this.set('synced', true);
+
+            if (typeof this.serverAttrs === 'object') {
+                for (var i = 0; i < this.serverAttrs.length; i++) {
+                    this.listenTo(this, 'change:' + this.serverAttrs[i], this.onChange);
+                }
+            }
+
+            this.listenTo(this, 'sync', function (model, resp, options) {
+                this.set('synced', true);
+            });
+
         },
 
+        onIdChange: function (model, value, options) {
+            this.set('id', this.get(this.idAttribute));
+        },
+
+        onChange: function (model, options) {
+
+            var previousGeoJson = model.previous('geojson'),
+                newGeoJson = model.get('geojson');
+
+            // Prevent setting synced to false on map init, which is setting model
+            // attribute geojson from undefined to empty geojson object
+            if (previousGeoJson && newGeoJson) {
+                this.set('synced', false);
+
+            }
+
+        },
 
         /* Setters and getters */
 

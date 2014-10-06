@@ -110,7 +110,7 @@ define(function (require, exports, module) {
                 this.changed = true;
             });
 
-            this.on('change:navn', this.onNameChange, this);
+            // this.on('change:navn', this.onNameChange, this);
             this.on('change:kategori', this.onCategoryChange, this);
             this.on('change:geojson', this.onGeoJsonChange, this);
 

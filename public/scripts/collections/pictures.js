@@ -20,6 +20,8 @@ define(function (require, exports, module) {
 
     return NtbCollection.extend({
 
+        removedModels: [],
+
         url: function () {
             return apiUri();
         },

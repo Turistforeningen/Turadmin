@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
+        NtbEditorView = require('views/ntb/editor'),
         MapWrapper = require('views/map/wrapper'),
         RouteModel = require('models/route'),
         RouteDrawView = require('views/routes/draw'),
@@ -26,7 +27,7 @@ define(function (require, exports, module) {
     require('jquery-ssr');
 
     // Module
-    return Backbone.View.extend({
+    return NtbEditorView.extend({
 
         el: '[data-view="app"]',
 
@@ -39,6 +40,18 @@ define(function (require, exports, module) {
             this.pictures = new PictureCollection(options.picturesData);
             this.pois = new PoiCollection(options.poisData);
 
+            this.relatedCollections = [
+                {
+                    field: 'bilder',
+                    collection: this.pictures,
+                    destroyRemoved: true
+                },
+                {
+                    field: 'steder',
+                    collection: this.pois,
+                    destroyRemoved: true
+                }
+            ];
 
             // Set up views
 
@@ -73,23 +86,9 @@ define(function (require, exports, module) {
                 route: this.model
             }).render();
 
-            // Assign elements to variables
-            this.$saveButton = this.$('.navbar .route-save');
-
-            // Set up some event listeners
-            $(document).on('click', '[data-action="do-save"]', $.proxy(this.save, this));
-            $(document).on('click', '[data-action="do-publish"]', $.proxy(this.publish, this));
-            $(document).on('click', '[data-action="do-unpublish"]', $.proxy(this.unpublish, this));
-
-            // this.model.on('change:status', $.proxy(this.updatePublishButtons, this));
             this.listenTo(this.model, 'change:status', $.proxy(this.updatePublishButtons, this));
-            // _.bindAll(this, 'publish', 'unpublish');
-        },
 
-        events: {
-            // 'click [data-action="route-save"]': 'save',
-            // 'click [data-action="do-publish"]': 'publish',
-            // 'click [data-action="do-unpublish"]': 'unpublish'
+            NtbEditorView.prototype.initialize.call(this, options);
         },
 
         render: function () {
@@ -209,58 +208,58 @@ define(function (require, exports, module) {
             this.save();
         },
 
-        save: function () {
+        // save: function () {
 
-            // var me = this;
-            this.$saveButton.addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
+        //     // var me = this;
+        //     this.$saveButton.addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
 
-            var afterPictureAndPoiSync = function () {
+        //     var afterPictureAndPoiSync = function () {
 
-                this.model.set('bilder', this.pictures.pluck('id'));
-                this.model.set('steder', this.pois.pluck('id'));
+        //         this.model.set('bilder', this.pictures.pluck('id'));
+        //         this.model.set('steder', this.pois.pluck('id'));
 
-                this.model.save(undefined, {
-                    success: function () {
-                        // this.updateSaveButton(true);
-                        // this.updatePublishButtons();
-                    },
-                    error: function (e) {
-                        console.error('error', e);
-                    }
-                });
+        //         this.model.save(undefined, {
+        //             success: function () {
+        //                 // this.updateSaveButton(true);
+        //                 // this.updatePublishButtons();
+        //             },
+        //             error: function (e) {
+        //                 console.error('error', e);
+        //             }
+        //         });
 
-            };
+        //     };
 
-            var saveDone = _.after(2, $.proxy(afterPictureAndPoiSync, this));
-            // var saveDone = _.after(1, $.proxy(afterPictureAndPoiSync, this));
+        //     var saveDone = _.after(2, $.proxy(afterPictureAndPoiSync, this));
+        //     // var saveDone = _.after(1, $.proxy(afterPictureAndPoiSync, this));
 
-            this.pois.save(
-                function () {
-                    saveDone();
-                    console.log('All pois synced with server');
-                },
-                function (errorCount) {
-                    saveDone();
-                    console.error('Failed to sync ' + errorCount + ' pois');
-                },
-                this,
-                {destroyRemoved: true}
-            );
+        //     this.pois.save(
+        //         function () {
+        //             saveDone();
+        //             console.log('All pois synced with server');
+        //         },
+        //         function (errorCount) {
+        //             saveDone();
+        //             console.error('Failed to sync ' + errorCount + ' pois');
+        //         },
+        //         this,
+        //         {destroyRemoved: true}
+        //     );
 
-            this.pictures.save(
-                function () {
-                    saveDone();
-                    console.log('All pictures synced with server');
-                },
-                function (errorCount) {
-                    saveDone();
-                    console.error('Failed to sync ' + errorCount + ' pictures');
-                },
-                this,
-                {destroyRemoved: true}
-            );
+        //     this.pictures.save(
+        //         function () {
+        //             saveDone();
+        //             console.log('All pictures synced with server');
+        //         },
+        //         function (errorCount) {
+        //             saveDone();
+        //             console.error('Failed to sync ' + errorCount + ' pictures');
+        //         },
+        //         this,
+        //         {destroyRemoved: true}
+        //     );
 
-        }
+        // }
 
     });
 
