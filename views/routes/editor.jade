@@ -44,20 +44,20 @@ block navbarCollapse
     // Scrollspy navigation
     ul.nav.navbar-nav.navbar-center.hidden-sm
 
-        li.link-route-draw
-            a(href="#route-draw")
+        li.link-route-draw.active
+            a(href="#inntegning")
                 span.glyphicon.glyphicon-globe
                 | &nbsp;Inntegning
         li.link-route-pictures
-            a(href="#route-pictures")
+            a(href="#bilder")
                 span.glyphicon.glyphicon-picture
                 | &nbsp;Bilder
         li.link-route-pois
-            a(href="#route-pois")
+            a(href="#steder")
                 span.glyphicon.glyphicon-map-marker
                 | &nbsp;Steder
         li.link-route-facts
-            a(href="#route-facts")
+            a(href="#detaljer")
                 span.glyphicon.glyphicon-list
                 | &nbsp;Fakta
 
@@ -65,11 +65,11 @@ block navbarCollapse
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
 
-        li.action-route-save
+        li.action-do-save
             a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").route-save
                 span.glyphicon.glyphicon-floppy-disk
                 | &nbsp;Lagre
-        li.action-route-switch-publish-state
+        li.action-do-switch-published-state
             a(data-action="do-publish")
                 span.glyphicon.glyphicon-cloud-upload
                 | &nbsp;Publiser
@@ -86,7 +86,7 @@ block content
 
     div.container
 
-        div.page-block.route-draw(data-view="route-draw")
+        div#inntegning.page-block.route-draw(data-view="route-draw")
         div(data-container-for="map")
             div.route-map(data-view="route-map")
 
@@ -102,9 +102,8 @@ block content
                         button(type="button" class="btn btn-primary" data-dismiss="modal") Ferdig
 
 
-
-        div.page-block.route-pictures(data-view="route-pictures")
-        div.page-block.route-pois(data-view="route-pois")
-
-        include partials/edit-details
+        div#bilder.page-block.route-pictures(data-view="route-pictures")
+        div#steder.page-block.route-pois(data-view="route-pois")
+        div#detaljer.page-block.route-details(data-view="route-details")
+            include partials/edit-details
         include partials/edit-done

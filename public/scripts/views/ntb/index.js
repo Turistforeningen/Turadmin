@@ -13,7 +13,8 @@ define(function (require, exports, module) {
         Backbone = require('backbone'),
         User = require('models/user'),
         SelectView = require('views/select'),
-        ListItemView = require('views/ntb/listitem');
+        ListItemView = require('views/ntb/listitem'),
+        PaginationTemplate = require('text!templates/ntb/pagination.html');
 
     require('select2');
 
@@ -171,7 +172,7 @@ define(function (require, exports, module) {
             var html = '';
 
             if (this.collection.state.paginatorRequired) {
-                var template = _.template($('#template-index-paginator').html());
+                var template = _.template(PaginationTemplate);
                 html = template({state: this.collection.state});
             }
 

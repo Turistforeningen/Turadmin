@@ -94,6 +94,8 @@ define(function (require, exports, module) {
         },
 
         render: function () {
+            $('body').scrollspy({target: '.navbar-app'});
+
             this.updatePublishButtons();
         },
 
@@ -215,8 +217,8 @@ define(function (require, exports, module) {
 
             var afterPictureAndPoiSync = function () {
 
-                this.model.set('bilder', this.pictures.getPictureIds());
-                this.model.set('steder', this.pois.getPoiIds());
+                this.model.set('bilder', this.pictures.pluck('id'));
+                this.model.set('steder', this.pois.pluck('id'));
 
                 this.model.save(undefined, {
                     success: function () {

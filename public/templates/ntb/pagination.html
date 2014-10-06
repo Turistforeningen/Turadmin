@@ -1,0 +1,7 @@
+<ul class="pagination">
+  <li <% if (state.prevPageSkip === false) { %> class="disabled"<% } %>><a<% if (state.prevPageSkip !== false) { %> data-paginator=<%= (state.currentPage - 1) %><% } %>>&laquo;</a></li>
+  <% for (var page = 1; page <= state.totalPages; page++) { %>
+  <li<% if (page == state.currentPage) { %> class="active"<% } %>><a data-paginator=<%= page %>><%= page %></a></li>
+  <% } %>
+  <li <% if (state.nextPageSkip === false) { %> class="disabled"<% } %>><a<% if (state.nextPageSkip !== false) { %> data-paginator=<%= (state.currentPage + 1) %><% } %>>&raquo;</a></li>
+</ul>

@@ -35,7 +35,7 @@ html
             script(src="/scripts/apps/config.js")
 
 
-    body(data-apiUri=routeApiUri data-spy="scroll" data-target=".navbar-app")
+    body(data-apiUri=routeApiUri)
 
         block body
 
@@ -43,25 +43,23 @@ html
 
                 div.app(data-view="app")
 
-                    div#view-app
-
-                        // Navbar
-                        div.navbar.navbar-fixed-top.navbar-inverse.navbar-app
-                            div.container
-                                div.navbar-header
-
-                                    block navbarHeader
-                                        a.navbar-brand(href="/" alt="Til mine turer")
-                                            img(src="/images/ut-no-logo-hvit.png")
-
-                                div.collapse.navbar-collapse#app-navigation-collapse
-                                    block navbarCollapse
-
-                        block content
-
-                        // TODO: Move CSS to stylesheet
+                    //- Navbar
+                    div.navbar.navbar-fixed-top.navbar-inverse.navbar-app
                         div.container
-                            div.row
-                                div.col-lg-12
-                                    div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
-                                        p Opphavsrett &copy; 2008 - 2014 Den Norske Turistforening og NRK. Alle rettigheter reservert.
+                            div.navbar-header
+
+                                block navbarHeader
+                                    a.navbar-brand(href="/" alt="Til mine turer")
+                                        img(src="/images/ut-no-logo-hvit.png")
+
+                            div.collapse.navbar-collapse#app-navigation-collapse
+                                block navbarCollapse
+
+                    block content
+
+                    //- TODO: Move CSS to stylesheet
+                    div.container
+                        div.row
+                            div.col-lg-12
+                                div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
+                                    p Opphavsrett &copy; 2008 - 2014 Den Norske Turistforening og NRK. Alle rettigheter reservert.

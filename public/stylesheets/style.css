@@ -135,25 +135,26 @@ ul.nav.navbar-nav.navbar-center li {
 	opacity: 1;
 }
 
-.action-route-save span,
-.action-route-save a,
-.action-route-switch-publish-state span,
-.action-route-switch-publish-state a {
+
+.navbar.navbar-inverse .action-do-save span,
+.navbar.navbar-inverse .action-do-save a,
+.navbar.navbar-inverse .action-do-switch-published-state span,
+.navbar.navbar-inverse .action-do-switch-published-state a {
 	color: #fff !important;
 }
 
-.action-route-save .disabled span,
-.action-route-save .disabled,
-.action-route-switch-publish-state .disabled span,
-.action-route-switch-publish-state .disabled {
+.navbar.navbar-inverse .action-do-save .disabled span,
+.navbar.navbar-inverse .action-do-save .disabled,
+.navbar.navbar-inverse .action-do-switch-published-state .disabled span,
+.navbar.navbar-inverse .action-do-switch-published-state .disabled {
 	color: #999 !important;
 }
 
-.action-route-switch-publish-state .tooltip .tooltip-inner {
+.navbar.navbar-inverse .action-route-switch-published-state .tooltip .tooltip-inner {
 	background-color: #a94442;
 }
 
-.action-route-switch-publish-state .tooltip .tooltip-arrow {
+.navbar.navbar-inverse .action-route-switch-published-state .tooltip .tooltip-arrow {
 	border-bottom-color: #a94442;
 }
 
@@ -403,7 +404,7 @@ div.line-mouse-marker {
  * Page Block - Route Done
  */
 
-.page-block.route-done .well {
+.page-block.ntb-done .well {
 	text-align: center;
 }
 

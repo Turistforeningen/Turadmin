@@ -27,46 +27,62 @@ define(function (require, exports, module) {
     return Backbone.View.extend({
 
         el: $('[data-view="app"]'),
-        // template: _.template(Template),
+
+        events: {
+            'click [data-action="do-save"]': 'save',
+            'click [data-action="do-publish"]': 'publish',
+            'click [data-action="do-unpublish"]': 'unpublish'
+        },
 
         initialize: function (options) {
 
+            // Set model for view
             this.model = new Poi(options.poiData);
 
-            var poiPositioningView = new PoiPositioningView({
-                model: this.model
-            }).render();
-
-            var poiDetailsView = new PoiDetailsView({
-                model: this.model
-            }).render();
-
             this.pictures = new PictureCollection(options.picturesData);
+
+            this.listenTo(this, 'save:start', this.onSaveStart);
+            this.listenTo(this, 'save:end', this.onSaveEnd);
+
+            this.listenTo(this.model, 'change:status', this.updatePublishButtons);
+            this.listenTo(this.model, 'change:synced', this.onSyncChange);
+
+        },
+
+        render: function () {
+
+            $('body').scrollspy({target: '.navbar-app'});
+
+            this.poiPositioningView = new PoiPositioningView({
+                model: this.model
+            }).render();
+
+            this.poiDetailsView = new PoiDetailsView({
+                model: this.model
+            }).render();
 
             this.pictureManagerView = new PictureManagerView({
                 el: '[data-view="poi-pictures"]',
                 pictures: this.pictures
             }).render();
 
-            this.$saveButton = this.$('.navbar .route-save');
-
-            $(document).on('click', '[data-action="do-save"]', $.proxy(this.save, this));
-            $(document).on('click', '[data-action="do-publish"]', $.proxy(this.publish, this));
-            $(document).on('click', '[data-action="do-unpublish"]', $.proxy(this.unpublish, this));
-
-            // this.model.on('change:status', $.proxy(this.updatePublishButtons, this));
-            this.listenTo(this.model, 'change:status', $.proxy(this.updatePublishButtons, this));
-            // _.bindAll(this, 'publish', 'unpublish');
-        },
-
-        events: {
-            // 'click [data-action="route-save"]': 'save',
-            // 'click [data-action="do-publish"]': 'publish',
-            // 'click [data-action="do-unpublish"]': 'unpublish'
-        },
-
-        render: function () {
+            // Render publish buttons
             this.updatePublishButtons();
+
+        },
+
+        onSyncChange: function (e) {
+            if (this.model.get('synced') === false) {
+
+            }
+        },
+
+        onSaveStart: function (e) {
+            this.$('[data-action="do-save"]').addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
+        },
+
+        onSaveEnd: function (e) {
+            this.$('[data-action="do-save"]').removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagre');
         },
 
         updatePublishButtons: function () {
@@ -124,9 +140,9 @@ define(function (require, exports, module) {
             var isValid = this.model.isValid(true);
 
             if (isValid === true) {
-                // this.pictureCollection.setPublished();
-                // this.poiCollection.setPublished();
-                this.model.set('status', 'Offentlig', { silent: true });
+                this.pictures.setPublished(true);
+
+                this.model.set('status', 'Offentlig', {silent: true});
                 this.save();
 
             } else {
@@ -171,48 +187,31 @@ define(function (require, exports, module) {
 
         unpublish: function() {
             this.model.set('status', 'Kladd', {silent: true});
-            // this.pictureCollection.setUnpublished();
-            // this.poiCollection.setUnpublished();
             this.updatePublishButtons();
             this.save();
         },
 
         save: function () {
 
-            // var me = this;
-            this.$saveButton.addClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagrer...');
+            this.trigger('save:start');
 
             var afterPictureAndPoiSync = function () {
 
-                // me.route.setPoiIds(me.poiCollection.getPoiIds());
-                this.model.set('bilder', this.pictures.getPictureIds());
+                this.model.set('bilder', this.pictures.pluck('id'));
 
                 this.model.save(undefined, {
-                    success: function () {
-                        // this.updateSaveButton(true);
-                        // this.updatePublishButtons();
-                    },
-                    error: function (e) {
+                    success: $.proxy(function (e) {
+                        this.trigger('save:end');
+                    }, this),
+                    error: $.proxy(function (e) {
                         console.error('error', e);
-                    }
+                        this.trigger('save:end');
+                    }, this)
                 });
 
             };
 
-            // var saveDone = _.after(2, $.proxy(afterPictureAndPoiSync, this));
             var saveDone = _.after(1, $.proxy(afterPictureAndPoiSync, this));
-
-            // this.poiCollection.save(
-            //     function () {
-            //         saveDone();
-            //         console.log('All pois synced with server');
-            //     },
-            //     function (errorCount) {
-            //         saveDone();
-            //         console.error('Failed to sync ' + errorCount + ' pois');
-            //     },
-            //     this
-            // );
 
             this.pictures.save(
                 function () {

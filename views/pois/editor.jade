@@ -30,27 +30,27 @@ block navbarCollapse
     // Scrollspy navigation
     ul.nav.navbar-nav.navbar-center.hidden-sm
 
-        li.link-poi-position
-            a(href="#poi-position")
+        li.link-poi-position.active
+            a(href="#posisjonering")
                 span.glyphicon.glyphicon-globe
                 | &nbsp;Posisjonering
-        li.link-poi-pictures
-            a(href="#poi-pictures")
-                span.glyphicon.glyphicon-picture
-                | &nbsp;Bilder
         li.link-poi-details
-            a(href="#poi-details")
+            a(href="#detaljer")
                 span.glyphicon.glyphicon-list
                 | &nbsp;Fakta
+        li.link-poi-pictures
+            a(href="#bilder")
+                span.glyphicon.glyphicon-picture
+                | &nbsp;Bilder
 
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
 
-        li.action-poi-save
+        li.action-do-save
             a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").poi-save
                 span.glyphicon.glyphicon-floppy-disk
                 | &nbsp;Lagre
-        li.action-poi-switch-publish-state
+        li.action-do-switch-published-state
             a(data-action="do-publish")
                 span.glyphicon.glyphicon-cloud-upload
                 | &nbsp;Publiser
@@ -68,9 +68,9 @@ block content
 
     div.container
 
-        div.page-block.poi-positioning(data-view="poi-positioning")
+        div#posisjonering.page-block.poi-positioning(data-view="poi-positioning")
 
-        div.page-block.poi-details(data-view="poi-details" id="poi-details")
+        div#detaljer.page-block.poi-details(data-view="poi-details")
             div.row
                 div.col-lg-12
                     form.form-horizontal
@@ -141,5 +141,22 @@ block content
 
 
 
+        div#bilder.page-block.poi-pictures(data-view="poi-pictures")
 
-        div.page-block.poi-pictures(data-view="poi-pictures")
+        div.row.page-block.ntb-done.poi-done
+            div.col-lg-12
+                h3 Ferdig
+                p Dersom du nå har lagt inn all informasjon du ønsker om stedet er det klart for publisering.
+                div.well
+                    div.row
+                        div.col-lg-6.col-md-6.col-sm-6
+                            button.btn.btn-lg.btn-default(data-action="do-save")
+                                span.glyphicon.glyphicon-floppy-disk
+                                | &nbsp;Lagre
+                        div.col-lg-6.col-md-6.col-sm-6
+                            button.btn.btn-lg.btn-success(data-action="do-publish")
+                                span.glyphicon.glyphicon-cloud-upload
+                                | &nbsp;Publiser
+                            button.btn.btn-lg.btn-warning.hidden(data-action="do-unpublish")
+                                span.glyphicon.glyphicon-cloud-download
+                                | &nbsp;Avpubliser

@@ -81,10 +81,6 @@ define(function (require, exports, module) {
             this.sort();
         },
 
-        getPictureIds: function () {
-            return this.pluck("_id");
-        },
-
         setPublished: function() {
             this.each(function (model, index) {
                 model.setPublished();
