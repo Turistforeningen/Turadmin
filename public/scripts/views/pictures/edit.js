@@ -155,7 +155,6 @@ define(function (require, exports, module) {
             return Backbone.View.prototype.remove.apply(this, arguments);
         }
 
-
     });
 
 });
