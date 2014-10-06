@@ -57,6 +57,8 @@ define(function (require, exports, module) {
 
             $('body').scrollspy({target: '.navbar-app'});
 
+            this.$el.addClass(this.className);
+
             this.poiPositioningView = new PoiPositioningView({
                 model: this.model
             }).render();
