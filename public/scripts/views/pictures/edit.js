@@ -54,8 +54,6 @@ define(function (require, exports, module) {
             // TODO: Map... Add some logic to set up a new map if one is not passed as an option
             this.map = options.map;
 
-            // Listen to url changes (when saving, picture is moved from tmp to permanent storage)
-            // this.model.on('change:thumbnailUrl', this.render, this);
             this.model.on('change:isPositioned', this.render, this);
             _.bindAll(this, 'deletePicture', 'positionPicture', 'showPicturePosition');
         },
