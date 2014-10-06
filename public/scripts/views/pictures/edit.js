@@ -88,8 +88,10 @@ define(function (require, exports, module) {
         },
 
         deletePicture: function (e) {
-            // this.model.deletePicture();
+            // Remove model (from collection)
             this.model.remove();
+
+            // Remove view
             this.remove();
         },
 
