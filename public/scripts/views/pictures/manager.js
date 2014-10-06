@@ -33,6 +33,10 @@ define(function (require, exports, module) {
         //     'picturesortstop': 'updateIndexes'
         // },
 
+        messages: {
+            empty: 'Husk å legge inn bilder!'
+        },
+
         events: {
             // 'sortstop #route-pictures-all-container': 'picturePositionUpdated',
             'updatePictureIndexes': 'updateIndexes'
@@ -57,6 +61,7 @@ define(function (require, exports, module) {
             }, this);
 
             this.defaults = options.defaults || {};
+            this.messages = options.messages || this.messages;
 
         },
 
@@ -66,26 +71,27 @@ define(function (require, exports, module) {
                 map: this.map
             }).render();
 
+            this.$('.message-empty').addClass('hidden');
             this.$('[data-container-for="all-pictures-container"]').append(pictureEditView.el);
         },
 
         render: function () {
             // Using Underscore we can compile our template with data
-            var data = {};
-            var compiledTemplate = _.template(Template, data);
+            var data = {messages: this.messages};
+            var compiledTemplate = _.template(Template);
 
-            this.$el.html(compiledTemplate);
+            this.$el.html(compiledTemplate(data));
             this.pictures.each(this.appendPicture, this);
 
             this.setupFileupload();
 
-            // if (this.pictureCollection.length === 0) {
-            //     this.$("#noPictures").removeClass("hidden");
-            //     this.$("#hintInfo").addClass("hidden");
-            // } else {
-            //     this.$("#noPictures").addClass("hidden");
-            //     this.$("#hintInfo").removeClass("hidden");
-            // }
+            if (this.pictures.length === 0) {
+                this.$('.message-empty').removeClass('hidden');
+                // this.$("#hintInfo").addClass("hidden");
+            } else {
+                this.$('.message-empty').addClass('hidden');
+                // this.$("#hintInfo").removeClass("hidden");
+            }
 
             this.$errorContainer = $('[data-container-for="picture-upload-error"]');
 

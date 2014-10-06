@@ -1,8 +1,8 @@
 <div class="row page-block route-pictures" data-module="pictures-manager">
     <div class="col-lg-12">
         <h3>Bilder</h3>
-        <div id="noPictures" class="alert alert-warning hidden">
-            <strong>Ingen bilder!</strong>&nbsp;Husk å legge inn bilder fra turen din, slik at det blir synlig på forsiden av UT.no</div>
+        <div class="message-empty alert alert-warning hidden">
+            <strong>Ingen bilder!</strong> <span data-container-for="message-empty"><%= messages.empty %></span></div>
         <div class="row">
             <div class="route-pictures-all-container ui-sortable" data-container-for="all-pictures-container"></div>
         </div>

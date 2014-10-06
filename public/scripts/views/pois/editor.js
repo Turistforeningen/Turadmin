@@ -72,6 +72,9 @@ define(function (require, exports, module) {
                 pictures: this.pictures,
                 defaults: {
                     geojson: this.model.get('geojson')
+                },
+                messages: {
+                    empty: 'Husk å legge inn bilder fra stedet.'
                 }
             }).render();
 

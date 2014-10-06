@@ -71,7 +71,10 @@ define(function (require, exports, module) {
             this.pictureManager = new PictureManager({
                 el: '[data-view="route-pictures"]',
                 pictures: this.pictures,
-                map: this.mapWrapper
+                map: this.mapWrapper,
+                messages: {
+                    empty: 'Husk å legge inn bilder fra turen din, slik at det blir synlig på forsiden av UT.no'
+                }
             }).render();
 
             this.poiManager = new PoiManager({
