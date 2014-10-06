@@ -28,8 +28,7 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        el: $('[data-view="app"]'),
-        // template: _.template(Template),
+        el: '[data-view="app"]',
 
         initialize: function (options) {
 

@@ -19,7 +19,7 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        el: $('[data-view="pictures-selector"]'),
+        el: '[data-view="pictures-selector"]',
 
         template: _.template(Template),
 

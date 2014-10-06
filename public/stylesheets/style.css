@@ -734,3 +734,7 @@ body.modal-open {
 .position-by-marker .btn-block {
 	margin: 0;
 }
+
+.editor-poi .picture-edit .show-position {
+	display: none;
+}

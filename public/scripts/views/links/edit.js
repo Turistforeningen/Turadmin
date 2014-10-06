@@ -15,7 +15,7 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        // el: $('[data-view="links-edit"]'),
+        el: '[data-view="links-edit"]',
 
         // events: {
         //     // 'sortstop #route-pictures-all-container': 'picturePositionUpdated',

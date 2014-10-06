@@ -26,7 +26,7 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        el: $('[data-view="pictures-manager"]'),
+        el: '[data-view="pictures-manager"]',
 
         uploadUrl: '/upload/picture',
         // events: {
@@ -56,6 +56,8 @@ define(function (require, exports, module) {
                 }
             }, this);
 
+            this.defaults = options.defaults || {};
+
         },
 
         appendPicture: function (picture) {
@@ -71,7 +73,6 @@ define(function (require, exports, module) {
             // Using Underscore we can compile our template with data
             var data = {};
             var compiledTemplate = _.template(Template, data);
-            // Append our compiled template to this Views "el"
 
             this.$el.html(compiledTemplate);
             this.pictures.each(this.appendPicture, this);
@@ -210,12 +211,21 @@ define(function (require, exports, module) {
         },
 
         addNewFile: function (file) {
+
             file.fotograf = {navn: user.get('navn'), epost: user.get('epost')};
+
+            if (typeof this.defaults === 'object') {
+                for (var prop in this.defaults) {
+                    file[prop] = this.defaults[prop];
+                }
+            }
+
             var picture = new PictureModel(file);
+
             this.pictures.add(picture);
             this.appendPicture(picture);
-            this.$("#noPictures").addClass("hidden");
-            this.$("#hintInfo").removeClass("hidden");
+            this.$('#noPictures').addClass('hidden');
+            this.$('#hintInfo').removeClass('hidden');
         },
 
         addUploadError: function (err) {

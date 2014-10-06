@@ -26,7 +26,9 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        el: $('[data-view="app"]'),
+        el: '[data-view="app"]',
+
+        className: 'editor-poi',
 
         events: {
             'click [data-action="do-save"]': 'save',
@@ -47,6 +49,8 @@ define(function (require, exports, module) {
             this.listenTo(this.model, 'change:status', this.updatePublishButtons);
             this.listenTo(this.model, 'change:synced', this.onSyncChange);
 
+            this.defaults = options.defaults || {};
+
         },
 
         render: function () {
@@ -63,7 +67,10 @@ define(function (require, exports, module) {
 
             this.pictureManagerView = new PictureManagerView({
                 el: '[data-view="poi-pictures"]',
-                pictures: this.pictures
+                pictures: this.pictures,
+                defaults: {
+                    geojson: this.model.get('geojson')
+                }
             }).render();
 
             // Render publish buttons

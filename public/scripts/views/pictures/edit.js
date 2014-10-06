@@ -25,7 +25,7 @@ define(function (require, exports, module) {
 
         template: _.template(Template),
 
-        className: 'picture sortable col-sm-4 col-md-4 col-lg-3',
+        className: 'picture picture-edit sortable col-sm-4 col-md-4 col-lg-3',
 
         bindings: {
             '[name="beskrivelse"]': {

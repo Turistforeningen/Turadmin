@@ -20,7 +20,7 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        el: $('[data-view="pois-manager"]'),
+        el: '[data-view="pois-manager"]',
         template: _.template(Template),
 
         events: {

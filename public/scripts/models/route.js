@@ -100,7 +100,7 @@ define(function (require, exports, module) {
             }
 
             this.on('change:lenker', function () {
-                debugger;
+                // debugger;
             });
 
             this.on('change:linkText', this.updateLinks);
