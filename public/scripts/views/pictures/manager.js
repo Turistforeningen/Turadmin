@@ -33,7 +33,12 @@ define(function (require, exports, module) {
         //     'picturesortstop': 'updateIndexes'
         // },
 
+        defaults: {
+            // TODO: Document
+        },
+
         messages: {
+            // TODO: Document
             empty: 'Husk å legge inn bilder!'
         },
 
