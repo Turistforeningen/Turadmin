@@ -111,23 +111,35 @@ if (!module.parent) {
 
 // Redirect requests to '/' to '/turer'
 app.use('/', function (req, res, next) {
-    // console.log('is xhr?');
-    // console.log(req.xhr);
-    // console.log(req.headers);
-    res.status(404).end();
-    // if (!req.xhr) {
-    //     res.redirect(301, '/turer');
-    // }
+
+    // We do not want to redirect requests for files or XHR's
+    // Could be replaced with regexp matching all file extensions except html
+    // Also, this should be in the route below, but did not get that to work,
+    // because this route also caught requests for files and stuff
+    var isFileRequest = !!req.url.match(/^.*\.(css|js)$/);
+    var isXhr = req.xhr;
+
+    if (isFileRequest || isXhr) {
+        res.status(404).end();
+
+    } else {
+        res.redirect(301, '/turer');
+    }
+
 });
 
 // 404 handling
+// Redirect requests for invalid URL's to /
 app.use(function (req, res, next) {
+
     if (req.originalUrl === '/upload/picture') {
         //throw new Error('This route exists!');
         console.log('404 handling');
         console.log(req.jfum);
         return;
     }
+
     res.redirect(307, '/');
+
 });
 
