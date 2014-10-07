@@ -15,7 +15,12 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
-        el: '[data-view="links-edit"]',
+        tagName: 'div',
+
+        attributes: {
+            'data-view': 'links-edit',
+            'class': 'row route-details-lenke'
+        },
 
         template: _.template(Template),
 
@@ -42,7 +47,7 @@ define(function (require, exports, module) {
 
         render: function () {
 
-            var html =  this.template({link: this.link});
+            var html = this.template({link: this.link});
             this.$el.html(html);
 
             // this.validateTitle();

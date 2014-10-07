@@ -30,33 +30,28 @@ define(function (require, exports, module) {
             _.bindAll(this, 'addLink');
 
             this.linksField = options.linksField || 'lenker';
-
-            // var linksArray = this.model.get('lenker');
-            // this.model.set('lenker', linksArray);
+            this.links = this.model.get(this.linksField);
         },
 
         render: function () {
             var html = this.template();
-            $(this.el).html(html);
+            this.$el.html(html);
 
-            var links = this.model.get('lenker');
-
-            _.each(links, this.renderLink, this);
+            _.each(this.links, this.renderLink, this);
 
             // Add link if empty. Do it after link looping, or else it will be rendered twice.
-            if (links.length === 0) {
+            if (this.links.length === 0) {
                 this.addLink();
             }
 
             return this;
         },
 
-        renderLink: function (link, linkNumber, list) {
+        renderLink: function (link) {
 
             var linksEditView = new LinksEditView({
                 model: this.model,
-                link: link,
-                linkNumber: linkNumber
+                link: link
             }).render();
 
             this.$('[data-container-for="all-links"]').append(linksEditView.el);
@@ -68,10 +63,10 @@ define(function (require, exports, module) {
                 url: 'http://'
             };
 
-            var links = this.model.get(this.linksField);
+            // var links = this.model.get(this.linksField);
 
-            links.push(link);
-            this.model.set(this.linksField, links);
+            this.links.push(link);
+            this.model.set(this.linksField, this.links);
 
             this.renderLink(link);
         }
