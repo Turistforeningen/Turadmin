@@ -179,9 +179,9 @@ define(function (require, exports, module) {
             }
 
             // Add GeoJSON layer for POIs to map
-            // if (!!this.pois) {
+            if (!!this.pois || !!this.poi) {
                 this.createPoisGeoJsonLayer().addTo(this.map);
-            // }
+            }
 
             return this;
         },
@@ -293,22 +293,9 @@ define(function (require, exports, module) {
 
                 if (!!geoJson && (geoJson.type === 'Point') && (!!geoJson.properties || !!geoJson.coordinates)) {
                     this.addPoiMarker(this.poi);
-                    this.poisGeoJsonLayer.addTo(this.map);
-
                 }
             }
-            // if (!!this.poi) {
-            //     var geoJson = this.poi.get('geojson');
 
-            //     if (!!geoJson && (geoJson.type === 'Point') && (!!geoJson.properties || !!geoJson.coordinates)) {
-            //         if(!this.poisGeoJsonLayer) {
-            //             this.poisGeoJsonLayer = new L.GeoJSON(null);
-            //         }
-            //         this.addPoiMarker(this.model);
-            //         this.poisGeoJsonLayer.addTo(this.map);
-
-            //     }
-            // }
             return this.poisGeoJsonLayer;
         },
 
