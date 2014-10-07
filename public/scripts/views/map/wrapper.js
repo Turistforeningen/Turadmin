@@ -412,22 +412,6 @@ define(function (require, exports, module) {
         },
 
 
-
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        //                            SOOOOOOOO THIS
-        //                         will need to be fixed
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-        // ------------------------------------------------------------------------
-
         modalizeMap: function (options, callback) {
             // Set the height of [data-container-for="map-and-controls"] to the height it already has,
             // as a style attribute, to avoid collapsing when moving map to modal.
@@ -440,6 +424,7 @@ define(function (require, exports, module) {
 
             $('#modal-map').on('hidden.bs.modal', $.proxy(function (e) {
                 this.$el.appendTo($('[data-container-for="map"]'));
+                this.disableMarkerTool();
             }, this));
 
         },
@@ -493,15 +478,6 @@ define(function (require, exports, module) {
 
             this.modalizeMap();
 
-        },
-
-        setupMarker: function (coordinates) {
-            var model = this.modelToPosition;
-            delete this.modelToPosition;
-            this.drawMarkerTool.disable();
-            var geojson = createGeojson(coordinates);
-            model.set('geojson', geojson);
-            this.event_aggregator.trigger('map:markerIsCreated', model);
         },
 
         createDrawMarkerTool: function () {
