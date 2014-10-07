@@ -116,22 +116,19 @@ define(function (require, exports, module) {
             this.map.setView(newLatLng, zoom);
         },
 
+        // TODO: Is not really a reset method, more like re-render, should be renamed
         reset: function (options) {
 
-            // COMPLETELY UNBIND THE VIEW
+            // Completely remove and unbind markup, events and data
+
             this.undelegateEvents();
-
             this.$el.removeData().unbind();
-
             this.$el.html('');
 
             // Backbone.View.prototype.constructor.call(this);
             this.initialize(options);
 
             this.render();
-            // Remove view from DOM
-            // this.remove();
-            // Backbone.View.prototype.remove.call(this);
 
         },
 
