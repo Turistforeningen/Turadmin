@@ -28,19 +28,12 @@ define(function (require, exports, module) {
 
         initialize: function (options) {
 
-            // Bind methods scope to this view
-            // _.bindAll(this, '');
-
-            this.event_aggregator.on('map:positionPicture', this.startPicturePositioning);
-            this.event_aggregator.on('map:showPicturePosition', this.showPicturePosition);
-            this.event_aggregator.on('map:positionPoi', this.startPoiPositioning);
-
-            // Handle options
-            options = options || {};
-
             this.mapLayers = this.createMapLayers();
             this.snapLayer = this.createSnapLayer();
             this.drawControl = this.createDrawControl();
+
+            // Handle options
+            options = options || {};
 
             if (!!options.pictures) {
                 this.pictures = options.pictures;
