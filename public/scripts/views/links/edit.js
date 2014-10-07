@@ -46,12 +46,9 @@ define(function (require, exports, module) {
         },
 
         render: function () {
-
             var html = this.template({link: this.link});
             this.$el.html(html);
 
-            // this.validateTitle();
-            // this.validateUrl();
             return this;
         },
 
@@ -139,7 +136,6 @@ define(function (require, exports, module) {
         },
 
         removeLink: function (e) {
-
             var links = this.model.get('lenker');
             var linkIndex = links.indexOf(this.link);
             links.splice(linkIndex, 1);
