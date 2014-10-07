@@ -188,11 +188,11 @@ define(function (require, exports, module) {
 
         createMarker: function (model) {
 
-            var icon = model.get('markerIcon') || '21';
+            var iconId = model.get('markerIcon') || '21';
 
             var icon = new L.icon({
-                iconUrl: '/images/markers/' + icon + '.png',
-                iconRetinaUrl: '/images/markers/' + icon + '@2x.png',
+                iconUrl: '/images/markers/' + iconId + '.png',
+                iconRetinaUrl: '/images/markers/' + iconId + '@2x.png',
                 iconSize: [26, 32],
                 iconAnchor: [13, 32],
                 popupAnchor: [-0, -30]
