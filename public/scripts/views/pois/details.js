@@ -51,11 +51,16 @@ define(function (require, exports, module) {
 
 
         initialize: function (options) {
-            this.model.on('change:navn', this.updatePoiNamePlaceholders, this);
             this.model.on('change:kategori', this.onKategoriChange, this);
+            this.listenTo(this.model, 'change:navn', this.updatePoiNamePlaceholders);
         },
 
         render: function () {
+
+            // POI name
+            if (!!this.model.get('navn') && this.model.get('navn').length > 0) {
+                this.updatePoiNamePlaceholders();
+            }
 
             // Links Manager
             var linksManagerView = new LinksManagerView({
@@ -147,6 +152,11 @@ define(function (require, exports, module) {
             // See: http://thedersen.com/projects/backbone-validation/#using-form-model-validation/unbinding
             Backbone.Validation.unbind(this);
             return Backbone.View.prototype.remove.apply(this, arguments);
+        },
+
+        updatePoiNamePlaceholders: function () {
+            var poiName = this.model.get('navn');
+            $('[data-container-for="navn"]').html(poiName);
         },
 
         onKategoriChange: function (e, value, stickit) {
