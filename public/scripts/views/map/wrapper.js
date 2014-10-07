@@ -31,9 +31,9 @@ define(function (require, exports, module) {
             // Bind methods scope to this view
             // _.bindAll(this, '');
 
-            this.event_aggregator.on("map:positionPicture", this.startPicturePositioning);
-            this.event_aggregator.on("map:showPicturePosition", this.showPicturePosition);
-            this.event_aggregator.on("map:positionPoi", this.startPoiPositioning);
+            this.event_aggregator.on('map:positionPicture', this.startPicturePositioning);
+            this.event_aggregator.on('map:showPicturePosition', this.showPicturePosition);
+            this.event_aggregator.on('map:positionPoi', this.startPoiPositioning);
 
             // Handle options
             options = options || {};
@@ -148,7 +148,7 @@ define(function (require, exports, module) {
             this.$el.html(html);
 
             var mapOptions = {
-                layers: [this.mapLayers.baseLayerConf["Topo 2"]],
+                layers: [this.mapLayers.baseLayerConf['Topo 2']],
                 scrollWheelZoom: false,
                 center: this.mapCenter,
                 zoom: this.mapZoom
