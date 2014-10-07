@@ -25,6 +25,23 @@ append head
         require(['/scripts/apps/poi-edit.js']);
 
 
+block navbarHeader
+    a.navbar-brand(href="/" alt="Til mine turer")
+        img(src="/images/ut-no-logo-hvit.png")
+    a.navbar-brand.hidden-xs
+        span(data-container-for="navn")
+            if poiName
+                | #{poiName}
+            else
+                | Tur uten navn
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+
 block navbarCollapse
 
     // Scrollspy navigation
