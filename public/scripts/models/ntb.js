@@ -109,6 +109,11 @@ define(function (require, exports, module) {
             this.set('removed', true);
         },
 
+        hasTag: function (tag) {
+            var tags = this.get('tags');
+            var hasTag = (typeof tags !== 'undefined') && (tags.indexOf(tag) > -1);
+            return hasTag;
+        },
 
         /* Process fields */
 

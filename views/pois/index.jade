@@ -57,6 +57,21 @@ block content
                 input(type="text" class="form-control" placeholder="" name="search-term")
                 button.btn.btn-default(data-action="search" type="button") Søk
 
+            div(class="hidden" data-container-for="no-items-alert")
+                div.alert.alert-info
+                    strong Ingen steder:
+                    |&#32;
+                    span Fant ingen steder tilhørende valgt bruker eller gruppe.
+
+            div(class="hidden" data-container-for="cabins-disabled-message")
+                div.alert.alert-info
+                    strong Hytter deaktivert:
+                    |&#32;
+                    span I tillegg til andre type steder inneholder listen også hytter. Hyttene kan likevel ikke redigeres i Stedsadmin enda. Inntil videre må de må de redigeres i Sherpa.
+
+            div(class="hidden" data-container-for="loading-items-message")
+                span Henter steder...
+
             div(class="hidden" data-container-for="items-table")
                 table.table.table-bordered.table-hover
                     thead
@@ -66,14 +81,5 @@ block content
                             th Lagret
                             th Valg
                     tbody(data-container-for="item-rows")
-
-            div(class="hidden" data-container-for="no-items-alert")
-                div.alert.alert-info
-                    strong Ingen steder:
-                    |&#32;
-                    span Fant ingen steder tilhørende valgt bruker eller gruppe.
-
-            div(class="hidden" data-container-for="loading-items-message")
-                span Henter steder...
 
             div.paginator(data-container-for="paginator")

@@ -129,6 +129,11 @@ define(function (require, exports, module) {
 
         },
 
+        renderListItem: function (model) {
+            var itemView = new ListItemView({model: model, path: this.itemType});
+            this.$el.find('[data-container-for="item-rows"]').append(itemView.render().el);
+        },
+
         render: function () {
 
             var userGroups = this.user.get('grupper');
@@ -156,8 +161,7 @@ define(function (require, exports, module) {
             } else if (this.collection.length > 0) {
                 this.$el.find('[data-container-for="item-rows"]').empty();
                 this.collection.each(function (route) {
-                    var itemView = new ListItemView({model: route, path: this.itemType});
-                    this.$el.find('[data-container-for="item-rows"]').append(itemView.render().el);
+                    this.renderListItem(route);
                 }, this);
                 this.showRoutes();
 

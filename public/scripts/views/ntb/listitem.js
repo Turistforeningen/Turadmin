@@ -24,6 +24,7 @@ define(function (require, exports, module) {
 
         events: {
             'click td.route-title': 'loadRoute',
+            'click td.actions a.edit': 'loadRoute',
             'click [data-action="route-delete"]': 'deleteRoute',
             'click [data-action="route-delete-modal-open"]': 'openDeleteModal',
             'click [data-action="route-publish"]': 'publishRoute',

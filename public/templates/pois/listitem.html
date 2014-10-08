@@ -1,17 +1,20 @@
-<td class="route-title">
-    <span>
-        <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %><em>Uten navn</em><% } %>
+<td class="route-title"<% if (hasTagHytte) {%> data-toggle="tooltip" data-placement="top" data-container="body" title="Hytter kan ikke redigeres i Stedsadmin enda. For å endre på en hytte må man gjøre det i Sherpa."<% } %>>
+    <span style="display: inline-block; width: 100%;">
+        <% if (typeof navn != 'undefined' && navn !== '') { %><%= navn %><% } else { %><em>Uten navn</em><% } %>
     </span>
 </td>
-<td>
+<td<% if (hasTagHytte) {%> data-toggle="tooltip" data-placement="top" data-container="body" title="Hytter kan ikke redigeres i Stedsadmin enda. For å endre på en hytte må man gjøre det i Sherpa."<% } %>>
     <span class="label <%if (status === "Kladd") { %>label-warning<% } else { %>label-success<% } %>">
         <%= erPublisert %>
     </span>
 </td>
-<td>
+<td<% if (hasTagHytte) {%> data-toggle="tooltip" data-placement="top" data-container="body" title="Hytter kan ikke redigeres i Stedsadmin enda. For å endre på en hytte må man gjøre det i Sherpa."<% } %>>
     <span><%= endret %></span>
 </td>
-<td class="actions">
+<td class="actions"<% if (hasTagHytte) {%> data-toggle="tooltip" data-placement="top" data-container="body" title="Hytter kan ikke redigeres i Stedsadmin enda. For å endre på en hytte må man gjøre det i Sherpa."<% } %>>
+    <% if (hasTagHytte) {%>
+    <span class="disabled">Rediger</a> <span class="separator">|</span> <span class="disabled">Slett</a>
+    <% } else { %>
     <a class="edit">Rediger</a>
     <span class="separator">|</span>
     <a id="deleteRoute" data-action="route-delete-modal-open">Slett</a>
@@ -34,4 +37,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <% } %>
 </td>
+<script>$('[data-toggle="tooltip"]').tooltip();</script>
