@@ -167,7 +167,7 @@ define(function (require, exports, module) {
 
             this.model.setLatLng([lat, lng]);
             this.model.set('navn', navn);
-            this.model.set('ssr_id', ssrId);
+            this.model.set('ssr_id', ssrId); // NOTE: Important to set SSR ID last, because changing position or name unsets ssr_id.
         }
 
     });

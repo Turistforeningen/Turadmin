@@ -113,6 +113,7 @@ define(function (require, exports, module) {
             // this.on('change:navn', this.onNameChange, this);
             this.on('change:kategori', this.onCategoryChange, this);
             this.on('change:geojson', this.onGeoJsonChange, this);
+            this.on('change:navn', this.onNameChange, this);
 
             var tags = this.get('tags');
             if (tags.length > 0) {
@@ -129,9 +130,9 @@ define(function (require, exports, module) {
 
         },
 
-        // onNameChange: function (e) {
-        //     this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'});
-        // },
+        onNameChange: function (e) {
+            this.unset('ssr_id');
+        },
 
         onCategoryChange: function (e) {
             var categoryName = this.get('kategori'),
@@ -166,6 +167,7 @@ define(function (require, exports, module) {
             }
 
             this.event_aggregator.trigger('poi:geoJsonChange', this);
+            this.unset('ssr_id');
 
         },
 
