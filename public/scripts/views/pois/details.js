@@ -70,16 +70,21 @@ define(function (require, exports, module) {
             }).render();
 
 
+            // Tags
+
             // Primary type
+
+            var alleStedKategorier = _.pluck(this.model.availableCategories, 'name');
+            var selectableStedKategorier = _.without(alleStedKategorier, 'Hytte');
+
             var $primaryTagSelect = this.$('select[name="poi-details-field-type-sted"]');
-            var availableCategories = this.model.availableCategories;
+
             var options = ['<option value="">Velg en</option>'];
-            _.each(availableCategories, function (element, index, list) {
-                this.push('<option value="' + element.name + '">' + element.name + '</option>');
-            }, options);
+            for (var i = 0; i < selectableStedKategorier.length; i++) {
+                options.push('<option value="' + selectableStedKategorier[i] + '">' + selectableStedKategorier[i] + '</option>');
+            }
 
             $primaryTagSelect.html(options);
-
 
             // More tags
 
@@ -91,10 +96,8 @@ define(function (require, exports, module) {
 
             poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
 
-            var alleStedKategorier = _.pluck(this.model.availableCategories, 'name');
-
             this.$('input[name="poi-details-field-flere-typer"]').select2({
-                tags: alleStedKategorier,
+                tags: selectableStedKategorier,
                 createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
             }).on('change', $.proxy(this.onFlereStedKategorierChange, this));
 

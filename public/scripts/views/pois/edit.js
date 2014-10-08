@@ -88,6 +88,7 @@ define(function (require, exports, module) {
 
             if (this.model.get('removed')) {
                 this.remove();
+                // return;
 
             } else {
                 var json = this.model.toJSON();
@@ -95,30 +96,41 @@ define(function (require, exports, module) {
                 var html =  this.template(json);
                 $(this.el).html(html);
 
+                var poiTags = this.model.get('tags');
+                var poiCategory = (poiTags.length > 0) ? poiTags[0] : '';
+                var poiAdditionalCategories = (poiTags.length > 1) ? _.clone(poiTags) : [];
+
+                poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
+
+                var alleStedKategorier = _.pluck(this.model.availableCategories, 'name');
+                var selectableStedKategorier = _.without(alleStedKategorier, 'Hytte');
+
+                var $primaryTagSelect = this.$('select[name="kategori"]');
+
+                var options = ['<option value="">Velg en</option>'];
+                for (var i = 0; i < selectableStedKategorier.length; i++) {
+                    options.push('<option value="' + selectableStedKategorier[i] + '">' + selectableStedKategorier[i] + '</option>');
+                }
+
+                $primaryTagSelect.html(options);
+
+                this.$('[data-container-for="flere-sted-kategorier-input"] input').select2({
+                    tags: selectableStedKategorier,
+                    createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+                }).on('change', $.proxy(this.onFlereStedKategorierChange, this));
+
+                this.$('[data-container-for="flere-sted-kategorier-input"] input').select2('val', poiAdditionalCategories);
+
+                // Pictures selector
+                this.pictureSelectorView = new PictureSelectorView({
+                    model: this.model,
+                    pictures: this.pictures,
+                    el: this.$('[data-view="pictures-selector"]')
+                }).render();
+
                 this.stickit(); // Uses view.bindings and view.model to setup bindings
                 Backbone.Validation.bind(this);
             }
-
-            var poiTags = this.model.get('tags');
-            var poiCategory = (poiTags.length > 0) ? poiTags[0] : '';
-            var poiAdditionalCategories = (poiTags.length > 1) ? _.clone(poiTags) : [];
-
-            poiAdditionalCategories.shift(); // Remove first item, as the first category is displayed in the field above "Er også"
-
-            var alleStedKategorier = _.pluck(this.model.availableCategories, 'name');
-
-            this.$('[data-container-for="flere-sted-kategorier-input"] input').select2({
-                tags: alleStedKategorier,
-                createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
-            }).on('change', $.proxy(this.onFlereStedKategorierChange, this));
-
-            this.$('[data-container-for="flere-sted-kategorier-input"] input').select2('val', poiAdditionalCategories);
-
-            this.pictureSelectorView = new PictureSelectorView({
-                model: this.model,
-                pictures: this.pictures,
-                el: this.$('[data-view="pictures-selector"]')
-            }).render();
 
             return this;
         },
