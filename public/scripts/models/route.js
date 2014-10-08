@@ -99,11 +99,6 @@ define(function (require, exports, module) {
                 this.set('id', this.get(this.idAttribute));
             }
 
-            this.on('change:lenker', function () {
-                // debugger;
-            });
-
-            this.on('change:linkText', this.updateLinks);
             this.on('change:turtype', this.updateTurtypeInTags);
             this.on('change:flereTurtyper', this.updateFlereTurtyperInTags);
 
@@ -243,24 +238,6 @@ define(function (require, exports, module) {
             return Backbone.Model.prototype.save.call(this, attrs, options);
 
         },
-
-        // updateLenker: function () {
-        //     var linkText = this.get('linkText');
-        //     var lenker = [];
-        //     if (!!linkText) {
-        //         var links = this.get('linkText').split("\n");
-        //         if (_.isArray(links) && links.length > 0) {
-        //             var i;
-        //             for (i = 0; i < links.length; i = i + 1) {
-        //                 var lenke = links[i];
-        //                 if (lenke.length > 0) {
-        //                     lenker.push({url: lenke});
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     this.set('lenker', lenker);
-        // },
 
         updateTidsbruk: function () {
             var days = this.get('tidsbrukDager');
