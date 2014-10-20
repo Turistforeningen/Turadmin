@@ -52,10 +52,18 @@ block content
                 div(data-placeholder-for="group-select")
                 p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se steder for, eller om du vil se steder knyttet til din bruker.
 
-            div.search.well.hidden
+            div.search.well
                 label Søk etter sted
                 input(type="text" class="form-control" placeholder="" name="search-term")
                 button.btn.btn-default(data-action="search" type="button") Søk
+
+            div(class="hidden" data-container-for="search-term-info")
+                div.alert.alert-info
+                    strong Søk:
+                    |&#32;
+                    span Viser treff på søk etter steder med navn som inneholder
+                    |&#32;
+                    strong(data-placeholder-for="search-term")
 
             div(class="hidden" data-container-for="no-items-alert")
                 div.alert.alert-info

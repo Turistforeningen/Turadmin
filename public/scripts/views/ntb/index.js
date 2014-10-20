@@ -62,6 +62,9 @@ define(function (require, exports, module) {
 
         fetchItems: function () {
             this.isLoading = true;
+
+            this.fetchQuery.sort = '-endret';
+
             this.collection.fetch({
                 reset: true,
                 data: this.fetchQuery
@@ -96,8 +99,14 @@ define(function (require, exports, module) {
 
         doSearch: function () {
             var term = this.$el.find('[name="search-term"]').val();
-            this.fetchQuery = this.fetchQuery || {};
-            this.fetchQuery.term = term;
+            if (term === '') {
+                delete this.fetchQuery.navn;
+
+            } else {
+                this.fetchQuery = this.fetchQuery || {};
+                this.fetchQuery.navn = '~' + term;
+            }
+
             this.fetchItems();
             this.render();
         },
@@ -127,6 +136,15 @@ define(function (require, exports, module) {
             this.$('[data-container-for="no-items-alert"]').removeClass('hidden');
             this.$('[data-container-for="paginator"]').addClass('hidden');
 
+        },
+
+        showSearchTerm: function (searchTerm) {
+            this.$('[data-container-for="search-term-info"]').removeClass('hidden');
+            this.$('[data-container-for="search-term-info"]').find('[data-placeholder-for="search-term"]').text(searchTerm);
+        },
+
+        hideSearchTerm: function () {
+            this.$('[data-container-for="search-term-info"]').addClass('hidden');
         },
 
         renderListItem: function (model) {
@@ -168,6 +186,13 @@ define(function (require, exports, module) {
             } else {
                 this.showNoRoutes();
             }
+
+            if (!!this.fetchQuery && !!this.fetchQuery.navn) {
+                this.showSearchTerm(this.fetchQuery.navn.replace(/~/gi, ''));
+            } else {
+                this.hideSearchTerm();
+            }
+
             this.renderPaginator();
 
         },
