@@ -77,7 +77,7 @@ var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api
 
 require('./routes/auth')(app);
 
-require('./routes/termsAndConditions')(app);
+// require('./routes/termsAndConditions')(app);
 
 require('./routes/routes-index')(app, {
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
