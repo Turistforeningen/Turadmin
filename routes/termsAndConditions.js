@@ -29,6 +29,10 @@ module.exports = function (app, options) {
 
     app.get('/', areTermsAndConditionsAccepted);
     app.get('/tur*', areTermsAndConditionsAccepted);
+    app.get('/turer', areTermsAndConditionsAccepted);
+    app.get('/sted*', areTermsAndConditionsAccepted);
+    app.get('/steder', areTermsAndConditionsAccepted);
+
     app.get('/brukervillkar', getTermsAndConditions);
     app.post('/brukervillkar', postTermsAndConditions);
 
