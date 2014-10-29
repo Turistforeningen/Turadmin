@@ -4,30 +4,35 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
+
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        NtbModel = require('models/ntb'),
+        PopoverTemplate = require('text!templates/pictures/popover.html');
 
     var apiUri = function () {
         return '/restProxy/bilder';
     };
 
-    ns.Picture = Backbone.Model.extend({
+    return NtbModel.extend({
 
         idAttribute: '_id',
         type: 'picture',
         changed: false,
         deleted: false,
+        popoverTemplate: PopoverTemplate,
 
         urlRoot: function () {
             return apiUri();
         },
 
-        popoverTemplateId: "#picturePopupTemplate",
-
         defaults: {
-            markerIcon: 'map-icon-picture'
+            markerIcon: 'map-icon-picture',
+            lisens: 'CC BY-NC 4.0'
         },
 
         serverAttrs: [
@@ -58,6 +63,8 @@ var DNT = window.DNT || {};
 
         initialize: function (options) {
 
+            NtbModel.prototype.initialize.call(this, options);
+
             if (!!this.idAttribute && !!this.get(this.idAttribute)) {
                 this.set('id', this.get(this.idAttribute));
             }
@@ -70,15 +77,15 @@ var DNT = window.DNT || {};
             this.set('fotografNavn', fotograf.navn);
             this.set('fotografEpost', fotograf.epost);
 
-            this.on("change:fotografNavn", this.onFotografNavnChange, this);
-            this.on("change:fotografEpost", this.onFotografEpostChange, this);
+            this.on('change:fotografNavn', this.onFotografNavnChange, this);
+            this.on('change:fotografEpost', this.onFotografEpostChange, this);
 
             this.updateIsPositioned();
-            this.on("change:geojson", this.updateIsPositioned, this);
+            this.on('change:geojson', this.updateIsPositioned, this);
 
             var urls = this.getUrls();
-            this.set("thumbnailUrl", urls.thumbnail);
-            this.set("url", urls.url);
+            this.set('thumbnailUrl', urls.thumbnail);
+            this.set('url', urls.url);
         },
 
         onFotografNavnChange: function () {
@@ -130,11 +137,6 @@ var DNT = window.DNT || {};
             this.set('status', 'Kladd');
         },
 
-        deletePicture: function () {
-            this.set('deleted', true);
-            this.trigger('deletePicture');
-        },
-
         updateIsPositioned: function () {
             var geojson = this.get('geojson');
             var isPositioned = (!!geojson && !!geojson.coordinates);
@@ -156,25 +158,8 @@ var DNT = window.DNT || {};
             }
 
             return urls;
-        },
-
-        save: function (attrs, options) {
-            attrs = attrs || this.toJSON();
-            options = options || {};
-
-            // If model defines serverAttrs, replace attrs with trimmed version
-            if (this.serverAttrs) {
-                attrs = _.pick(attrs, this.serverAttrs);
-            }
-
-            // Move attrs to options
-            options.attrs = attrs;
-
-            // Call super with attrs moved to options
-            return Backbone.Model.prototype.save.call(this, attrs, options);
-
         }
 
     });
 
-}(DNT));
+});

@@ -4,25 +4,28 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    var apiUri = function () {
-        return "/restProxy/steder";
-    };
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        L = require('leaflet'),
+        NtbModel = require('models/ntb'),
+        PopoverTemplate = require('text!templates/pois/popover.html');
 
-    ns.Poi = Backbone.Model.extend({
+    // Module
+    return NtbModel.extend({
 
         idAttribute: '_id',
         type: 'poi',
         changed: false,
         deleted: false,
-        popoverTemplateId: '#poiPopupTemplate',
+        popoverTemplate: PopoverTemplate,
 
         urlRoot: function () {
-            return apiUri();
+            return '/restProxy/steder';
         },
 
         serverAttrs: [
@@ -31,18 +34,28 @@ var DNT = window.DNT || {};
             'bilder',
             'checksum',
             'endret',
+            'fasiliteter',
+            'fylke',
+            'grupper',
             'geojson',
+            'kommune',
+            'lenker',
             'lisens',
             'navn',
+            'navn_alt',
+            'områder',
             'privat',
             'status',
+            'ssr_id',
             'tags',
-            'tilbyder'
+            'tilbyder',
+            'tilrettelagt_for'
         ],
 
         defaults: {
             navn: '',
-            lisens: 'CC BY-NC 3.0 NO',
+            lenker: [],
+            lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
             tags: [],
             markerIcon: '21'
@@ -93,19 +106,14 @@ var DNT = window.DNT || {};
 
         initialize: function (options) {
 
-            if (!!this.idAttribute && !!this.get(this.idAttribute)) {
-                this.set('id', this.get(this.idAttribute));
-            }
-
             this.on('change', function () {
                 this.changed = true;
             });
 
-            // this.positionChanged();
-
-            this.on('change:navn', this.onNameChange, this);
+            // this.on('change:navn', this.onNameChange, this);
             this.on('change:kategori', this.onCategoryChange, this);
-            // this.on('change:geojson', this.positionChanged);
+            this.on('change:geojson', this.onGeoJsonChange, this);
+            this.on('change:navn', this.onNameChange, this);
 
             var tags = this.get('tags');
             if (tags.length > 0) {
@@ -118,10 +126,12 @@ var DNT = window.DNT || {};
                 this.set('tags', tags);
             });
 
+            NtbModel.prototype.initialize.call(this, options);
+
         },
 
         onNameChange: function (e) {
-            this.trigger('registerPopover', {model: this, templateId: '#poiPopupTemplate'});
+            this.unset('ssr_id');
         },
 
         onCategoryChange: function (e) {
@@ -138,12 +148,27 @@ var DNT = window.DNT || {};
 
             this.set('markerIcon', markerIcon);
 
-            // NOTE: Concider moving this to an onMarkerIconChange method.
+            // NOTE: Consider moving this to an onMarkerIconChange method.
             if (!!this.marker) {
                 if (!!category) {
                     this.setMarkerIcon();
                 }
             }
+        },
+
+        onGeoJsonChange: function (model, value, options) {
+            if (this.hasMarker()) {
+                try {
+                    var latLng = L.latLng(this.getLatLng());
+                    this.marker.setLatLng(latLng);
+                } catch (e) {
+                    console.error('Could not create L.latLng');
+                }
+            }
+
+            this.event_aggregator.trigger('poi:geoJsonChange', this);
+            this.unset('ssr_id');
+
         },
 
         hasChanged: function () {
@@ -190,47 +215,21 @@ var DNT = window.DNT || {};
         },
 
         hasPosition: function () {
-            var geojson = this.get("geojson");
+            var geojson = this.get('geojson');
             return !!geojson && !!geojson.coordinates;
         },
 
-        setPublished: function(){
-            this.set('status', 'Offentlig');
-        },
-
-        setUnpublished: function(){
-            this.set('status', 'Kladd');
-        },
-
-        deletePoi: function () {
-            this.set('deleted', true);
-            this.trigger('deletePoi');
-        },
+        // deletePoi: function () {
+        //     this.set('deleted', true);
+        //     this.trigger('deletePoi');
+        // },
 
         updateGeojson: function (lat, lng) {
             var geoJson = this.getGeoJson();
             geoJson.coordinates = [lng, lat];
             this.set('geojson', geoJson);
-        },
-
-        save: function (attrs, options) {
-
-            attrs = attrs || this.toJSON();
-            options = options || {};
-
-            // If model defines serverAttrs, replace attrs with trimmed version
-            if (this.serverAttrs) {
-                attrs = _.pick(attrs, this.serverAttrs);
-            }
-
-            // Move attrs to options
-            options.attrs = attrs;
-
-            // Call super with attrs moved to options
-            return Backbone.Model.prototype.save.call(this, attrs, options);
-
         }
 
     });
 
-}(DNT));
+});

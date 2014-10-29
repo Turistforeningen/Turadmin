@@ -1,0 +1,9 @@
+<option value=<%= selectOptions.user %>>Mine <%= selectOptions.itemType %>er</option>
+<% if (selectOptions.admin === true) { %>
+<option value="alle">Alle <%= selectOptions.itemType %>er</option>
+<% } %>
+<optgroup value="groups" label="<%= selectOptions.itemType.charAt(0).toUpperCase() + selectOptions.itemType.slice(1) %>er tilhørende mine grupper">
+<% _.each(selectOptions.groups, function(element) { %>
+  <option value=<%= element.object_id %>><%= element.navn %></option>
+<% }); %>
+</optgroup>

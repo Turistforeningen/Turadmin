@@ -4,55 +4,127 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    var apiUri = function () {
-        return "/restProxy/turer";
-    };
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        NtbCollection = require('collections/ntb'),
+        RouteModel = require('models/route');
 
-    ns.RouteCollection = Backbone.Collection.extend({
-
-        model: ns.Route,
-        mode: 'server',
-        state: {
-            pageSize: 20,
-            currentPage: 1,
-            paginatorRequired: false
-        },
-
-        // Order routes by date changed, descending
-        comparator: function(model) {
-            var date = new Date(model.get('endret'));
-            return -date;
-        },
+    // Module
+    return NtbCollection.extend({
 
         url: function () {
-            return apiUri();
+            return '/restProxy/turer';
         },
 
-        setState: function (resp) {
-            this.state.totalRecords = resp.total;
+        model: RouteModel,
 
-            var nextPageSkip = this.state.pageSize * this.state.currentPage;
-            this.state.nextPageSkip = (nextPageSkip >= this.state.totalRecords) ? false : nextPageSkip;
+        // initialize: function () {
+        //     this.on('add', this.onAdd, this);
+        //     this.on('remove', this.onRemove, this);
+        // },
 
-            var prevPageSkip = (this.state.pageSize * this.state.currentPage) - (this.state.pageSize * 2);
-            this.state.prevPageSkip = (prevPageSkip < 0) ? false : prevPageSkip;
+        // setPublished: function() {
+        //     this.each(function (model, index) {
+        //         model.setPublished();
+        //     });
+        // },
 
-            this.state.totalPages = Math.ceil((this.state.totalRecords / this.state.pageSize));
+        // setUnpublished: function() {
+        //     this.each(function (model, index) {
+        //         model.setUnpublished();
+        //     });
+        // },
 
-            this.state.paginatorRequired = (this.state.totalRecords > this.state.pageSize) ? true : false;
-        },
+        // onRemove: function (model) {
+        //     // Add to removedModels if saved to server, to send a DELETE request when route is saved
+        //     if (!!model.get('id')) {
+        //         this.removedModels.push(model);
+        //     }
+        // },
 
-        parse: function (resp, options) {
-            var records = resp.documents || [];
-            this.setState(resp);
-            return records;
-        }
+        // onAdd: function (model) {
+        //     model.on('deletePoi', function () {
+        //         this.deletePoi(model);
+        //     }, this);
+        // },
 
+        // deletePoi: function (model) {
+        //     this.remove(model);
+        // },
+
+        // countPois: function () {
+        //     var count  = this.filter(function (poi) {
+        //         return !poi.isDeleted();
+        //     });
+        //     return count.length;
+        // },
+
+        // getPoiIds: function () {
+        //     return this.pluck("_id");
+        // },
+
+        // save: function (success, error, self) {
+        //     var saveErrorCount = 0;
+
+        //     var afterSave = function () {
+        //         if (saveErrorCount > 0) {
+        //             if (error) {
+        //                 error.call(self, saveErrorCount);
+        //             } else {
+        //                 console.error("Error saving pois! " + saveErrorCount + " pois could not saved");
+        //             }
+        //         } else {
+        //             if (success) {
+        //                 success.call(self);
+        //             }
+        //         }
+        //     };
+
+        //     var unsyncedPois = this.filter(function (poi) {
+        //         return poi.isNew() || poi.hasChanged() || poi.isDeleted();
+        //     });
+
+        //     var unsyncedPoisCount = unsyncedPois.length + this.removedModels.length;
+
+        //     var saveDone = _.after(unsyncedPoisCount, afterSave);
+
+        //     if (unsyncedPois.length === 0 && this.removedModels.length === 0) {
+        //         afterSave();
+        //     }
+
+        //     // Delete removed POI's from server
+        //     _.each(this.removedModels, function (poi) {
+        //         poi.destroy({
+        //             wait: true,
+        //             success : function () {
+        //                 saveDone();
+        //             },
+        //             error: function () {
+        //                 saveErrorCount += 1;
+        //                 saveDone();
+        //             }
+        //         });
+        //     });
+
+        //     // Save unsynced POI's
+        //     _.each(unsyncedPois, function (poi) {
+        //         var isNew = poi.isNew();
+        //         poi.save(undefined, {
+        //             success : function () {
+        //                 poi.resetHasChanged();
+        //                 saveDone();
+        //             },
+        //             error: function () {
+        //                 saveErrorCount += 1;
+        //                 saveDone();
+        //             }
+        //         });
+        //     });
+        // }
     });
-
-}(DNT));
+});

@@ -68,6 +68,7 @@ app.use(errorHandler({
     showStack: true
 }));
 
+
 /**
  * Routes and middleware
  */
@@ -76,13 +77,17 @@ var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api
 
 require('./routes/auth')(app);
 
-require('./routes/termsAndConditions')(app);
+// require('./routes/termsAndConditions')(app);
 
-require('./routes')(app, {
+require('./routes/routes-index')(app, {
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
     userGroupsFetcher: userGroupsFetcher
 });
 
+require('./routes/pois-index')(app, {
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher
+});
 
 // var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
@@ -91,6 +96,9 @@ var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __di
 var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey, pictureFileManager: pictureFileManager});
 
 require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey), userGroupsFetcher: userGroupsFetcher });
+
+require('./routes/poi')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey), userGroupsFetcher: userGroupsFetcher });
+
 require('./routes/ssrProxy')(app, {});
 
 // NOTE: Only listen for port if the application is not included by another module. Eg. the test runner.
@@ -101,14 +109,37 @@ if (!module.parent) {
     });
 }
 
+// Redirect requests to '/' to '/turer'
+app.use('/', function (req, res, next) {
+
+    // We do not want to redirect requests for files or XHR's
+    // Could be replaced with regexp matching all file extensions except html
+    // Also, this should be in the route below, but did not get that to work,
+    // because this route also caught requests for files and stuff
+    var isFileRequest = !!req.url.match(/^.*\.(css|js)$/);
+    var isXhr = req.xhr;
+
+    if (isFileRequest || isXhr) {
+        res.status(404).end();
+
+    } else {
+        res.redirect(301, '/turer');
+    }
+
+});
+
 // 404 handling
-app.use(function(req, res, next){
+// Redirect requests for invalid URL's to /
+app.use(function (req, res, next) {
+
     if (req.originalUrl === '/upload/picture') {
         //throw new Error('This route exists!');
         console.log('404 handling');
         console.log(req.jfum);
         return;
     }
+
     res.redirect(307, '/');
+
 });
 

@@ -1,0 +1,109 @@
+extends ../editor
+
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(routeData) !== 'undefined')
+            | appData.routeData = !{routeData};
+            //- | console.log('Loaded poi with poiData:', !{poiData});
+        - if (typeof(picturesData) !== 'undefined')
+            | appData.picturesData = !{picturesData};
+            //- | console.log('Loaded poi with picturesData:', !{picturesData});
+        - if (typeof(poisData) !== 'undefined')
+            | appData.poisData = !{poisData};
+            //- | console.log('Loaded poi with poisData:', !{poisData});
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded poi with userGroups:', !{userGroups});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded poi with userData:', !{userData});
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/route-edit.js']);
+
+block navbarHeader
+    a.navbar-brand(href="/" alt="Til mine turer")
+        img(src="/images/ut-no-logo-hvit.png")
+    a#headerRouteName.navbar-brand.hidden-xs.route-name(data-toggle="tooltip" title="" data-original-title="Klikk for å gi turen et navn" data-placeholder-for="route-name")
+        if routeData
+            | #{routeName}
+        else
+            | Tur uten navn
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+block navbarCollapse
+
+    // Scrollspy navigation
+    ul.nav.navbar-nav.navbar-center.hidden-sm
+
+        li.link-route-draw.active
+            a(href="#inntegning")
+                span.glyphicon.glyphicon-globe
+                | &nbsp;Inntegning
+        li.link-route-pictures
+            a(href="#bilder")
+                span.glyphicon.glyphicon-picture
+                | &nbsp;Bilder
+        li.link-route-pois
+            a(href="#steder")
+                span.glyphicon.glyphicon-map-marker
+                | &nbsp;Steder
+        li.link-route-facts
+            a(href="#detaljer")
+                span.glyphicon.glyphicon-list
+                | &nbsp;Fakta
+
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        li.action-do-save
+            a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").route-save
+                span.glyphicon.glyphicon-floppy-disk
+                | &nbsp;Lagre
+        li.action-do-switch-published-state
+            a(data-action="do-publish")
+                span.glyphicon.glyphicon-cloud-upload
+                | &nbsp;Publiser
+            a(data-action="do-unpublish")
+                span.glyphicon.glyphicon-cloud-download
+                | &nbsp;Avpubliser
+
+        // Divider
+        li.divider.hidden-lg.hidden-md.hidden-sm
+
+        include ../dropdownmenu
+
+block content
+
+    div.container
+
+        div#inntegning.page-block.route-draw(data-view="route-draw")
+        div(data-container-for="map")
+            div.route-map(data-view="route-map")
+
+        // Modal map container
+        div#modal-map.modal.fade.modal-map(tabindex="-1" role="dialog" aria-labelledby="modal-map-label" aria-hidden="true")
+            div.modal-dialog
+                div.modal-content
+                    div.modal-header
+                        button(type="button" class="close" data-dismiss="modal" aria-hidden="true") &times;
+                        h4.modal-title(id="modal-map-title") Posisjonér i kart
+                    div.modal-body(id="modal-map-body")
+                    div.modal-footer
+                        button(type="button" class="btn btn-primary" data-dismiss="modal") Ferdig
+
+
+        div#bilder.page-block.route-pictures(data-view="route-pictures")
+        div#steder.page-block.route-pois(data-view="route-pois")
+        div#detaljer.page-block.route-details(data-view="route-details")
+            include partials/edit-details
+        include partials/edit-done

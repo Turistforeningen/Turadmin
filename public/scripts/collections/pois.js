@@ -4,53 +4,30 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    var apiUri = function () {
-        return '/restProxy/steder';
-    };
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        Poi = require('models/poi'),
+        NtbCollection = require('collections/ntb');
 
-    ns.PoiCollection = Backbone.Collection.extend({
+    // Module
+    return NtbCollection.extend({
 
         url: function () {
-            return apiUri();
+            return '/restProxy/steder';
         },
 
-        model: ns.Poi,
         removedModels: [],
 
-        initialize: function () {
-            this.on('add', this.onAdd, this);
-            this.on('remove', this.onRemove, this);
-        },
+        model: Poi,
 
-        setPublished: function() {
-            this.each(function (model, index) {
-                model.setPublished();
-            });
-        },
-
-        setUnpublished: function() {
-            this.each(function (model, index) {
-                model.setUnpublished();
-            });
-        },
-
-        onRemove: function (model) {
-            // Add to removedModels if saved to server, to send a DELETE request when route is saved
-            if (!!model.get('id')) {
-                this.removedModels.push(model);
-            }
-        },
-
-        onAdd: function (model) {
-            model.on('deletePoi', function () {
-                this.deletePoi(model);
-            }, this);
-        },
+        // initialize: function (pois) {
+        //     NtbCollection.prototype.initialize.call(this, pois);
+        // },
 
         deletePoi: function (model) {
             this.remove(model);
@@ -64,67 +41,71 @@ var DNT = window.DNT || {};
         },
 
         getPoiIds: function () {
-            return this.pluck("_id");
+            return this.pluck('_id');
         },
 
-        save: function (success, error, self) {
-            var saveErrorCount = 0;
+        // save: function (success, error, self) {
+        //     var saveErrorCount = 0;
 
-            var afterSave = function () {
-                if (saveErrorCount > 0) {
-                    if (error) {
-                        error.call(self, saveErrorCount);
-                    } else {
-                        console.error("Error saving pois! " + saveErrorCount + " pois could not saved");
-                    }
-                } else {
-                    if (success) {
-                        success.call(self);
-                    }
-                }
-            };
+        //     var afterSave = function () {
+        //         if (saveErrorCount > 0) {
+        //             if (error) {
+        //                 error.call(self, saveErrorCount);
+        //             } else {
+        //                 console.error("Error saving pois! " + saveErrorCount + " pois could not saved");
+        //             }
+        //         } else {
+        //             if (success) {
+        //                 success.call(self);
+        //             }
+        //         }
+        //     };
 
-            var unsyncedPois = this.filter(function (poi) {
-                return poi.isNew() || poi.hasChanged() || poi.isDeleted();
-            });
+        //     var unsyncedPois = this.filter(function (poi) {
+        //         return poi.isNew() || poi.hasChanged() || poi.isDeleted();
+        //     });
 
-            var unsyncedPoisCount = unsyncedPois.length + this.removedModels.length;
+        //     var unsyncedPoisCount = unsyncedPois.length + this.removedModels.length;
 
-            var saveDone = _.after(unsyncedPoisCount, afterSave);
+        //     var saveDone = _.after(unsyncedPoisCount, afterSave);
 
-            if (unsyncedPois.length === 0 && this.removedModels.length === 0) {
-                afterSave();
-            }
+        //     if (unsyncedPois.length === 0 && this.removedModels.length === 0) {
+        //         afterSave();
+        //     }
 
-            // Delete removed POI's from server
-            _.each(this.removedModels, function (poi) {
-                poi.destroy({
-                    wait: true,
-                    success : function () {
-                        saveDone();
-                    },
-                    error: function () {
-                        saveErrorCount += 1;
-                        saveDone();
-                    }
-                });
-            });
+        //     // Delete removed POI's from server
+        //     _.each(this.removedModels, $.proxy(function (poi) {
+        //         poi.destroy({
+        //             wait: true,
+        //             success: $.proxy(function (model) {
+        //                 // var modelIndex = this.removedModels.indexOf(model);
+        //                 // if (modelIndex > -1) {
+        //                 //     this.removedModels.splice(modelIndex, 1);
+        //                 // }
+        //                 // debugger;
+        //                 saveDone();
+        //             }, this, poi),
+        //             error: function () {
+        //                 saveErrorCount += 1;
+        //                 saveDone();
+        //             }
+        //         });
+        //     }, this));
 
-            // Save unsynced POI's
-            _.each(unsyncedPois, function (poi) {
-                var isNew = poi.isNew();
-                poi.save(undefined, {
-                    success : function () {
-                        poi.resetHasChanged();
-                        saveDone();
-                    },
-                    error: function () {
-                        saveErrorCount += 1;
-                        saveDone();
-                    }
-                });
-            });
-        }
+        //     // Save unsynced POI's
+        //     _.each(unsyncedPois, function (poi) {
+        //         var isNew = poi.isNew();
+        //         poi.save(undefined, {
+        //             success : function () {
+        //                 poi.resetHasChanged();
+        //                 saveDone();
+        //             },
+        //             error: function () {
+        //                 saveErrorCount += 1;
+        //                 saveDone();
+        //             }
+        //         });
+        //     });
+        // }
     });
-}(DNT));
-
+});

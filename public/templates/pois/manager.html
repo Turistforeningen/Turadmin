@@ -1,0 +1,30 @@
+<div class="row" data-view="pois-manager">
+  <div class="col-lg-12">
+    <h3>Steder</h3>
+    <% if (!!obj && obj.length) { %>
+    <div id="noPoisAlert" class="alert alert-warning">
+      <strong>Ingen steder!</strong>&nbsp;Husk å legge inn steder fra turen din, som kan være nyttige å vite om for andre som skal gå denne turen
+    </div>
+    <% } %>
+    <div class="alert alert-info" data-container-for="no-pois-message">
+      <strong>Om steder:</strong>&nbsp;Gjør turforslaget ditt enda mer intessant ved å legge inn de flotte&nbsp;
+      <span data-placeholder="om-steder-flott">utsiktspunktene</span>, eller de smarte&nbsp;
+      <span data-placeholder="om-steder-smart">parkeringsplassene</span>, og alle andre små og store steder som kan oppleves langs denne turen. NB: disse stedene vil bli synlig på UT.no en gang på vinteren 2014.
+      <script>
+        var flottArray = ['hyttene', 'fjelltoppene', 'utsiktspunktene', 'badeplassene'];
+        var smartArray = ['teltplassene', 'rasteplassene', 'parkeringsplassene'];
+
+        var randomFlottWord = flottArray[Math.floor(Math.random() * flottArray.length)];
+        var randomSmartWord = smartArray[Math.floor(Math.random() * smartArray.length)];
+
+        $('[data-placeholder="om-steder-flott"]').html(randomFlottWord);
+        $('[data-placeholder="om-steder-smart"]').html(randomSmartWord);
+      </script>
+    </div>
+    <div id="route-pois-accordion" class="panel-group route-pois-accordion" data-container-for="all-pois-container"></div>
+    <div class="form-group">
+      <button data-action="do-create-poi" class="btn btn-primary btn btn-group">
+        <span class="glyphicon glyphicon-plus"></span>&nbsp;Legg til sted</button>
+    </div>
+  </div>
+</div>

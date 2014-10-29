@@ -1,0 +1,17 @@
+div.row.page-block.ntb-done.route-done(id="route-done")
+    div.col-lg-12
+        h3 Ferdig
+        p Dersom du nå har lagt inn all informasjon du ønsker om turen din er den klar til å publiseres.
+        div.well
+            div.row
+                div.col-lg-6.col-md-6.col-sm-6
+                    button.btn.btn-lg.btn-default(data-action="do-save")
+                        span.glyphicon.glyphicon-floppy-disk
+                        | &nbsp;Lagre
+                div.col-lg-6.col-md-6.col-sm-6
+                    button.btn.btn-lg.btn-success(data-action="do-publish")
+                        span.glyphicon.glyphicon-cloud-upload
+                        | &nbsp;Publiser
+                    button.btn.btn-lg.btn-warning.hidden(data-action="do-unpublish")
+                        span.glyphicon.glyphicon-cloud-download
+                        | &nbsp;Avpubliser

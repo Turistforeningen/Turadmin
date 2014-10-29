@@ -18,6 +18,13 @@ a {
 	outline: none !important;
 }
 
+.disabled {
+	color: #999;
+}
+
+span.separator {
+	color: #ccc;
+}
 
 /* Navigation */
 
@@ -44,7 +51,13 @@ a {
 		position: absolute;
 		left: 50%;
 		margin-left: -190px;
+		text-align: center;
 	}
+}
+
+ul.nav.navbar-nav.navbar-center li {
+	float: none;
+	display: inline-block;
 }
 
 .navbar {
@@ -86,19 +99,19 @@ a {
 
 /* Index - routes listing */
 
-.routes-list .paginator {
+.item-list .paginator {
 	text-align: center;
 }
 
-.routes-list .paginator .pagination {
+.item-list .paginator .pagination {
 	margin-top: 0;
 }
 
-.routes-list .search label {
+.item-list .search label {
 	margin-right: 10px;
 }
 
-.routes-list .search input {
+.item-list .search input {
 	display: inline-block;
 	width: 200px;
 	margin-right: 10px;
@@ -129,25 +142,26 @@ a {
 	opacity: 1;
 }
 
-.action-route-save span,
-.action-route-save a,
-.action-route-switch-publish-state span,
-.action-route-switch-publish-state a {
+
+.navbar.navbar-inverse .action-do-save span,
+.navbar.navbar-inverse .action-do-save a,
+.navbar.navbar-inverse .action-do-switch-published-state span,
+.navbar.navbar-inverse .action-do-switch-published-state a {
 	color: #fff !important;
 }
 
-.action-route-save .disabled span,
-.action-route-save .disabled,
-.action-route-switch-publish-state .disabled span,
-.action-route-switch-publish-state .disabled {
+.navbar.navbar-inverse .action-do-save .disabled span,
+.navbar.navbar-inverse .action-do-save .disabled,
+.navbar.navbar-inverse .action-do-switch-published-state .disabled span,
+.navbar.navbar-inverse .action-do-switch-published-state .disabled {
 	color: #999 !important;
 }
 
-.action-route-switch-publish-state .tooltip .tooltip-inner {
+.navbar.navbar-inverse .action-route-switch-published-state .tooltip .tooltip-inner {
 	background-color: #a94442;
 }
 
-.action-route-switch-publish-state .tooltip .tooltip-arrow {
+.navbar.navbar-inverse .action-route-switch-published-state .tooltip .tooltip-arrow {
 	border-bottom-color: #a94442;
 }
 
@@ -163,7 +177,7 @@ a {
 
 .page-block h3,
 .page-block h4 {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #bbb;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
 }
@@ -290,7 +304,7 @@ div.line-mouse-marker {
 }
 
 /* Picture upload */
-.route-images .fileinput-button {
+.route-pictures .fileinput-button {
 	margin-bottom: 20px;
 }
 
@@ -318,15 +332,15 @@ div.line-mouse-marker {
 	line-height: 20px;
 }
 
-.route-images-all-container .thumbnail {
+.route-pictures-all-container .thumbnail {
 	height: 160px;
 }
 
-.route-images-all-container .thumbnail img {
+.route-pictures-all-container .thumbnail img {
     max-height: 100%;
 }
 
-.route-images .progress {
+.route-pictures .progress {
 	margin-top: 20px;
 }
 
@@ -397,7 +411,7 @@ div.line-mouse-marker {
  * Page Block - Route Done
  */
 
-.page-block.route-done .well {
+.page-block.ntb-done .well {
 	text-align: center;
 }
 
@@ -414,63 +428,63 @@ div.line-mouse-marker {
 	}
 }
 
-.form-group.route-facts-field-passer_for_barn p.help-block label {
+.form-group.route-details-field-passer_for_barn p.help-block label {
 	font-weight: normal;
 	cursor:pointer;
 }
 
 
 /* Lenker */
-.route-facts-lenke {
+.route-details-lenke {
 	position: relative;
 	margin-bottom: 10px;
 }
 
-.route-facts-lenke .remove-link {
+.route-details-lenke .remove-link {
 	position: absolute;
 	right: -25px;
 	top: 6px;
 	display: none;
 }
 
-.route-facts-lenke:hover .remove-link {
+.route-details-lenke:hover .remove-link {
 	display: block;
 }
 
 
 /* Fargekoder gradering */
-.route-facts-field-gradering-enkel {
+.route-details-field-gradering-enkel {
 	color: #00984a;
 }
 
-.route-facts-field-gradering-enkel.active {
+.route-details-field-gradering-enkel.active {
 	color: #fff;
 	background-color: #00984a;
 }
 
-.route-facts-field-gradering-middels {
+.route-details-field-gradering-middels {
 	color: #0067af;
 }
 
-.route-facts-field-gradering-middels.active {
+.route-details-field-gradering-middels.active {
 	color: #fff;
 	background-color: #0067af;
 }
 
-.route-facts-field-gradering-krevende {
+.route-details-field-gradering-krevende {
 	color: #ed1c2e;
 }
 
-.route-facts-field-gradering-krevende.active {
+.route-details-field-gradering-krevende.active {
 	color: #fff;
 	background-color: #ed1c2e;
 }
 
-.route-facts-field-gradering-ekspert {
+.route-details-field-gradering-ekspert {
 	color: #000;
 }
 
-.route-facts-field-gradering-ekspert.active {
+.route-details-field-gradering-ekspert.active {
 	color: #fff;
 	background-color: #000;
 }
@@ -478,18 +492,18 @@ div.line-mouse-marker {
 
 /* Tidsbruk */
 
-select.route-facts-field-tidsbruk-normal-dager {
+select.route-details-field-tidsbruk-normal-dager {
 	width: 210px;
 }
 
-select.route-facts-field-tidsbruk-normal-timer,
-select.route-facts-field-tidsbruk-normal-minutter {
+select.route-details-field-tidsbruk-normal-timer,
+select.route-details-field-tidsbruk-normal-minutter {
 	float: left;
 	width: 100px;
 	margin-right: 10px;
 }
 
-.route-facts-field-kollektivtransport .checkbox {
+.route-details-field-kollektivtransport .checkbox {
 	margin-bottom: 10px;
 }
 
@@ -525,7 +539,7 @@ body.modal-open {
 
 /* Custom icons on primary tag selection */
 
-.form-group.route-facts-field-tags-primary .btn-group label {
+.form-group.route-details-field-tags-primary .btn-group label {
 	padding-top: 50px;
 	width: 90px;
 	background-repeat: no-repeat;
@@ -535,58 +549,58 @@ body.modal-open {
 }
 
 @media (max-width: 991px) {
-	.form-group.route-facts-field-tags-primary .btn-group label {
+	.form-group.route-details-field-tags-primary .btn-group label {
 		width: 79px;
 	}
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-gatur {
 	background-image: url('../images/icon-route-tag-gatur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-skitur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-skitur {
 	background-image: url('../images/icon-route-tag-skitur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-sykkeltur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-sykkeltur {
 	background-image: url('../images/icon-route-tag-sykkeltur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-padletur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-padletur {
 	background-image: url('../images/icon-route-tag-padletur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-klatretur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-klatretur {
 	background-image: url('../images/icon-route-tag-klatretur.png');
 }
 
-.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-bretur {
+.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-bretur {
 	background-image: url('../images/icon-route-tag-klatretur.png');
 }
 
 /* Retina versions */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-gatur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-gatur {
 		background-image: url('../images/icon-route-tag-gatur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-skitur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-skitur {
 		background-image: url('../images/icon-route-tag-skitur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-sykkeltur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-sykkeltur {
 		background-image: url('../images/icon-route-tag-sykkeltur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-padletur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-padletur {
 		background-image: url('../images/icon-route-tag-padletur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-klatretur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-klatretur {
 		background-image: url('../images/icon-route-tag-klatretur@2x.png');
 	}
 
-	.form-group.route-facts-field-tags-primary .btn-group label.route-facts-field-tags-bretur {
+	.form-group.route-details-field-tags-primary .btn-group label.route-details-field-tags-bretur {
 		background-image: url('../images/icon-route-tag-klatretur@2x.png');
 	}
 
@@ -691,4 +705,43 @@ body.modal-open {
 	height: 20px;
 	position: relative;
 	top: 6px;
+}
+
+/* POI Admin */
+
+.position-by-coordinates .popover {
+
+}
+
+.position-by-coordinates .form-inline .input-group .input-group-addon {
+	width: 36px;
+}
+.position-by-coordinates .popover {
+	width: 220px;
+}
+
+.position-by-coordinates .popover button {
+	margin-right: 10px;
+	width: 89px;
+}
+
+.position-by-coordinates .popover button:last-child {
+	margin-right: 0;
+}
+
+.position-by-coordinates .input-group {
+	margin-bottom: 10px;
+}
+
+.btn-label {
+	display: inline-block;
+	padding: 6px 0;
+}
+
+.position-by-marker .btn-block {
+	margin: 0;
+}
+
+.editor-poi .picture-edit .show-position {
+	display: none;
 }

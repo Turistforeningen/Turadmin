@@ -1,0 +1,34 @@
+<h3>Posisjon</h3>
+<div class="alert alert-info" role="alert"><span>Du kan posisjonere stedet ved å søke det opp, plassere manuelt i kart eller skrive inn koordinatene.</span></div>
+<div class="row">
+	<div class="col-lg-4 col-md-4 col-sm-4">
+    <div data-view="ssr-simple"></div>
+	</div>
+	<!-- <div class="col-lg-1 col-md-1 col-sm-1">
+		<span class="btn-label">eller</span>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-3"> -->
+	<div class="col-lg-4 col-md-4 col-sm-4">
+		<div class="position-by-marker">
+			<button class="btn btn-primary btn-block" data-action="init-position-by-marker">
+				<span class="glyphicon glyphicon glyphicon-globe"></span> Posisjonér i kart
+			</button>
+			<button class="btn btn-danger btn-block hidden" data-action="abort-position-by-marker">
+				<span class="glyphicon glyphicon glyphicon-remove"></span> Avbryt posisjonering
+			</button>
+		</div>
+	</div>
+	<!-- <div class="col-lg-1 col-md-1 col-sm-1">
+		<span class="btn-label">eller</span>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-3"> -->
+	<div class="col-lg-4 col-md-4 col-sm-4">
+		<div class="position-by-coordinates">
+			<button class="btn btn-default btn-block" data-action="init-position-by-coordinates">
+				<span class="glyphicon glyphicon glyphicon-pencil"></span> Skriv inn koordinater
+			</button>
+		</div>
+	</div>
+</div>
+
+<div data-view="map"></div>

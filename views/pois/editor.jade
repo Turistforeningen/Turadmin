@@ -1,0 +1,179 @@
+extends ../editor
+
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(poiData) !== 'undefined')
+            | appData.poiData = !{poiData};
+            //- | console.log('Loaded poi with poiData:', !{poiData});
+        - if (typeof(picturesData) !== 'undefined')
+            | appData.picturesData = !{picturesData};
+            //- | console.log('Loaded poi with picturesData:', !{picturesData});
+        - if (typeof(poisData) !== 'undefined')
+            | appData.poisData = !{poisData};
+            //- | console.log('Loaded poi with poisData:', !{poisData});
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded poi with userGroups:', !{userGroups});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded poi with userData:', !{userData});
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/poi-edit.js']);
+
+
+block navbarHeader
+    a.navbar-brand(href="/" alt="Til mine turer")
+        img(src="/images/ut-no-logo-hvit.png")
+    a.navbar-brand.hidden-xs
+        span(data-container-for="navn")
+            if poiName
+                | #{poiName}
+            else
+                | Tur uten navn
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#route-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+
+block navbarCollapse
+
+    // Scrollspy navigation
+    ul.nav.navbar-nav.navbar-center.hidden-sm
+
+        li.link-poi-position.active
+            a(href="#posisjonering")
+                span.glyphicon.glyphicon-globe
+                | &nbsp;Posisjonering
+        li.link-poi-details
+            a(href="#detaljer")
+                span.glyphicon.glyphicon-list
+                | &nbsp;Fakta
+        li.link-poi-pictures
+            a(href="#bilder")
+                span.glyphicon.glyphicon-picture
+                | &nbsp;Bilder
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        li.action-do-save
+            a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").poi-save
+                span.glyphicon.glyphicon-floppy-disk
+                | &nbsp;Lagre
+        li.action-do-switch-published-state
+            a(data-action="do-publish")
+                span.glyphicon.glyphicon-cloud-upload
+                | &nbsp;Publiser
+            a.hidden(data-action="do-unpublish")
+                span.glyphicon.glyphicon-cloud-download
+                | &nbsp;Avpubliser
+
+        // Divider
+        li.divider.hidden-lg.hidden-md.hidden-sm
+
+        include ../dropdownmenu
+
+
+block content
+
+    div.container
+
+        div#posisjonering.page-block.poi-positioning(data-view="poi-positioning")
+
+        div#detaljer.page-block.poi-details(data-view="poi-details")
+            div.row
+                div.col-lg-12
+                    form.form-horizontal
+
+                        h3 Om stedet
+                        h4 Beskrivelse
+
+                        // Navn
+                        div.form-group.poi-details-field-navn.required
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-navn") Navn
+                            div.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(name="poi-details-field-navn" placeholder="Navn" data-model-validation-field-name="navn")
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Hva er navnet på stedet?
+
+                        // Beskrivelse
+                        div.form-group.poi-details-field-beskrivelse.required
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-beskrivelse") Beskrivelse
+                            div.col-lg-7.col-md-7.col-sm-7
+                                textarea.form-control(name="poi-details-field-beskrivelse" placeholder="Beskrivelse" rows="10" data-model-validation-field-name="beskrivelse")
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Beskriv stedet.
+
+                        div.form-group.poi-details-field-lenker
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-lenker") Lenker
+                            div(data-view="poi-details-lenker")
+
+
+                        // Type sted
+                        div.form-group.poi-details-field-tags-primary.required
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-type-sted") Type sted
+                            div.col-lg-7.col-md-7.col-sm-7
+                                select.form-control.route-details-field-tags-primary(name="poi-details-field-type-sted")
+                                    option(value="") Velg en
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Velg type sted.
+
+
+                        // Flere typer
+                        div.form-group.poi-details-field-tags-other.hidden
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-flere-typer") Velg flere typer
+                            div.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(type="text" name="poi-details-field-flere-typer")
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Er det flere typer som beskriver dette stedet? Velg alle som passer.
+
+
+                        // Tilrettelagt for
+                        div.form-group.poi-details-field-tilrettelagt_for
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-tilrettelagt_for") Tilrettelagt for
+                            div#tilrettelagtForSelect.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(type="text" name="poi-details-field-tilrettelagt_for")
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Er stedet spesielt tilrettelagt for noen grupper? Velg alle som passer.
+
+
+                        // Eiere
+                        div.form-group.poi-details-field-grupper
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for=".poi-details-field-grupper") Eiere
+                            div#grupperSelect.col-lg-7.col-md-7.col-sm-7
+                                input.form-control(type="text" name="poi-details-field-grupper")
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Velge hvilke foreninger som skal kunne gjøre endringer på dette stedet. Disse foreningene vil også bli kreditert når stedet vises på UT.no.
+
+
+
+        div#bilder.page-block.poi-pictures(data-view="poi-pictures")
+
+        div.row.page-block.ntb-done.poi-done
+            div.col-lg-12
+                h3 Ferdig
+                p Dersom du nå har lagt inn all informasjon du ønsker om stedet er det klart for publisering.
+                div.well
+                    div.row
+                        div.col-lg-6.col-md-6.col-sm-6
+                            button.btn.btn-lg.btn-default(data-action="do-save")
+                                span.glyphicon.glyphicon-floppy-disk
+                                | &nbsp;Lagre
+                        div.col-lg-6.col-md-6.col-sm-6
+                            button.btn.btn-lg.btn-success(data-action="do-publish")
+                                span.glyphicon.glyphicon-cloud-upload
+                                | &nbsp;Publiser
+                            button.btn.btn-lg.btn-warning.hidden(data-action="do-unpublish")
+                                span.glyphicon.glyphicon-cloud-download
+                                | &nbsp;Avpubliser

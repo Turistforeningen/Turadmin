@@ -4,16 +4,18 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+define(function (require, exports, module) {
     "use strict";
 
-    var apiUri = function () {
-        return '/restProxy/turer';
-    };
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        L = require('leaflet'),
+        NtbModel = require('models/ntb');
 
-    ns.Route = Backbone.Model.extend({
+    // Module
+    return NtbModel.extend({
 
         idAttribute: '_id',
 
@@ -26,7 +28,7 @@ var DNT = window.DNT || {};
             tidsbrukMinutter: '0',
             tidsbruk: {normal: {}},
             retning: 'ABA',
-            lisens: 'CC BY-NC 3.0 NO',
+            lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
             tags: [],
             // gradering: '', // Not set as default, because of validation
@@ -91,13 +93,12 @@ var DNT = window.DNT || {};
             }
         },
 
-        initialize: function () {
+        initialize: function (options) {
 
             if (!!this.idAttribute && !!this.get(this.idAttribute)) {
                 this.set('id', this.get(this.idAttribute));
             }
 
-            this.on('change:linkText', this.updateLinks);
             this.on('change:turtype', this.updateTurtypeInTags);
             this.on('change:flereTurtyper', this.updateFlereTurtyperInTags);
 
@@ -111,10 +112,13 @@ var DNT = window.DNT || {};
 
             this.set('turtype', this.getRouteType());
             this.set('flereTurtyper', this.getAdditionalRouteTypes());
+
+            NtbModel.prototype.initialize.call(this, options);
+
         },
 
         urlRoot: function () {
-            return apiUri();
+            return '/restProxy/turer';
         },
 
         setPoiIds: function (ids) {
@@ -221,6 +225,8 @@ var DNT = window.DNT || {};
                 attrs = _.pick(attrs, this.serverAttrs);
             }
 
+            attrs = this.removeEmpty(attrs);
+
             // Move attrs to options
             options.attrs = attrs;
 
@@ -231,24 +237,6 @@ var DNT = window.DNT || {};
             // Call super with attrs moved to options
             return Backbone.Model.prototype.save.call(this, attrs, options);
 
-        },
-
-        updateLenker: function () {
-            var linkText = this.get('linkText');
-            var lenker = [];
-            if (!!linkText) {
-                var links = this.get('linkText').split("\n");
-                if (_.isArray(links) && links.length > 0) {
-                    var i;
-                    for (i = 0; i < links.length; i = i + 1) {
-                        var lenke = links[i];
-                        if (lenke.length > 0) {
-                            lenker.push({url: lenke});
-                        }
-                    }
-                }
-            }
-            this.set('lenker', lenker);
         },
 
         updateTidsbruk: function () {
@@ -272,4 +260,4 @@ var DNT = window.DNT || {};
 
     });
 
-}(DNT));
+});

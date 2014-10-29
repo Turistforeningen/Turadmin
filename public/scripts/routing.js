@@ -4,10 +4,9 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-var DNT = window.DNT || {};
-
-(function (ns) {
+(function () {
     "use strict";
+
     var routing;
     var enableSnapping = true;
     var maxDistanceToSnapLine = 100;
@@ -51,7 +50,7 @@ var DNT = window.DNT || {};
         return lineRouter(l1, l2, cb);
     };
 
-    ns.Routing = function (map, snappingLayer) {
+    var Routing = function (map, snappingLayer) {
 
         var apiUri = $('body').data("apiuri");
         var sUrl = apiUri + '/bbox/?bbox=';
@@ -128,4 +127,11 @@ var DNT = window.DNT || {};
         };
     };
 
-}(DNT));
+    // Expose Routing as an Asynchronous Module
+    if (typeof define !== 'undefined') {
+        define('routing', [], function () {
+            return Routing;
+        });
+    }
+
+})();

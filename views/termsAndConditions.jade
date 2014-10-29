@@ -1,8 +1,11 @@
 extends layout
 
-block extraHeadContent
-    //
-block routeNavigation
+append head
+    script(src='/lib/jquery-1.11.1/jquery.min.js')
+    script(src='/lib/bootstrap-3.2.0-dist/js/bootstrap.min.js')
+
+
+block navbarCollapse
 
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
