@@ -172,8 +172,8 @@ define(function (require, exports, module) {
 
         unpublish: function() {
             this.model.set('status', 'Kladd', {silent: true});
-            this.pictureCollection.setUnpublished();
-            this.poiCollection.setUnpublished();
+            this.pictures.setUnpublished();
+            this.pois.setUnpublished();
             this.updatePublishButtons();
             this.save();
         }
