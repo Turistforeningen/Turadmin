@@ -106,22 +106,34 @@ define(function (require, exports, module) {
                 for (var i = 0; i < this.relatedCollections.length; i++) {
 
                     var relatedCollection = this.relatedCollections[i];
-
                     // console.log('Saving ' + relatedCollection.field);
 
                     relatedCollection.collection.save(
-                        function () {
-                            this.model.set(relatedCollection.field, relatedCollection.collection.pluck('_id'));
-                            saveDone();
-                            // console.log('All ' + relatedCollection.field + ' synced with server');
+                        function (relatedCollection) {
+                            if (!!relatedCollection) {
+                                // console.log('All ' + relatedCollection.field + ' synced with server');
+                                this.model.set(relatedCollection.field, relatedCollection.collection.pluck('_id'));
+                                saveDone();
+
+                            } else {
+                                console.warn('Unknown relatedCollection was saved. Unable to set related field in model.');
+                            }
                         },
-                        function (errorCount) {
-                            // this.model.set(relatedCollection.field, relatedCollection.collection.pluck('_id'));
-                            saveDone();
-                            console.error('Failed to sync ' + errorCount + ' ' + relatedCollection.field);
+                        function (errorCount, relatedCollection) {
+                            if (!!relatedCollection) {
+                                saveDone();
+                                console.error('Failed to sync ' + errorCount + ' ' + relatedCollection.field);
+
+                            } else {
+                                saveDone();
+                                console.error('Unknown relatedCollection failed to sync.');
+                            }
                         },
                         this,
-                        {destroyRemoved: relatedCollection.destroyRemoved}
+                        {
+                            destroyRemoved: relatedCollection.destroyRemoved,
+                            relatedCollection: relatedCollection
+                        }
                     );
 
                 }

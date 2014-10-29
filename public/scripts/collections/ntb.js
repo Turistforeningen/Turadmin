@@ -105,19 +105,20 @@ define(function (require, exports, module) {
         save: function (success, error, self, options) {
 
             options = options || {};
+            var relatedCollection = options.relatedCollection;
 
             var saveErrorCount = 0;
 
             var afterSave = function () {
                 if (saveErrorCount > 0) {
                     if (error) {
-                        error.call(self, saveErrorCount);
+                        error.call(self, saveErrorCount, relatedCollection);
                     } else {
                         console.error("Error saving models! " + saveErrorCount + " models could not be saved.");
                     }
                 } else {
                     if (success) {
-                        success.call(self);
+                        success.call(self, relatedCollection);
                     }
                 }
             };
@@ -163,7 +164,6 @@ define(function (require, exports, module) {
                 }
 
                 _.each(this.models, function (model) {
-
                     // console.log('Saving model', model.get('_id'));
 
                     model.save(undefined, {
