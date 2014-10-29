@@ -157,28 +157,10 @@ define(function (require, exports, module) {
         },
 
 
-        /* Hooks */
-
-        beforeSave: function () {
-
-            this.saveRelated();
-
-            return true;
-        },
-
-
         /* Server interactions */
-
-        saveRelated: function () {
-
-            // debugger;
-        },
 
         save: function (attrs, options) {
 
-            if (typeof this.beforeSave === 'function' && this.beforeSave() !== true) {
-                return false;
-            }
 
             attrs = attrs || this.toJSON();
             options = options || {};
