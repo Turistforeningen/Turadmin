@@ -62,11 +62,11 @@ define(function (require, exports, module) {
         },
 
         validation: {
-            navn:  {
+            navn: {
                 required: true,
                 msg: 'Dette feltet er påkrevd.'
             },
-            kategori:  function (val) {
+            kategori: function (val) {
                 if (!val) {
                     return 'Dette feltet er påkrevd.';
                 }
