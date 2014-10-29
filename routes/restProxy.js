@@ -65,16 +65,19 @@ module.exports = function (app, options) {
         };
 
         if (method === "GET") {
-            restler.get(url, {}).on('complete', onComplete);
+            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
+            restler.get(url, options).on('complete', onComplete);
 
         } else if (method === "POST") {
             console.log("Posting:", util.inspect(req.body));
-            restler.postJson(url, req.body).on('complete', onCompletePost);
+            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
+            restler.postJson(url, req.body, options).on('complete', onCompletePost);
 
         } else if (method === "PUT") {
             json = JSON.stringify(req.body);
             options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
+            options.headers['User-Agent'] = 'turadmin-v2.0';
             // console.log("PUT url:", url);
             // console.log("PUT options:", options);
             restler.put(url, options).on('complete', onComplete);
@@ -83,14 +86,15 @@ module.exports = function (app, options) {
             json = JSON.stringify(req.body);
             options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
+            options.headers['User-Agent'] = 'turadmin-v2.0';
             // console.log("PATCH url:", url);
             // console.log("PATCH options:", options);
             restler.patch(url, options).on('complete', onComplete);
 
         } else if (method === "DELETE") {
             // console.log("DELETE url:", url);
-            restler.del(url, {})
-                .on('complete', onComplete);
+            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
+            restler.del(url, options).on('complete', onComplete);
         }
     };
 
