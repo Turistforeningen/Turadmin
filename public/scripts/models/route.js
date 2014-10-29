@@ -186,27 +186,7 @@ define(function (require, exports, module) {
             }
         },
 
-        cleanTags: function () {
-            var tags = this.get('tags');
-
-            for (var i = 0; i < tags.length; i++) {
-                if (tags[i] === '') {
-                    tags.splice(i, 1);
-                }
-            }
-
-            this.set('tags', tags);
-        },
-
         save: function (attrs, options) {
-            var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
-            var method;
-
-            // this.updateLenker();
-            this.updateStartpunkt();
-            this.updateSeason();
-            this.updateTidsbruk();
-            this.cleanTags();
 
             attrs = attrs || this.toJSON();
             options = options || {};
@@ -216,27 +196,8 @@ define(function (require, exports, module) {
                 delete attrs.geojson;
             }
 
-            if (!!attrs._method) {
-                method = attrs._method;
-            }
-
-            // If model defines serverAttrs, replace attrs with trimmed version
-            if (this.serverAttrs) {
-                attrs = _.pick(attrs, this.serverAttrs);
-            }
-
-            attrs = this.removeEmpty(attrs);
-
-            // Move attrs to options
-            options.attrs = attrs;
-
-            if (!!method) {
-                options.attrs._method = method;
-            }
-
             // Call super with attrs moved to options
-            return Backbone.Model.prototype.save.call(this, attrs, options);
-
+            return NtbModel.prototype.save.call(this, attrs, options);
         },
 
         updateTidsbruk: function () {
