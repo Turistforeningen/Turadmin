@@ -126,7 +126,7 @@ define(function (require, exports, module) {
             var allModelsCount = this.length + this.removedModels.length;
 
             if (allModelsCount === 0) {
-                success.call(self);
+                success.call(self, relatedCollection);
 
             } else {
                 var saveDone = _.after(allModelsCount, afterSave);
