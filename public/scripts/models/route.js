@@ -28,7 +28,7 @@ define(function (require, exports, module) {
             tidsbrukMinutter: '0',
             tidsbruk: {normal: {}},
             retning: 'ABA',
-            lisens: 'CC BY-NC 3.0 NO',
+            lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
             tags: [],
             // gradering: '', // Not set as default, because of validation

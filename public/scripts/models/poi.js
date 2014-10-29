@@ -55,7 +55,7 @@ define(function (require, exports, module) {
         defaults: {
             navn: '',
             lenker: [],
-            lisens: 'CC BY-NC 3.0 NO',
+            lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
             tags: [],
             markerIcon: '21'
