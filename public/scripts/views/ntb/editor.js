@@ -113,21 +113,22 @@ define(function (require, exports, module) {
                             if (!!relatedCollection) {
                                 // console.log('All ' + relatedCollection.field + ' synced with server');
                                 this.model.set(relatedCollection.field, relatedCollection.collection.pluck('_id'));
-                                saveDone();
 
                             } else {
                                 console.warn('Unknown relatedCollection was saved. Unable to set related field in model.');
                             }
+
+                            saveDone();
                         },
                         function (errorCount, relatedCollection) {
                             if (!!relatedCollection) {
-                                saveDone();
                                 console.error('Failed to sync ' + errorCount + ' ' + relatedCollection.field);
 
                             } else {
-                                saveDone();
                                 console.error('Unknown relatedCollection failed to sync.');
                             }
+
+                            saveDone();
                         },
                         this,
                         {
