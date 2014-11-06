@@ -5,7 +5,7 @@ api:
     www: http
   process: node app.js
   approot: .
-  node_version: v0.10.31
+  node_version: v0.10.33
   environment:
     MAGICK_MEMORY_LIMIT: 32MB
   systempackages:
