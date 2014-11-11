@@ -44,6 +44,9 @@ define(function (require, exports, module) {
                     break;
                 case 'Innholdspartner':
                     // Special handling of Innholdspartner users
+                    if (!!options.gruppe && !!options.gruppe._id) {
+                        this.set('gruppe', options.gruppe._id);
+                    }
                     break;
                 default:
                     // No default
