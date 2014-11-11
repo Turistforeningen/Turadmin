@@ -94,7 +94,11 @@ define(function (require, exports, module) {
         onRemove: function (model) {
             // Add to removedModels if saved to server, to send a DELETE request when collection is saved
             // IF option destroyRemoved === true is passed to collection save method
-            if (!!model.get('_id')) {
+
+            // Conditions: If the delete request has not been sent to server already (changed.synced)
+            // And model has been saved to server (has an ID)
+            // And the collection has removedModels property
+            if (!(!!model.changed && !!model.changed.synced) && !!model.get('_id') && (typeof this.removedModels === 'object')) {
                 this.removedModels.push(model);
             }
         },
