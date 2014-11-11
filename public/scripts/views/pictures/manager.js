@@ -28,7 +28,7 @@ define(function (require, exports, module) {
 
         el: '[data-view="pictures-manager"]',
 
-        uploadUrl: '/upload/picture',
+        uploadUrl: 'http://s3upload-turistforeningen.dotcloud.com/upload',
         // events: {
         //     'picturesortstop': 'updateIndexes'
         // },
@@ -163,13 +163,14 @@ define(function (require, exports, module) {
 
                 // On response from server
                 done: function (e, data) {
+
                     that.endProcessBar();
 
                     if (ended) {
                         setTimeout(that.hideAndResetProgressBar, 1500);
                     }
 
-                    $.each(data.result.files, function (index, file) {
+                    $.each(data.result, function (index, file) {
                         that.addNewFile(file);
                     });
                 },
@@ -231,7 +232,14 @@ define(function (require, exports, module) {
 
         addNewFile: function (file) {
 
-            file.fotograf = {navn: user.get('navn'), epost: user.get('epost')};
+            var pictureData = {};
+
+            pictureData.img = file.versions;
+            pictureData.fotograf = {navn: user.get('navn'), epost: user.get('epost')};
+
+            if (!!file.meta && !!file.meta.geojson) {
+                pictureData.geojson = file.meta.geojson;
+            }
 
             if (typeof this.defaults === 'object') {
                 for (var prop in this.defaults) {
@@ -239,7 +247,7 @@ define(function (require, exports, module) {
                 }
             }
 
-            var picture = new PictureModel(file);
+            var picture = new PictureModel(pictureData);
 
             this.pictures.add(picture);
             this.appendPicture(picture);
