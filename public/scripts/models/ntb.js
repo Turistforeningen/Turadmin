@@ -22,7 +22,9 @@ define(function (require, exports, module) {
             if (typeof options === 'object' && typeof options._id !== 'undefined') {
 
             } else {
+                // New model, just being created
 
+                // Set created by private property
                 var privat = {
                     opprettet_av: {
                         id: user.get('id'),
@@ -32,6 +34,15 @@ define(function (require, exports, module) {
                 };
 
                 this.set('privat', privat);
+
+                // Set groups property if user has single group property defined
+                var userGroup = user.get('gruppe');
+                var groupsData = this.get('grupper') || [];
+
+                if (!!userGroup) {
+                    groupsData.push(userGroup);
+                    this.set('grupper', groupsData);
+                }
             }
 
             this.set('synced', true);
