@@ -21,6 +21,8 @@ define(function (require, exports, module) {
             return '/restProxy/turer';
         },
 
+        removedModels: [],
+
         model: RouteModel
 
     });
