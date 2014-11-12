@@ -89,11 +89,9 @@ require('./routes/pois-index')(app, {
     userGroupsFetcher: userGroupsFetcher
 });
 
-// var fileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
-var pictureFileManager = require('./routes/pictureUpload')(app, express, { dirname: __dirname });
 var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __dirname });
 
-var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey, pictureFileManager: pictureFileManager});
+var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey), userGroupsFetcher: userGroupsFetcher });
 

@@ -54,13 +54,8 @@ module.exports = function (app, options) {
 
         onCompletePost = onCompleteOverride || onCompletePost;
 
-        // var onCompletePostPicture = function (data, picture) {
-        //     data = underscore.extend(data, picture);
-        //     onCompletePost(data);
-        // };
-
-        var onCompletePostGpx = function (data, picture) {
-            data = underscore.extend(data, picture);
+        var onCompletePostGpx = function (data, gpx) {
+            data = underscore.extend(data, gpx);
             onCompletePost(data);
         };
 
