@@ -46,7 +46,7 @@ define(function (require, exports, module) {
 
             if (provider == 'DNT Connect' && groups.length) {
                 this.groups = groups;
-                this.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')}; // {'gruppe': _.first(groups).object_id}
+                this.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')};
 
             } else if (provider == 'Innholdspartner') {
                 group = user.get('gruppe');
