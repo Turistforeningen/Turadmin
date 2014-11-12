@@ -19,6 +19,11 @@ define(function (require, exports, module) {
     return NtbIndexView.extend({
         collection: new PoiCollection(),
 
+        fetchItems: function () {
+            this.fetchQuery['tags.0'] = '!Hytte';
+            NtbIndexView.prototype.fetchItems.call(this);
+        },
+
         collectionContainsCabin: function () {
             // NOTE: This could probably be solved in a MUCH better way
             var collectionContainsCabin = {collectionContainsCabin: false};
