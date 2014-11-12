@@ -44,7 +44,6 @@ define(function (require, exports, module) {
             // this.poiCollection = this.model.get('poiCollection');
             this.pictures = options.pictures;
             this.routeModel = options.model;
-            this.routeModel.on("geojson:add", this.addGeoJsonToLayer);
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:showPopup", this.registerPopover);
             this.event_aggregator.on("map:zoomAndCenter", this.zoomAndCenter);
@@ -63,6 +62,8 @@ define(function (require, exports, module) {
             if (!this.mapWrapper) {
                 this.initMap({route: this.model, pictures: this.pictures, pois: this.pois});
             }
+
+            this.routeModel.on("geojson:add", this.mapWrapper.addGeoJsonToRouting);
 
             // this.mapWrapper = new MapWrapper({route: this.model, pictures: this.pictures});
             // this.mapWrapper.render();
@@ -93,6 +94,10 @@ define(function (require, exports, module) {
                 this.loadUploadedGpxInMap();
             }
 
+        },
+
+        loadUploadedGpxInMap: function () {
+            this.event_aggregator.trigger('map:loadGpxGeometry', this.geometry);
         },
 
         onPositionBySsr: function (e) {
@@ -193,7 +198,7 @@ define(function (require, exports, module) {
                 this.routeDrawReset();
             }
 
-            this.mapWrapper.addGeoJsonToLayer(gpxGeometry);
+            this.mapWrapper.addGeoJsonToRouting(gpxGeometry);
             var geoJson = this.mapWrapper.routing.getGeoJson();
             this.routeModel.set('geojson', geoJson);
         },
