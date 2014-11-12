@@ -50,7 +50,7 @@ define(function (require, exports, module) {
 
             } else if (provider == 'Innholdspartner') {
                 group = user.get('gruppe');
-                this.fetchQuery = (!!group && !!group._id) ? {gruppe: group._id} : {};
+                this.fetchQuery = (!!group) ? {gruppe: group} : {};
 
             } else {
                 this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
