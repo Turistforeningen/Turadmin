@@ -22,8 +22,6 @@ define(function (require, exports, module) {
     Backbone.Model.prototype.event_aggregator = event_aggregator;
     Backbone.Collection.prototype.event_aggregator = event_aggregator;
 
-    console.log('state', state);
-
     var routeEditorView = new RouteEditorView(state);
     routeEditorView.render();
 
