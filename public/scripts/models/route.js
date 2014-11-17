@@ -188,6 +188,10 @@ define(function (require, exports, module) {
 
         save: function (attrs, options) {
 
+            this.updateStartpunkt();
+            this.updateSeason();
+            this.updateTidsbruk();
+
             attrs = attrs || this.toJSON();
             options = options || {};
 

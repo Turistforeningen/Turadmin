@@ -172,6 +172,12 @@ define(function (require, exports, module) {
 
         save: function (attrs, options) {
 
+            var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
+            var method;
+
+            if (!!attrs._method) {
+                method = attrs._method;
+            }
 
             attrs = attrs || this.toJSON();
             options = options || {};
@@ -185,6 +191,10 @@ define(function (require, exports, module) {
 
             // Move attrs to options
             options.attrs = attrs;
+
+            if (!!method) {
+                options.attrs._method = method;
+            }
 
             // Call super with attrs moved to options
             return Backbone.Model.prototype.save.call(this, attrs, options);
