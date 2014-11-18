@@ -1,6 +1,6 @@
 <% _.each(output.models, function(picture) { %>
   <div class="col-sm-3">
-    <div class="thumbnail selectable <%= isSelected(picture, scope) %>" data-_id="<%= picture.attributes._id %>">
+    <div class="thumbnail <% if (!!picture.attributes._id) { %>selectable <% } else { %>disabled <% } %> <%= isSelected(picture, scope) %>" data-_id="<%= picture.attributes._id %>">
       <img src="<%= picture.attributes.thumbnailUrl %>" class="img-responsive" />
     </div>
   </div>
