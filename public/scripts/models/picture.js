@@ -49,9 +49,7 @@ define(function (require, exports, module) {
             'privat',
             'status',
             'tags',
-            'thumbnailUrl',
-            'tilbyder',
-            'url'
+            'tilbyder'
         ],
 
         validation: {
