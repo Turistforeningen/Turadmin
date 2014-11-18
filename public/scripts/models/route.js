@@ -205,21 +205,26 @@ define(function (require, exports, module) {
         },
 
         updateTidsbruk: function () {
-            var days = this.get('tidsbrukDager');
-            var hours = this.get('tidsbrukTimer');
-            var minutes = this.get('tidsbrukMinutter');
+            var days = parseInt(this.get('tidsbrukDager'), 10);
+            var hours = parseInt(this.get('tidsbrukTimer'), 10);
+            var minutes = parseInt(this.get('tidsbrukMinutter'), 10);
+            var tidsbruk = {normal:{}};
 
-            var tidsbruk = {
-                normal: {
-                    timer: '0',
-                    minutter: '0'
-                }
-            };
-            tidsbruk.normal.dager = days;
-            if (days && days === '1') {
-                tidsbruk.normal.timer = hours;
-                tidsbruk.normal.minutter = minutes;
+            if (days === 1) {
+                tidsbruk.normal = {
+                    dager: days,
+                    timer: hours,
+                    minutter: minutes
+                };
+
+            } else {
+                tidsbruk.normal = {
+                    dager: days,
+                    timer: 0,
+                    minutter: 0
+                };
             }
+
             this.set('tidsbruk', tidsbruk);
         }
 
