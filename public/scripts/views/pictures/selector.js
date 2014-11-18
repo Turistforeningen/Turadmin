@@ -32,6 +32,7 @@ define(function (require, exports, module) {
             this.pictureCollection.on('add', this.render, this);
             this.pictureCollection.on('remove', this.render, this);
             this.pictureCollection.on('sort', this.render, this);
+            this.pictureCollection.on('change:_id', this.render, this);
         },
 
         toggleRelated: function (e) {
