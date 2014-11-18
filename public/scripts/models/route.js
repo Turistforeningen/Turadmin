@@ -26,7 +26,7 @@ define(function (require, exports, module) {
             tidsbrukDager: '1',
             tidsbrukTimer: '0',
             tidsbrukMinutter: '0',
-            tidsbruk: {normal: {}},
+            tidsbruk: {normal: {dager: 1, timer: 0, minutter: 0}},
             retning: 'ABA',
             lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
