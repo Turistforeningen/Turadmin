@@ -24,9 +24,9 @@ define(function (require, exports, module) {
             // beskrivelse: '', // Not set as default, because of validation
             lenker: [],
             tidsbrukDager: '1',
-            tidsbrukTimer: '0',
+            tidsbrukTimer: '1',
             tidsbrukMinutter: '0',
-            tidsbruk: {normal: {dager: 1, timer: 0, minutter: 0}},
+            tidsbruk: {normal: {dager: 1, timer: 1, minutter: 0}},
             retning: 'ABA',
             lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
