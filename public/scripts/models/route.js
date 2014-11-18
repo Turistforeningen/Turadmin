@@ -188,12 +188,12 @@ define(function (require, exports, module) {
 
         save: function (attrs, options) {
 
+            attrs = attrs || this.toJSON();
+            options = options || {};
+
             this.updateStartpunkt();
             this.updateSeason();
             this.updateTidsbruk();
-
-            attrs = attrs || this.toJSON();
-            options = options || {};
 
             // Remove geojson if empty
             if (!this.hasRoute()) {

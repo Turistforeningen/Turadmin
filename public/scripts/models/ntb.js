@@ -172,6 +172,9 @@ define(function (require, exports, module) {
 
         save: function (attrs, options) {
 
+            attrs = attrs || this.toJSON();
+            options = options || {};
+
             var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
             var method;
 
