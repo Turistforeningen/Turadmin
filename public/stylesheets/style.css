@@ -406,6 +406,10 @@ div.line-mouse-marker {
 	text-indent: -1px;
 }
 
+.thumbnail.disabled {
+	opacity: 0.4;
+	cursor: default;
+}
 
 /**
  * Page Block - Route Done
