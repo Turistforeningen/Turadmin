@@ -86,6 +86,10 @@ define(function (require, exports, module) {
             var urls = this.getUrls();
             this.set('thumbnailUrl', urls.thumbnail);
             this.set('url', urls.url);
+
+            if (!this.get('_id')) {
+                this.save();
+            }
         },
 
         onFotografNavnChange: function () {
