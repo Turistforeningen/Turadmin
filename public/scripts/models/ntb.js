@@ -116,9 +116,11 @@ define(function (require, exports, module) {
 
         },
 
-        setLicense: function (license) {
-            license = license || 'CC BY-NC 4.0';
-            this.set('lisens', license);
+        setLicense: function () {
+            var license = this.forcedLicense;
+            if (!!license) {
+                this.set('lisens', license);
+            }
         },
 
         remove: function () {
