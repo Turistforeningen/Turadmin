@@ -4,23 +4,29 @@
     </span>
 </td>
 <td>
-    <div class="btn-group">
-        <%if (status === "Kladd") { %>
-            <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Ikke publisert &nbsp;<span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a data-action="publish">Publiser</a></li>
-            </ul>
-        <% } else { %>
-            <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Publisert &nbsp; <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a data-action="unpublish">Avpubliser</a></li>
-            </ul>
-        <% } %>
-    </div>
+    <%if (userIsAdmin === true) { %>
+        <div class="btn-group">
+            <%if (status === "Kladd") { %>
+                <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Ikke publisert &nbsp;<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a data-action="publish">Publiser</a></li>
+                </ul>
+            <% } else { %>
+                <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Publisert &nbsp; <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a data-action="unpublish">Avpubliser</a></li>
+                </ul>
+            <% } %>
+        </div>
+    <% } else { %>
+        <span class="label <%if (status === "Kladd") { %>label-warning<% } else { %>label-success<% } %>">
+            <%= erPublisert %>
+        </span>
+    <% } %>
 </td>
 <td>
     <span><%= endret %></span>

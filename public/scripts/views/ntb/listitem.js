@@ -11,7 +11,9 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
-        Template = require('text!templates/ntb/listitem.html');
+        Template = require('text!templates/ntb/listitem.html'),
+        User = require('models/user'),
+        user = new User();
 
     require('bootstrap');
 
@@ -75,7 +77,9 @@ define(function (require, exports, module) {
             if (!this.model) {
                 this.remove();
             } else {
-                var html = this.template(this.makeJsonModel());
+                var data = this.makeJsonModel();
+                data.userIsAdmin = user.get('admin');
+                var html = this.template(data);
                 $(this.el).html(html);
             }
             return this;

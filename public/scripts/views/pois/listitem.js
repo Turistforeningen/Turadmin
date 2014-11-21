@@ -12,7 +12,9 @@ define(function (require, exports, module) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         NtbListItemView = require('views/ntb/listitem'),
-        Template = require('text!templates/pois/listitem.html');
+        Template = require('text!templates/pois/listitem.html'),
+        User = require('models/user'),
+        user = new User();
 
     require('bootstrap');
 
@@ -25,7 +27,9 @@ define(function (require, exports, module) {
             if (!this.model) {
                 this.remove();
             } else {
-                var html = this.template(this.makeJsonModel());
+                var data = this.makeJsonModel();
+                data.userIsAdmin = user.get('admin');
+                var html = this.template(data);
                 $(this.el).html(html);
                 if (this.model.hasTag('Hytte')) {
                     this.$el.addClass('disabled').removeClass('clickable');
