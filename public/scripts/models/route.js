@@ -19,6 +19,7 @@ define(function (require, exports, module) {
 
         type: 'route',
         idAttribute: '_id',
+        forcedLicense: 'CC BY 4.0',
 
         defaults: {
             // navn: '', // Not set as default, because of validation

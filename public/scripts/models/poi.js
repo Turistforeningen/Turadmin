@@ -23,6 +23,7 @@ define(function (require, exports, module) {
         changed: false,
         deleted: false,
         popoverTemplate: PopoverTemplate,
+        forcedLicense: 'CC BY 4.0',
 
         urlRoot: function () {
             return '/restProxy/steder';
