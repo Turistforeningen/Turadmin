@@ -28,7 +28,8 @@ module.exports = function (app, options) {
     var makeRequest = function (path, req, res, onCompleteOverride) {
         var apiKey = (path.match(/\?/) ? '&' : '?') + 'api_key=' + ntbApiKey;
         var url = ntbApiUri + path + apiKey;
-        var method = req.method;
+        var method = req.body._method || req.method;
+        delete req.body._method;
         var json, options;
 
         // console.log("Request URL:", url);
@@ -82,7 +83,7 @@ module.exports = function (app, options) {
             options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
             options.headers['User-Agent'] = 'turadmin-v2.0';
-            // console.log("PATCH url:", url);
+            // console.log("DEBUG:restproxy: PATCH", url);
             // console.log("PATCH options:", options);
             restler.patch(url, options).on('complete', onComplete);
 

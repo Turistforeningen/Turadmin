@@ -27,14 +27,14 @@ define(function (require, exports, module) {
             'click td.actions a.edit': 'loadRoute',
             'click [data-action="route-delete"]': 'deleteRoute',
             'click [data-action="route-delete-modal-open"]': 'openDeleteModal',
-            'click [data-action="route-publish"]': 'publishRoute',
-            'click [data-action="route-unpublish"]': 'unpublishRoute'
+            'click [data-action="publish"]': 'publish',
+            'click [data-action="unpublish"]': 'unpublish'
         },
 
         initialize : function (options) {
             this.path = options.path;
             this.model.on('destroy', this.removeItemView, this);
-            _.bindAll(this, 'publishRoute', 'unpublishRoute');
+            _.bindAll(this, 'publish', 'unpublish');
         },
 
         loadRoute: function () {
@@ -55,13 +55,13 @@ define(function (require, exports, module) {
             this.$('.modal').modal('show');
         },
 
-        publishRoute: function () {
+        publish: function () {
             // It is important to use PATCH here, to prevent overwriting object, as the model is not complete
             this.model.save({_method: 'PATCH', status: 'Offentlig'});
             this.render();
         },
 
-        unpublishRoute: function () {
+        unpublish: function () {
             // NOTE: It is important to use PATCH here, to prevent overwriting object, as the model is not complete
             this.model.save({_method: 'PATCH', status: 'Kladd'});
             this.render();
