@@ -192,12 +192,9 @@ define(function (require, exports, module) {
             this.updateSeason();
             this.updateTidsbruk();
 
-            attrs = attrs || this.toJSON();
-            options = options || {};
-
             // Remove geojson if empty
             if (!this.hasRoute()) {
-                delete attrs.geojson;
+                this.unset('geojson');
             }
 
             // Call super with attrs moved to options
