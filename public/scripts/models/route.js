@@ -17,6 +17,7 @@ define(function (require, exports, module) {
     // Module
     return NtbModel.extend({
 
+        type: 'route',
         idAttribute: '_id',
 
         defaults: {
