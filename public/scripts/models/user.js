@@ -29,6 +29,7 @@ define(function (require, exports, module) {
 
             this.set('epost', options.epost);
             this.set('grupper', options.grupper);
+            this.set('navn', options.navn);
 
             options = options || {};
 
@@ -52,13 +53,14 @@ define(function (require, exports, module) {
                     // No default
             }
 
+            this.set('provider', options.provider);
+
             if (!this.get('navn') && (!!options.fornavn && !!options.etternavn)) {
                 this.set('navn', options.fornavn + ' ' + options.etternavn);
             }
 
             var grupper = this.get('grupper');
             var admin = !!_.findWhere(grupper, {navn: 'Den Norske Turistforening'});
-
             this.set('admin', admin);
             this.set('_id', id);
             this.set('id', id);
