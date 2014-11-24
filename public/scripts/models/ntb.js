@@ -123,6 +123,78 @@ define(function (require, exports, module) {
             }
         },
 
+        getNamingTitle: function () {
+            var title = this.get('navn');
+            return title;
+        },
+
+        getNamingLicense: function () {
+
+            var licenses = {
+                'CC BY 4.0': 'http://creativecommons.org/licenses/by/4.0/deed.no',
+                'CC BY-SA 4.0': 'http://creativecommons.org/licenses/by-sa/4.0/deed.no',
+                'CC BY-ND 4.0': 'http://creativecommons.org/licenses/by-nd/4.0/deed.no',
+                'CC BY-NC 4.0': 'http://creativecommons.org/licenses/by-nc/4.0/deed.no',
+                'CC BY-NC-SA 4.0': 'http://creativecommons.org/licenses/by-nc-sa/4.0/deed.no',
+                'CC BY-NC-ND 4.0': 'http://creativecommons.org/licenses/by-nc-nd/4.0/deed.no'
+            };
+
+            var licenseName = this.get('lisens');
+            var licenseUrl = licenses[licenseName];
+            var license;
+
+            if (!!licenseUrl) {
+                license = {name: licenseName, url: licenseUrl};
+            }
+
+            return license;
+        },
+
+        getNamingBy: function () {
+
+            var userProvider = user.get('provider');
+            var namingBy;
+
+            if (userProvider === 'DNT Connect') {
+                var userGroups = user.get('grupper');
+                var objectGroups = this.get('grupper');
+                var objectPrimaryGroupId,
+                    objectPrimaryGroup,
+                    objectPrimaryGroupNavn;
+
+                if (!!objectGroups && objectGroups.length) {
+                    objectPrimaryGroupId = objectGroups[0];
+                    objectPrimaryGroup = _.findWhere(userGroups, {object_id: objectPrimaryGroupId});
+                    namingBy = objectPrimaryGroup.navn;
+
+                } else {
+                    namingBy = user.get('navn');
+                }
+
+            } else if (userProvider === 'Innholdspartner' || 'Mitt NRK') {
+                namingBy = user.get('navn');
+            }
+
+            return namingBy;
+        },
+
+        setNaming: function () {
+            var title = this.getNamingTitle();
+            var by = this.getNamingBy();
+            var license = this.getNamingLicense();
+            var naming;
+
+            if (!!title && !!by && !!license) {
+                naming = [
+                    title,
+                    ' av ', by,'. ',
+                    'Tilgjengelig under en <a href="' + license.url + '">' + license.name + ' lisens</a>.'
+                ].join('');
+
+                this.set('navngiving', naming);
+            }
+        },
+
         remove: function () {
             this.set('removed', true);
         },
@@ -180,6 +252,7 @@ define(function (require, exports, module) {
         save: function (attrs, options) {
 
             this.setLicense();
+            this.setNaming();
 
             attrs = attrs || this.toJSON();
             options = options || {};

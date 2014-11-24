@@ -145,7 +145,22 @@ define(function (require, exports, module) {
 
         },
 
+        setPictureNames: function () {
+            var objectName = this.model.get('navn'),
+                pictureName = 'Bilde';
+
+            if (!!objectName) {
+                pictureName += ' fra ' + objectName;
+            }
+
+            this.pictures.forEach(function(model, index) {
+                model.set('navn', pictureName);
+            });
+        },
+
         save: function () {
+
+            this.setPictureNames();
 
             this.trigger('save:start');
 

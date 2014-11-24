@@ -47,6 +47,7 @@ define(function (require, exports, module) {
             'img',
             'lisens',
             'navn',
+            'navngiving',
             'privat',
             'status',
             'tags',
@@ -161,6 +162,12 @@ define(function (require, exports, module) {
             }
 
             return urls;
+        },
+
+        getNamingBy: function () {
+            var photographer = this.get('fotograf');
+            var photographerName = (!!photographer && !!photographer.navn) ? photographer.navn : undefined;
+            return photographerName;
         }
 
     });

@@ -44,6 +44,7 @@ define(function (require, exports, module) {
             'lisens',
             'navn',
             'navn_alt',
+            'navngiving',
             'områder',
             'privat',
             'status',
