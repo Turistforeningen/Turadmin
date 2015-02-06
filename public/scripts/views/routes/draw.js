@@ -118,6 +118,13 @@ define(function (require, exports, module) {
 
             this.renderDrawButton();
 
+            if (this.draw) {
+                this.mapWrapper.$map.addClass('drawing');
+
+            } else {
+                this.mapWrapper.$map.removeClass('drawing');
+            }
+
             // if (!this.draw) {
             //     this.setRouteModelGeoJsonFromMap();
             // }

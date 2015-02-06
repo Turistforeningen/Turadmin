@@ -268,6 +268,10 @@ span.error-msg {
 	margin-top: 10px;
 }
 
+.leaflet-container.drawing {
+    cursor: crosshair;
+}
+
 /* Draw tool styles */
 div.line-mouse-marker {
 	background-color: #ffffff;

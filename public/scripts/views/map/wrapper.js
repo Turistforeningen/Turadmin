@@ -25,6 +25,7 @@ define(function (require, exports, module) {
 
         el: '[data-view="map"]',
         template: _.template(Template),
+        $map: undefined,
 
         initialize: function (options) {
 
@@ -144,6 +145,7 @@ define(function (require, exports, module) {
                 zoom: this.mapZoom
             };
 
+            this.$map = $('[data-placeholder-for="map"]');
             this.map = L.map($('[data-placeholder-for="map"]')[0], mapOptions);
 
             // Add layer controls for selecting layer to map
