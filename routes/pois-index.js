@@ -14,8 +14,7 @@ module.exports = function (app, options) {
     var getPoisIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
-
-        var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies.userDefaultRouteFetchQuery : undefined;
+        var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies['userDefaultRouteFetchQuery_' + req.session.userId] : undefined;
 
         var renderOptions = {
             title: 'Mine steder',
