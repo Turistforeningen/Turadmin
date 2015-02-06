@@ -218,8 +218,12 @@ define(function (require, exports, module) {
 
                 for (var i = 0; i < output.length; i++) {
                     if (typeof output[i] === 'object') {
-                        // if ((output[i].tittel === '' && output[i].url === 'http://') || (typeof output[i].tittel === 'undefined' && output[i].url === 'http://')) { output.splice(i, 1); }
-                        output[i] = this.removeEmpty(output[i]);
+                        if (output[i].url === 'http://') {
+                            output.splice(i, 1);
+                        } else {
+                            output[i] = this.removeEmpty(output[i]);
+                        }
+
                     } else if (typeof output[i] === 'string') {
                         if (output[i] === '') {
                             output.splice(i, 1);
