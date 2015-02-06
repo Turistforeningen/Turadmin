@@ -100,29 +100,6 @@ define(function (require, exports, module) {
             this.updatePublishButtons();
         },
 
-        updatePublishButtons: function () {
-
-            var status = this.model.get('status');
-
-            switch (status) {
-                case 'Kladd':
-                    $('.page-block.ntb-done .unpublished').removeClass('hidden');
-                    $('.page-block.ntb-done .published').addClass('hidden');
-
-                    $('[data-action="do-publish"]').removeClass('hidden');
-                    $('[data-action="do-unpublish"]').addClass('hidden');
-                    break;
-
-                case 'Offentlig':
-                    $('.page-block.ntb-done .unpublished').addClass('hidden');
-                    $('.page-block.ntb-done .published').removeClass('hidden');
-
-                    $('[data-action="do-publish"]').addClass('hidden');
-                    $('[data-action="do-unpublish"]').removeClass('hidden');
-                    break;
-            }
-        },
-
         publish: function() {
 
             var isValid = this.model.isValid(true);
