@@ -282,15 +282,15 @@ define(function (require, exports, module) {
                 language: 'no',
                 // Define the toolbar groups as it is a more accessible solution.
                 toolbarGroups: [
-                    {
-                        name:'styles',
-                        groups: ['styles']
-                    },
+                    {name: 'basicstyles', groups: ['basicstyles']},
+                    {name: 'paragraph', groups: ['list']},
+                    {name:'styles', groups: ['styles']},
                 ],
                 format_tags: 'p;h1;h2;h3',
                 // Remove the redundant buttons from toolbar groups defined above.
-                removePlugins: 'elementspath', // Elements path in footer
-                removeButtons: 'Styles'
+                removeButtons: 'Subscript,Superscript,Strike,Styles',
+                // Remove elements path in footer
+                removePlugins: 'elementspath'
             });
 
             descriptionEditor.on('change', $.proxy(function (e) {
