@@ -21,6 +21,8 @@ requirejs.config({
         'backbone-stickit': '/lib/backbone.stickit-0.8.0/backbone.stickit',
         'backbone-validation': '/lib/backbone-validation-0.9.1/backbone-validation',
         'bootstrap': '/lib/bootstrap-3.2.0-dist/js/bootstrap',
+        'ckeditor-core':'/lib/ckeditor-4.4.7/ckeditor',
+        'ckeditor-jquery':'/lib/ckeditor-4.4.7/adapters/jquery',
         'leaflet': '/lib/leaflet-0.7.2/leaflet-src',
         'leaflet-draw': '/lib/Leaflet.draw/leaflet.draw',
         'leaflet-routing': '/lib/routing/L.Routing',
@@ -102,6 +104,9 @@ requirejs.config({
         },
         'bootstrap': {
             deps: ['jquery', 'jquery-ui']
+        },
+        'ckeditor-jquery':{
+            deps:['jquery', 'ckeditor-core']
         },
         'jquery-ui': {
             deps: ['jquery']
