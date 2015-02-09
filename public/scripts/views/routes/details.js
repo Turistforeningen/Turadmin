@@ -287,7 +287,7 @@ define(function (require, exports, module) {
                         groups: ['styles']
                     },
                 ],
-                format_tags: 'p;h1;h2;h3',
+                format_tags: 'p;h2;h3',
                 // Remove the redundant buttons from toolbar groups defined above.
                 removePlugins: 'elementspath', // Elements path in footer
                 removeButtons: 'Styles'
