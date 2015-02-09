@@ -286,7 +286,7 @@ define(function (require, exports, module) {
                     {name: 'paragraph', groups: ['list']},
                     {name:'styles', groups: ['styles']},
                 ],
-                format_tags: 'p;h1;h2;h3',
+                format_tags: 'p;h2;h3',
                 // Remove the redundant buttons from toolbar groups defined above.
                 removeButtons: 'Subscript,Superscript,Strike,Styles',
                 // Remove elements path in footer
