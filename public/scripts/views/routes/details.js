@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         user = new User();
 
     require('bootstrap');
+    require('ckeditor-core');
     require('select2');
 
     // Module
@@ -274,6 +275,28 @@ define(function (require, exports, module) {
                 linksField: 'lenker',
                 el: '[data-view="route-details-lenker"]'
             }).render();
+
+
+            // Beskrivelse
+            var descriptionEditor = CKEDITOR.replace($('textarea[name="route-details-field-beskrivelse"]')[0], {
+                language: 'no',
+                // Define the toolbar groups as it is a more accessible solution.
+                toolbarGroups: [
+                    {
+                        name:'styles',
+                        groups: ['styles']
+                    },
+                ],
+                format_tags: 'p;h1;h2;h3',
+                // Remove the redundant buttons from toolbar groups defined above.
+                removePlugins: 'elementspath', // Elements path in footer
+                removeButtons: 'Styles'
+            });
+
+            descriptionEditor.on('change', $.proxy(function (e) {
+                var data = e.editor.getData();
+                this.model.set('beskrivelse', data);
+            }, this));
 
 
             var publicTransportation = this.model.get('kollektiv');
