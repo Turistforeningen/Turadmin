@@ -23,6 +23,7 @@ requirejs.config({
         'bootstrap': '/lib/bootstrap-3.2.0-dist/js/bootstrap',
         'ckeditor-core':'/lib/ckeditor-4.4.7/ckeditor',
         'ckeditor-jquery':'/lib/ckeditor-4.4.7/adapters/jquery',
+        'datepicker': '/lib/bootstrap-datepicker-1.3.1/js/bootstrap-datepicker',
         'leaflet': '/lib/leaflet-0.7.2/leaflet-src',
         'leaflet-draw': '/lib/Leaflet.draw/leaflet.draw',
         'leaflet-routing': '/lib/routing/L.Routing',
@@ -107,6 +108,10 @@ requirejs.config({
         },
         'ckeditor-jquery':{
             deps:['jquery', 'ckeditor-core']
+        },
+        'datepicker' : {
+            deps: ['jquery-ui', 'bootstrap'],
+            exports: '$.fn.datepicker'
         },
         'jquery-ui': {
             deps: ['jquery']
