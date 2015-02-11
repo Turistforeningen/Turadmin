@@ -81,7 +81,6 @@ define(function (require, exports, module) {
                 forceParse: false, // AFAICS forceparse fails and causes existing date to be cleared when picker is dismissed
                 format: 'dd.mm.yyyy',
                 weekStart: 1,
-                endDate: moment().format('DD.MM.YYYY'),
                 language: 'no'
             });
 
