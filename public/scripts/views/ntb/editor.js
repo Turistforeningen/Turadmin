@@ -103,6 +103,10 @@ define(function (require, exports, module) {
             }
         },
 
+        toServerJSON: function () {
+            return _.pick(this.attributes, this.serverAttrs);
+        },
+
         saveRelated: function (callback) {
 
             if (typeof this.relatedModels !== 'undefined' && this.relatedModels.length) {
