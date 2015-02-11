@@ -19,6 +19,8 @@ define(function (require, exports, module) {
         PictureManager = require('views/pictures/manager'),
         PoiCollection = require('collections/pois'),
         PoiManager = require('views/pois/manager'),
+        MarkingModel = require('models/marking'),
+        MarkingEdit = require('views/marking/edit'),
         RouteDetailsView = require('views/routes/details');
 
     require('backbone-stickit');
@@ -52,6 +54,18 @@ define(function (require, exports, module) {
                     destroyRemoved: true
                 }
             ];
+
+            if (this.model.get('rute')) {
+                // Create models
+                this.marking = new MarkingModel(options.routeData.rute);
+
+                this.relatedModels = [
+                    {
+                        field: 'rute',
+                        model: this.marking
+                    }
+                ];
+            }
 
             // Set up views
 
@@ -88,6 +102,13 @@ define(function (require, exports, module) {
                 el: '[data-view="route-details"]',
                 route: this.model
             }).render();
+
+            if (this.model.get('rute')) {
+                this.markingEdit = new MarkingEdit({
+                    el: '[data-view="route-marking"]',
+                    model: this.marking
+                }).render();
+            }
 
             this.listenTo(this.model, 'change:status', $.proxy(this.updatePublishButtons, this));
 

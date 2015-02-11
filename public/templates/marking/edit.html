@@ -1,0 +1,69 @@
+<h3>Rute og merking</h3>
+<div class="form-horizontal">
+    <div class="form-group route-marking-id">
+        <label for="route-marking-id" class="control-label col-lg-2 col-md-2 col-sm-3">Rute-ID</label>
+        <div class="col-lg-7 col-md-7 col-sm-7">
+            <p class="form-control-static" data-dnt-placeholder="rute-kode" type="text">
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-3">
+            <p class="help-block">Offisiell rutekode. Denne kan kun endres av administrasjonen i DNT.</p>
+        </div>
+    </div>
+    <div class="form-group route-marking-type">
+        <label for="route-marking-type" class="control-label col-lg-2 col-md-2 col-sm-3">Merkestandard</label>
+        <div class="col-lg-7 col-md-7 col-sm-7">
+            <% _.each(availableMarkings, function (item, key, list) { %>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="<%= item %>">
+                    <%= item %>
+                </label>
+            </div>
+            <% }); %>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-3">
+            <p class="help-block">Spesifiser hvilke kombinasjoner av merking denne ruten inneholder.</p>
+        </div>
+    </div>
+    <div class="form-group route-marking-period">
+        <label for="route-marking-period" class="control-label col-lg-2 col-md-2 col-sm-3">Kvisting</label>
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="route-marking-allyear">
+                            Helårs
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <p class="help-block">Merk av hvis denne ruten er kvistet gjennom hele året.</p>
+                </div>
+            </div>
+            <div class="form-group" data-model-validation-field-name="kvistingPeriode">
+                <div class="col-sm-5">
+                    <input class="form-control" name="route-marking-from-date" type="text" placeholder="Fra dato" <% if (model.kvistingHelars) { %>disabled<% } %>>
+                </div>
+                <div class="col-sm-2 form-control-static" style="text-align: center;">
+                    <span>til</span>
+                </div>
+                <div class="col-sm-5">
+                    <input class="form-control" name="route-marking-to-date" type="text" placeholder="Til dato" <% if (model.kvistingHelars) { %>disabled<% } %>>
+                </div>
+                <div class="col-sm-12">
+                    <p class="help-block">Periode denne ruten er kvistet på vinterstid.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group route-comments">
+        <label for="route-marking-comments" class="control-label col-lg-2 col-md-2 col-sm-3">Kommentar</label>
+        <div class="col-sm-7">
+            <textarea class="form-control" name="route-marking-comment"></textarea>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-3">
+            <p class="help-block">Kommentarer til ruten. Denne vil ikke være synlig på UT.no.</p>
+        </div>
+    </div>
+</div>
