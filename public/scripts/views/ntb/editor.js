@@ -105,6 +105,16 @@ define(function (require, exports, module) {
 
         saveRelated: function (callback) {
 
+            if (typeof this.relatedModels !== 'undefined' && this.relatedModels.length) {
+                for (var i = 0; i < this.relatedModels.length; i++) {
+                    var relatedModel = this.relatedModels[i];
+                    if (typeof relatedModel.field === 'string' && typeof relatedModel.model === 'object') {
+                        var relatedModelJson = (typeof relatedModel.model.toServerJSON === 'function') ? relatedModel.model.toServerJSON() : relatedModel.model.toJSON();
+                        this.model.set(relatedModel.field, relatedModelJson)
+                    }
+                }
+            }
+
             if (typeof this.relatedCollections !== 'undefined') {
 
                 var saveDone = _.after(this.relatedCollections.length, $.proxy(callback, this));
