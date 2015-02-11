@@ -104,6 +104,7 @@ define(function (require, exports, module) {
 
             this.on('change:turtype', this.updateTurtypeInTags);
             this.on('change:flereTurtyper', this.updateFlereTurtyperInTags);
+            this.on('change:geojson', this.updateBoundaryIntersect, this);
 
             var duration = this.get('tidsbruk');
 
@@ -145,6 +146,28 @@ define(function (require, exports, module) {
                     delete privat.startpunkt;
                 }
             }
+        },
+
+        updateBoundaryIntersect: function () {
+            if (this.hasRoute()) {
+                var geojson = this.get('geojson');
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: 'http://geoserver2.dotcloudapp.com/api/v1/boundary/intersect',
+                    data: JSON.stringify({geojson: geojson}),
+                    success: $.proxy(this.setBoundaryIntersect, this)
+                });
+
+            } else {
+                this.setBoundaryIntersect({fylker: [], kommuner: [], 'områder': []});
+            }
+        },
+
+        setBoundaryIntersect: function (data) {
+            this.set('fylker', data['fylker']);
+            this.set('kommuner', data['kommuner']);
+            this.set('områder', data['områder']);
         },
 
         updateTurtypeInTags: function () {

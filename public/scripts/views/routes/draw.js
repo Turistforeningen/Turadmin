@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         Backbone = require('backbone'),
         Template = require('text!templates/routes/draw.html'),
+        BoundaryIntersectTemplate = require('text!templates/routes/boundary.html'),
         MapWrapper = require('views/map/wrapper'),
         SsrSimpleView = require('views/ssr/simple'),
         GpxUploadView = require('views/routes/gpxupload');
@@ -22,6 +23,7 @@ define(function (require, exports, module) {
 
         el: '[data-view="route-draw"]',
         template: _.template(Template),
+        boundaryIntersectTemplate: _.template(BoundaryIntersectTemplate),
 
         drawMarkerTool: undefined,
         draw: false,
@@ -47,6 +49,10 @@ define(function (require, exports, module) {
             this.event_aggregator.on("map:loadGpxGeometry", this.loadGpxGeometry);
             this.event_aggregator.on("map:showPopup", this.registerPopover);
             this.event_aggregator.on("map:zoomAndCenter", this.zoomAndCenter);
+
+            this.routeModel.on('change:fylker', this.renderBoundaryIntersect, this);
+            this.routeModel.on('change:kommuner', this.renderBoundaryIntersect, this);
+            this.routeModel.on('change:områder', this.renderBoundaryIntersect, this);
 
             if (!!options.map) {
                 this.mapWrapper = options.map;
@@ -78,6 +84,7 @@ define(function (require, exports, module) {
             this.updateRoutingToggle();
             this.updateRouteDirectionSelect();
             this.renderDrawButton();
+            this.renderBoundaryIntersect();
 
             return this;
         },
@@ -109,8 +116,6 @@ define(function (require, exports, module) {
             this.mapWrapper.setMapView({center: [lat, lng]});
         },
 
-
-
         toggleDraw: function (e) {
             e.preventDefault();
             this.draw = !this.draw;
@@ -130,6 +135,12 @@ define(function (require, exports, module) {
             // }
 
             // Route model is now automatically updated on draw end.
+        },
+
+        renderBoundaryIntersect: function () {
+            this.$boundaryIntersect = $('[data-container-for="boundary-intersect"]');
+            var html = this.boundaryIntersectTemplate({model: this.model.toJSON()});
+            this.$boundaryIntersect.html(html);
         },
 
         renderDrawButton: function () {
