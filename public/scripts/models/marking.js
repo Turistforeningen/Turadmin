@@ -43,6 +43,9 @@ define(function (require, exports, module) {
         initialize: function (options) {
 
             if (typeof options.kvisting === 'object') {
+                if (options.merkinger.indexOf('Kvisting') === -1) {
+                    this.get('merkinger').push('Kvisting');
+                }
                 if (typeof options.kvisting['fra'] === 'string') {
                     this.set('kvistingFra', moment(options.kvisting['fra']).format('DD.MM.YYYY'));
                 }
@@ -89,6 +92,16 @@ define(function (require, exports, module) {
                 var kvisting = this.get('kvisting') || {};
                 kvisting.kommentar = e.changed.kvistingKommentar;
                 this.set('kvisting', kvisting);
+            });
+
+            this.on('change:merkinger', function (e) {
+                if (e.changed.merkinger.indexOf('Kvisting') === -1) {
+                    this.unset('kvisting');
+                    this.unset('kvistingFra');
+                    this.unset('kvistingTil');
+                    this.unset('kvistingHelars');
+                    this.unset('kvistingKommentar');
+                }
             });
         },
 
