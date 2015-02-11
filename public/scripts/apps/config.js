@@ -24,6 +24,7 @@ requirejs.config({
         'ckeditor-core':'/lib/ckeditor-4.4.7/ckeditor',
         'ckeditor-jquery':'/lib/ckeditor-4.4.7/adapters/jquery',
         'datepicker': '/lib/bootstrap-datepicker-1.3.1/js/bootstrap-datepicker',
+        'datepicker-lang-no': '/lib/bootstrap-datepicker-1.3.1/js/locales/bootstrap-datepicker.no',
         'leaflet': '/lib/leaflet-0.7.2/leaflet-src',
         'leaflet-draw': '/lib/Leaflet.draw/leaflet.draw',
         'leaflet-routing': '/lib/routing/L.Routing',
@@ -38,6 +39,7 @@ requirejs.config({
         'jquery.fileupload-process': '/lib/jquery.fileupload/js/jquery.fileupload-process',
         'jquery.iframe-validate': '/lib/jquery.fileupload/js/jquery.fileupload-validate',
         'jquery-ssr': '/lib/jquery.ssr-1.0.0/jQuery.SSR',
+        'moment': '/lib/momentjs-2.9.0/moment',
         'select2': '/lib/select2-3.5.1/select2',
         'select2-locale_no': '/lib/select2-3.5.1/select2_locale_no',
         'text': '/lib/text-2.0.12/text',
@@ -109,8 +111,12 @@ requirejs.config({
         'ckeditor-jquery':{
             deps:['jquery', 'ckeditor-core']
         },
-        'datepicker' : {
+        'datepicker': {
             deps: ['jquery-ui', 'bootstrap'],
+            exports: '$.fn.datepicker'
+        },
+        'datepicker-lang-no': {
+            deps: ['jquery-ui', 'bootstrap', 'datepicker'],
             exports: '$.fn.datepicker'
         },
         'jquery-ui': {
