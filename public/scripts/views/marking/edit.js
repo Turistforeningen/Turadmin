@@ -35,7 +35,8 @@ define(function (require, exports, module) {
             'Umerket',
             'Lokalt merket',
             'Brerute',
-            'Båtrute'
+            'Båtrute',
+            'Kvisting'
         ],
 
         bindings: {
@@ -67,6 +68,7 @@ define(function (require, exports, module) {
         initialize: function (options) {
             this.model = options.model;
             this.model.on('change:kvistingHelars', this.render, this);
+            this.model.on('change:merkinger', this.render, this);
         },
 
         render: function () {
