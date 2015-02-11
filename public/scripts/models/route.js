@@ -63,6 +63,7 @@ define(function (require, exports, module) {
             'grupper',
             'bilder',
             'steder',
+            'rute',
             'url'
         ],
 
