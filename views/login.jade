@@ -7,8 +7,8 @@ block content
             div.col-lg-10.col-md-10.col-sm-12.col-lg-offset-1.col-md-offset-1
                 div.masthead
                     h2.page-header Logg inn
-                div.well
-                    span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel pharetra odio. Duis nec libero pulvinar leo rutrum consequat rhoncus eget elit. Nulla scelerisque vestibulum bibendum. Duis vel viverra massa, in adipiscing quam. Aenean quis eros sit amet sapien tempus tincidunt.
+                div.alert.alert-info
+                    span Dette er innloggingssiden for DNT-foreninger, andre innholdspartnere og privatpersoner som skal publisere turer på UT.no.
 
         div.row
             div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-1.col-md-offset-1
@@ -16,7 +16,7 @@ block content
                     h3 Innholdspartner
 
                     form.form-signin(action="/login/turbasen" method="POST")
-                        p.help-block Fyll inn brukernavn og passord nedenfor dersom du ønsker å logge inn som Innholdspartner
+                        p.help-block Fyll inn brukernavn og passord nedenfor dersom du ønsker å logge inn som innholdspartner.
 
                         if error && error == 'TBAUTH-401'
                             div.form-group.has-error
@@ -41,11 +41,11 @@ block content
             div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-2.col-md-offset-2.col-sm-offset-2
 
                 div.dnt-connect
-                    h3 DNT-brukere
+                    h3 DNT/Sherpa-brukere
                     a.btn.btn-lg.btn-default.btn-block(href="/login/dnt/connect")
                         span.glyphicon.glyphicon.glyphicon-arrow-right
                         | &nbsp;Gå til innlogging
-                    p.help-block Klikk her dersom du ønsker å logge inn som DNT-bruker
+                    p.help-block Klikk her dersom du ønsker å logge inn som DNT/Sherpa-bruker
 
                 div.mitt-nrk
                     h3 UT.no-brukere
