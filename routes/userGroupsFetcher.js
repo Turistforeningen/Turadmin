@@ -27,7 +27,6 @@ module.exports = function (app, express, options) {
                     next();
 
                 } else {
-
                     console.error('Request failed! HTTP status code returned is ' + statusCode);
                     console.error(associations.errors);
                     next();
@@ -35,7 +34,6 @@ module.exports = function (app, express, options) {
             });
 
         } else {
-
             console.log('Not implemented.');
             next();
             // User is authenticated by other method than DNT Connect
