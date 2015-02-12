@@ -93,9 +93,17 @@ var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __di
 
 var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
-require('./routes/route')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey), userGroupsFetcher: userGroupsFetcher });
+require('./routes/route')(app, restProxy, {
+    routeApiUri: routeApiUri,
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher
+});
 
-require('./routes/poi')(app, restProxy, { routeApiUri: routeApiUri, dntApi: new DNT('Turadmin/1.0', dntApiKey), userGroupsFetcher: userGroupsFetcher });
+require('./routes/poi')(app, restProxy, {
+    routeApiUri: routeApiUri,
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher
+});
 
 require('./routes/ssrProxy')(app, {});
 
