@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         Backbone = require('backbone'),
         Template = require('text!templates/pois/positioning.html'),
+        BoundaryIntersectTemplate = require('text!templates/pois/boundary.html'),
         MapWrapper = require('views/map/wrapper'),
         SsrSimpleView = require('views/ssr/simple');
 
@@ -21,9 +22,13 @@ define(function (require, exports, module) {
 
         el: '[data-view="poi-positioning"]',
         template: _.template(Template),
+        boundaryIntersectTemplate: _.template(BoundaryIntersectTemplate),
 
         initialize: function (options) {
-
+            this.model = options.model;
+            this.model.on('change:fylke', this.renderBoundaryIntersect, this);
+            this.model.on('change:kommune', this.renderBoundaryIntersect, this);
+            this.model.on('change:områder', this.renderBoundaryIntersect, this);
         },
 
         initPositionByCoordinates: function () {
@@ -130,6 +135,12 @@ define(function (require, exports, module) {
 
             }, this));
 
+        },
+
+        renderBoundaryIntersect: function () {
+            this.$boundaryIntersect = $('[data-container-for="boundary-intersect"]');
+            var html = this.boundaryIntersectTemplate({model: this.model.toJSON()});
+            this.$boundaryIntersect.html(html);
         },
 
         render: function () {

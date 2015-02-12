@@ -1,0 +1,21 @@
+<% if ((model['områder'] && model['områder'].length) || (!!model['fylke']) ||(!!model['kommune'])) { %>
+  <div class="row area-municipality-location" style="margin-top: 20px;">
+    <div class="col-sm-12">
+      <div class="alert alert-info">
+        <div class="row">
+          <div class="col-sm-12">
+              <% if (model['områder'] && model['områder'].length) { %>
+                <div><strong>Områder:</strong> <% _.each(model['områder'], function (item, key, list) { %> <%= item %><% if (key !== list.length-1) { %>, <% } %><% }); %></div>
+              <% } %>
+              <% if (!!model['fylke']) { %>
+                <div><strong>Fylke:</strong> <%= model['fylke'] %></div>
+              <% } %>
+              <% if (!!model['kommune']) { %>
+                <div><strong>Kommune:</strong> <%= model['kommune'] %></div>
+              <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %>
