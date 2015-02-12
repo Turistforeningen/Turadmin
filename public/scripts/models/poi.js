@@ -116,6 +116,7 @@ define(function (require, exports, module) {
             this.on('change:kategori', this.onCategoryChange, this);
             this.on('change:geojson', this.onGeoJsonChange, this);
             this.on('change:navn', this.onNameChange, this);
+            this.on('change:geojson', this.updateBoundaryIntersect, this);
 
             var tags = this.get('tags');
             if (tags.length > 0) {
@@ -230,6 +231,28 @@ define(function (require, exports, module) {
             var geoJson = this.getGeoJson();
             geoJson.coordinates = [lng, lat];
             this.set('geojson', geoJson);
+        },
+
+        updateBoundaryIntersect: function () {
+            if (this.hasPosition()) {
+                var geojson = this.get('geojson');
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: 'http://geoserver2.dotcloudapp.com/api/v1/boundary/intersect',
+                    data: JSON.stringify({geojson: geojson}),
+                    success: $.proxy(this.setBoundaryIntersect, this)
+                });
+
+            } else {
+                this.setBoundaryIntersect({fylke: undefined, kommune: undefined, 'områder': []});
+            }
+        },
+
+        setBoundaryIntersect: function (data) {
+            this.set('fylke', data['fylker'][0]);
+            this.set('kommune', data['kommuner'][0]);
+            this.set('områder', data['områder']);
         }
 
     });
