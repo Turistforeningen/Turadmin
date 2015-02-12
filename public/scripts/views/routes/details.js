@@ -51,8 +51,8 @@ define(function (require, exports, module) {
                     validate: true
                 }
             },
-            '[name="route-details-field-adkomst_generell"]': 'adkomst',
-            '[name="route-details-field-ankomst_kollektivtransport"]': 'kollektiv',
+            '[name="route-details-field-adkomst_generell"]': 'tilkomstPrivat',
+            '[name="route-details-field-ankomst_kollektivtransport"]': 'tilkomstKollektivtransport',
             '[name="route-details-field-typetur"]': {
                 observe: 'turtype',
                 setOptions: {

@@ -58,6 +58,7 @@ define(function (require, exports, module) {
             'tilrettelagt_for',
             'sesong',
             'tidsbruk',
+            'tilkomst',
             'tags',
             'privat',
             'grupper',
@@ -118,6 +119,13 @@ define(function (require, exports, module) {
             this.set('turtype', this.getRouteType());
             this.set('flereTurtyper', this.getAdditionalRouteTypes());
 
+            this.on('change:tilkomstPrivat', this.updateTilkomst, this);
+            this.on('change:tilkomstKollektivtransport', this.updateTilkomst, this);
+            this.on('change:tilkomstPrivat', this.setAdkomstFromTilkomst, this); // NOTE: Temp, while supporting both adkomst/kollektiv and tilkomst object
+            this.on('change:tilkomstKollektivtransport', this.setKollektivFromTilkomst, this); // NOTE: Temp, while supporting both adkomst/kollektiv and tilkomst object
+
+            this.initTilkomstFlat();
+
             NtbModel.prototype.initialize.call(this, options);
 
         },
@@ -147,6 +155,35 @@ define(function (require, exports, module) {
                     delete privat.startpunkt;
                 }
             }
+        },
+
+        initTilkomstFlat: function () {
+            var tilkomst = this.get('tilkomst') || {};
+            var tilkomstPrivat = tilkomst.privat || this.get('adkomst');
+            var tilkomstKollektivtransport = tilkomst.kollektivtransport || this.get('kollektiv');
+
+            this.set('tilkomstPrivat', tilkomstPrivat);
+            this.set('tilkomstKollektivtransport', tilkomstKollektivtransport);
+        },
+
+        updateTilkomst: function (e) {
+            var tilkomstPrivat = this.get('tilkomstPrivat');
+            var tilkomstKollektivtransport = this.get('tilkomstKollektivtransport');
+
+            var tilkomst = this.get('tilkomst') || {};
+            tilkomst.privat = tilkomstPrivat;
+            tilkomst.kollektivtransport = tilkomstKollektivtransport;
+            this.set('tilkomst', tilkomst);
+        },
+
+        setAdkomstFromTilkomst: function () {
+            var tilkomstPrivat = this.get('tilkomstPrivat');
+            this.set('adkomst', tilkomstPrivat);
+        },
+
+        setKollektivFromTilkomst: function () {
+            var tilkomstKollektivtransport = this.get('tilkomstKollektivtransport');
+            this.set('kollektiv', tilkomstKollektivtransport);
         },
 
         updateBoundaryIntersect: function () {
