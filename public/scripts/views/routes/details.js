@@ -51,8 +51,8 @@ define(function (require, exports, module) {
                     validate: true
                 }
             },
-            '[name="route-details-field-adkomst_generell"]': 'tilkomstPrivat',
-            '[name="route-details-field-ankomst_kollektivtransport"]': 'tilkomstKollektivtransport',
+            '[name="route-details-field-tilkomst_generell"]': 'tilkomstGenerell',
+            '[name="route-details-field-tilkomst_kollektivtransport"]': 'tilkomstKollektivtransport',
             '[name="route-details-field-typetur"]': {
                 observe: 'turtype',
                 setOptions: {
@@ -137,7 +137,7 @@ define(function (require, exports, module) {
             }
 
             if (this.model.get('kollektiv') === '') {
-                this.$('#route-details-field-ankomst_kollektivtransport_description').addClass('hidden');
+                this.$('#route-details-field-tilkomst_kollektivtransport_description').addClass('hidden');
             }
 
         },
@@ -181,11 +181,11 @@ define(function (require, exports, module) {
 
         toggleKollektivFieldVisibility: function (e) {
             if (e.currentTarget.checked) {
-                this.$('#route-details-field-ankomst_kollektivtransport').removeClass('hidden');
-                this.$('#route-details-field-ankomst_kollektivtransport_description').removeClass('hidden');
+                this.$('#route-details-field-tilkomst_kollektivtransport').removeClass('hidden');
+                this.$('#route-details-field-tilkomst_kollektivtransport_description').removeClass('hidden');
             } else {
-                this.$('#route-details-field-ankomst_kollektivtransport').addClass('hidden');
-                this.$('#route-details-field-ankomst_kollektivtransport_description').addClass('hidden');
+                this.$('#route-details-field-tilkomst_kollektivtransport').addClass('hidden');
+                this.$('#route-details-field-tilkomst_kollektivtransport_description').addClass('hidden');
                 this.model.set('kollektiv', '');
             }
         },
@@ -302,8 +302,8 @@ define(function (require, exports, module) {
             var publicTransportation = this.model.get('kollektiv');
 
             if (!!publicTransportation && publicTransportation.length > 0) {
-                this.$('.route-details-field-ankomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
-                this.$('.route-details-field-ankomst_kollektivtransport textarea').removeClass('hidden');
+                this.$('.route-details-field-tilkomst_kollektivtransport input[type="checkbox"]').prop('checked', true);
+                this.$('.route-details-field-tilkomst_kollektivtransport textarea').removeClass('hidden');
             }
 
             this.stickit(); // Uses view.bindings and view.model to setup bindings

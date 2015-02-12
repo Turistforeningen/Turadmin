@@ -22,17 +22,17 @@ div.row
                     p.help-block Beskriv selve turen (hva man kan se og oppleve, hvor man skal gå, om det er noen partier på ruta man må være oppmerksom på og lignende).
 
             // Adkomst
-            div.form-group.route-details-field-adkomst_generell
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-adkomst_generell") Adkomst
+            div.form-group.route-details-field-tilkomst_generell
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-tilkomst_generell") Adkomst
                 div.col-lg-7.col-md-7.col-sm-7
-                    textarea.form-control(name="route-details-field-adkomst_generell" placeholder="Adkomst" rows="3" data-model-validation-field-name="adkomst")
+                    textarea.form-control(name="route-details-field-tilkomst_generell" placeholder="Adkomst" rows="3" data-model-validation-field-name="adkomst")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Beskriv hvordan man kommer seg til startpunktet for turen med egen bil. Legg også inn opplysinger om evt. bomavgifter og parkeringsmuligheter.
 
 
             // Ankomst med kollektivtransport
-            div.form-group.route-details-field-ankomst_kollektivtransport
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-ankomst_kollektivtransport") Kollektivtransport
+            div.form-group.route-details-field-tilkomst_kollektivtransport
+                label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-tilkomst_kollektivtransport") Kollektivtransport
                 div.col-lg-7.col-md-7.col-sm-7
                     // TODO: Move styles to CSS.
                     div.checkbox(style="margin-bottom: 10px;")
@@ -40,9 +40,9 @@ div.row
                             input#checkbox_kollektivMulig(type="checkbox")
                             | &nbsp;Det er mulighet for ankomst med kollektivtransport
 
-                    textarea#route-details-field-ankomst_kollektivtransport.form-control.hidden(name="route-details-field-ankomst_kollektivtransport" placeholder="Ankomst med kollektivtransport" rows="3" data-model-validation-field-name="kollektivtransport")
+                    textarea#route-details-field-tilkomst_kollektivtransport.form-control.hidden(name="route-details-field-tilkomst_kollektivtransport" placeholder="Ankomst med kollektivtransport" rows="3" data-model-validation-field-name="kollektivtransport")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    p#route-details-field-ankomst_kollektivtransport_description.help-block Beskriv hvordan man kommer seg til startpunktet for turen med kollektivtransport.
+                    p#route-details-field-tilkomst_kollektivtransport_description.help-block Beskriv hvordan man kommer seg til startpunktet for turen med kollektivtransport.
 
             div.form-group.route-details-field-lenker
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-lenker") Lenker

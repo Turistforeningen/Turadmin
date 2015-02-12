@@ -119,9 +119,9 @@ define(function (require, exports, module) {
             this.set('turtype', this.getRouteType());
             this.set('flereTurtyper', this.getAdditionalRouteTypes());
 
-            this.on('change:tilkomstPrivat', this.updateTilkomst, this);
+            this.on('change:tilkomstGenerell', this.updateTilkomst, this);
             this.on('change:tilkomstKollektivtransport', this.updateTilkomst, this);
-            this.on('change:tilkomstPrivat', this.setAdkomstFromTilkomst, this); // NOTE: Temp, while supporting both adkomst/kollektiv and tilkomst object
+            this.on('change:tilkomstGenerell', this.setAdkomstFromTilkomst, this); // NOTE: Temp, while supporting both adkomst/kollektiv and tilkomst object
             this.on('change:tilkomstKollektivtransport', this.setKollektivFromTilkomst, this); // NOTE: Temp, while supporting both adkomst/kollektiv and tilkomst object
 
             this.initTilkomstFlat();
@@ -159,26 +159,26 @@ define(function (require, exports, module) {
 
         initTilkomstFlat: function () {
             var tilkomst = this.get('tilkomst') || {};
-            var tilkomstPrivat = tilkomst.privat || this.get('adkomst');
+            var tilkomstGenerell = tilkomst.generell || this.get('adkomst');
             var tilkomstKollektivtransport = tilkomst.kollektivtransport || this.get('kollektiv');
 
-            this.set('tilkomstPrivat', tilkomstPrivat);
+            this.set('tilkomstGenerell', tilkomstGenerell);
             this.set('tilkomstKollektivtransport', tilkomstKollektivtransport);
         },
 
         updateTilkomst: function (e) {
-            var tilkomstPrivat = this.get('tilkomstPrivat');
+            var tilkomstGenerell = this.get('tilkomstGenerell');
             var tilkomstKollektivtransport = this.get('tilkomstKollektivtransport');
 
             var tilkomst = this.get('tilkomst') || {};
-            tilkomst.privat = tilkomstPrivat;
+            tilkomst.generell = tilkomstGenerell;
             tilkomst.kollektivtransport = tilkomstKollektivtransport;
             this.set('tilkomst', tilkomst);
         },
 
         setAdkomstFromTilkomst: function () {
-            var tilkomstPrivat = this.get('tilkomstPrivat');
-            this.set('adkomst', tilkomstPrivat);
+            var tilkomstGenerell = this.get('tilkomstGenerell');
+            this.set('adkomst', tilkomstGenerell);
         },
 
         setKollektivFromTilkomst: function () {
