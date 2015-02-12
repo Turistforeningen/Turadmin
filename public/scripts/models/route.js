@@ -105,6 +105,7 @@ define(function (require, exports, module) {
             this.on('change:turtype', this.updateTurtypeInTags);
             this.on('change:flereTurtyper', this.updateFlereTurtyperInTags);
             this.on('change:geojson', this.updateBoundaryIntersect, this);
+            this.on('change:geojson', this.updateRouteDistance, this);
 
             var duration = this.get('tidsbruk');
 
@@ -168,6 +169,24 @@ define(function (require, exports, module) {
             this.set('fylker', data['fylker']);
             this.set('kommuner', data['kommuner']);
             this.set('områder', data['områder']);
+        },
+
+        updateRouteDistance: function () {
+            if (this.hasRoute()) {
+                var geojson = this.get('geojson');
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: 'http://geoserver2.dotcloudapp.com/api/v1/line/analyze',
+                    data: JSON.stringify({geojson: geojson}),
+                    success: $.proxy(function (data) {
+                        this.set('distanse', data.length)
+                    }, this)
+                });
+
+            } else {
+                this.set('distanse', 0);
+            }
         },
 
         updateTurtypeInTags: function () {
