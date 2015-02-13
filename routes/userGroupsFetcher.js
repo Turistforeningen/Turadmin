@@ -15,7 +15,7 @@ module.exports = function (app, express, options) {
 
         if (req.session && req.session.user && (!!req.session.user.sherpa_id)) {
 
-            api.getAssociationsFor({bruker_sherpa_id: req.session.user.sherpa_id}, function(err, statusCode, associations) {
+            api.getAssociationsFor({bruker_sherpa_id: req.session.user.sherpa_id}, function (err, statusCode, associations) {
                 if (err) { throw err; }
                 if (statusCode === 200) {
 
