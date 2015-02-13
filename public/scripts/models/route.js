@@ -217,7 +217,7 @@ define(function (require, exports, module) {
                     url: 'http://geoserver2.dotcloudapp.com/api/v1/line/analyze',
                     data: JSON.stringify({geojson: geojson}),
                     success: $.proxy(function (data) {
-                        this.set('distanse', data.length)
+                        this.set('distanse', data.length);
                     }, this)
                 });
 
