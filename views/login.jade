@@ -11,12 +11,14 @@ block content
                     span Dette er innloggingssiden for DNT-foreninger, andre innholdspartnere og privatpersoner som skal publisere turer på UT.no.
 
         div.row
-            div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-1.col-md-offset-1
+            div.col-md-5.col-sm-6.col-md-offset-1
                 div.gruppebruker
                     h3 Innholdspartner
 
                     form.form-signin(action="/login/turbasen" method="POST")
-                        p.help-block Fyll inn brukernavn og passord nedenfor dersom du ønsker å logge inn som innholdspartner.
+                        p Foreninger, organisasjoner eller kommuner/fylkeskommuner som tilrettelegger for friluftsliv kan bli innholdspartnere til UT.no.&nbsp;
+                            a(href="http://artikkel.ut.no/bli-innholdspartner-pa-ut.no-1.8318561") Finn ut hvorfor og hvordan
+                            | .
 
                         if error && error == 'TBAUTH-401'
                             div.form-group.has-error
@@ -35,10 +37,11 @@ block content
                         div.form-group
                             label(for="login-groupuser-username") Passord
                             input.form-control(type="password" id="login-groupuser-username" name="password")
+                        div.form-group
+                            button.btn.btn-lg.btn-primary.btn-block(type="submit") <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp; Logg inn
+                        p.help-block Fyll inn brukernavn og passord dersom du ønsker å logge inn som innholdspartner.
 
-                        button.btn.btn-lg.btn-primary.btn-block(type="submit") <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp; Logg inn
-
-            div.col-lg-4.col-md-4.col-sm-5.col-lg-offset-2.col-md-offset-2.col-sm-offset-2
+            div.col-md-4.col-sm-5.col-md-offset-1.col-sm-offset-1
 
                 div.dnt-connect
                     h3 DNT/Sherpa-brukere
