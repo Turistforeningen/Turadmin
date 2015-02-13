@@ -295,10 +295,6 @@ define(function (require, exports, module) {
             this.routing = new Routing(this.map, this.snapLayer);
             this.routing.addRouting();
             this.routing.enableSnapping(true);
-
-            // TODO: Improve code, by interacting directly with this routing.
-            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this);
-
         },
 
         setRouteModelGeoJsonFromMap: function () {
@@ -330,6 +326,11 @@ define(function (require, exports, module) {
             } else {
                 // console.warn('GeoJSON is not found, or does not have a properties property.');
             }
+
+            // Add event listener to catch added waypoints
+            // Moved from addRouting method to prevent setRouteModelGeoJsonFromMap from being called for each waypoint
+            // TODO: Improve code, should not be accessing this.routing.routing like this
+            this.routing.routing.on('routing:routeWaypointEnd', this.setRouteModelGeoJsonFromMap, this);
         },
 
         createMapLayers: function () {
