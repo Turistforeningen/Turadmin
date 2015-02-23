@@ -29,6 +29,9 @@ define(function (require, exports, module) {
             'keyup input[name="lenke-tittel"]': 'reValidateTitle',
             'keyup input[name="lenke-url"]': 'reValidateUrl',
 
+            // Make sure index is up to date
+            'input input': 'updateIndex',
+
             // Input field changes
             'change input[name="lenke-tittel"]': 'setTitle',
             'change input[name="lenke-url"]': 'setUrl',
@@ -39,6 +42,14 @@ define(function (require, exports, module) {
 
         validation: {
             // NOTE: Performing manual validation on the fields in this view, as the links does not have their own model.
+        },
+
+        linkIndex: -1, // The index in the parent links array
+
+        updateIndex: function () {
+            var links = this.model.get('lenker');
+            var linkIndex = _.findIndex(links, this.link);
+            this.linkIndex = linkIndex;
         },
 
         initialize: function (options) {
@@ -54,8 +65,7 @@ define(function (require, exports, module) {
 
         updateLink: function () {
             var links = this.model.get('lenker');
-            var linkIndex = links.indexOf(this.link);
-            links[linkIndex] = this.link;
+            links[this.linkIndex] = this.link;
             this.model.set('lenker', links);
         },
 
