@@ -67,6 +67,7 @@ define(function (require, exports, module) {
             var links = this.model.get('lenker');
             links[this.linkIndex] = this.link;
             this.model.set('lenker', links);
+            this.model.trigger('change:synced', this.model, false);
         },
 
         setTitle: function (e) {
