@@ -111,7 +111,7 @@ define(function (require, exports, module) {
             var duration = this.get('tidsbruk');
 
             if (!!duration.normal) {
-                this.set('tidsbrukDager', (!!duration.normal.dager) ? '' + duration.normal.dager : '0');
+                this.set('tidsbrukDager', (!!duration.normal.dager) ? '' + duration.normal.dager : '1');
                 this.set('tidsbrukTimer', (!!duration.normal.timer) ? '' + duration.normal.timer: '0');
                 this.set('tidsbrukMinutter', (!!duration.normal.minutter) ? '' + duration.normal.minutter: '0');
             }
