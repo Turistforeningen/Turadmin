@@ -43,7 +43,7 @@ requirejs.config({
         'select2': '/lib/select2-3.5.1/select2',
         'select2-locale_no': '/lib/select2-3.5.1/select2_locale_no',
         'text': '/lib/text-2.0.12/text',
-        'underscore': '/lib/underscore-1.7.0/underscore',
+        'underscore': '/lib/underscore-1.8.2/underscore',
         'xmltojson': '/lib/xmltojson-1.1/xmltojson',
 
         'routing': '/scripts/routing',
