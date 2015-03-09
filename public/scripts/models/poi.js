@@ -117,6 +117,7 @@ define(function (require, exports, module) {
             this.on('change:geojson', this.onGeoJsonChange, this);
             this.on('change:navn', this.onNameChange, this);
             this.on('change:geojson', this.updateBoundaryIntersect, this);
+            this.updateBoundaryIntersect();
 
             var tags = this.get('tags');
             if (tags.length > 0) {
