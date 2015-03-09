@@ -28,7 +28,7 @@ define(function (require, exports, module) {
             this.model = options.model;
             this.model.on('change:fylke', this.renderBoundaryIntersect, this);
             this.model.on('change:kommune', this.renderBoundaryIntersect, this);
-            this.model.on('change:områder', this.renderBoundaryIntersect, this);
+            this.model.on('change:områder_navn', this.renderBoundaryIntersect, this);
         },
 
         initPositionByCoordinates: function () {

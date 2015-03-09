@@ -205,7 +205,8 @@ define(function (require, exports, module) {
         setBoundaryIntersect: function (data) {
             this.set('fylker', data['fylker']);
             this.set('kommuner', data['kommuner']);
-            this.set('områder', data['områder']);
+            this.set('områder', _.pluck(data['områder'], '_id'));
+            this.set('områder_navn', _.pluck(data['områder'], 'navn'));
         },
 
         updateRouteDistance: function () {

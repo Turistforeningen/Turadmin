@@ -52,7 +52,7 @@ define(function (require, exports, module) {
 
             this.routeModel.on('change:fylker', this.renderBoundaryIntersect, this);
             this.routeModel.on('change:kommuner', this.renderBoundaryIntersect, this);
-            this.routeModel.on('change:områder', this.renderBoundaryIntersect, this);
+            this.routeModel.on('change:områder_navn', this.renderBoundaryIntersect, this);
 
             if (!!options.map) {
                 this.mapWrapper = options.map;
