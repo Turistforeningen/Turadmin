@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-sm-12">
               <% if (model['områder'] && model['områder'].length) { %>
-                <div><strong>Områder:</strong> <% _.each(model['områder'], function (item, key, list) { %> <%= item %><% if (key !== list.length-1) { %>, <% } %><% }); %></div>
+                <div><strong>Områder:</strong> <% _.each(model['områder'], function (item, key, list) { %> <%= item.navn %><% if (key !== list.length-1) { %>, <% } %><% }); %></div>
               <% } %>
               <% if (model['fylker'] && model['fylker'].length) { %>
                 <div><strong>Fylker:</strong> <% _.each(model['fylker'], function (item, key, list) { %> <%= item %><% if (key !== list.length-1) { %>, <% } %><% }); %></div>
