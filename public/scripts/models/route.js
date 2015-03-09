@@ -106,6 +106,7 @@ define(function (require, exports, module) {
             this.on('change:turtype', this.updateTurtypeInTags);
             this.on('change:flereTurtyper', this.updateFlereTurtyperInTags);
             this.on('change:geojson', this.updateBoundaryIntersect, this);
+            this.updateBoundaryIntersect();
             this.on('change:geojson', this.updateRouteDistance, this);
 
             var duration = this.get('tidsbruk');
