@@ -251,10 +251,16 @@ define(function (require, exports, module) {
         },
 
         setBoundaryIntersect: function (data) {
-            this.set('fylke', data['fylker'][0]);
-            this.set('kommune', data['kommuner'][0]);
-            this.set('områder', _.pluck(data['områder'], '_id'));
-            this.set('områder_navn', _.pluck(data['områder'], 'navn'));
+            if (data.fylker && data.fylker.length) {
+                this.set('fylke', data['fylker'][0]);
+            }
+            if (data.kommuner && data.kommuner.length) {
+                this.set('kommune', data['kommuner'][0]);
+            }
+            if (data['områder'] && data['områder'].length) {
+                this.set('områder', _.pluck(data['områder'], '_id'));
+                this.set('områder_navn', _.pluck(data['områder'], 'navn'));
+            }
         }
 
     });
