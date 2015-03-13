@@ -290,7 +290,9 @@ define(function (require, exports, module) {
                 // Remove the redundant buttons from toolbar groups defined above.
                 removeButtons: 'Subscript,Superscript,Strike,Styles',
                 // Remove elements path in footer
-                removePlugins: 'elementspath'
+                removePlugins: 'elementspath',
+                // Whether to use HTML entities in the output.
+                entities: false
             });
 
             descriptionEditor.on('change', $.proxy(function (e) {
