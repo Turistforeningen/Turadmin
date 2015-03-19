@@ -292,6 +292,11 @@ define(function (require, exports, module) {
             var tidsbruk = {};
 
             if (days === 1) {
+
+                if (hours === 0 && minutes === 0) {
+                    hours = 1;
+                }
+
                 tidsbruk.normal = {
                     timer: hours,
                     minutter: minutes
