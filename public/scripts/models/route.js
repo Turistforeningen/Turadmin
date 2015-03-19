@@ -293,7 +293,6 @@ define(function (require, exports, module) {
 
             if (days === 1) {
                 tidsbruk.normal = {
-                    dager: days,
                     timer: hours,
                     minutter: minutes
                 };
