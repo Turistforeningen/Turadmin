@@ -289,7 +289,7 @@ define(function (require, exports, module) {
             var days = parseInt(this.get('tidsbrukDager'), 10);
             var hours = parseInt(this.get('tidsbrukTimer'), 10);
             var minutes = parseInt(this.get('tidsbrukMinutter'), 10);
-            var tidsbruk = {normal:{}};
+            var tidsbruk = {};
 
             if (days === 1) {
                 tidsbruk.normal = {
