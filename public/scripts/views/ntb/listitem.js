@@ -16,6 +16,7 @@ define(function (require, exports, module) {
         user = new User();
 
     require('bootstrap');
+    require('moment');
 
     // Module
     return Backbone.View.extend({
@@ -95,8 +96,7 @@ define(function (require, exports, module) {
             json.erPublisert = publisert;
 
             if (!!json.endret) {
-                var date = new Date(Date.parse(json.endret));
-                json.endret = date.toLocaleString();
+                json.endret = moment(json.endret).format('DD.MM.YYYY [kl.] HH.mm');
             }
             return json;
         }
