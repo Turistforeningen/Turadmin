@@ -53,6 +53,10 @@ block content
                 div(data-placeholder-for="group-select")
                 p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for, eller om du vil se turer knyttet til din bruker.
 
+            div.no-groups-info(style="margin-bottom: 20px;" class="hidden")
+                div.alert.alert-info
+                    | Din bruker er ikke knyttet til noen forening. Du har derfor bare tilgang til dine egne turforslag. Kontakt din forening for å få tilgang til foreningen sine turer.
+
             div.search.well
                 label Søk etter tur
                 input(type="text" class="form-control" placeholder="" name="search-term")

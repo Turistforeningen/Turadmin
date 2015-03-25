@@ -156,22 +156,32 @@ define(function (require, exports, module) {
 
             var userGroups = this.user.get('grupper');
 
-            if (userGroups && userGroups.length > 0) {
-                this.$('.group-select-container').removeClass('hidden');
-                var groupSelect = new SelectView({
-                    model: this.model,
-                    selectOptions: {
-                        user: this.user.get('id'),
-                        groups: this.groups,
-                        admin: this.user.get('admin'),
-                        itemType: this.itemType
-                    }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
-                });
+            if (this.user.get('provider') === 'DNT Connect') {
 
-                this.$('[data-placeholder-for="group-select"]').off('change.groupselect');
-                this.$('[data-placeholder-for="group-select"] select').select2('destroy');
-                this.$('[data-placeholder-for="group-select"]').html(groupSelect.render().el).on('change.groupselect', $.proxy(this.onGroupChange, this));
-                this.$('[data-placeholder-for="group-select"] select').select2({formatNoMatches: function (term) { return 'Ingen treff'; } });
+                if (userGroups && userGroups.length > 0) {
+                    this.$('.group-select-container').removeClass('hidden');
+                    var groupSelect = new SelectView({
+                        model: this.model,
+                        selectOptions: {
+                            user: this.user.get('id'),
+                            groups: this.groups,
+                            admin: this.user.get('admin'),
+                            itemType: this.itemType
+                        }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
+                    });
+
+                    this.$('[data-placeholder-for="group-select"]').off('change.groupselect');
+                    this.$('[data-placeholder-for="group-select"] select').select2('destroy');
+                    this.$('[data-placeholder-for="group-select"]')
+                        .html(groupSelect.render().el)
+                        .on('change.groupselect', $.proxy(this.onGroupChange, this));
+                    this.$('[data-placeholder-for="group-select"] select').select2({
+                        formatNoMatches: function (term) { return 'Ingen treff'; }
+                    });
+
+                } else {
+                    this.$('.no-groups-info').removeClass('hidden');
+                }
             }
 
             if (this.isLoading === true) {
