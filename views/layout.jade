@@ -33,6 +33,18 @@ html
             <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
 
             script(src="/lib/requirejs-2.1.15/require.js")
+            script(src="//cdn.ravenjs.com/1.1.18/backbone,jquery,require/raven.min.js")
+            script.
+                var sentry_url = 'https://1df8df23e4474142809f21e92af75d6e@sentry.app.dnt.no/8';
+                var options = {
+                    whitelistUrls: [
+                        /mintur\.ut\.no/,
+                        /turforslag\.dnt\.no/,
+                        /tur\.dnt\.org/
+                    ]
+                };
+                Raven.config(sentry_url, options).install();
+
             script(src="/scripts/apps/config.js")
 
 
