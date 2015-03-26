@@ -64,3 +64,15 @@ html
                             div.col-lg-12
                                 div.footer(style="margin-top: 20px; padding-top: 20px; text-align: center; border-top: 1px solid #eee;")
                                     p Opphavsrett &copy; 2008 - 2015 Den Norske Turistforening og NRK. Alle rettigheter reservert.
+
+                    //- Google Analytics tracking
+                    script.
+                        var _gaq = _gaq || [];
+                        _gaq.push(['_setAccount', 'UA-45821478-2']);
+                        _gaq.push(['_trackPageview']);
+
+                        (function() {
+                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                        })();
