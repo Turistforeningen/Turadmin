@@ -157,7 +157,7 @@ module.exports = function (app, options) {
                 res.redirect('/');
 
             } else {
-                sentry.captureMessage('Turbasen Auth verification failed', { username: req.body.username }});
+                sentry.captureMessage('Turbasen Auth verification failed', { extra: { username: req.body.username }});
                 res.redirect('/login?error=TBAUTH-401');
             }
         });
