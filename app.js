@@ -24,13 +24,7 @@ var cookieSession = require('cookie-session');
 var methodOverride = require('method-override');
 var favicon = require('serve-favicon');
 var DNT = require('dnt-api');
-var raven = require('raven');
-
-raven.patchGlobal(process.env.SENTRY_DNS, function(success, err) {
-    console.error('Uncaught Exception');
-    console.error('Logged to Sentry:', success);
-    console.error(err);
-});
+var sentry = require('./lib/sentry');
 
 // Start app
 var app = module.exports = express();
@@ -48,7 +42,7 @@ app.use(methodOverride());
 app.use(cookieParser(sessionSecret));
 app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(raven.middleware.express(process.env.SENTRY_DNS));
+app.use(sentry.raven.middleware.express(sentry));
 
 /**
  * Configure environments
