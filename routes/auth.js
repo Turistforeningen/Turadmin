@@ -120,7 +120,7 @@ module.exports = function (app, options) {
                 req.session.user = data;
                 req.session.user.provider = 'DNT Connect';
                 req.session.user._id = 'sherpa3:' + data.sherpa_id;
-                req.session.userId = data.sherpa_id;
+                req.session.userId = 'sherpa3:' + data.sherpa_id;
                 res.redirect('/');
 
             } else {
