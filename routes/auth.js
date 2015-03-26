@@ -4,6 +4,8 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
+sentry = require('../lib/sentry');
+
 module.exports = function (app, options) {
     "use strict";
 
@@ -83,7 +85,7 @@ module.exports = function (app, options) {
                 req.session.userId = result.claimedIdentifier;
                 res.redirect('/');
             } else {
-                // @TODO handle this error in view
+                sentry.captureMessage('Mitt NRK verification failed', { extra: { result: result }});
                 res.redirect(401, '/login?error=MITTNRK-503');
             }
         });
@@ -108,8 +110,7 @@ module.exports = function (app, options) {
                 }
                 data = data[0]; // this is the user data
             } catch (e) {
-                console.error(e);
-                // @TODO handle this error properly
+                sentry.captureError(e, { extra: { query: req.query }});
                 data = {er_autentisert: false};
             }
 
@@ -124,6 +125,7 @@ module.exports = function (app, options) {
                 res.redirect('/');
 
             } else {
+                sentry.captureMessage('DNT Connect verification failed', { extra: { data: data }});
                 res.redirect(401, '/login?error=DNTC-503');
             }
 
@@ -141,7 +143,7 @@ module.exports = function (app, options) {
         turbasenAuthClient.authenticate(req.body.username, req.body.password, function(error, user) {
             if (error) {
                 // Something went horrible wrong
-                console.error(error);
+                sentry.captureError(e, { extra: { username: req.body.username }});
 
             } else if (user) {
                 req.session.isAuthneticated = true;
@@ -155,7 +157,7 @@ module.exports = function (app, options) {
                 res.redirect('/');
 
             } else {
-                console.log('Authentication failed!');
+                sentry.captureMessage('Turbasen Auth verification failed', { username: req.body.username }});
                 res.redirect('/login?error=TBAUTH-401');
             }
         });
