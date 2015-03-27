@@ -27,7 +27,7 @@ append head
 block navbarHeader
     a.navbar-brand(href="/" alt="Til mine turer")
         img(src="/images/ut-no-logo-hvit.png")
-    a#headerRouteName.navbar-brand.hidden-xs.route-name(data-toggle="tooltip" title="" data-original-title="Klikk for å gi turen et navn" data-placeholder-for="route-name")
+    div.navbar-brand.hidden-xs.route-name(data-placeholder-for="route-name")
         if routeData
             | #{routeName}
         else

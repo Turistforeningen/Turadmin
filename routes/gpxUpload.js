@@ -24,8 +24,8 @@ module.exports = function (app, express, options) {
     app.options('/upload/gpx', jfum.optionsHandler.bind(jfum));
 
     app.post('/upload/gpx', jfum.postHandler.bind(jfum), function(req, res, next) {
-        console.log('GPX file uploaded');
-        console.log(req.jfum);
+        // console.log('GPX file uploaded');
+        // console.log(req.jfum);
 
         // JFUM error
         if (req.jfum.error) {

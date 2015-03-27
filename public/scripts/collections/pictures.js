@@ -47,7 +47,6 @@ define(function (require, exports, module) {
         },
 
         reIndex: function (picture, newPosition) {
-            console.log('reindexing');
             this.remove(picture, {silent: true}); // NOTE: This causes a bug which removes the picture from POI picture list.
             picture.set('ordinal', newPosition);
             this.each(function (model, index) {
@@ -61,13 +60,13 @@ define(function (require, exports, module) {
             this.sort();
         },
 
-        setPublished: function() {
+        setPublished: function () {
             this.each(function (model, index) {
                 model.setPublished();
             });
         },
 
-        setUnpublished: function() {
+        setUnpublished: function () {
             this.each(function (model, index) {
                 model.setUnpublished();
             });

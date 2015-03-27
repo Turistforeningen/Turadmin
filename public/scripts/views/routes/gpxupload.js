@@ -94,7 +94,7 @@ define(function (require, exports, module) {
             try {
                 this.callback(geometry);
             } catch (e) {
-                console.error('GPX upload callback failed.', e);
+                Raven.captureException(e, {extra: {message: 'GPX upload callback failed'}});
             }
         },
 

@@ -4,6 +4,8 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
+sentry = require('../lib/sentry');
+
 module.exports = function (app, options) {
     "use strict";
 
@@ -20,7 +22,7 @@ module.exports = function (app, options) {
         if (data.document && data.document._id) {
             data._id = data.document._id;
         } else {
-            console.error('id is missing in result after post!');
+            sentry.captureMessage('ID is missing in result after post!', {extra: {data: data}});
         }
         data.document = undefined;
     };
@@ -48,7 +50,7 @@ module.exports = function (app, options) {
             if (!!response && !!response.statusCode) {
                 res.statusCode = response.statusCode;
             }
-            console.log("Response:", data);
+            // console.log("Response:", data);
             moveId(data);
             res.json(data);
         };
@@ -65,7 +67,7 @@ module.exports = function (app, options) {
             restler.get(url, options).on('complete', onComplete);
 
         } else if (method === "POST") {
-            console.log("Posting:", util.inspect(req.body));
+            // console.log("Posting:", util.inspect(req.body));
             options = {headers: {'User-Agent': 'turadmin-v2.0'}};
             restler.postJson(url, req.body, options).on('complete', onCompletePost);
 

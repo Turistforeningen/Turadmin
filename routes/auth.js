@@ -27,7 +27,7 @@ module.exports = function (app, options) {
             next();
 
         } else {
-            if (req.session && req.session.isAuthneticated === true) {
+            if (req.session && req.session.isAuthenticated === true) {
                 // User has a session and is authenticated
                 next();
             } else {
@@ -38,7 +38,7 @@ module.exports = function (app, options) {
     };
 
     var getLogin = function (req, res, next) {
-        if (req.session && req.session.isAuthneticated === true) {
+        if (req.session && req.session.isAuthenticated === true) {
             res.redirect('/');
         } else {
             var options = {error: req.query.error};
@@ -68,10 +68,13 @@ module.exports = function (app, options) {
     var getLoginNrkVerify = function (req, res, next) {
         relyingParty.verifyAssertion(req, function(err, result) {
 
-            if (err) { console.log(err); return next(err); }
+            if (err) {
+                sentry.captureMessage('Error when authenticating using Mitt NRK', {extra: {error: err}});
+                return next(err);
+            }
 
             if (result.authenticated === true) {
-                req.session.isAuthneticated = true;
+                req.session.isAuthenticated = true;
                 req.session.authType = 'mitt-nrk';
 
                 req.session.user = {
@@ -84,15 +87,16 @@ module.exports = function (app, options) {
 
                 req.session.userId = result.claimedIdentifier;
                 res.redirect('/');
+
             } else {
-                sentry.captureMessage('Mitt NRK verification failed', { extra: { result: result }});
+                sentry.captureMessage('Mitt NRK verification failed', {extra: {result: result}});
                 res.redirect(401, '/login?error=MITTNRK-503');
             }
         });
     };
 
     var getLoginDntConnect = function (req, res) {
-        if (req && req.auth && req.auth.isAuthneticated) {
+        if (req && req.auth && req.auth.isAuthenticated) {
             res.redirect('/');
         } else {
             res.redirect(dntConnectClient.signon(BASE_URL + '/login/dnt/verify'));
@@ -115,7 +119,7 @@ module.exports = function (app, options) {
             }
 
             if (data.er_autentisert === true) {
-                req.session.isAuthneticated = true;
+                req.session.isAuthenticated = true;
                 req.session.authType = 'dnt-connect';
 
                 req.session.user = data;
@@ -146,7 +150,7 @@ module.exports = function (app, options) {
                 sentry.captureError(e, { extra: { username: req.body.username }});
 
             } else if (user) {
-                req.session.isAuthneticated = true;
+                req.session.isAuthenticated = true;
                 req.session.authType = 'innholdspartner';
 
                 req.session.user = user;

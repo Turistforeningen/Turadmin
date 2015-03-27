@@ -177,7 +177,7 @@ define(function (require, exports, module) {
 
                 // On error
                 fail: function (e, data) {
-                    console.error(e, data)
+                    Raven.captureException(e, {extra: {message: 'Picture upload failed',data: data}});
 
                     that.endProcessBar();
                     that.hideAndResetProgressBar();

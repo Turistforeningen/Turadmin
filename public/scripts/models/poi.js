@@ -166,13 +166,12 @@ define(function (require, exports, module) {
                     var latLng = L.latLng(this.getLatLng());
                     this.marker.setLatLng(latLng);
                 } catch (e) {
-                    console.error('Could not create L.latLng');
+                    Raven.captureException(e, {extra: {message: 'Could not create L.latLng'}});
                 }
             }
 
             this.event_aggregator.trigger('poi:geoJsonChange', this);
             this.unset('ssr_id');
-
         },
 
         hasChanged: function () {
@@ -213,8 +212,8 @@ define(function (require, exports, module) {
             try {
                 this.marker.setIcon(icon);
             }
-            catch(err) {
-                console.error('Could not set marker icon', err);
+            catch (e) {
+                Raven.captureException(e, {extra: {message: 'Could not set marker icon'}});
             }
         },
 
