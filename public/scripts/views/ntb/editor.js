@@ -135,17 +135,17 @@ define(function (require, exports, module) {
                                 this.model.set(relatedCollection.field, relatedCollection.collection.pluck('_id'));
 
                             } else {
-                                console.warn('Unknown relatedCollection was saved. Unable to set related field in model.');
+                                Raven.captureMessage('Unknown relatedCollection was saved. Unable to set related field in model.');
                             }
 
                             saveDone();
                         },
                         function (errorCount, relatedCollection) {
                             if (!!relatedCollection) {
-                                console.error('Failed to sync ' + errorCount + ' ' + relatedCollection.field);
+                                Raven.captureMessage('Failed to sync ' + errorCount + ' ' + relatedCollection.field);
 
                             } else {
-                                console.error('Unknown relatedCollection failed to sync.');
+                                Raven.captureMessage('Unknown relatedCollection failed to sync');
                             }
 
                             saveDone();
