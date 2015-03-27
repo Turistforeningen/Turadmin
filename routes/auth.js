@@ -68,7 +68,10 @@ module.exports = function (app, options) {
     var getLoginNrkVerify = function (req, res, next) {
         relyingParty.verifyAssertion(req, function(err, result) {
 
-            if (err) { console.log(err); return next(err); }
+            if (err) {
+                sentry.captureMessage('Error when authenticating using Mitt NRK', {extra: {error: err}});
+                return next(err);
+            }
 
             if (result.authenticated === true) {
                 req.session.isAuthenticated = true;
@@ -84,8 +87,9 @@ module.exports = function (app, options) {
 
                 req.session.userId = result.claimedIdentifier;
                 res.redirect('/');
+
             } else {
-                sentry.captureMessage('Mitt NRK verification failed', { extra: { result: result }});
+                sentry.captureMessage('Mitt NRK verification failed', {extra: {result: result}});
                 res.redirect(401, '/login?error=MITTNRK-503');
             }
         });
