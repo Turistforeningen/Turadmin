@@ -4,6 +4,8 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
+sentry = require('../lib/sentry');
+
 module.exports = function (app, options) {
     "use strict";
 
@@ -20,7 +22,7 @@ module.exports = function (app, options) {
         if (data.document && data.document._id) {
             data._id = data.document._id;
         } else {
-            console.error('id is missing in result after post!');
+            sentry.captureMessage('ID is missing in result after post!', {extra: {data: data}});
         }
         data.document = undefined;
     };
