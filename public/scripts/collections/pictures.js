@@ -61,13 +61,13 @@ define(function (require, exports, module) {
             this.sort();
         },
 
-        setPublished: function() {
+        setPublished: function () {
             this.each(function (model, index) {
                 model.setPublished();
             });
         },
 
-        setUnpublished: function() {
+        setUnpublished: function () {
             this.each(function (model, index) {
                 model.setUnpublished();
             });
