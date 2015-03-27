@@ -120,7 +120,6 @@ define(function (require, exports, module) {
                         error.call(self, saveErrorCount, relatedCollection);
                     } else {
                         Raven.captureMessage('Error when saving model to NTB. Not handled in code.');
-                        console.error("Error saving models! " + saveErrorCount + " models could not be saved.");
                     }
                 } else {
                     if (success) {
