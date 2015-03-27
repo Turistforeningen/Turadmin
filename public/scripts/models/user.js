@@ -64,6 +64,8 @@ define(function (require, exports, module) {
             this.set('admin', admin);
             this.set('_id', id);
             this.set('id', id);
+
+            Raven.setUserContext(this.toJSON());
         }
 
     });
