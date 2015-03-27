@@ -315,9 +315,9 @@ define(function (require, exports, module) {
             geoJson = geoJson || (this.route && this.route.get('geojson'));
 
             if (!!geoJson && (geoJson.type === 'LineString') && (!!geoJson.properties || !!geoJson.coordinates)) {
-                this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function(err) {
+                this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function (err) {
                     if (err) {
-                        console.log(err);
+                        Raven.captureMessage('Routing service returned error', {extra: {error: err}});
                     } else {
                         // console.log('Finished loading GeoJSON');
                     }
