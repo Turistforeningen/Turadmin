@@ -65,7 +65,13 @@ define(function (require, exports, module) {
             this.set('_id', id);
             this.set('id', id);
 
-            Raven.setUserContext(this.toJSON());
+            Raven.setUserContext({
+                name: this.get('navn'),
+                id: this.get('id'),
+                email: this.get('epost'),
+                provider: this.get('provider'),
+                is_admin: !!this.get('admin')
+            });
         }
 
     });
