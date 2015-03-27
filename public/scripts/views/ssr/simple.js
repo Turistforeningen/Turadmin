@@ -26,7 +26,7 @@ define(function (require, exports, module) {
             try {
                 this.callback = options.callback;
             } catch (e) {
-                console.error('Could not initialize ssr-simple view. Missing option callback.');
+                Raven.captureMessage('Could not initialize ssr-simple view. Missing option callback.');
             }
         },
 
