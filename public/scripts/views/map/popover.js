@@ -37,7 +37,7 @@ define(function (require, exports, module) {
 
         editModel: function (e) {
             e.preventDefault();
-            console.log('TODO: edit poi');
+            // TODO: Edit POI
         },
 
         render: function () {
