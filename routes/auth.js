@@ -41,7 +41,7 @@ module.exports = function (app, options) {
         if (req.session && req.session.isAuthenticated === true) {
             res.redirect('/');
         } else {
-            var options = {error: req.query.error};
+            var options = {error: req.query.error, title: 'Logg inn'};
             res.render('login', options);
         }
     };
