@@ -68,7 +68,7 @@
                             snappingLayer.addData(data);
                         }
                     } else {
-                        console.error('Could not load snappingLayer data');
+                        Raven.captureMessage('Could not load snappingLayer data');
                     }
                 });
             } else {
