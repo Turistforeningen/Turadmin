@@ -4,6 +4,8 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
+sentry = require('../lib/sentry');
+
 module.exports = function (app, express, options) {
     "use strict";
 
@@ -27,8 +29,12 @@ module.exports = function (app, express, options) {
                     next();
 
                 } else {
-                    console.error('Request failed! HTTP status code returned is ' + statusCode);
-                    console.error(associations.errors);
+                    sentry.captureMessage('Request to DNT API failed!', {
+                        extra: {
+                            statusCode: statusCode,
+                            errors: associations.errors
+                        }
+                    });
                     next();
                 }
             });
