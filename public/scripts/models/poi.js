@@ -212,8 +212,8 @@ define(function (require, exports, module) {
             try {
                 this.marker.setIcon(icon);
             }
-            catch(e) {
-                Raven.captureException(e, {extra: {message: 'Could not set marker icon'}})
+            catch (e) {
+                Raven.captureException(e, {extra: {message: 'Could not set marker icon'}});
             }
         },
 
