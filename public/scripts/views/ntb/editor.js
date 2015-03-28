@@ -187,11 +187,13 @@ define(function (require, exports, module) {
             var afterPictureAndPoiSync = function () {
 
                 this.model.save(undefined, {
-                    success: $.proxy(function (e) {
+                    success: $.proxy(function (model, response, options) {
                         this.trigger('save:end');
                     }, this),
-                    error: $.proxy(function (e) {
-                        Raven.captureException(e, {extra: {message: 'Error callback called when saving object to NTB.'}});
+                    error: $.proxy(function (model, response, options) {
+                        Raven.captureMessage('Error callback called when saving object to NTB.', {
+                            extra: {response: response}
+                        });
                         this.trigger('save:end');
                     }, this)
                 });
