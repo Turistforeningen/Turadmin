@@ -25,13 +25,13 @@ module.exports = function (app, express, options) {
                         if (associations[i].object_id) {
                             userGroups.push(associations[i]);
                         } else {
-                            sentry.captureMessage('Group "' + associations[i].navn + '" without Turbase ID!', {
-                                level: 'warning',
-                                extra: {
-                                    user: req.session.user,
-                                    group: associations[i]
-                                }
-                            });
+                            //sentry.captureMessage('Group "' + associations[i].navn + '" without Turbase ID!', {
+                            //    level: 'warning',
+                            //    extra: {
+                            //        user: req.session.user,
+                            //        group: associations[i]
+                            //    }
+                            //});
                         }
                     }
 
