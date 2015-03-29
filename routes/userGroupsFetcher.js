@@ -22,7 +22,17 @@ module.exports = function (app, express, options) {
                 if (statusCode === 200) {
 
                     for (var i = 0; i < associations.length; i++) {
-                        userGroups.push(associations[i]);
+                        if (associations[i].object_id) {
+                            userGroups.push(associations[i]);
+                        } else {
+                            sentry.captureMessage('Group "' + associations[i].navn + '" without Turbase ID!', {
+                                level: 'warning',
+                                extra: {
+                                    user: res.session.user,
+                                    group: associations[i]
+                                }
+                            });
+                        }
                     }
 
                     req.userGroups = userGroups;
