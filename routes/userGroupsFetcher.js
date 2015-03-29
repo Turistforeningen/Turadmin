@@ -28,7 +28,7 @@ module.exports = function (app, express, options) {
                             sentry.captureMessage('Group "' + associations[i].navn + '" without Turbase ID!', {
                                 level: 'warning',
                                 extra: {
-                                    user: res.session.user,
+                                    user: req.session.user,
                                     group: associations[i]
                                 }
                             });
