@@ -24,7 +24,7 @@ define(function (require, exports, module) {
         $uploadSpinner: null,
         $uploadStatus: null,
 
-        uploadUrl: '/upload/gpx',
+        uploadUrl: 'http://geoserver2.dotcloudapp.com/api/v1/gpx/parse',
 
         events: {
             'click [data-action="gpx-upload-confirm"]': 'gpxUploadConfirm'
@@ -48,6 +48,7 @@ define(function (require, exports, module) {
                 acceptFileTypes: /(\.|\/)(gpx)$/i,
                 url: this.uploadUrl,
                 dataType: 'json',
+                paramName: 'gpx',
                 processstart: function (e) {
                     me.renderUploading();
                 },
@@ -56,8 +57,8 @@ define(function (require, exports, module) {
                 },
                 done: function (e, data) {
 
-                    if (data.result.features && data.result.features.length) {
-                        me.uploadDone(data.result.features[0]['geometry']);
+                    if (data.result.gpx && data.result.gpx.length) {
+                        me.uploadDone(data.result.gpx[0].geojson.features[0].geometry);
                         me.$uploadStatus.html('Turen er hentet til kart').addClass('success');
 
                     } else {
