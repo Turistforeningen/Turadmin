@@ -63,7 +63,9 @@ define(function (require, exports, module) {
 
                     } else {
                         me.$uploadStatus.html('Kunne ikke hente tur').addClass('error');
-                        Raven.captureMessage('GPX-fil ble lastet opp, men det skjedde en feil under parsing');
+                        Raven.captureMessage('GPX-fil ble lastet opp, men det skjedde en feil under parsing', {extra:
+                            {data: data}
+                        });
                     }
 
                 },
@@ -75,7 +77,7 @@ define(function (require, exports, module) {
                     }
 
                     me.$uploadStatus.html(error).addClass('error');
-                    Raven.captureMessage('Feil ved opplasting av GPX-fil');
+                    Raven.captureMessage('Feil ved opplasting av GPX-fil', {extra: {data: data}});
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 
