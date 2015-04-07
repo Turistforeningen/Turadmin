@@ -218,7 +218,7 @@ define(function (require, exports, module) {
 
             this.mapWrapper.addGeoJsonToRouting(gpxGeometry);
             var geoJson = this.mapWrapper.routing.getGeoJson();
-            this.routeModel.set('geojson', geoJson);
+            this.routeModel.set('geojson', geoJson, {silent: true});
         },
 
         zoomAndCenter: function (latlng, zoomLevel) {
