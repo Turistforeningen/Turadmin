@@ -58,7 +58,12 @@ define(function (require, exports, module) {
             beskrivelse:  {
                 required: true,
                 msg: 'Dette feltet er påkrevd.'
-            }
+            },
+            fotografEpost: {
+                pattern: 'email',
+                msg: 'Må være en gyldig epostadresse.'
+            },
+
         },
 
         initialize: function (options) {
@@ -100,7 +105,7 @@ define(function (require, exports, module) {
 
         onFotografEpostChange: function () {
             var fotograf = this.get('fotograf');
-            fotograf.epost = this.get('fotografEpost');
+            fotograf.epost = (this.isValid('fotografEpost')) ? this.get('fotografEpost') : '';
             this.set('fotograf', fotograf);
         },
 
