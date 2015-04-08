@@ -53,8 +53,11 @@ module.exports = function (app, restProxy, options) {
             var poisCount = (!!data.steder) ? data.steder.length : 0;
             var poisData = [];
 
+            var groupsCount = (!!data.grupper) ? data.grupper.length : 0;
+            var groupsData = [];
+
             // console.log('Route has', poisCount, 'pois.');
-            var totalResourcesCount = picturesCount + poisCount + 1; // +1 is the route
+            var totalResourcesCount = picturesCount + poisCount + groupsCount + 1; // +1 is the route
 
             // console.log('Route has', totalResourcesCount, 'total resources including route.');
             var onCompletePictureRequest = function (data) {
@@ -64,6 +67,11 @@ module.exports = function (app, restProxy, options) {
 
             var onCompletePoiRequest = function (data) {
                 poisData.push(data);
+                allResourcesLoaded();
+            };
+
+            var onCompleteGroupRequest = function (data) {
+                groupsData.push(data);
                 allResourcesLoaded();
             };
 
@@ -81,6 +89,11 @@ module.exports = function (app, restProxy, options) {
                 restProxy.makeApiRequest('/steder/' + poiId, req, undefined, onCompletePoiRequest);
             }
             // console.log('Done!');
+
+            for (var j = 0; j < groupsCount; j++) {
+                var groupId = data.grupper[j];
+                restProxy.makeApiRequest('/grupper/' + groupId, req, undefined, onCompleteGroupRequest);
+            }
 
             var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
@@ -109,6 +122,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.routeData = JSON.stringify(routeData);
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
                 req.renderOptions.poisData = JSON.stringify(sortedPoisData);
+                req.renderOptions.groupsData = JSON.stringify(groupsData);
 
                 res.render('routes/editor', req.renderOptions);
             });

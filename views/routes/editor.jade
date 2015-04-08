@@ -6,19 +6,22 @@ append head
         | var appData = {};
         - if (typeof(routeData) !== 'undefined')
             | appData.routeData = !{routeData};
-            //- | console.log('Loaded poi with poiData:', !{poiData});
+            //- | console.log('Loaded route with poiData:', !{poiData});
         - if (typeof(picturesData) !== 'undefined')
             | appData.picturesData = !{picturesData};
-            //- | console.log('Loaded poi with picturesData:', !{picturesData});
+            //- | console.log('Loaded route with picturesData:', !{picturesData});
         - if (typeof(poisData) !== 'undefined')
             | appData.poisData = !{poisData};
-            //- | console.log('Loaded poi with poisData:', !{poisData});
+            //- | console.log('Loaded route with poisData:', !{poisData});
+        - if (typeof(groupsData) !== 'undefined')
+            | appData.groupsData = !{groupsData};
+            //- | console.log('Loaded route with groupsData:', !{groupsData});
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
-            //- | console.log('Loaded poi with userGroups:', !{userGroups});
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
-            //- | console.log('Loaded poi with userData:', !{userData});
+            //- | console.log('Loaded route with userData:', !{userData});
         | define('state', appData);
 
     script.

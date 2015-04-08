@@ -13,6 +13,9 @@ append head
         - if (typeof(poisData) !== 'undefined')
             | appData.poisData = !{poisData};
             //- | console.log('Loaded poi with poisData:', !{poisData});
+        - if (typeof(groupsData) !== 'undefined')
+            | appData.groupsData = !{groupsData};
+            //- | console.log('Loaded route with groupsData:', !{groupsData});
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
             //- | console.log('Loaded poi with userGroups:', !{userGroups});

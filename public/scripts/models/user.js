@@ -27,6 +27,31 @@ define(function (require, exports, module) {
             options = state.userData;
             options.grupper = state.userGroups;
 
+            var additionalGroups = state.groupsData || [];
+
+            // Check if user is member of all groups that the route is associated with
+            // If not, add the missing groups to the user groups array
+            // NOTE: The better (and more complicated) way to solve this would be to have two separate arrays,
+            // but the current way be an acceptable solution, as the group will only be available in the
+            // user groups array while the user is editing an object already associated with the group
+            for (var i = 0; i < additionalGroups.length; i++) {
+                var additionalGroup = additionalGroups[i];
+                var additionalGroupId = additionalGroup._id;
+                if (!_.findWhere(options.grupper, {object_id: additionalGroupId})) {
+
+                    var group = {
+                        object_id: additionalGroup._id,
+                        navn: additionalGroup.navn
+                    };
+
+                    if (!!additionalGroup.privat && !!additionalGroup.privat.sherpa2_id) {
+                        group.sherpa_id = additionalGroup.privat.sherpa2_id;
+                    }
+
+                    options.grupper.push(group);
+                }
+            }
+
             this.set('epost', options.epost);
             this.set('grupper', options.grupper);
             this.set('navn', options.navn);

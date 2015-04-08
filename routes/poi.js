@@ -47,10 +47,18 @@ module.exports = function (app, restProxy, options) {
             var picturesCount = (!!data.bilder) ? data.bilder.length : 0;
             var picturesData = [];
 
-            var totalResourcesCount = picturesCount + 1; // +1 is the poi
+            var groupsCount = (!!data.grupper) ? data.grupper.length : 0;
+            var groupsData = [];
+
+            var totalResourcesCount = picturesCount +  groupsCount + 1; // +1 is the poi
 
             var onCompletePictureRequest = function (data) {
                 picturesData.push(data);
+                allResourcesLoaded();
+            };
+
+            var onCompleteGroupRequest = function (data) {
+                groupsData.push(data);
                 allResourcesLoaded();
             };
 
@@ -60,7 +68,10 @@ module.exports = function (app, restProxy, options) {
                 restProxy.makeApiRequest('/bilder/' + pictureId, req, undefined, onCompletePictureRequest);
             }
 
-
+            for (var j = 0; j < groupsCount; j++) {
+                var groupId = data.grupper[j];
+                restProxy.makeApiRequest('/grupper/' + groupId, req, undefined, onCompleteGroupRequest);
+            }
 
             var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
@@ -77,6 +88,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.poiName = poiData.navn;
                 req.renderOptions.poiData = JSON.stringify(poiData);
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
+                req.renderOptions.groupsData = JSON.stringify(groupsData);
 
                 res.render('pois/editor', req.renderOptions);
             });
