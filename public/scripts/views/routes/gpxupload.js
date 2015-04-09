@@ -64,7 +64,7 @@ define(function (require, exports, module) {
                             me.$uploadStatus.html('Turen er hentet til kart').addClass('success');
 
                         } catch (e) {
-                            me.$uploadStatus.html('Kunne ikke hente rute fra GPX-fil').addClass('error');
+                            me.$uploadStatus.html('Kunne ikke hente rute fra GPX. <a href="http://sporsmalogsvar.ut.no/knowledgebase/articles/433918-jeg-får-ikke-lastet-opp-gpx-gps-filene-mine" target="_blank">Klikk her for hjelp</a>.').addClass('error');
                             Raven.captureException(e, {extra: {message: 'No geometry was extracted from GPX file'}});
                         }
 
