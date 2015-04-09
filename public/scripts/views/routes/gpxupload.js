@@ -59,7 +59,7 @@ define(function (require, exports, module) {
 
                     if (data.result.gpx && data.result.gpx.length) {
                         try {
-                            var geometry = data.result.gpx[0].geo_json.features[0].geometry;
+                            var geometry = data.result.gpx[0].geojson.features[0].geometry;
                             me.uploadDone(geometry);
                             me.$uploadStatus.html('Turen er hentet til kart').addClass('success');
 
