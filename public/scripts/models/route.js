@@ -275,6 +275,7 @@ define(function (require, exports, module) {
             this.updateStartpunkt();
             this.updateSeason();
             this.updateTidsbruk();
+            this.updateUrl();
 
             // Remove geojson if empty
             if (!this.hasRoute()) {
@@ -283,6 +284,14 @@ define(function (require, exports, module) {
 
             // Call super with attrs moved to options
             return NtbModel.prototype.save.call(this, attrs, options);
+        },
+
+        updateUrl: function () {
+            var routeId = this.get('id');
+
+            if (routeId) {
+                this.set('url', 'http://www.ut.no/tur/' + routeId);
+            }
         },
 
         updateTidsbruk: function () {
