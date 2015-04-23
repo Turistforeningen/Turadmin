@@ -288,9 +288,13 @@ define(function (require, exports, module) {
 
         updateUrl: function () {
             var routeId = this.get('id');
+            var publishedState = this.get('status');
 
-            if (routeId) {
+            if (routeId && publishedState === 'Offentlig') {
                 this.set('url', 'http://www.ut.no/tur/' + routeId);
+
+            } else {
+                this.unset('url');
             }
         },
 
