@@ -28,7 +28,7 @@ define(function (require, exports, module) {
 
         el: '[data-view="pictures-manager"]',
 
-        uploadUrl: 'http://s3upload-turistforeningen.dotcloud.com/upload',
+        uploadUrl: 'https://jotunheimr.app.dnt.no/api/v1/upload',
         // events: {
         //     'picturesortstop': 'updateIndexes'
         // },
