@@ -191,8 +191,12 @@ define(function (require, exports, module) {
                         this.trigger('save:end');
                     }, this),
                     error: $.proxy(function (model, response, options) {
-                        Raven.captureMessage('Error callback called when saving object to NTB.', {
-                            extra: {response: response}
+                        Raven.captureMessage('Could not save object to NTB.', {
+                            extra: {
+                                responseText: response.responseText,
+                                status: response.status,
+                                statusText: response.statusText
+                            }
                         });
                         this.trigger('save:end');
                     }, this)
