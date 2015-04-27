@@ -83,8 +83,6 @@ require('./routes/pois-index')(app, {
     userGroupsFetcher: userGroupsFetcher
 });
 
-var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __dirname });
-
 var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 require('./routes/route')(app, restProxy, {
@@ -131,14 +129,7 @@ app.use('/', function (req, res, next) {
 // 404 handling
 // Redirect requests for invalid URL's to /
 app.use(function (req, res, next) {
-
-    if (req.originalUrl === '/upload/picture') {
-        //throw new Error('This route exists!');
-        console.log('404 handling');
-        console.log(req.jfum);
-        return;
-    }
+    "use strict";
 
     res.redirect(307, '/');
-
 });
