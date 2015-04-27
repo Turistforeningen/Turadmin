@@ -22,7 +22,6 @@ var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var cookieSession = require('cookie-session');
 var methodOverride = require('method-override');
-var favicon = require('serve-favicon');
 var DNT = require('dnt-api');
 var sentry = require('./lib/sentry');
 
@@ -35,13 +34,11 @@ app.set('port', process.env.PORT_WWW || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 app.use(methodOverride());
 app.use(cookieParser(sessionSecret));
 app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(sentry.raven.middleware.express(sentry));
 
 /**
