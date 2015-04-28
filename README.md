@@ -9,6 +9,6 @@ Det er også mulig for brukeren å spesifisere interessante punkter i nærheten 
 turen (f.eks. fine badeplasser, parkering, utsiktspunkt osv.) direkte i kartet,
 samt laste opp bilder fra turen.
 
-![Inntegning av turforslag i Turadmin](https://github.com/Turistforeningen/Turadmin/blob/master/public/images/promo.png "Inntegning av turfroslag i Turadmin")
+![Inntegning av turforslag i Turadmin](https://github.com/Turistforeningen/Turadmin/raw/master/public/images/promo.png "Inntegning av turfroslag i Turadmin")
 
 ## [MIT lisens](https://github.com/Turistforeningen/Turadmin/blob/master/LICENSE)
