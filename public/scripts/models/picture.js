@@ -162,8 +162,8 @@ define(function (require, exports, module) {
             var urls = {thumbnail: "", url: ""};
             var imageArray = this.get("img");
             if (!!imageArray && imageArray.length) {
-                urls.thumbnail = imageArray[imageArray.length-1]['url'];
-                urls.url = imageArray[0]['url'];
+                urls.thumbnail = imageArray[imageArray.length-1].url;
+                urls.url = imageArray[0].url;
             }
 
             return urls;

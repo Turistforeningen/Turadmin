@@ -26,7 +26,7 @@ define(function (require, exports, module) {
             kvistingPeriode: function (val) {
                 var diff = moment(this.get('kvistingFra'), 'DD.MM.YYYY').diff(moment(this.get('kvistingTil'), 'DD.MM.YYYY'));
                 if (diff >= 0) {
-                    return 'Fra dato må være tidligere enn til dato'
+                    return 'Fra dato må være tidligere enn til dato';
                 }
             }
         },
@@ -46,14 +46,14 @@ define(function (require, exports, module) {
                 if (options.merkinger.indexOf('Kvisting') === -1) {
                     this.get('merkinger').push('Kvisting');
                 }
-                if (typeof options.kvisting['fra'] === 'string') {
-                    this.set('kvistingFra', moment(options.kvisting['fra']).format('DD.MM.YYYY'));
+                if (typeof options.kvisting.fra === 'string') {
+                    this.set('kvistingFra', moment(options.kvisting.fra).format('DD.MM.YYYY'));
                 }
-                if (typeof options.kvisting['til'] === 'string') {
-                    this.set('kvistingTil', moment(options.kvisting['til']).format('DD.MM.YYYY'));
+                if (typeof options.kvisting.til === 'string') {
+                    this.set('kvistingTil', moment(options.kvisting.til).format('DD.MM.YYYY'));
                 }
-                this.set('kvistingHelars', options.kvisting['helårs']);
-                this.set('kvistingKommentar', options.kvisting['kommentar']);
+                this.set('kvistingHelars', options.kvisting.helårs);
+                this.set('kvistingKommentar', options.kvisting.kommentar);
             }
 
             this.on('change:kvistingFra', function (e) {

@@ -116,7 +116,7 @@ define(function (require, exports, module) {
         },
 
         showLoading: function () {
-            this.$('[data-container-for="loading-items-message"]').removeClass('hidden')
+            this.$('[data-container-for="loading-items-message"]').removeClass('hidden');
             this.$('[data-container-for="no-items-alert"]').addClass('hidden');
             this.$('[data-container-for="items-table"]').addClass('hidden');
             this.$('[data-container-for="paginator"]').addClass('hidden');

@@ -4,6 +4,8 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
+/* jshint loopfunc: true */
+
 define(function (require, exports, module) {
     "use strict";
 
@@ -114,7 +116,7 @@ define(function (require, exports, module) {
                     var relatedModel = this.relatedModels[i];
                     if (typeof relatedModel.field === 'string' && typeof relatedModel.model === 'object') {
                         var relatedModelJson = (typeof relatedModel.model.toServerJSON === 'function') ? relatedModel.model.toServerJSON() : relatedModel.model.toJSON();
-                        this.model.set(relatedModel.field, relatedModelJson)
+                        this.model.set(relatedModel.field, relatedModelJson);
                     }
                 }
             }
@@ -123,9 +125,9 @@ define(function (require, exports, module) {
 
                 var saveDone = _.after(this.relatedCollections.length, $.proxy(callback, this));
 
-                for (var i = 0; i < this.relatedCollections.length; i++) {
+                for (var j = 0; j < this.relatedCollections.length; j++) {
 
-                    var relatedCollection = this.relatedCollections[i];
+                    var relatedCollection = this.relatedCollections[j];
                     // console.log('Saving ' + relatedCollection.field);
 
                     relatedCollection.collection.save(

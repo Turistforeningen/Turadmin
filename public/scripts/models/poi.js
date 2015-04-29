@@ -143,8 +143,8 @@ define(function (require, exports, module) {
                 category = _.findWhere(this.availableCategories, {name: categoryName}),
                 markerIcon;
 
-            if (!!category && category['markerIcon']) {
-                markerIcon = category['markerIcon'];
+            if (!!category && category.markerIcon) {
+                markerIcon = category.markerIcon;
 
             } else if (!!this.defaults && this.defaults.markerIcon) {
                 markerIcon = this.defaults.markerIcon;
@@ -251,10 +251,10 @@ define(function (require, exports, module) {
 
         setBoundaryIntersect: function (data) {
             if (data.fylker && data.fylker.length) {
-                this.set('fylke', data['fylker'][0]);
+                this.set('fylke', data.fylker[0]);
             }
             if (data.kommuner && data.kommuner.length) {
-                this.set('kommune', data['kommuner'][0]);
+                this.set('kommune', data.kommuner[0]);
             }
             if (data['områder'] && data['områder'].length) {
                 this.set('områder', _.pluck(data['områder'], '_id'));

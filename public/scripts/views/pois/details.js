@@ -121,10 +121,10 @@ define(function (require, exports, module) {
             if (userGroups.length > 0) {
                 var select2Groups = [];
 
-                for (var i = 0; i < userGroups.length; i++) {
-                    select2Groups[i] = {};
-                    select2Groups[i].id = userGroups[i].object_id;
-                    select2Groups[i].text = userGroups[i].navn;
+                for (var j = 0; j < userGroups.length; j++) {
+                    select2Groups[j] = {};
+                    select2Groups[j].id = userGroups[j].object_id;
+                    select2Groups[j].text = userGroups[j].navn;
                 }
 
                 $('input[name="poi-details-field-grupper"]').select2({
