@@ -8,11 +8,6 @@ build:
         - npm-test
 
         - script:
-                name: npm run-script test-drone
-                code: |
-                    npm run-script test-drone
-
-        - script:
                 name: echo nodejs information
                 code: |
                     echo "node version $(node -v) running"
