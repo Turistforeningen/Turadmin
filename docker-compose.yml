@@ -12,7 +12,12 @@ www:
 turadmin:
   build: .
   volumes:
-    - ".:/usr/src/app"
+    - "app.js:/usr/src/app/app.js"
+    - "lib:/usr/src/app/lib"
+    - "package.json:/usr/src/app/package.json"
+    - "routes:/usr/src/app/routes"
+    - "test:/usr/src/app/test"
+    - "views:/usr/src/app/views"
   ports:
     - "8080"
   environment:
