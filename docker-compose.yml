@@ -26,10 +26,10 @@ turadmin:
     - DNT_CONNECT_KEY
     - DNT_CONNECT_USER
     - NODE_ENV
-    - NODE_ENV
     - NTB_API_ENV
     - NTB_API_KEY
     - NTB_API_URL
     - ROUTING_API_URL
+    - SENTRY_DNS
     - SESSION_SECRET
   restart: always
