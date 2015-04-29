@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "supervisor -w routes,app.js app.js",
-    "test": "mocha -b -c test/suite.js -R spec"
+    "start": "./node_modules/.bin/supervisor -w routes,app.js app.js",
+    "test": "./node_modules/.bin/mocha -b -c test/suite.js -R spec"
   },
   "dependencies": {
     "body-parser": "~1.12",
