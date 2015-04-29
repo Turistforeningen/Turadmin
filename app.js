@@ -8,7 +8,7 @@ var ntbApiKey = process.env.NTB_API_KEY;
 
 var dntApiKey = process.env.DNT_CONNECT_KEY;
 
-var sessionSecret = process.env.SessionSecret || "0rdisObMCVXWawtji4B2iIGIKKqlsgAOPJhcHw4IREiCf7PGnAxY2isXfXd2Is7a";
+var sessionSecret = process.env.SESSION_SECRET || "0rdisObMCVXWawtji4B2iIGIKKqlsgAOPJhcHw4IREiCf7PGnAxY2isXfXd2Is7a";
 
 
 /**
@@ -22,7 +22,6 @@ var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var cookieSession = require('cookie-session');
 var methodOverride = require('method-override');
-var favicon = require('serve-favicon');
 var DNT = require('dnt-api');
 var sentry = require('./lib/sentry');
 
@@ -31,42 +30,30 @@ var app = module.exports = express();
 
 // All environments
 app.set('url', process.env.APP_URL);
-app.set('port', process.env.PORT_WWW || 3000);
+app.set('port', process.env.APP_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 app.use(methodOverride());
 app.use(cookieParser(sessionSecret));
 app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(sentry.raven.middleware.express(sentry));
+app.use(errorHandler({dumpExceptions: true, showStack: true}));
 
-/**
- * Configure environments
- */
+app.disable('x-powered-by');
+app.set('x-powered-by', false);
+app.disable('etag');
+app.set('etag', false);
+
 if (app.get('env') === 'development') {
-    // Development only
     app.set('view cache', false);
-    app.set('url', process.env.APP_URL + ':' + app.get('port'));
-
-} else if (app.get('env') === 'production') {
-    // Production only
 }
-
-app.use(require('morgan')('dev'));
-app.use(errorHandler({
-    dumpExceptions: true,
-    showStack: true
-}));
-
 
 /**
  * Routes and middleware
  */
-
 var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
 
 require('./routes/auth')(app);
@@ -83,8 +70,6 @@ require('./routes/pois-index')(app, {
     userGroupsFetcher: userGroupsFetcher
 });
 
-var gpxFileManager = require('./routes/gpxUpload')(app, express, { dirname: __dirname });
-
 var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 require('./routes/route')(app, restProxy, {
@@ -99,46 +84,35 @@ require('./routes/poi')(app, restProxy, {
     userGroupsFetcher: userGroupsFetcher
 });
 
-require('./routes/ssrProxy')(app, {});
+// Redirect requests to '/' to '/turer'
+app.use('/', function (req, res, next) {
+    "use strict";
 
-// NOTE: Only listen for port if the application is not included by another module. Eg. the test runner.
+    // We do not want to redirect requests for files or XHR's Could be replaced
+    // with regexp matching all file extensions except html Also, this should be
+    // in the route below, but did not get that to work, because this route also
+    // caught requests for files and stuff
+    var isFileRequest = !!req.url.match(/^.*\.(css|js)$/);
+    var isXhr = req.xhr;
+
+    if (isFileRequest || isXhr) {
+        res.status(404).end();
+    } else {
+        res.redirect(301, '/turer');
+    }
+});
+
+// 404 handling
+// Redirect requests for invalid URL's to /
+app.use(function (req, res, next) {
+    "use strict";
+
+    res.redirect(307, '/');
+});
+
 if (!module.parent) {
     app.listen(app.get('port'), function () {
         "use strict";
         console.log('Express server listening on port ' + app.get('port'));
     });
 }
-
-// Redirect requests to '/' to '/turer'
-app.use('/', function (req, res, next) {
-
-    // We do not want to redirect requests for files or XHR's
-    // Could be replaced with regexp matching all file extensions except html
-    // Also, this should be in the route below, but did not get that to work,
-    // because this route also caught requests for files and stuff
-    var isFileRequest = !!req.url.match(/^.*\.(css|js)$/);
-    var isXhr = req.xhr;
-
-    if (isFileRequest || isXhr) {
-        res.status(404).end();
-
-    } else {
-        res.redirect(301, '/turer');
-    }
-
-});
-
-// 404 handling
-// Redirect requests for invalid URL's to /
-app.use(function (req, res, next) {
-
-    if (req.originalUrl === '/upload/picture') {
-        //throw new Error('This route exists!');
-        console.log('404 handling');
-        console.log(req.jfum);
-        return;
-    }
-
-    res.redirect(307, '/');
-
-});

@@ -90,8 +90,8 @@ module.exports = function (app, restProxy, options) {
             }
             // console.log('Done!');
 
-            for (var j = 0; j < groupsCount; j++) {
-                var groupId = data.grupper[j];
+            for (var k = 0; k < groupsCount; k++) {
+                var groupId = data.grupper[k];
                 restProxy.makeApiRequest('/grupper/' + groupId, req, undefined, onCompleteGroupRequest);
             }
 

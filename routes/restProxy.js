@@ -97,7 +97,7 @@ module.exports = function (app, options) {
     };
 
     app.get('/restProxy/turer', function (req, res, next) {
-        if (req.query && req.query['gruppe']) {
+        if (req.query && req.query.gruppe) {
             res.cookie('userDefaultRouteFetchQuery_' + req.session.userId, {
                 'gruppe': req.query.gruppe
             }, {

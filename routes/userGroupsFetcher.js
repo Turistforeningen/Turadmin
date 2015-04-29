@@ -51,7 +51,6 @@ module.exports = function (app, express, options) {
 
         } else {
             // User is authenticated by other method than DNT Connect
-            console.log('Not implemented.');
             next();
         }
 
