@@ -55,6 +55,7 @@ if (app.get('env') === 'development') {
  * Routes and middleware
  */
 var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
+var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 require('./routes/auth')(app);
 
@@ -62,15 +63,15 @@ require('./routes/termsAndConditions')(app);
 
 require('./routes/routes-index')(app, {
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
-    userGroupsFetcher: userGroupsFetcher
+    userGroupsFetcher: userGroupsFetcher,
+    restProxy: restProxy
 });
 
 require('./routes/pois-index')(app, {
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
-    userGroupsFetcher: userGroupsFetcher
+    userGroupsFetcher: userGroupsFetcher,
+    restProxy: restProxy
 });
-
-var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
 require('./routes/route')(app, restProxy, {
     routeApiUri: routeApiUri,

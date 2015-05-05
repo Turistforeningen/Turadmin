@@ -7,6 +7,7 @@ module.exports = function (app, options) {
 
     var underscore = require('underscore');
     var userGroupsFetcher = options.userGroupsFetcher;
+    var restProxy = options.restProxy;
 
     /**
      * GET list of routes (index page)
@@ -16,17 +17,22 @@ module.exports = function (app, options) {
         var userGroups = req.userGroups || [];
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies['userDefaultRouteFetchQuery_' + req.session.userId] : undefined;
 
-        var renderOptions = {
-            title: 'Mine turer',
-            userData: JSON.stringify(req.session.user),
-            userGroups: JSON.stringify(userGroups),
-            userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
-            authType: req.session.authType,
-            itemType: 'tur'
+        var onCompleteOmraderRequest = function (data) {
+            var areas = data.documents;
+            var renderOptions = {
+                title: 'Mine turer',
+                areas: JSON.stringify(areas),
+                userData: JSON.stringify(req.session.user),
+                userGroups: JSON.stringify(userGroups),
+                userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
+                authType: req.session.authType,
+                itemType: 'tur'
+            };
+
+            res.render('routes/index', renderOptions);
         };
 
-        res.render('routes/index', renderOptions);
-
+        restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn', req, undefined, onCompleteOmraderRequest);
     };
 
     app.get('/turer', userGroupsFetcher);
