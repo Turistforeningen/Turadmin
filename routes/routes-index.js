@@ -32,7 +32,7 @@ module.exports = function (app, options) {
             res.render('routes/index', renderOptions);
         };
 
-        restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn', req, undefined, onCompleteOmraderRequest);
+        restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', req, undefined, onCompleteOmraderRequest);
     };
 
     app.get('/turer', userGroupsFetcher);
