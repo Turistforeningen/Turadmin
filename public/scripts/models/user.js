@@ -97,6 +97,11 @@ define(function (require, exports, module) {
                 provider: this.get('provider'),
                 is_admin: !!this.get('admin')
             });
+        },
+
+        isDntGroupMember: function (user) {
+            var userGroups = user.grupper;
+            return (!!userGroups && !!userGroups.length)
         }
 
     });
