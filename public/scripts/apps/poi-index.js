@@ -22,7 +22,7 @@ define(function (require, exports, module) {
     Backbone.Model.prototype.event_aggregator = event_aggregator;
     Backbone.Collection.prototype.event_aggregator = event_aggregator;
 
-    var editorView = new PoiIndexView(state);
-    editorIndexView.render();
+    var poiIndexView = new PoiIndexView(state);
+    poiIndexView.render();
 
 });
