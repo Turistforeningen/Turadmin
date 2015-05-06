@@ -25,6 +25,8 @@ define(function (require, exports, module) {
 
         model: Poi,
 
+        fetchQuery: {},
+
         // initialize: function (pois) {
         //     NtbCollection.prototype.initialize.call(this, pois);
         // },

@@ -10,7 +10,8 @@ define(function (require, exports, module) {
     // Dependencies
     var $ = require('jquery'),
         _ = require('underscore'),
-        Backbone = require('backbone');
+        Backbone = require('backbone'),
+        User = require('models/user');
 
     // Module
     return Backbone.Collection.extend({
@@ -49,8 +50,11 @@ define(function (require, exports, module) {
         initialize: function (models) {
             this.on('add', this.onAdd, this);
             this.on('remove', this.onRemove, this);
-        },
+            this.on('change:filter', this.onFilterChange);
 
+            var user = new User();
+            this.user = user;
+        },
 
         // Getters and setters
 
@@ -101,6 +105,80 @@ define(function (require, exports, module) {
             if (!(!!model.changed && !!model.changed.synced) && !!model.get('_id') && (typeof this.removedModels === 'object')) {
                 this.removedModels.push(model);
             }
+        },
+
+        onFilterChange: function (e) {
+            this.fetchQuery = this.fetchQuery || {};
+            this.fetchQuery['sort'] = '-endret';
+
+            this.fetch({
+                reset: true,
+                data: this.fetchQuery
+            });
+        },
+
+
+        // Filtering
+
+        setFilterEier: function (id) {
+            if (id === 'alle') {
+                delete this.fetchQuery['privat.opprettet_av.id'];
+                delete this.fetchQuery['gruppe'];
+
+            } else if (id == this.user.get('id')) {
+                this.fetchQuery['privat.opprettet_av.id'] = id;
+
+            } else {
+                this.fetchQuery['gruppe'] = id;
+            }
+
+            this.trigger('change:filter');
+        },
+
+        setFilterNavn: function (term) {
+            this.fetchQuery = this.fetchQuery || {};
+
+            if (term === '') {
+                delete this.fetchQuery['navn'];
+
+            } else {
+                this.fetchQuery['navn'] = '~' + term;
+            }
+
+            this.trigger('change:filter');
+        },
+
+        setFilterOmrader: function (omradeId) {
+            this.fetchQuery = this.fetchQuery || {};
+
+            if (!omradeId) {
+                delete this.fetchQuery['områder'];
+
+            } else {
+                this.fetchQuery['områder'] = omradeId;
+            }
+
+            this.trigger('change:filter');
+        },
+
+        setFilterEier: function (id) {
+            this.fetchQuery = this.fetchQuery || {};
+
+            if (id == this.user.get('id')) {
+                this.fetchQuery['privat.opprettet_av.id'] = id;
+                delete this.fetchQuery['gruppe'];
+
+            } else if (id === 'alle') {
+                delete this.fetchQuery['gruppe'];
+                delete this.fetchQuery['privat.opprettet_av.id'];
+
+            } else {
+                this.fetchQuery['gruppe'] = id;
+                delete this.fetchQuery['privat.opprettet_av.id'];
+
+            }
+
+            this.trigger('change:filter');
         },
 
 

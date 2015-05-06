@@ -753,3 +753,14 @@ body.modal-open {
 .editor-poi .picture-edit .show-position {
 	display: none;
 }
+
+.filters-and-search.well h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #e3e3e3;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.filters-and-search.well > .filters {
+  margin-bottom: 25px;
+}

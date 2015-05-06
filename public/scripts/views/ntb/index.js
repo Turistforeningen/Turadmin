@@ -25,7 +25,9 @@ define(function (require, exports, module) {
 
         events: {
             'click [data-paginator]': 'paginate',
-            'click [data-action="search"]': 'doSearch'
+            'click [data-action="search"]': 'doSearch',
+            'change [data-filter="type"]': 'onFilterTypeChange',
+            'change [data-filter="omrade"]': 'onFilterOmraderChange'
         },
 
         initialize: function (options) {
@@ -38,7 +40,7 @@ define(function (require, exports, module) {
 
             this.collection.on('reset', this.onItemsFetched, this);
 
-            _.bindAll(this, 'paginate', 'doSearch');
+            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -46,48 +48,49 @@ define(function (require, exports, module) {
 
             if (provider == 'DNT Connect' && groups.length) {
                 this.groups = groups;
-                this.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')};
+                this.collection.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')};
 
             } else if (provider == 'Innholdspartner') {
                 group = user.get('gruppe');
-                this.fetchQuery = (!!group) ? {gruppe: group} : {};
+                this.collection.fetchQuery = (!!group) ? {gruppe: group} : {};
 
             } else {
-                this.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
+                this.collection.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
             }
 
             this.fetchItems();
             this.render();
         },
 
+        onFilterOmraderChange: function (e) {
+            var omrade = e.target.value;
+            this.collection.setFilterOmrader(omrade);
+        },
+
+        onFilterTypeChange: function (e) {
+            var type = e.target.value;
+            this.collection.setFilterType(type);
+        },
+
+        onFilterEierChange: function (e) {
+            var id = e.target.value;
+            this.collection.setFilterEier(id);
+        },
+
         fetchItems: function () {
             this.isLoading = true;
 
-            this.fetchQuery.sort = '-endret';
+            this.collection.fetchQuery.sort = '-endret';
 
             this.collection.fetch({
                 reset: true,
-                data: this.fetchQuery
+                data: this.collection.fetchQuery
             });
         },
 
         onItemsFetched: function (e) {
             this.isLoading = false;
             this.render();
-        },
-
-        onGroupChange: function (e) {
-            var id = e.target.value;
-            if (id == this.user.get('id')) {
-                this.fetchQuery = {'privat.opprettet_av.id': id};
-            } else if (id === 'alle') {
-                this.fetchQuery = {};
-            } else {
-                this.fetchQuery = {'gruppe': id};
-            }
-            this.clearSearch();
-            this.fetchItems();
-            this.showLoading();
         },
 
         paginate: function (e) {
@@ -99,16 +102,7 @@ define(function (require, exports, module) {
 
         doSearch: function () {
             var term = this.$el.find('[name="search-term"]').val();
-            if (term === '') {
-                delete this.fetchQuery.navn;
-
-            } else {
-                this.fetchQuery = this.fetchQuery || {};
-                this.fetchQuery.navn = '~' + term;
-            }
-
-            this.fetchItems();
-            this.render();
+            this.collection.setFilterNavn(term);
         },
 
         clearSearch: function () {
@@ -158,6 +152,10 @@ define(function (require, exports, module) {
 
             if (this.user.get('provider') === 'DNT Connect') {
 
+                if (this.user.get('er_dnt_gruppe_medlem') === true) {
+                    this.$('.filters-and-search .filters').removeClass('hidden');
+                }
+
                 if (userGroups && userGroups.length > 0) {
                     this.$('.group-select-container').removeClass('hidden');
                     var groupSelect = new SelectView({
@@ -167,14 +165,14 @@ define(function (require, exports, module) {
                             groups: this.groups,
                             admin: this.user.get('admin'),
                             itemType: this.itemType
-                        }, selectValue: this.fetchQuery.gruppe || this.fetchQuery['privat.opprettet_av.id'] || 'alle'
+                        }, selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
                     });
 
                     this.$('[data-placeholder-for="group-select"]').off('change.groupselect');
                     this.$('[data-placeholder-for="group-select"] select').select2('destroy');
                     this.$('[data-placeholder-for="group-select"]')
                         .html(groupSelect.render().el)
-                        .on('change.groupselect', $.proxy(this.onGroupChange, this));
+                        .on('change.groupselect', $.proxy(this.onFilterEierChange, this));
                     this.$('[data-placeholder-for="group-select"] select').select2({
                         formatNoMatches: function (term) { return 'Ingen treff'; }
                     });
@@ -197,8 +195,8 @@ define(function (require, exports, module) {
                 this.showNoRoutes();
             }
 
-            if (!!this.fetchQuery && !!this.fetchQuery.navn) {
-                this.showSearchTerm(this.fetchQuery.navn.replace(/~/gi, ''));
+            if (!!this.collection.fetchQuery && !!this.collection.fetchQuery.navn) {
+                this.showSearchTerm(this.collection.fetchQuery.navn.replace(/~/gi, ''));
             } else {
                 this.hideSearchTerm();
             }

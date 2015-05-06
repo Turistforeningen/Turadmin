@@ -28,6 +28,8 @@ define(function (require, exports, module) {
 
         model: Picture,
 
+        fetchQuery: {},
+
         comparator: function (model) {
             return model.get('ordinal');
         },

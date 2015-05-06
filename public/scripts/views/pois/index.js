@@ -20,7 +20,7 @@ define(function (require, exports, module) {
         collection: new PoiCollection(),
 
         fetchItems: function () {
-            this.fetchQuery['tags.0'] = '!Hytte';
+            this.collection.fetchQuery['tags.0'] = '!Hytte';
             NtbIndexView.prototype.fetchItems.call(this);
         },
 

@@ -8,6 +8,9 @@ append head
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
             //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(areas) !== 'undefined')
+            | appData.areas = !{areas};
+            //- | console.log('Loaded index with areas:', !{areas});
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
             //- | console.log('Loaded route with userData:', !{userData});
@@ -49,7 +52,7 @@ block content
                 a.btn.btn-primary.pull-right(href="/tur") Ny tur
 
             // TODO: Move styles to CSS-file
-            div.group-select-container(style="margin-bottom: 20px;" class="hidden")
+            // div.group-select-container(style="margin-bottom: 20px;" class="hidden")
                 div(data-placeholder-for="group-select")
                 p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se turer for, eller om du vil se turer knyttet til din bruker.
 
@@ -57,10 +60,47 @@ block content
                 div.alert.alert-info
                     | Din bruker er ikke knyttet til noen forening. Du har derfor bare tilgang til dine egne turforslag. Kontakt din forening for å få tilgang til foreningen sine turer.
 
-            div.search.well
-                label Søk etter tur
-                input(type="text" class="form-control" placeholder="" name="search-term")
-                button.btn.btn-default(data-action="search" type="button") Søk
+            div.filters-and-search.well
+                div.filters.hidden
+                    div.row
+                        div.col-sm-12
+                            h4
+                                span.glyphicon.glyphicon-filter
+                                | &nbsp;Filter
+
+                    div.row
+                        div.col-md-4
+                            div.area
+                                label Område
+                                select.form-control(data-filter="omrade")
+                                    option(value="") Alle områder
+                                    each val in JSON.parse(areas)
+                                        option(value=val._id)= val.navn
+
+                        div.col-md-4
+                            div.owner
+                                label Eier
+                                div(data-placeholder-for="group-select")
+
+                        div.col-md-4
+                            div.type
+                                label Type
+                                select.form-control(data-filter="type")
+                                    option(value="Alle") Alle
+                                    option(value="Sommerrute") Sommerrute
+                                    option(value="Vinterløype") Vinterløype
+                div.row
+                    div.col-sm-12
+                        h4
+                            span.glyphicon.glyphicon-search
+                            | &nbsp; Søk
+
+                div.row.search
+                    div.col-sm-12
+                        div.search
+                            label Søk etter tur
+                            input(type="text" class="form-control" placeholder="" name="search-term")
+                            button.btn.btn-default(data-action="search" type="button") Søk
 
             div(class="hidden" data-container-for="search-term-info")
                 div.alert.alert-info

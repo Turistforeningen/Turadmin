@@ -23,7 +23,38 @@ define(function (require, exports, module) {
 
         removedModels: [],
 
-        model: RouteModel
+        model: RouteModel,
+
+        fetchQuery: {},
+
+
+        // Filters custom to routes
+
+        setFilterType: function (type) {
+            this.fetchQuery = this.fetchQuery || {};
+
+            switch (type) {
+                case 'Alle':
+                    delete this.fetchQuery['fields'];
+                    delete this.fetchQuery['rute.type'];
+                    break;
+
+                case 'Sommerrute':
+                    this.fetchQuery['rute.type'] = 'Sommer';
+                    this.fetchQuery['fields'] = 'rute,endret,navn,status';
+                    break;
+
+                case 'Vinterløype':
+                    this.fetchQuery['rute.type'] = 'Vinter';
+                    this.fetchQuery['fields'] = 'rute,endret,navn,status';
+                    break;
+
+                default:
+                    break;
+            }
+
+            this.trigger('change:filter');
+        }
 
     });
 });
