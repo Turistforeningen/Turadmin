@@ -8,6 +8,9 @@ append head
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
             //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(externalGroups) !== 'undefined')
+            | appData.externalGroups = !{externalGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
         - if (typeof(areas) !== 'undefined')
             | appData.areas = !{areas};
             //- | console.log('Loaded index with areas:', !{areas});
