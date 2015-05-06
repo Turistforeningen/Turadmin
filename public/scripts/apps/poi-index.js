@@ -1,19 +1,28 @@
-// Start the main app logic.
-requirejs(
-    [
-        'jquery',
-        'underscore',
-        'backbone',
-        'state',
-        'views/pois/index'
-    ],
-    function ($, _, Backbone, state, IndexView) {
+/*
+ * Copyright (c) $year, Den Norske Turistforening (DNT)
+ *
+ * https://github.com/Turistforeningen/turadmin
+ */
 
-        var event_aggregator = _.extend({}, Backbone.Events);
-        Backbone.View.prototype.event_aggregator = event_aggregator;
-        Backbone.Model.prototype.event_aggregator = event_aggregator;
-        Backbone.Collection.prototype.event_aggregator = event_aggregator;
+define(function (require, exports, module) {
+    "use strict";
 
-        var editorView = new IndexView(state);
-    }
-);
+    // Dependencies
+    var $ = require('jquery'),
+        _ = require('underscore'),
+        Backbone = require('backbone'),
+        PoiIndexView = require('views/pois/index'),
+        state = require('state');
+
+    require('bootstrap');
+
+    // Module
+    var event_aggregator = _.extend({}, Backbone.Events);
+    Backbone.View.prototype.event_aggregator = event_aggregator;
+    Backbone.Model.prototype.event_aggregator = event_aggregator;
+    Backbone.Collection.prototype.event_aggregator = event_aggregator;
+
+    var editorView = new PoiIndexView(state);
+    editorIndexView.render();
+
+});
