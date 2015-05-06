@@ -4,7 +4,7 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
-sentry = require('../lib/sentry');
+var sentry = require('../lib/sentry');
 
 module.exports = function (app, options) {
     "use strict";
