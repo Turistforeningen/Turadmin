@@ -146,7 +146,7 @@ module.exports = function (app, options) {
     var postLoginTurbasenAuth = function (req, res) {
         turbasenAuthClient.authenticate(req.body.username, req.body.password, function(error, user) {
             if (error) {
-                // Something went horrible wrong
+                // Something went horribly wrong
                 sentry.captureError(e, { extra: { username: req.body.username }});
 
             } else if (user) {
