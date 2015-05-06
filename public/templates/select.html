@@ -2,7 +2,7 @@
 <% if (selectOptions.admin === true) { %>
 <option value="alle">Alle</option>
 <% } %>
-<optgroup value="groups" label="<%= selectOptions.itemType.charAt(0).toUpperCase() + selectOptions.itemType.slice(1) %>er tilhørende mine grupper">
+<optgroup value="groups" label="Grupper jeg er medlem av">
 <% _.each(selectOptions.groups, function(element) { %>
   <option value=<%= element.object_id %>><%= element.navn %></option>
 <% }); %>
