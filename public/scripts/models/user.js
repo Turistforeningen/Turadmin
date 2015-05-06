@@ -105,7 +105,7 @@ define(function (require, exports, module) {
 
         isDntGroupMember: function (user) {
             var userGroups = user.grupper;
-            return (!!userGroups && !!userGroups.length)
+            return (!!userGroups && !!userGroups.length);
         }
 
     });
