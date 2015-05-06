@@ -120,21 +120,6 @@ define(function (require, exports, module) {
 
         // Filtering
 
-        setFilterEier: function (id) {
-            if (id === 'alle') {
-                delete this.fetchQuery['privat.opprettet_av.id'];
-                delete this.fetchQuery['gruppe'];
-
-            } else if (id == this.user.get('id')) {
-                this.fetchQuery['privat.opprettet_av.id'] = id;
-
-            } else {
-                this.fetchQuery['gruppe'] = id;
-            }
-
-            this.trigger('change:filter');
-        },
-
         setFilterNavn: function (term) {
             this.fetchQuery = this.fetchQuery || {};
 
