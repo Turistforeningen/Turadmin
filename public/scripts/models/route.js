@@ -29,7 +29,7 @@ define(function (require, exports, module) {
             tidsbrukTimer: '1',
             tidsbrukMinutter: '0',
             tidsbruk: {normal: {dager: 1, timer: 1, minutter: 0}},
-            retning: 'ABA',
+            retning: 'AB',
             lisens: 'CC BY-NC 4.0',
             status: 'Kladd',
             tags: [],
