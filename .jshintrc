@@ -1,7 +1,8 @@
 {
     "curly": true,
     "undef": true,
-    "unused": true,
     "nonbsp": true,
-    "sub": true
+    "sub": true,
+    "quotmark": false,
+    "node": true
 }
