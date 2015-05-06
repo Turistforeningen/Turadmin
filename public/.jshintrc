@@ -1,0 +1,19 @@
+{
+    "curly": true,
+    "undef": true,
+    "nonbsp": true,
+    "sub": true,
+    "quotmark": false,
+    "globals": {
+        "define": true,
+        "require": true,
+        "requirejs": true,
+        "Raven": true,
+        "L": true,
+        "_": true,
+        "moment": true,
+        "CKEDITOR": true
+    },
+    "browser": true,
+    "jquery": true
+}
