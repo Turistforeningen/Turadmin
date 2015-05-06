@@ -7,3 +7,10 @@
   <option value=<%= element.object_id %>><%= element.navn %></option>
 <% }); %>
 </optgroup>
+<% if (selectOptions.admin === true) { %>
+<optgroup value="groups" label="Eksterne grupper">
+<% _.each(selectOptions.externalGroups, function(element) { %>
+  <option value=<%= element._id %>><%= element.navn %></option>
+<% }); %>
+</optgroup>
+<% } %>

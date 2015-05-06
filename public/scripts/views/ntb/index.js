@@ -14,7 +14,8 @@ define(function (require, exports, module) {
         User = require('models/user'),
         SelectView = require('views/select'),
         ListItemView = require('views/ntb/listitem'),
-        PaginationTemplate = require('text!templates/ntb/pagination.html');
+        PaginationTemplate = require('text!templates/ntb/pagination.html'),
+        state = require('state');
 
     require('select2');
 
@@ -164,7 +165,8 @@ define(function (require, exports, module) {
                             user: this.user.get('id'),
                             groups: this.groups,
                             admin: this.user.get('admin'),
-                            itemType: this.itemType
+                            itemType: this.itemType,
+                            externalGroups: state.externalGroups
                         }, selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
                     });
 
