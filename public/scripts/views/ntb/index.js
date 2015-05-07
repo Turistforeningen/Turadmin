@@ -32,9 +32,8 @@ define(function (require, exports, module) {
         },
 
         initialize: function (options) {
-            var mergedUserData = options.userData || {};
-            mergedUserData.grupper = options.userGroups;
-            var user = new User(mergedUserData);
+
+            var user = new User();
             this.user = user;
 
             this.itemType = options.itemType;
