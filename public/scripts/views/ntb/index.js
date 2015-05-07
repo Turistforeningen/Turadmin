@@ -97,7 +97,7 @@ define(function (require, exports, module) {
         paginate: function (e) {
             var page = $(e.target).data('paginator');
             this.collection.state.currentPage = page;
-            this.fetchQuery.skip = (page - 1) * this.collection.state.pageSize;
+            this.collection.fetchQuery.skip = (page - 1) * this.collection.state.pageSize;
             this.fetchItems();
         },
 
