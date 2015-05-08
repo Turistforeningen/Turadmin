@@ -121,7 +121,7 @@ define(function (require, exports, module) {
             this.updatePublishButtons();
         },
 
-        publish: function() {
+        publish: function () {
 
             var isValid = this.model.isValid(true);
 
@@ -174,7 +174,7 @@ define(function (require, exports, module) {
 
         },
 
-        unpublish: function() {
+        unpublish: function () {
             this.model.set('status', 'Kladd', {silent: true});
             this.pictures.setUnpublished();
             this.pois.setUnpublished();
