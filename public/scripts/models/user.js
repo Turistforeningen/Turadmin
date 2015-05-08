@@ -95,18 +95,57 @@ define(function (require, exports, module) {
             this.set('_id', id);
             this.set('id', id);
 
+            this.setDefaultGroup();
+
             Raven.setUserContext({
                 name: this.get('navn'),
                 id: this.get('id'),
                 email: this.get('epost'),
                 provider: this.get('provider'),
-                is_admin: !!this.get('admin')
+                is_admin: !!this.get('er_admin')
             });
         },
 
         isDntGroupMember: function (user) {
             var userGroups = user.grupper;
             return (!!userGroups && !!userGroups.length);
+        },
+
+        getDefaultGroup: function () {
+            return this.defaultGroup;
+        },
+
+        setIsGroupUser: function () {
+            var isGroupUser = (this.get('gruppe') === this.get('id'));
+            this.set('er_gruppebruker', isGroupUser);
+        },
+
+        setDefaultGroup: function () {
+            var provider = this.get('provider');
+
+            switch(provider) {
+                case 'DNT Connect':
+                    var userGroups = this.get('grupper');
+
+                    if (userGroups.length > 0) {
+                        var sentralGroup = _.findWhere(userGroups, {type: 'sentral'});
+                        var foreningGroup = _.findWhere(userGroups, {type: 'forening'});
+                        var turlagGroup = _.findWhere(userGroups, {type: 'turlag'});
+                        var turgruppeGroup = _.findWhere(userGroups, {type: 'turgruppe'});
+
+                        this.set('gruppe', sentralGroup.object_id || foreningGroup.object_id || turlagGroup.object_id || turgruppeGroup.object_id);
+                    }
+
+                    break;
+
+                case 'Innholdspartner':
+                    // Does not require any additional handling. Yet.
+                    break;
+
+                default:
+                    // No default
+            }
+
         }
 
     });
