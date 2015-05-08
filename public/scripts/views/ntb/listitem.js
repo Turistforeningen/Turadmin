@@ -79,7 +79,7 @@ define(function (require, exports, module) {
                 this.remove();
             } else {
                 var data = this.makeJsonModel();
-                data.userIsAdmin = user.get('admin');
+                data.userIsAdmin = user.get('er_admin');
                 var html = this.template(data);
                 $(this.el).html(html);
             }
