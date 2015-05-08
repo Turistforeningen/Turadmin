@@ -120,6 +120,24 @@ define(function (require, exports, module) {
 
         // Filtering
 
+        clearFilters: function () {
+
+            delete this.fetchQuery['navn'];
+            delete this.fetchQuery['områder'];
+            delete this.fetchQuery['rute'];
+            delete this.fetchQuery['gruppe'];
+            delete this.fetchQuery['privat.opprettet_av.id'];
+
+            if (this.user.get('er_admin')) {
+                // Do nothing, no filters required. Just trigger filter change event!
+
+            } else {
+                this.setFilterEier(this.user.get('id'));
+            }
+
+            this.trigger('change:filter');
+        },
+
         setFilterNavn: function (term) {
             this.fetchQuery = this.fetchQuery || {};
 
