@@ -86,9 +86,8 @@ define(function (require, exports, module) {
                 el: '[data-view="route-pictures"]',
                 pictures: this.pictures,
                 map: this.mapWrapper,
-                messages: {
-                    empty: 'Husk å legge inn bilder fra turen din, slik at det blir synlig på forsiden av UT.no'
-                }
+                messages: {empty: 'Husk å legge inn bilder fra turen din, slik at det blir synlig på forsiden av UT.no'},
+                defaults: {status: this.model.get('status')}
             }).render();
 
             this.poiManager = new PoiManager({
