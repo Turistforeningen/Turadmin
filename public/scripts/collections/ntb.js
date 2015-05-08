@@ -26,7 +26,7 @@ define(function (require, exports, module) {
         },
 
         // Order models by date changed, descending
-        comparator: function(model) {
+        comparator: function (model) {
             var date = new Date(model.get('endret'));
             return -date;
         },
@@ -37,7 +37,7 @@ define(function (require, exports, module) {
             return records;
         },
 
-        constructor: function() {
+        constructor: function () {
             // To be able to iterate on auto-added models.
             // See https://github.com/jashkenas/backbone/issues/814#issuecomment-4577128
             Backbone.Collection.prototype.constructor.apply(this, arguments);
