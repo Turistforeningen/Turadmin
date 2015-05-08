@@ -128,7 +128,15 @@ block content
                 div.alert.alert-info
                     strong Ingen turer:
                     |&#32;
-                    span Fant ingen turer tilhørende valgt bruker eller gruppe.
+                    span Fant ingen turer.
+
+            div(class="hidden" data-container-for="no-items-matching-filter-alert")
+                div.alert.alert-info
+                    strong Ingen turer:
+                    |&#32;
+                    span Fant ingen turer som passer til filter og søk.&nbsp;
+                        a(data-action="filters-and-search-clear") Klikk her for å nullstille
+                        | &nbsp;eller endre på søk eller filter.
 
             div(class="hidden" data-container-for="loading-items-message")
                 span Henter turer...

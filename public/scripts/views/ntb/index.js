@@ -27,6 +27,7 @@ define(function (require, exports, module) {
         events: {
             'click [data-paginator]': 'paginate',
             'click [data-action="search"]': 'doSearch',
+            'click [data-action="filters-and-search-clear"]': 'clearFiltersAndSearch',
             'change [data-filter="type"]': 'onFilterTypeChange',
             'change [data-filter="omrade"]': 'onFilterOmraderChange'
         },
@@ -40,7 +41,7 @@ define(function (require, exports, module) {
 
             this.collection.on('reset', this.onItemsFetched, this);
 
-            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange');
+            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -112,12 +113,14 @@ define(function (require, exports, module) {
         showLoading: function () {
             this.$('[data-container-for="loading-items-message"]').removeClass('hidden');
             this.$('[data-container-for="no-items-alert"]').addClass('hidden');
+            this.$('[data-container-for="no-items-matching-filter-alert"]').addClass('hidden');
             this.$('[data-container-for="items-table"]').addClass('hidden');
             this.$('[data-container-for="paginator"]').addClass('hidden');
         },
 
         showRoutes: function () {
             this.$('[data-container-for="no-items-alert"]').addClass('hidden');
+            this.$('[data-container-for="no-items-matching-filter-alert"]').addClass('hidden');
             this.$('[data-container-for="loading-items-message"]').addClass('hidden');
             this.$('[data-container-for="items-table"]').removeClass('hidden');
             this.$('[data-container-for="paginator"]').removeClass('hidden');
@@ -127,7 +130,20 @@ define(function (require, exports, module) {
         showNoRoutes: function () {
             this.$('[data-container-for="loading-items-message"]').addClass('hidden');
             this.$('[data-container-for="items-table"]').addClass('hidden');
+
+            if (this.collection.hasFiltersApplied()) {
+                this.$('[data-container-for="no-items-alert"]').removeClass('hidden');
+                this.$('[data-container-for="no-items-matching-filter-alert"]').addClass('hidden');
+
+            } else {
+                this.$('[data-container-for="no-items-alert"]').removeClass('hidden');
+                this.$('[data-container-for="no-items-matching-filter-alert"]').addClass('hidden');
+            }
+
             this.$('[data-container-for="no-items-alert"]').removeClass('hidden');
+            this.$('[data-container-for="no-items-matching-filter-alert"]').addClass('hidden');
+            this.$('[data-container-for="no-items-alert"]').addClass('hidden');
+            this.$('[data-container-for="no-items-matching-filter-alert"]').removeClass('hidden');
             this.$('[data-container-for="paginator"]').addClass('hidden');
 
         },
@@ -215,6 +231,10 @@ define(function (require, exports, module) {
             }
 
             this.$('[data-container-for="paginator"]').html(html);
+        },
+
+        clearFiltersAndSearch: function () {
+            this.collection.clearFilters();
         }
 
     });

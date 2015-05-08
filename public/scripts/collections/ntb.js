@@ -210,7 +210,7 @@ define(function (require, exports, module) {
         setFilterEier: function (id) {
             this.fetchQuery = this.fetchQuery || {};
 
-            if (id == this.user.get('id')) {
+            if ((id == this.user.get('id')) && (!this.user.get('er_gruppebruker'))) {
                 this.fetchQuery['privat.opprettet_av.id'] = id;
                 delete this.fetchQuery['gruppe'];
 
