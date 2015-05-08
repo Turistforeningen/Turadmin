@@ -94,7 +94,8 @@ define(function (require, exports, module) {
                 el: '[data-view="route-pois"]',
                 pois: this.pois,
                 pictures: this.pictures,
-                map: this.mapWrapper
+                map: this.mapWrapper,
+                defaults: {status: this.model.get('status')}
             }).render();
 
             this.routeDetailsView = new RouteDetailsView({
