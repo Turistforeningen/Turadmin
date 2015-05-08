@@ -120,6 +120,49 @@ define(function (require, exports, module) {
 
         // Filtering
 
+        hasFiltersApplied: function () {
+
+            if (!!this.fetchQuery) {
+
+                // TODO: Need to be different for POI's, as they have `rute` as query param by default.
+                if (this.fetchQuery['navn'] || this.fetchQuery['områder'] || this.fetchQuery['rute']) {
+                    return true;
+                }
+
+                var queryGruppeId = this.fetchQuery['gruppe'];
+                var queryBrukerId = this.fetchQuery['privat.opprettet_av.id'];
+
+                if (this.user.get('er_admin')) {
+
+                    if (queryGruppeId || queryBrukerId) {
+                        return true;
+                    }
+
+                } else if (this.user.get('er_gruppebruker')) {
+
+                    if (queryBrukerId) {
+                        return true;
+
+                    } else if (queryGruppeId && (queryGruppeId !== this.user.get('id'))) {
+                        return true;
+                    }
+
+                } else {
+
+                    if (queryGruppeId) {
+                        return true;
+
+                    } else if (queryBrukerId && (queryBrukerId !== this.user.get('id'))) {
+                        return true;
+                    }
+
+                }
+
+            }
+
+            return false;
+        },
+
         clearFilters: function () {
 
             delete this.fetchQuery['navn'];
