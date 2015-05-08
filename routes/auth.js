@@ -144,10 +144,10 @@ module.exports = function (app, options) {
     };
 
     var postLoginTurbasenAuth = function (req, res) {
-        turbasenAuthClient.authenticate(req.body.username, req.body.password, function(error, user) {
+        turbasenAuthClient.authenticate(req.body.username, req.body.password, function (error, user) {
             if (error) {
                 // Something went horribly wrong
-                sentry.captureError(error, { extra: { username: req.body.username }});
+                sentry.captureError(error, {extra: { username: req.body.username}});
 
             } else if (user) {
                 req.session.isAuthenticated = true;
