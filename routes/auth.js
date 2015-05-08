@@ -154,7 +154,7 @@ module.exports = function (app, options) {
                 req.session.authType = 'innholdspartner';
 
                 req.session.user = user;
-                req.session.user._id = user.epost;
+                req.session.user._id = user.gruppe._id;
                 req.session.user.provider = 'Innholdspartner';
 
                 req.session.userId = user.epost;
