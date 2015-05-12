@@ -133,7 +133,15 @@ define(function (require, exports, module) {
                         var turlagGroup = _.findWhere(userGroups, {type: 'turlag'});
                         var turgruppeGroup = _.findWhere(userGroups, {type: 'turgruppe'});
 
-                        this.set('gruppe', sentralGroup.object_id || foreningGroup.object_id || turlagGroup.object_id || turgruppeGroup.object_id);
+                        var defaultGroup = sentralGroup || foreningGroup || turlagGroup || turgruppeGroup;
+
+                        if (defaultGroup) {
+                            this.set('gruppe', defaultGroup.object_id);
+
+                        } else {
+                            Raven.captureMessage('DNT Connect user did not belong to any groups.', {extra: {user: this.toJSON()}});
+                        }
+
                     }
 
                     break;
