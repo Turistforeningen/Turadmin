@@ -61,6 +61,16 @@ define(function (require, exports, module) {
 
             this.model = options.model;
             this.pictures = options.pictures;
+            this.model.on('change:status_conflict', this.onModelStatusConflictChange, this);
+        },
+
+        onModelStatusConflictChange: function (model, value, options) {
+            if (this.model.get('status_conflict')) {
+                this.$('.alert.status-conflict').removeClass('hidden');
+
+            } else {
+                this.$('.alert.status-conflict').addClass('hidden');
+            }
         },
 
         openDeleteModal: function (e) {
