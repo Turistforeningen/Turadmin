@@ -278,15 +278,13 @@ define(function (require, exports, module) {
             var isValid = this.isValid(true);
 
             if ((attrs.status === 'Offentlig') && !isValid) {
-                this.set('status_conflict', true);
-                this.set('status', 'Kladd');
+                this.setStatusConflict(true);
                 attrs.status = 'Kladd';
 
             } else if ((attrs.status === 'Kladd') && this.get('status_conflict') && isValid) {
                 // Status is `Kladd` and there is a conflict, meaning the only thing keeping it from being
                 // `Offentlig` is validation
-                this.set('status_conflict', false);
-                this.set('status', 'Offentlig');
+                this.setStatusConflict(false);
                 attrs.status = 'Offentlig';
             }
 
