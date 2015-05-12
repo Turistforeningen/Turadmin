@@ -78,7 +78,7 @@ requirejs.config({
                 _.extend(Backbone.Validation.callbacks, {
 
                     valid: function (view, attr, selector) {
-                        var $el = $('[data-model-validation-field-name="' + attr + '"]'),
+                        var $el = view.$('[data-model-validation-field-name="' + attr + '"]'),
                             $formGroup = $el.closest('.form-group'),
                             $errorMsg = $el.next('.error-msg');
 
@@ -90,7 +90,7 @@ requirejs.config({
                     },
 
                     invalid: function (view, attr, error, selector) {
-                        var $el = $('[data-model-validation-field-name="' + attr + '"]'),
+                        var $el = view.$('[data-model-validation-field-name="' + attr + '"]'),
                             $formGroup = $el.closest('.form-group'),
                             $errorMsg = $el.next('.error-msg');
 
