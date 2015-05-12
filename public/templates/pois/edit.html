@@ -8,6 +8,13 @@
   <div id="route-pois-accordion-<%= cid %>" class="panel-collapse collapse in">
     <div class="panel-body">
       <div class="row">
+        <div class="col-sm-12">
+          <div class="alert alert-warning status-conflict <% if ((typeof status_conflict === 'undefined') || (typeof status_conflict !== 'undefined') && status_conflict !== true) { %>hidden<% } %>">
+            Dette stedet er ikke publisert sammen med turforslaget på grunn av felt som ikke er riktig fylt ut. For å publisere stedet må du rette disse feilene, som er markert med rødt, og lagre igjen.
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
           <h5>Om stedet</h5>
           <form class="form-horizontal" role="form">
