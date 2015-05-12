@@ -250,6 +250,20 @@ define(function (require, exports, module) {
 
         },
 
+        setStatusConflict: function (conflict) {
+            if (conflict === true) {
+                this.set('status_conflict', true);
+                this.set('status', 'Kladd');
+
+            } else if (conflict === false) {
+                this.set('status_conflict', false);
+                this.set('status', 'Offentlig');
+
+            } else {
+                throw new Error('Called setStatusConflict with invalid input', conflict);
+            }
+        },
+
 
         /* Server interactions */
 
