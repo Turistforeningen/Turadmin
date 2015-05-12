@@ -22,6 +22,7 @@ define(function (require, exports, module) {
 
         el: '[data-view="pois-manager"]',
         template: _.template(Template),
+        defaults: {},
 
         events: {
             'click [data-action="do-create-poi"]': 'addPoi'
@@ -43,6 +44,9 @@ define(function (require, exports, module) {
 
             // Map... Add some logic to set up a new map if one is not passed as an option
             this.map = options.map;
+
+            // Set defaults for new models if passed
+            this.defaults = options.defaults || this.defaults;
 
             // Event listeners
 
