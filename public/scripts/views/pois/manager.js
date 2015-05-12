@@ -79,7 +79,7 @@ define(function (require, exports, module) {
         },
 
         addPoi: function () {
-            var poi = new PoiModel();
+            var poi = new PoiModel(this.defaults);
             this.map.positionModel(poi, $.proxy(this.onMarkerCreate, this));
         },
 
