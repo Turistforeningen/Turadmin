@@ -261,7 +261,21 @@ define(function (require, exports, module) {
             attrs = attrs || this.toJSON();
             options = options || {};
 
-            var isValid = this.isValid(true); // Check if model is valid, to validate all fields. The result variable is not really needed, as we are saving the model to the server anyway
+            var isValid = this.isValid(true);
+
+            if ((attrs.status === 'Offentlig') && !isValid) {
+                this.set('status_conflict', true);
+                this.set('status', 'Kladd');
+                attrs.status = 'Kladd';
+
+            } else if ((attrs.status === 'Kladd') && this.get('status_conflict') && isValid) {
+                // Status is `Kladd` and there is a conflict, meaning the only thing keeping it from being
+                // `Offentlig` is validation
+                this.set('status_conflict', false);
+                this.set('status', 'Offentlig');
+                attrs.status = 'Offentlig';
+            }
+
             var method;
 
             if (!!attrs._method) {
