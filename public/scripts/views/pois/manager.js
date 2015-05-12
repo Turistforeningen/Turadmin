@@ -89,9 +89,21 @@ define(function (require, exports, module) {
         },
 
         appendPoi: function (poi) {
+            // If POI status is not the same as default status for POI manager, which should be the same as
+            // the route it's in context of, indicate a status conflict
+            if (poi.get('status') !== this.defaults.status) {
+                poi.setStatusConflict(true);
+            }
+
             var view = new PoiEditView({model: poi, pictures: this.pictures});
             this.$('[data-container-for="all-pois-container"]').append(view.render().el);
             this.$('[data-container-for="no-pois-message"]').addClass('hidden');
+
+            // Validate model if it has status conflict, to highlight fields with errors
+            // This will also prevent new POI's that is just being added, from being validated
+            if (poi.get('status_conflict')) {
+                poi.isValid(true);
+            }
         }
 
     });
