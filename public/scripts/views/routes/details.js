@@ -245,18 +245,51 @@ define(function (require, exports, module) {
 
             this.$('[name="route-details-field-tilrettelagt_for"]').select2('val', this.model.get('tilrettelagt_for'));
 
+
             var userGroups = this.user.get('grupper');
+            var select2Options;
+
             if (!!userGroups && userGroups.length > 0) {
-                var select2Groups = [];
+                var select2UserGroups = [];
 
                 for (var i = 0; i < userGroups.length; i++) {
-                    select2Groups[i] = {};
-                    select2Groups[i].id = userGroups[i].object_id;
-                    select2Groups[i].text = userGroups[i].navn;
+                    select2UserGroups[i] = {};
+                    select2UserGroups[i].id = userGroups[i].object_id;
+                    select2UserGroups[i].text = userGroups[i].navn;
+                }
+
+                if (user.get('er_admin') === true) {
+
+                    var state = require('state'); // NOTE: Should be enough to have this defined on top, but apparently it's not
+                    var externalGroups = state.externalGroups;
+                    var select2ExternalGroups = [];
+
+                    for (var j = 0; j < externalGroups.length; j++) {
+                        select2ExternalGroups[j] = {};
+                        select2ExternalGroups[j].id = externalGroups[j]._id;
+                        select2ExternalGroups[j].text = externalGroups[j].navn;
+                    }
+
+                    select2Options = [
+                        {
+                            text: 'Grupper jeg er medlem av',
+                            children: select2UserGroups
+                        },
+                        {
+                            text: 'Eksterne grupper',
+                            children: select2ExternalGroups
+                        }
+                    ];
+
+                } else {
+                    select2Options = select2UserGroups;
                 }
 
                 $('input[name="route-details-field-grupper"]').select2({
-                    tags: select2Groups,
+                    data: {
+                        results: select2Options
+                    },
+                    multiple: true,
                     createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
                 }).on('change', $.proxy(function (e) {
                     var routeGroups = e.val;
