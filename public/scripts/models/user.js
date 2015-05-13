@@ -25,7 +25,7 @@ define(function (require, exports, module) {
             // TODO: Major
 
             options = state.userData;
-            options.grupper = state.userGroups;
+            options.grupper = state.userGroups || [];
 
             var additionalGroups = state.groupsData || [];
 
