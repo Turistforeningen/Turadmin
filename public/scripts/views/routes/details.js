@@ -13,6 +13,7 @@ define(function (require, exports, module) {
         Backbone = require('backbone'),
         RouteModel = require('models/route'),
         LinksManagerView = require('views/links/manager'),
+        state = require('state'),
         User = require('models/user'),
         user = new User();
 
