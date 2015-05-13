@@ -56,8 +56,11 @@ module.exports = function (app, restProxy, options) {
             var groupsCount = (!!data.grupper) ? data.grupper.length : 0;
             var groupsData = [];
 
+            var externalGroups = [];
+
             // console.log('Route has', poisCount, 'pois.');
-            var totalResourcesCount = picturesCount + poisCount + groupsCount + 1; // +1 is the route
+            var totalResourcesCount = picturesCount + poisCount + groupsCount + 1 + 1;
+            // +1 is the route request // +1 is the external groups request
 
             // console.log('Route has', totalResourcesCount, 'total resources including route.');
             var onCompletePictureRequest = function (data) {
@@ -72,6 +75,11 @@ module.exports = function (app, restProxy, options) {
 
             var onCompleteGroupRequest = function (data) {
                 groupsData.push(data);
+                allResourcesLoaded();
+            };
+
+            var onCompleteExternalGroupsRequest = function (data) {
+                externalGroups = data.documents;
                 allResourcesLoaded();
             };
 
@@ -94,6 +102,8 @@ module.exports = function (app, restProxy, options) {
                 var groupId = data.grupper[k];
                 restProxy.makeApiRequest('/grupper/' + groupId, req, undefined, onCompleteGroupRequest);
             }
+
+            restProxy.makeApiRequest('/grupper/?tags=!&limit=400&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
 
             var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
