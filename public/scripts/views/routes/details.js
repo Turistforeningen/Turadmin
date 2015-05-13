@@ -296,7 +296,14 @@ define(function (require, exports, module) {
                     this.model.set('grupper', routeGroups);
                 }, this));
 
-                this.$('[name="route-details-field-grupper"]').select2('val', this.model.get('grupper'));
+                // For new routes (with no id), set default eier to the users primary group
+                if (!this.model.get('id') && this.user.get('gruppe')) {
+                    this.$('input[name="route-details-field-grupper"]').select2('val', [this.user.get('gruppe')]);
+
+                } else if (this.model.get('id') && this.model.get('grupper')) {
+                    this.$('[name="route-details-field-grupper"]').select2('val', this.model.get('grupper'));
+                }
+
 
             } else {
                 // If user does not belong to any groups, do not show groups field.
