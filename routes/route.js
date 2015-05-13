@@ -133,6 +133,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
                 req.renderOptions.poisData = JSON.stringify(sortedPoisData);
                 req.renderOptions.groupsData = JSON.stringify(groupsData);
+                req.renderOptions.externalGroups = JSON.stringify(externalGroups);
 
                 res.render('routes/editor', req.renderOptions);
             });
