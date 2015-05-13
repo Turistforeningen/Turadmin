@@ -17,6 +17,7 @@ module.exports = function (app, restProxy, options) {
     var route = function (req, res, next) {
 
         var userGroups = req.userGroups || [];
+        var externalGroups = req.userGroups || [];
 
         req.renderOptions = req.renderOptions || {};
         req.renderOptions.userData = JSON.stringify(req.session.user);
@@ -24,7 +25,13 @@ module.exports = function (app, restProxy, options) {
         req.renderOptions.routeApiUri = options.routeApiUri;
         req.renderOptions.authType = req.session.authType;
 
-        next();
+        var onCompleteExternalGroupsRequest = function (data) {
+            req.renderOptions.externalGroups = JSON.stringify(data.documents);
+            next();
+        };
+
+        restProxy.makeApiRequest('/grupper/?tags=!&limit=400&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
+
     };
 
 
@@ -56,11 +63,8 @@ module.exports = function (app, restProxy, options) {
             var groupsCount = (!!data.grupper) ? data.grupper.length : 0;
             var groupsData = [];
 
-            var externalGroups = [];
-
             // console.log('Route has', poisCount, 'pois.');
-            var totalResourcesCount = picturesCount + poisCount + groupsCount + 1 + 1;
-            // +1 is the route request // +1 is the external groups request
+            var totalResourcesCount = picturesCount + poisCount + groupsCount + 1; // +1 is the route request
 
             // console.log('Route has', totalResourcesCount, 'total resources including route.');
             var onCompletePictureRequest = function (data) {
@@ -75,11 +79,6 @@ module.exports = function (app, restProxy, options) {
 
             var onCompleteGroupRequest = function (data) {
                 groupsData.push(data);
-                allResourcesLoaded();
-            };
-
-            var onCompleteExternalGroupsRequest = function (data) {
-                externalGroups = data.documents;
                 allResourcesLoaded();
             };
 
@@ -102,8 +101,6 @@ module.exports = function (app, restProxy, options) {
                 var groupId = data.grupper[k];
                 restProxy.makeApiRequest('/grupper/' + groupId, req, undefined, onCompleteGroupRequest);
             }
-
-            restProxy.makeApiRequest('/grupper/?tags=!&limit=400&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
 
             var allResourcesLoaded = underscore.after(totalResourcesCount, function () {
 
@@ -133,7 +130,6 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
                 req.renderOptions.poisData = JSON.stringify(sortedPoisData);
                 req.renderOptions.groupsData = JSON.stringify(groupsData);
-                req.renderOptions.externalGroups = JSON.stringify(externalGroups);
 
                 res.render('routes/editor', req.renderOptions);
             });
