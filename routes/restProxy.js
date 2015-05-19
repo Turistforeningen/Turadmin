@@ -37,7 +37,6 @@ module.exports = function (app, options) {
         // Set the approperiate method if overridden using _method
         var method = req.body._method || req.method;
         delete req.body._method;
-        var json;
 
         // Create options object and set API key
         var options = options || {};
@@ -132,8 +131,7 @@ module.exports = function (app, options) {
             restler.postJson(url, req.body, options).on('complete', onCompletePost);
 
         } else if (method === "PUT") {
-            json = JSON.stringify(req.body);
-            options = {data: json, headers: {}};
+            options = {data: JSON.stringify(req.body), headers: {}};
             options.headers['content-type'] = 'application/json';
             options.headers['User-Agent'] = 'turadmin-v2.0';
             // console.log("PUT url:", url);
@@ -141,8 +139,7 @@ module.exports = function (app, options) {
             restler.put(url, options).on('complete', onComplete);
 
         } else if (method === "PATCH") {
-            json = JSON.stringify(req.body);
-            options = {data: json, headers: {}};
+            options = {data: JSON.stringify(req.body), headers: {}};
             options.headers['content-type'] = 'application/json';
             options.headers['User-Agent'] = 'turadmin-v2.0';
             // console.log("DEBUG:restproxy: PATCH", url);
