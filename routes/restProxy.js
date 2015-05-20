@@ -46,12 +46,15 @@ module.exports = function (app, options) {
         // Apply query params from passed path to query object
         // The URL-params will override existing req params with matching keys
         var paramsStr = path.split('?')[1];
-        var paramsArr = paramsStr.split('&');
 
-        for (var i = 0, key, val; i < paramsArr.length; i++) {
-            key = paramsArr[i].split('=')[0];
-            val = paramsArr[i].split('=')[1] || "";
-            options.query[key] = val;
+        if (typeof paramsStr === 'string') {
+            var paramsArr = paramsStr.split('&');
+
+            for (var i = 0, key, val; i < paramsArr.length; i++) {
+                key = paramsArr[i].split('=')[0];
+                val = paramsArr[i].split('=')[1] || "";
+                options.query[key] = val;
+            }
         }
 
         // Callbacks
