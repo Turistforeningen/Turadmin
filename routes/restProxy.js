@@ -38,8 +38,8 @@ module.exports = function (app, options) {
         var method = req.body._method || req.method;
         delete req.body._method;
 
-        // Create options object and set API key
-        var options = options || {};
+        // Create options object and set user agent & API key
+        var options = {headers: {'User-Agent': 'turadmin-v2.0'}};
         options.query = req.query || {};
         options.query.api_key = ntbApiKey;
 
@@ -85,8 +85,6 @@ module.exports = function (app, options) {
         };
 
         if (method === "GET") {
-            options.headers = {'User-Agent': 'turadmin-v2.0'};
-
             // Adds support for a higher limit than the one set in NTB API, but not higher than internal PROXY_LIMIT
             // Will sequentially perform the number of requests necessary for collecting the number of objects
             // set in the custom limit.
@@ -130,28 +128,26 @@ module.exports = function (app, options) {
 
         } else if (method === "POST") {
             // console.log("Posting:", util.inspect(req.body));
-            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
             restler.postJson(url, req.body, options).on('complete', onCompletePost);
 
         } else if (method === "PUT") {
-            options = {data: JSON.stringify(req.body), headers: {}};
             options.headers['content-type'] = 'application/json';
-            options.headers['User-Agent'] = 'turadmin-v2.0';
             // console.log("PUT url:", url);
             // console.log("PUT options:", options);
+            options.data = JSON.stringify(req.body);
+
             restler.put(url, options).on('complete', onComplete);
 
         } else if (method === "PATCH") {
-            options = {data: JSON.stringify(req.body), headers: {}};
             options.headers['content-type'] = 'application/json';
-            options.headers['User-Agent'] = 'turadmin-v2.0';
             // console.log("DEBUG:restproxy: PATCH", url);
             // console.log("PATCH options:", options);
+            options.data = JSON.stringify(req.body);
+
             restler.patch(url, options).on('complete', onComplete);
 
         } else if (method === "DELETE") {
             // console.log("DELETE url:", url);
-            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
             restler.del(url, options).on('complete', onComplete);
         }
     };
