@@ -123,7 +123,7 @@ define(function (require, exports, module) {
         setDefaultGroup: function () {
             var provider = this.get('provider');
 
-            switch(provider) {
+            switch (provider) {
                 case 'DNT Connect':
                     var userGroups = this.get('grupper');
 
