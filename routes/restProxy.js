@@ -72,7 +72,6 @@ module.exports = function (app, options) {
             if (!!response && !!response.statusCode) {
                 res.statusCode = response.statusCode;
             }
-            // console.log("Response:", data);
             moveId(data);
             res.json(data);
         };
@@ -127,27 +126,21 @@ module.exports = function (app, options) {
             }
 
         } else if (method === "POST") {
-            // console.log("Posting:", util.inspect(req.body));
             restler.postJson(url, req.body, options).on('complete', onCompletePost);
 
         } else if (method === "PUT") {
             options.headers['content-type'] = 'application/json';
-            // console.log("PUT url:", url);
-            // console.log("PUT options:", options);
             options.data = JSON.stringify(req.body);
 
             restler.put(url, options).on('complete', onComplete);
 
         } else if (method === "PATCH") {
             options.headers['content-type'] = 'application/json';
-            // console.log("DEBUG:restproxy: PATCH", url);
-            // console.log("PATCH options:", options);
             options.data = JSON.stringify(req.body);
 
             restler.patch(url, options).on('complete', onComplete);
 
         } else if (method === "DELETE") {
-            // console.log("DELETE url:", url);
             restler.del(url, options).on('complete', onComplete);
         }
     };
