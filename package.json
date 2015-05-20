@@ -16,6 +16,7 @@
     "express": "~4.12",
     "jade": "~1.9",
     "method-override": "~2.3",
+    "node-cache": "~2.1",
     "openid": "~0.5",
     "raven": "~0.7",
     "restler": "~3.2",

@@ -27,15 +27,37 @@ module.exports = function (app, options) {
         data.document = undefined;
     };
 
-    var makeRequest = function (path, req, res, onCompleteOverride) {
-        var apiKey = (path.match(/\?/) ? '&' : '?') + 'api_key=' + ntbApiKey;
-        var url = ntbApiUri + path + apiKey;
+    var makeRequest = function (path, req, res, onCompleteOverride, getAll) {
+        var API_LIMIT = 50;
+        var PROXY_LIMIT = 200;
+
+        // Strip query params from path to get URL
+        var url = ntbApiUri + path.split('?')[0];
+
+        // Set the approperiate method if overridden using _method
         var method = req.body._method || req.method;
         delete req.body._method;
-        var json, options;
 
-        // console.log("Request URL:", url);
+        // Create options object and set user agent & API key
+        var options = {headers: {'User-Agent': 'turadmin-v2.0'}};
+        options.query = req.query || {};
+        options.query.api_key = ntbApiKey;
 
+        // Apply query params from passed path to query object
+        // The URL-params will override existing req params with matching keys
+        var paramsStr = path.split('?')[1];
+
+        if (typeof paramsStr === 'string') {
+            var paramsArr = paramsStr.split('&');
+
+            for (var i = 0, key, val; i < paramsArr.length; i++) {
+                key = decodeURIComponent(paramsArr[i].split('=')[0]);
+                val = decodeURIComponent(paramsArr[i].split('=')[1] || "");
+                options.query[key] = val;
+            }
+        }
+
+        // Callbacks
         var onCompleteDefault = function (data, response) {
             res.statusCode = (!!response) ? response.statusCode : 0;
             if (data.document !== undefined) { // NOTE: Why the if?
@@ -50,7 +72,6 @@ module.exports = function (app, options) {
             if (!!response && !!response.statusCode) {
                 res.statusCode = response.statusCode;
             }
-            // console.log("Response:", data);
             moveId(data);
             res.json(data);
         };
@@ -63,35 +84,63 @@ module.exports = function (app, options) {
         };
 
         if (method === "GET") {
-            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
-            restler.get(url, options).on('complete', onComplete);
+            // Adds support for a higher limit than the one set in NTB API, but not higher than internal PROXY_LIMIT
+            // Will sequentially perform the number of requests necessary for collecting the number of objects
+            // set in the custom limit.
+            if (options.query.limit > API_LIMIT) {
+                var customLimit = Math.min(options.query.limit, PROXY_LIMIT);
+                options.query.limit = API_LIMIT;
+
+                var skip = 0; // Number of objects to skip. This will increase for each request
+                var all = []; // Array that will eventually contain objects from all requests
+
+                var prepData = function (data, response) {
+
+                    if (data.documents && data.documents.length) {
+                        for (var i = 0; i < data.documents.length; i++) {
+                            if (all.length < customLimit) {
+                                all.push(data.documents[i]);
+                            }
+                        }
+
+                        if ((all.length === data.total) || (all.length >= customLimit)) {
+                            onComplete({documents: all, count: all.length, total: data.total}, response);
+
+                        } else {
+                            options.query = options.query || {};
+                            skip += data.count;
+                            options.query.skip = skip;
+
+                            restler.get(url, options).on('complete', prepData);
+                        }
+
+                    } else {
+                        onComplete(data, response);
+                    }
+                };
+
+                restler.get(url, options).on('complete', prepData);
+
+            } else {
+                restler.get(url, options).on('complete', onComplete);
+            }
 
         } else if (method === "POST") {
-            // console.log("Posting:", util.inspect(req.body));
-            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
             restler.postJson(url, req.body, options).on('complete', onCompletePost);
 
         } else if (method === "PUT") {
-            json = JSON.stringify(req.body);
-            options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
-            options.headers['User-Agent'] = 'turadmin-v2.0';
-            // console.log("PUT url:", url);
-            // console.log("PUT options:", options);
+            options.data = JSON.stringify(req.body);
+
             restler.put(url, options).on('complete', onComplete);
 
         } else if (method === "PATCH") {
-            json = JSON.stringify(req.body);
-            options = {data: json, headers: {}};
             options.headers['content-type'] = 'application/json';
-            options.headers['User-Agent'] = 'turadmin-v2.0';
-            // console.log("DEBUG:restproxy: PATCH", url);
-            // console.log("PATCH options:", options);
+            options.data = JSON.stringify(req.body);
+
             restler.patch(url, options).on('complete', onComplete);
 
         } else if (method === "DELETE") {
-            // console.log("DELETE url:", url);
-            options = {headers: {'User-Agent': 'turadmin-v2.0'}};
             restler.del(url, options).on('complete', onComplete);
         }
     };

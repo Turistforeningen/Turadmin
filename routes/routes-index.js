@@ -8,6 +8,8 @@ module.exports = function (app, options) {
     var underscore = require('underscore');
     var userGroupsFetcher = options.userGroupsFetcher;
     var restProxy = options.restProxy;
+    var NodeCache = require('node-cache');
+    var cache = new NodeCache();
 
     /**
      * GET list of routes (index page)
@@ -21,11 +23,13 @@ module.exports = function (app, options) {
         var groups;
 
         var onCompleteOmraderRequest = function (data) {
+            cache.set('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', data, 86400);
             areas = data.documents;
             onCompleteNtbRequest();
         };
 
         var onCompleteGrupperRequest = function (data) {
+            cache.set('/grupper/?tags=!&limit=200&fields=navn&sort=navn', data, 86400);
             groups = data.documents;
             onCompleteNtbRequest();
         };
@@ -45,9 +49,23 @@ module.exports = function (app, options) {
             res.render('routes/index', renderOptions);
         });
 
-        restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', req, undefined, onCompleteOmraderRequest);
+        var cachedOmrader = cache.get('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig');
+        if (cachedOmrader) {
+            areas = cachedOmrader.documents;
+            onCompleteNtbRequest();
+        } else {
+            restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', req, undefined, onCompleteOmraderRequest);
+        }
 
-        restProxy.makeApiRequest('/grupper/?tags=!&limit=400&fields=navn&sort=navn', req, undefined, onCompleteGrupperRequest);
+        var cachedGrupper = cache.get('/grupper/?tags=!&limit=200&fields=navn&sort=navn');
+        if (cachedGrupper) {
+            groups = cachedGrupper.documents;
+            onCompleteNtbRequest();
+
+        } else {
+            restProxy.makeApiRequest('/grupper/?tags=!&limit=200&fields=navn&sort=navn', req, undefined, onCompleteGrupperRequest);
+        }
+
     };
 
     app.get('/turer', userGroupsFetcher);

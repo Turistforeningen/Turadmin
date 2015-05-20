@@ -10,6 +10,8 @@ module.exports = function (app, restProxy, options) {
 
     var underscore = require('underscore');
     var userGroupsFetcher = options.userGroupsFetcher;
+    var NodeCache = require('node-cache');
+    var cache = new NodeCache();
 
     /*
      * GET route. before routeNew and routeEdit
@@ -30,7 +32,13 @@ module.exports = function (app, restProxy, options) {
             next();
         };
 
-        restProxy.makeApiRequest('/grupper/?tags=!&limit=400&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
+        var cachedGrupper = cache.get('/grupper/?tags=!&limit=200&fields=navn&sort=navn');
+        if (cachedGrupper) {
+            onCompleteExternalGroupsRequest(cachedGrupper);
+
+        } else {
+            restProxy.makeApiRequest('/grupper/?tags=!&limit=200&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
+        }
 
     };
 
