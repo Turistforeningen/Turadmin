@@ -23,13 +23,13 @@ module.exports = function (app, options) {
         var groups;
 
         var onCompleteOmraderRequest = function (data) {
-            cache.set('alle_omrader_response', data, 86400);
+            cache.set('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', data, 86400);
             areas = data.documents;
             onCompleteNtbRequest();
         };
 
         var onCompleteGrupperRequest = function (data) {
-            cache.set('alle_eksterne_grupper_response', data, 86400);
+            cache.set('/grupper/?tags=!&limit=200&fields=navn&sort=navn', data, 86400);
             groups = data.documents;
             onCompleteNtbRequest();
         };
@@ -49,7 +49,7 @@ module.exports = function (app, options) {
             res.render('routes/index', renderOptions);
         });
 
-        var cachedOmrader = cache.get('alle_omrader_response');
+        var cachedOmrader = cache.get('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig');
         if (cachedOmrader) {
             areas = cachedOmrader.documents;
             onCompleteNtbRequest();
@@ -57,7 +57,7 @@ module.exports = function (app, options) {
             restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', req, undefined, onCompleteOmraderRequest);
         }
 
-        var cachedGrupper = cache.get('alle_eksterne_grupper_response');
+        var cachedGrupper = cache.get('/grupper/?tags=!&limit=200&fields=navn&sort=navn');
         if (cachedGrupper) {
             groups = cachedGrupper.documents;
             onCompleteNtbRequest();
