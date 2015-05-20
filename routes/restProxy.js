@@ -51,8 +51,8 @@ module.exports = function (app, options) {
             var paramsArr = paramsStr.split('&');
 
             for (var i = 0, key, val; i < paramsArr.length; i++) {
-                key = paramsArr[i].split('=')[0];
-                val = paramsArr[i].split('=')[1] || "";
+                key = decodeURIComponent(paramsArr[i].split('=')[0]);
+                val = decodeURIComponent(paramsArr[i].split('=')[1] || "");
                 options.query[key] = val;
             }
         }
