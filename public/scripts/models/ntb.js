@@ -154,9 +154,11 @@ define(function (require, exports, module) {
 
             var userProvider = user.get('provider');
             var namingBy;
+            var state = require('state');
 
             if (userProvider === 'DNT Connect') {
                 var userGroups = user.get('grupper');
+                var externalGroups = state.externalGroups;
                 var objectGroups = this.get('grupper');
                 var objectPrimaryGroupId,
                     objectPrimaryGroup,
@@ -164,7 +166,7 @@ define(function (require, exports, module) {
 
                 if (!!objectGroups && objectGroups.length) {
                     objectPrimaryGroupId = objectGroups[0];
-                    objectPrimaryGroup = _.findWhere(userGroups, {object_id: objectPrimaryGroupId});
+                    objectPrimaryGroup = _.findWhere(userGroups, {object_id: objectPrimaryGroupId}) || _.findWhere(externalGroups, {_id: objectPrimaryGroupId});
                     namingBy = objectPrimaryGroup.navn;
 
                 } else {
