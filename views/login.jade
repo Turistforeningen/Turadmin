@@ -15,6 +15,14 @@ block content
 
         div.row
             div.col-md-5.col-sm-6.col-md-offset-1
+                div.dnt-connect
+                    h3 DNT/Sherpa-brukere
+                    a.btn.btn-lg.btn-default.btn-block(href="/login/dnt/connect")
+                        span.glyphicon.glyphicon.glyphicon-arrow-right
+                        | &nbsp;Gå til innlogging
+                    p.help-block Klikk her dersom du ønsker å logge inn som DNT/Sherpa-bruker
+
+            div.col-md-4.col-sm-5.col-md-offset-1.col-sm-offset-1
                 div.gruppebruker
                     h3 Innholdspartner
 
@@ -43,12 +51,3 @@ block content
                         div.form-group
                             button.btn.btn-lg.btn-primary.btn-block(type="submit") <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp; Logg inn
                         p.help-block Fyll inn brukernavn og passord dersom du ønsker å logge inn som innholdspartner.
-
-            div.col-md-4.col-sm-5.col-md-offset-1.col-sm-offset-1
-
-                div.dnt-connect
-                    h3 DNT/Sherpa-brukere
-                    a.btn.btn-lg.btn-default.btn-block(href="/login/dnt/connect")
-                        span.glyphicon.glyphicon.glyphicon-arrow-right
-                        | &nbsp;Gå til innlogging
-                    p.help-block Klikk her dersom du ønsker å logge inn som DNT/Sherpa-bruker
