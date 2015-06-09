@@ -46,55 +46,6 @@ module.exports = function (app, options) {
         }
     };
 
-    var openid = require('openid');
-    var relyingParty = new openid.RelyingParty(
-        BASE_URL + '/login/nrk/verify', null, true, false, [
-            new openid.AttributeExchange({
-                "http://axschema.org/contact/email": "required",
-                "http://axschema.org/namePerson/first": "required",
-                "http://axschema.org/namePerson/last": "required"
-            })
-        ]
-    );
-
-    var getLoginNrkBounce = function (req, res, next) {
-        relyingParty.authenticate('http://mitt.nrk.no/user.aspx', false, function (err, authUrl) {
-            if (err) { return next(err); }
-            if (!authUrl) { return next(new Error('Unable to aquire OpenID auth URL')); }
-            res.redirect(301, authUrl);
-        });
-    };
-
-    var getLoginNrkVerify = function (req, res, next) {
-        relyingParty.verifyAssertion(req, function(err, result) {
-
-            if (err) {
-                sentry.captureMessage('Error when authenticating using Mitt NRK', {extra: {error: err}});
-                return next(err);
-            }
-
-            if (result.authenticated === true) {
-                req.session.isAuthenticated = true;
-                req.session.authType = 'mitt-nrk';
-
-                req.session.user = {
-                    _id: result.claimedIdentifier,
-                    epost: decodeURIComponent(result['http://axschema.org/contact/email']),
-                    fornavn: decodeURIComponent(result['http://axschema.org/namePerson/first']),
-                    etternavn: decodeURIComponent(result['http://axschema.org/namePerson/last']),
-                    provider: 'Mitt NRK'
-                };
-
-                req.session.userId = result.claimedIdentifier;
-                res.redirect('/');
-
-            } else {
-                sentry.captureMessage('Mitt NRK verification failed', {extra: {result: result}});
-                res.redirect(401, '/login?error=MITTNRK-503');
-            }
-        });
-    };
-
     var getLoginDntConnect = function (req, res) {
         if (req && req.auth && req.auth.isAuthenticated) {
             res.redirect('/');
@@ -173,8 +124,6 @@ module.exports = function (app, options) {
     };
 
     app.all('*', authenticate);
-    app.get('/login/nrk/bounce', getLoginNrkBounce);
-    app.get('/login/nrk/verify', getLoginNrkVerify);
     app.get('/login/dnt/connect', getLoginDntConnect);
     app.get('/login/dnt/verify', getLoginDntVerify);
     app.get('/login/turbasen', getLoginTurbasenAuth);
