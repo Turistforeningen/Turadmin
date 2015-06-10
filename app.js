@@ -35,7 +35,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json({extended: true}));
+app.use(bodyParser.json({extended: true, limit: '10mb'}));
 app.use(methodOverride());
 app.use(cookieParser(sessionSecret));
 app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
