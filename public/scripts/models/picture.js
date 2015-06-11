@@ -117,6 +117,10 @@ define(function (require, exports, module) {
             }
         },
 
+        hasCommercialLicense: function () {
+            return (this.get('lisens') === 'CC BY-SA 4.0');
+        },
+
         hasChanged: function () {
             return !!this.changed;
         },
