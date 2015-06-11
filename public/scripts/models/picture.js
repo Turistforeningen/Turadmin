@@ -32,7 +32,7 @@ define(function (require, exports, module) {
 
         defaults: {
             markerIcon: 'map-icon-picture',
-            lisens: 'CC BY-NC 4.0'
+            lisens: 'CC BY-SA 4.0'
         },
 
         serverAttrs: [
