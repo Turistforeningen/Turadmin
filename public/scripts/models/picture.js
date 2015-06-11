@@ -108,6 +108,15 @@ define(function (require, exports, module) {
             this.set('fotograf', fotograf);
         },
 
+        setCommercialLicense: function (hasCommercialLicense) {
+            if (hasCommercialLicense) {
+                this.set('lisens', 'CC BY-SA 4.0');
+
+            } else {
+                this.set('lisens', 'CC BY-NC-SA 4.0');
+            }
+        },
+
         hasChanged: function () {
             return !!this.changed;
         },
