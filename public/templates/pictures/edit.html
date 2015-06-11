@@ -41,6 +41,13 @@
         <input name="foto-tags" type="text" placeholder="Tags" class="form-control">
     </div>
 </div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="foto-fri-bruk" data-toggle-commercial-license="" <% if (hasCommercialLicense) { %>checked <% } %>>
+        Dette bildet kan brukes fritt
+    </label>
+    <a href="#">?</a>
+</div>
 <div class="form-group show-position">
     <div class="input-group">
         <% if (isPositioned) { %>

@@ -42,6 +42,7 @@ define(function (require, exports, module) {
             'click [data-action="init-position-picture"]': 'positionPicture',
             'click [data-action="show-position-picture"]': 'showPicturePosition',
             'click [data-toggle-current-user-is-fotograf]': 'toggleCurrentUserIsFotograf',
+            'click [data-toggle-commercial-license]': 'toggleCommercialLicense',
             'click [data-action="do-delete"]': 'deletePicture',
             'picturesortstop': 'onPictureSortStop',
             'pictureDropped': 'pictureIndexChanged'
@@ -87,6 +88,11 @@ define(function (require, exports, module) {
 
         },
 
+        toggleCommercialLicense: function (e) {
+            var hasCommercialLicense = $(e.currentTarget).prop('checked') ? true : false;
+            this.model.setCommercialLicense(hasCommercialLicense);
+        },
+
         deletePicture: function (e) {
             // Remove model (from collection)
             this.model.remove();
@@ -128,7 +134,9 @@ define(function (require, exports, module) {
                 this.remove();
 
             } else {
-                var html = this.template(this.model.toJSON());
+                var json = this.model.toJSON();
+                json.hasCommercialLicense = this.model.hasCommercialLicense();
+                var html = this.template(json);
                 this.$el.html(html);
 
                 this.stickit(); // Uses view.bindings and view.model to setup bindings
