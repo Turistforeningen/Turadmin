@@ -25,7 +25,6 @@ define(function (require, exports, module) {
         changed: false,
         deleted: false,
         popoverTemplate: PopoverTemplate,
-        forcedLicense: 'CC BY-NC 4.0',
 
         urlRoot: function () {
             return apiUri();
