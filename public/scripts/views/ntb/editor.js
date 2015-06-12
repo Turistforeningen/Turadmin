@@ -210,6 +210,17 @@ define(function (require, exports, module) {
                         this.trigger('save:end');
                     }, this),
                     error: $.proxy(function (model, response, options) {
+                        var message = 'Det skjedde en ukjent feil ved lagring. Feilen er logget og blir tatt hånd om.';
+
+                        if (response.status === 413) {
+                            message = 'Det skjedde feil ved lagring. Dette kan skyldes en veldig lang inntegning av rute. Du kan forsøke å slette inntegningen i kartet og lagre på nytt. Feilen er logget.';
+                        }
+
+                        this.showNotification({
+                            type: 'alert',
+                            message: message
+                        });
+
                         Raven.captureMessage('Could not save object to NTB.', {
                             extra: {
                                 responseText: response.responseText,
