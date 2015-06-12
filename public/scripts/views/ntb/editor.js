@@ -76,6 +76,22 @@ define(function (require, exports, module) {
             this.$('[data-action="do-save"]').removeClass('disabled').html('<span class="glyphicon glyphicon-floppy-disk"></span> Lagre');
         },
 
+        showNotification: function (options) {
+            options = options || {};
+            var type = options.type || 'info';
+            var message = options.message;
+
+            var $notificationsbar = this.$('.notificationsbar');
+            $notificationsbar.find('p').html(message);
+            $notificationsbar.removeClass('hidden');
+        },
+
+        dismissNotification: function (e) {
+            var $notificationsbar = this.$('.notificationsbar');
+            $notificationsbar.addClass('hidden');
+            $notificationsbar.find('p').html('');
+        },
+
         updatePublishButtons: function () {
 
             var status = this.model.get('status');
