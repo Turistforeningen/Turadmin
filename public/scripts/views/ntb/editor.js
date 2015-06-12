@@ -35,7 +35,8 @@ define(function (require, exports, module) {
         events: {
             'click [data-action="do-save"]': 'save',
             'click [data-action="do-publish"]': 'publish',
-            'click [data-action="do-unpublish"]': 'unpublish'
+            'click [data-action="do-unpublish"]': 'unpublish',
+            'click [data-dismiss="notificationsbar"]': 'dismissNotification'
         },
 
         initialize: function (options) {
