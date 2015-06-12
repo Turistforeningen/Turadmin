@@ -151,6 +151,29 @@ define(function (require, exports, module) {
                     this.$('.form-group-fotograf').addClass('hidden');
                     this.$('[name="foto-jeg-har-tatt-bildet"]').prop('checked', true);
                 }
+
+
+                // Set up popover help
+                this.$('.form-group-license [data-toggle-help-popover]').popover({
+                    content: [
+                        '<p><strong>Fri bruk:</strong> Bildet kan benyttes til alle formål mot kreditering (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.no">CC BY-SA 4.0</a>).</p>',
+                        '<p><strong>Ikke fri bruk:</strong> Bildet kan ikke benyttes til kommersielle formål, men kan ellers benyttes av alle mot kreditering (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.no">CC BY-NC-SA 4.0</a>).</p>',
+                        '<a data-action="close">Lukk</a>'].join(''),
+                    html: true,
+                    placement: 'top',
+
+                }).on('show.bs.popover', function () {
+                    // If any other popovers are visible, hide them
+                    $('.popover').each(function () {
+                        $(this).popover('hide');
+                    });
+
+                }).on('shown.bs.popover', function () {
+                    // Hide the popover if close link inside it is clicked
+                    $(this).nextAll('.popover').first().find('a[data-action="close"]').on('click', $.proxy(function (e) {
+                        $(this).popover('hide');
+                    }, this));
+                });
             }
 
             return this;

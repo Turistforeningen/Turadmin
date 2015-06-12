@@ -348,6 +348,9 @@ div.line-mouse-marker {
 	margin-top: 20px;
 }
 
+.form-group-license .popover .arrow {
+  top: 100% !important;
+}
 
 /* Route POI's */
 

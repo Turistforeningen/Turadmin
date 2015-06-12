@@ -41,12 +41,12 @@
         <input name="foto-tags" type="text" placeholder="Tags" class="form-control">
     </div>
 </div>
-<div class="checkbox">
+<div class="form-group form-group-license checkbox">
     <label>
-        <input type="checkbox" name="foto-fri-bruk" data-toggle-commercial-license="" <% if (hasCommercialLicense) { %>checked <% } %>>
+        <input type="checkbox" name="foto-fri-bruk" data-toggle-commercial-license="" <% if (hasCommercialLicense) { %>checked<% } %>>
         Dette bildet kan brukes fritt
     </label>
-    <a href="#"><span class="glyphicon glyphicon-question-sign"></span></a>
+    <a data-toggle-help-popover=""><span class="glyphicon glyphicon-question-sign"></span></a>
 </div>
 <div class="form-group show-position">
     <div class="input-group">
