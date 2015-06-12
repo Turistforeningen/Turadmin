@@ -279,6 +279,7 @@ define(function (require, exports, module) {
 
             var isValid = this.isValid(true);
 
+            // Prevent objects that does not validate from having status Offentlig and being published
             if ((attrs.status === 'Offentlig') && !isValid) {
                 this.setStatusConflict(true);
                 attrs.status = 'Kladd';
