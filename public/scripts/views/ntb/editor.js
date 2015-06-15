@@ -207,6 +207,7 @@ define(function (require, exports, module) {
 
                 this.model.save(undefined, {
                     success: $.proxy(function (model, response, options) {
+                        this.dismissNotification();
                         this.trigger('save:end');
                     }, this),
                     error: $.proxy(function (model, response, options) {
