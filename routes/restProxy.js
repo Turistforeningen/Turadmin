@@ -165,10 +165,16 @@ module.exports = function (app, options) {
         next();
     });
 
-    app.all('/restProxy/*', function (req, res) {
-        var path = req.url;
-        path = path.replace('restProxy/', '');
-        makeRequest(path, req, res);
+    app.all('/restProxy/*', function (req, res, next) {
+        if (req.session && req.session.isAuthenticated === true) {
+            var path = req.url;
+            path = path.replace('restProxy/', '');
+            makeRequest(path, req, res);
+
+        } else {
+            res.statusCode = 401;
+            res.json({message: 'Bad credentials'});
+        }
     });
 
     return {makeApiRequest: makeRequest};
