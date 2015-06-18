@@ -142,8 +142,6 @@ define(function (require, exports, module) {
                             Raven.captureMessage('DNT Connect user did not belong to group of type "sentral", "forening", "turlag" or "turgruppe".', {extra: {user: this.toJSON()}});
                         }
 
-                    } else {
-                        Raven.captureMessage('DNT Connect user did not belong to any groups.', {extra: {user: this.toJSON()}});
                     }
 
                     break;
