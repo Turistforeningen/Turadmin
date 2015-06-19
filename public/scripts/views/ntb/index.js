@@ -81,7 +81,7 @@ define(function (require, exports, module) {
         fetchItems: function () {
             this.isLoading = true;
 
-            this.collection.fetchQuery.sort = '-endret';
+            this.collection.fetchQuery.sort = this.collection.fetchQuery.sort || '-endret';
 
             this.collection.fetch({
                 reset: true,
