@@ -237,7 +237,7 @@ define(function (require, exports, module) {
 
             };
 
-            this.saveRelated(afterPictureAndPoiSync);
+            this.saveRelated($.proxy(afterPictureAndPoiSync, this));
 
         }
 
