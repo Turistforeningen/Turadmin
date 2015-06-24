@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/supervisor -w routes,app.js app.js",
+    "start": "./node_modules/.bin/supervisor --watch routes,views,app.js --extensions node,js,jade app.js",
     "test": "./node_modules/.bin/mocha -b -c test/suite.js -R spec"
   },
   "dependencies": {
