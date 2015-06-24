@@ -109,7 +109,7 @@ define(function (require, exports, module) {
 
         onFilterChange: function (e) {
             this.fetchQuery = this.fetchQuery || {};
-            this.fetchQuery['sort'] = '-endret';
+            this.fetchQuery['sort'] = this.fetchQuery['sort'] || '-endret';
 
             this.fetch({
                 reset: true,
