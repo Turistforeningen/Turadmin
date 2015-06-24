@@ -23,6 +23,7 @@ define(function (require, exports, module) {
 
         el: '[data-container-for="items"]',
         isLoading: true,
+        defaultFetchQuery: undefined, // Will be set in initialize method after user is initialized
 
         events: {
             'click [data-paginator]': 'paginate',
@@ -37,6 +38,8 @@ define(function (require, exports, module) {
             var user = new User();
             this.user = user;
 
+            this.defaultFetchQuery = this.defaultFetchQuery || {'privat.opprettet_av.id': user.get('id')};
+
             this.itemType = options.itemType;
 
             this.collection.on('reset', this.onItemsFetched, this);
@@ -49,7 +52,7 @@ define(function (require, exports, module) {
 
             if (provider == 'DNT Connect' && groups.length) {
                 this.groups = groups;
-                this.collection.fetchQuery = options.userDefaultRouteFetchQuery || {'privat.opprettet_av.id': user.get('id')};
+                this.collection.fetchQuery = options.userDefaultRouteFetchQuery || this.defaultFetchQuery;
 
             } else if (provider == 'Innholdspartner') {
                 group = user.get('gruppe');
