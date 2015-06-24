@@ -192,9 +192,11 @@ define(function (require, exports, module) {
                 pictureName += ' fra ' + objectName;
             }
 
-            this.pictures.forEach(function(model, index) {
-                model.set('navn', pictureName);
-            });
+            if (this.pictures && this.pictures.length) {
+                this.pictures.forEach(function(model, index) {
+                    model.set('navn', pictureName);
+                });
+            }
         },
 
         save: function () {
