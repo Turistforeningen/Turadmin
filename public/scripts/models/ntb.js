@@ -167,7 +167,14 @@ define(function (require, exports, module) {
                 if (!!objectGroups && objectGroups.length) {
                     objectPrimaryGroupId = objectGroups[0];
                     objectPrimaryGroup = _.findWhere(userGroups, {object_id: objectPrimaryGroupId}) || _.findWhere(externalGroups, {_id: objectPrimaryGroupId});
-                    namingBy = objectPrimaryGroup.navn;
+
+                    if (!!objectPrimaryGroup) {
+                        namingBy = objectPrimaryGroup.navn;
+
+                    } else {
+                        namingBy = user.get('navn');
+                        Raven.captureMessage('Could not find primary group for user.', {extra: {user: user.toJSON()}});
+                    }
 
                 } else {
                     namingBy = user.get('navn');
