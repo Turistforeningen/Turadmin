@@ -30,7 +30,8 @@ define(function (require, exports, module) {
             'click [data-action="search"]': 'doSearch',
             'click [data-action="filters-and-search-clear"]': 'clearFiltersAndSearch',
             'change [data-filter="type"]': 'onFilterTypeChange',
-            'change [data-filter="omrade"]': 'onFilterOmraderChange'
+            'change [data-filter="omrade"]': 'onFilterOmraderChange',
+            'keypress [name="search-term"]': 'onSearchTermFieldKeyPress'
         },
 
         initialize: function (options) {
@@ -44,7 +45,7 @@ define(function (require, exports, module) {
 
             this.collection.on('reset', this.onItemsFetched, this);
 
-            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch');
+            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch', 'onSearchTermFieldKeyPress');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -64,6 +65,13 @@ define(function (require, exports, module) {
 
             this.fetchItems();
             this.render();
+        },
+
+        onSearchTermFieldKeyPress: function (e) {
+            var code = e.keyCode || e.which;
+            if (code === 13) {
+                this.doSearch();
+            }
         },
 
         onFilterOmraderChange: function (e) {
