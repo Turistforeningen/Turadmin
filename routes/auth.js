@@ -15,6 +15,7 @@ module.exports = function (app, options) {
 
     var dntConnectClient = new Connect(process.env.DNT_CONNECT_USER, process.env.DNT_CONNECT_KEY);
     var turbasenAuthClient = new TurbasenAuth('Turadmin', process.env.NTB_API_KEY, {env: process.env.NTB_ENV || 'dev'});
+    var userGroupsFetcher = options.userGroupsFetcher;
 
     var BASE_URL = app.get('url');
 
@@ -124,6 +125,7 @@ module.exports = function (app, options) {
     };
 
     app.all('*', authenticate);
+    app.get('*', userGroupsFetcher);
     app.get('/login/dnt/connect', getLoginDntConnect);
     app.get('/login/dnt/verify', getLoginDntVerify);
     app.get('/login/turbasen', getLoginTurbasenAuth);

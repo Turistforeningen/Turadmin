@@ -57,7 +57,10 @@ if (app.get('env') === 'development') {
 var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey)});
 var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 
-require('./routes/auth')(app);
+require('./routes/auth')(app, {
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher
+});
 
 require('./routes/termsAndConditions')(app);
 

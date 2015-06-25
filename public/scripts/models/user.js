@@ -85,9 +85,6 @@ define(function (require, exports, module) {
             }
 
             var grupper = this.get('grupper');
-            var admin = !!_.findWhere(grupper, {navn: 'Den Norske Turistforening'});
-            this.set('admin', admin); // NOTE: Deprecating this, use property "er_admin" instead.
-            this.set('er_admin', admin);
 
             var isDntGroupMember = this.isDntGroupMember({grupper: grupper});
             this.set('er_dnt_gruppe_medlem', isDntGroupMember);

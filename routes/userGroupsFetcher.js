@@ -9,6 +9,7 @@ var sentry = require('../lib/sentry');
 module.exports = function (app, express, options) {
     "use strict";
 
+    var underscore = require('underscore');
     var api = options.api;
 
     return function (req, res, next) {
@@ -36,6 +37,10 @@ module.exports = function (app, express, options) {
                     }
 
                     req.userGroups = userGroups;
+
+                    var isAdmin = !!underscore.findWhere(userGroups, {navn: 'Den Norske Turistforening'});
+                    req.session.user.er_admin = isAdmin;
+
                     next();
 
                 } else {
