@@ -25,7 +25,9 @@ turadmin:
     - "8080"
   env_file: .env
   environment:
-    - APP_URL=tur.app.dnt.privat
+    - APP_URL=http://tur.app.dnt.privat
     - APP_PORT=8080
     - NODE_ENV=development
+    - NTB_API_ENV=dev
+    - NTB_API_URL=http://dev.nasjonalturbase.no
   restart: always
