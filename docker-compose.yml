@@ -29,4 +29,3 @@ turadmin:
     - NODE_ENV=development
     - NTB_API_ENV=dev
     - NTB_API_URL=http://dev.nasjonalturbase.no
-  restart: always
