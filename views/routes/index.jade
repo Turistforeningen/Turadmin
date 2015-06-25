@@ -77,8 +77,9 @@ block content
                                 label Område
                                 select.form-control(data-filter="omrade")
                                     option(value="") Alle områder
-                                    each val in JSON.parse(areas)
-                                        option(value=val._id)= val.navn
+                                    if areas
+                                        each val in JSON.parse(areas)
+                                            option(value=val._id)= val.navn
 
                         div.col-md-4
                             div.owner
