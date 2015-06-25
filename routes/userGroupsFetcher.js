@@ -16,7 +16,7 @@ module.exports = function (app, express, options) {
 
         var userGroups = [];
 
-        if (req.session && req.session.user && (!!req.session.user.sherpa_id)) {
+        if (!req.userGroups && req.session && req.session.user && (!!req.session.user.sherpa_id)) {
 
             api.getAssociationsFor({bruker_sherpa_id: req.session.user.sherpa_id}, function (err, statusCode, associations) {
                 if (err) { throw err; }
@@ -55,7 +55,7 @@ module.exports = function (app, express, options) {
             });
 
         } else {
-            // User is authenticated by other method than DNT Connect
+            // Request already has userGroups set OR user is authenticated by other method than DNT Connect
             next();
         }
 
