@@ -14,8 +14,7 @@ results
 
 node_modules/
 public/uploads/
-.vagrant/
-env/
+.env
 
 .DS_Store
 .idea
