@@ -1,0 +1,24 @@
+www:
+  build: public
+  links:
+    - turadmin
+  ports:
+    - "8080"
+  restart: always
+
+turadmin:
+  build: .
+  ports:
+    - "8080"
+  environment:
+    - APP_PORT=8080
+    - APP_URL=
+    - DNT_CONNECT_KEY=
+    - DNT_CONNECT_USER=
+    - NODE_ENV=production
+    - NTB_API_ENV=api
+    - NTB_API_KEY=
+    - NTB_API_URL=http://api.nasjonalturbase.no
+    - ROUTING_API_URL=
+    - SENTRY_DNS=
+  restart: always
