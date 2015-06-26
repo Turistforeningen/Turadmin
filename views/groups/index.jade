@@ -1,0 +1,97 @@
+extends ../index
+
+
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(externalGroups) !== 'undefined')
+            | appData.externalGroups = !{externalGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(areas) !== 'undefined')
+            | appData.areas = !{areas};
+            //- | console.log('Loaded index with areas:', !{areas});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded route with userData:', !{userData});
+        - if (typeof(authType) !== 'undefined')
+            | appData.authType = '#{authType}';
+            //- | console.log('Loaded route with authType:', '#{authType}');
+
+        | appData.itemType = '#{itemType}';
+
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/group-index.js']);
+
+
+
+block navbarCollapse
+
+    +navbarCollapseIndex('routes')
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        include ../dropdownmenu
+
+
+block content
+
+    div.container
+        div.masthead
+            h2.page-header Grupper
+
+        div.item-list.item-list-routes(data-container-for="items")
+            // TODO: Move styles to CSS-file
+            p(style="margin-bottom: 30px;") Her er alle grupper.
+                a.btn.btn-primary.pull-right(href="/grupper/ny") Ny gruppe
+
+            div.filters-and-search.well
+                div.row.search
+                    div.col-sm-12
+                        div.search
+                            label Søk etter gruppe
+                            input(type="text" class="form-control" placeholder="" name="search-term")
+                            button.btn.btn-default(data-action="search" type="button") Søk
+
+            div(class="hidden" data-container-for="search-term-info")
+                div.alert.alert-info
+                    strong Søk:
+                    |&#32;
+                    span Viser treff på søk etter gruppeer med navn som inneholder
+                    |&#32;
+                    strong(data-placeholder-for="search-term")
+
+            div(class="hidden" data-container-for="items-table")
+                table.table.table-bordered.table-hover
+                    thead
+                        tr
+                            th Tittel
+                            th Publisert
+                            th Lagret
+                            th Valg
+                    tbody(data-container-for="item-rows")
+
+            div(class="hidden" data-container-for="no-items-alert")
+                div.alert.alert-info
+                    strong Ingen grupper:
+                    |&#32;
+                    span Fant ingen grupper.
+
+            div(class="hidden" data-container-for="no-items-matching-filter-alert")
+                div.alert.alert-info
+                    strong Ingen grupper:
+                    |&#32;
+                    span Fant ingen grupper som passer til filter og søk.&nbsp;
+                        a(href="/grupper") Klikk her for å nullstille
+                        | &nbsp;eller endre på søk eller filter.
+
+            div(class="hidden" data-container-for="loading-items-message")
+                span Henter grupper...
+
+            div.paginator(data-container-for="paginator")

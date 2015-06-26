@@ -88,6 +88,12 @@ require('./routes/poi')(app, restProxy, {
     userGroupsFetcher: userGroupsFetcher
 });
 
+require('./routes/groups')(app, {
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher,
+    restProxy: restProxy
+});
+
 // Redirect requests to '/' to '/turer'
 app.use('/', function (req, res, next) {
     "use strict";

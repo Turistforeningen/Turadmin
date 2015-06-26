@@ -1,0 +1,54 @@
+extends ../editor
+
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(groupData) !== 'undefined')
+            | appData.groupData = !{groupData};
+            //- | console.log('Loaded route with groupsData:', !{groupsData});
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded route with userData:', !{userData});
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/group-edit.js']);
+
+block navbarHeader
+    a.navbar-brand(href="/" alt="Til mine turer")
+        img(src="/images/ut-no-logo-hvit.png")
+    div.navbar-brand.hidden-xs.group-name(data-placeholder-for="group-name")
+        if groupData
+            | #{groupName}
+        else
+            | Gruppe uten navn
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#app-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+block navbarCollapse
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        li.action-do-save
+            a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").group-save
+                span.glyphicon.glyphicon-floppy-disk
+                | &nbsp;Lagre
+        include ../dropdownmenu
+
+block content
+
+    div.container
+
+
+        div#detaljer.page-block.group-details(data-view="group-details")
+
+        div#detaljer.page-block.group-users(data-view="group-users")
