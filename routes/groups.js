@@ -87,12 +87,18 @@ module.exports = function (app, options) {
 
             var groupData = data;
 
-            req.renderOptions = req.renderOptions || {};
-            req.renderOptions.title = groupData.navn;
-            req.renderOptions.groupName = groupData.navn;
-            req.renderOptions.groupData = JSON.stringify(groupData);
+            if ((typeof groupData.tags === 'undefined') || (groupData.tags.indexOf('DNT') === -1)) {
 
-            res.render('groups/editor', req.renderOptions);
+                req.renderOptions = req.renderOptions || {};
+                req.renderOptions.title = groupData.navn;
+                req.renderOptions.groupName = groupData.navn;
+                req.renderOptions.groupData = JSON.stringify(groupData);
+
+                res.render('groups/editor', req.renderOptions);
+
+            } else {
+                res.redirect(403, '/grupper');
+            }
 
         };
 
