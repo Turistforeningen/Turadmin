@@ -42,8 +42,13 @@ define(function (require, exports, module) {
 
             this.groupUsersView = new GroupUsersView({
                 el: '[data-view="group-users"]',
-                group: this.model
+                group: this.model,
+                editor: this
             }).render();
+
+            this.on('save:end', function (e) {
+                this.groupUsersView.render();
+            }, this);
 
 
             // Init super

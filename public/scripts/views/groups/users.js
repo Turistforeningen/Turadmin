@@ -67,6 +67,8 @@ define(function (require, exports, module) {
 
             this.model = options.group || new GroupModel();
 
+            this.editor = options.editor;
+
             // Bind these methods to this scope
             _.bindAll(this, 'addUser', 'editUser', 'saveUser', 'saveGroup', 'removeUser', 'render');
 
@@ -161,7 +163,7 @@ define(function (require, exports, module) {
 
         saveUser: function (e) {
             this.saveChanges();
-            this.model.save();
+            this.editor.save();
         },
 
         render: function () {
