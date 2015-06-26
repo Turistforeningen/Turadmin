@@ -93,6 +93,8 @@ define(function (require, exports, module) {
             this.model.on('change:navn', this.updateGroupNamePlaceholders, this);
             this.model.on('change:logo', this.render, this);
 
+            this.editor = options.editor;
+
             // Bind these methods to this scope
             _.bindAll(this, 'removeLogo');
 

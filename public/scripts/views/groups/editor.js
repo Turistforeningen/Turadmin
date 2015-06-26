@@ -36,7 +36,8 @@ define(function (require, exports, module) {
 
             this.groupDetailsView = new GroupDetailsView({
                 el: '[data-view="group-details"]',
-                group: this.model
+                group: this.model,
+                editor: this
             }).render();
 
             this.groupUsersView = new GroupUsersView({
