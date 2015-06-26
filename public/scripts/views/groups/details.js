@@ -174,12 +174,22 @@ define(function (require, exports, module) {
                 // On error
                 fail: function (e, data) {
                     Raven.captureException(e, {extra: {message: 'Logo upload failed', data: data}});
-                    alert('Det skjedde en feil under opplasting av bildet.');
+
+                    me.editor.showNotification({
+                        type: 'alert',
+                        message: 'Det skjedde en feil under opplasting av bildet.'
+                    });
+
                 }
             });
 
             fileUpload.on('fileuploadprocessfail', function (e, data) {
-                alert('Det skjedde en feil under opplasting av bildet. Pass på at filen ikke er større enn 6 MB.');
+
+                me.editor.showNotification({
+                    type: 'alert',
+                    message: 'Det skjedde en feil under opplasting av bildet. Pass på at filen ikke er større enn 6 MB.'
+                });
+
             });
 
         },
