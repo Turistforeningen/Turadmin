@@ -32,12 +32,12 @@ module.exports = function (app, restProxy, options) {
             next();
         };
 
-        var cachedGrupper = cache.get('/grupper/?tags=!&limit=200&fields=navn&sort=navn');
+        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=200&fields=navn&sort=navn');
         if (cachedGrupper) {
             onCompleteExternalGroupsRequest(cachedGrupper);
 
         } else {
-            restProxy.makeApiRequest('/grupper/?tags=!&limit=200&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
+            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=200&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
         }
 
     };
