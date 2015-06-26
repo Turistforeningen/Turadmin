@@ -16,7 +16,7 @@ module.exports = function (app, options) {
     var cache = new NodeCache();
     var TurbasenAuth = require('turbasen-auth');
 
-    var turbasenAuthClient = new TurbasenAuth('Turadmin', process.env.NTB_API_KEY, {env: process.env.NTB_ENV || 'dev'});
+    var turbasenAuthClient = new TurbasenAuth('Turadmin', process.env.NTB_API_KEY, {env: process.env.NTB_API_ENV || 'dev'});
 
 
     /*
