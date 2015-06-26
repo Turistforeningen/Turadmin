@@ -30,6 +30,7 @@ module.exports = function (app, options) {
             req.renderOptions.userGroups = JSON.stringify(req.userGroups || []);
             req.renderOptions.routeApiUri = options.routeApiUri;
             req.renderOptions.authType = req.session.authType;
+            req.renderOptions.isAdmin = req.session.user.er_admin;
             next();
 
         } else {
