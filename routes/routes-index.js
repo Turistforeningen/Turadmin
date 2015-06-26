@@ -43,6 +43,7 @@ module.exports = function (app, options) {
                 externalGroups: JSON.stringify(groups),
                 userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
                 authType: req.session.authType,
+                isAdmin: req.session.user.er_admin,
                 itemType: 'tur'
             };
 

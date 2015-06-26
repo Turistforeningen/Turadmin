@@ -22,7 +22,8 @@ module.exports = function (app, options) {
             userGroups: JSON.stringify(userGroups),
             userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
             authType: req.session.authType,
-            itemType: 'sted'
+            isAdmin: req.session.user.er_admin,
+            itemType: 'sted',
         };
 
         res.render('pois/index', renderOptions);

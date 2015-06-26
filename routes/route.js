@@ -26,6 +26,7 @@ module.exports = function (app, restProxy, options) {
         req.renderOptions.userGroups = JSON.stringify(userGroups);
         req.renderOptions.routeApiUri = options.routeApiUri;
         req.renderOptions.authType = req.session.authType;
+        req.renderOptions.isAdmin = req.session.user.er_admin;
 
         var onCompleteExternalGroupsRequest = function (data) {
             req.renderOptions.externalGroups = JSON.stringify(data.documents);

@@ -61,7 +61,8 @@ module.exports = function (app, options) {
                 userGroups: JSON.stringify(userGroups),
                 externalGroups: JSON.stringify(groups),
                 authType: req.session.authType,
-                itemType: 'grupper'
+                itemType: 'grupper',
+                isAdmin: req.session.user.er_admin
             };
 
             res.render('groups/index', renderOptions);
