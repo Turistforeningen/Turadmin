@@ -273,6 +273,14 @@ define(function (require, exports, module) {
             }
         },
 
+        setForced: function () {
+            if (typeof this.forced === 'object') {
+                for (var prop in this.forced) {
+                    this.set(prop, this.forced[prop]);
+                }
+            }
+        },
+
 
         /* Server interactions */
 
@@ -280,6 +288,7 @@ define(function (require, exports, module) {
 
             this.setLicense();
             this.setNaming();
+            this.setForced();
 
             attrs = attrs || this.toJSON();
             options = options || {};
