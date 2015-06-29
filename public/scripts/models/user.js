@@ -55,6 +55,7 @@ define(function (require, exports, module) {
             this.set('epost', options.epost);
             this.set('grupper', options.grupper);
             this.set('navn', options.navn);
+            this.set('er_admin', options.er_admin);
 
             options = options || {};
 
