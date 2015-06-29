@@ -29,7 +29,7 @@ module.exports = function (app, options) {
         };
 
         var onCompleteGrupperRequest = function (data) {
-            cache.set('/grupper/?tags=!DNT&limit=200&fields=navn&sort=navn', data, 86400);
+            cache.set('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn', data, 86400);
             groups = data.documents;
             onCompleteNtbRequest();
         };
@@ -58,13 +58,13 @@ module.exports = function (app, options) {
             restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', req, undefined, onCompleteOmraderRequest);
         }
 
-        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=200&fields=navn&sort=navn');
+        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn');
         if (cachedGrupper) {
             groups = cachedGrupper.documents;
             onCompleteNtbRequest();
 
         } else {
-            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=200&fields=navn&sort=navn', req, undefined, onCompleteGrupperRequest);
+            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn', req, undefined, onCompleteGrupperRequest);
         }
 
     };
