@@ -29,7 +29,7 @@ module.exports = function (app, options) {
 
     var makeRequest = function (path, req, res, onCompleteOverride, getAll) {
         var API_LIMIT = 50;
-        var PROXY_LIMIT = 200;
+        var PROXY_LIMIT = 1000;
 
         // Strip query params from path to get URL
         var url = ntbApiUri + path.split('?')[0];
