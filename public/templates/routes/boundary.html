@@ -1,4 +1,15 @@
-<% if ((model['områder_navn'] && model['områder_navn'].length) || (model['fylker'] && model['fylker'].length) ||(model['kommuner'] && model['kommuner'].length)) { %>
+<% if (typeof err !== 'undefined' && !!err) { %>
+  <div class="row area-municipality-location" style="margin-top: 20px;">
+    <div class="col-sm-12">
+      <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Kunne ikke hente områder og informasjon om rutens lengde. Årsaken kan være en veldig lang inntegning. Dette skjer vanligvis ved import av en lang tur fra GPX. For å få hentet denne informasjonen anbefales det at det kuttes ned på antall rutepunkter.
+      </div>
+    </div>
+  </div>
+<% } else if ((model['områder_navn'] && model['områder_navn'].length) || (model['fylker'] && model['fylker'].length) ||(model['kommuner'] && model['kommuner'].length)) { %>
   <div class="row area-municipality-location" style="margin-top: 20px;">
     <div class="col-sm-12">
       <div class="alert alert-info">

@@ -195,12 +195,17 @@ define(function (require, exports, module) {
                     contentType: 'application/json',
                     url: 'http://geoserver2.dotcloudapp.com/api/v1/boundary/intersect',
                     data: JSON.stringify({geojson: geojson}),
-                    success: $.proxy(this.setBoundaryIntersect, this)
+                    success: $.proxy(this.setBoundaryIntersect, this),
+                    error: $.proxy(this.onGeoServerError, this)
                 });
 
             } else {
                 this.setBoundaryIntersect({fylker: [], kommuner: [], 'områder': []});
             }
+        },
+
+        onGeoServerError: function (jqXHR, textStatus, errorThrown) {
+            this.trigger('geoserver:error');
         },
 
         setBoundaryIntersect: function (data) {
@@ -220,7 +225,8 @@ define(function (require, exports, module) {
                     data: JSON.stringify({geojson: geojson}),
                     success: $.proxy(function (data) {
                         this.set('distanse', data.length);
-                    }, this)
+                    }, this),
+                    error: $.proxy(this.onGeoServerError, this)
                 });
 
             } else {

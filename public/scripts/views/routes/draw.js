@@ -53,6 +53,9 @@ define(function (require, exports, module) {
             this.routeModel.on('change:fylker', this.renderBoundaryIntersect, this);
             this.routeModel.on('change:kommuner', this.renderBoundaryIntersect, this);
             this.routeModel.on('change:områder_navn', this.renderBoundaryIntersect, this);
+            this.routeModel.on('geoserver:error', function () {
+                this.renderBoundaryIntersect(new Error());
+            }, this);
 
             if (!!options.map) {
                 this.mapWrapper = options.map;
@@ -137,9 +140,9 @@ define(function (require, exports, module) {
             // Route model is now automatically updated on draw end.
         },
 
-        renderBoundaryIntersect: function () {
+        renderBoundaryIntersect: function (err) {
             this.$boundaryIntersect = $('[data-container-for="boundary-intersect"]');
-            var html = this.boundaryIntersectTemplate({model: this.model.toJSON()});
+            var html = this.boundaryIntersectTemplate({model: this.model.toJSON(), err: err});
             this.$boundaryIntersect.html(html);
         },
 
