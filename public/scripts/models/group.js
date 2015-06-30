@@ -111,6 +111,14 @@ define(function (require, exports, module) {
             } else {
                 this.unset('url');
             }
+        },
+
+        save: function (attrs, options) {
+
+            this.updateUrl();
+
+            // Call super with attrs moved to options
+            return NtbModel.prototype.save.call(this, attrs, options);
         }
 
     });
