@@ -99,6 +99,18 @@ define(function (require, exports, module) {
         setKontaktinfoFlattened: function () {
             var kontaktinfo = this.get('kontaktinfo') || [{}];
             this.set({kontaktinfoEpost: kontaktinfo[0].epost}, {silent: true});
+        },
+
+        updateUrl: function () {
+            var groupId = this.get('id');
+            var publishedState = this.get('status');
+
+            if (groupId && publishedState === 'Offentlig') {
+                this.set('url', 'http://www.ut.no/gruppe/' + groupId);
+
+            } else {
+                this.unset('url');
+            }
         }
 
     });
