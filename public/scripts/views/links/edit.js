@@ -35,6 +35,7 @@ define(function (require, exports, module) {
             // Input field changes
             'change input[name="lenke-tittel"]': 'setTitle',
             'change input[name="lenke-url"]': 'setUrl',
+            'change select[name="lenke-type"]': 'setType',
 
             // Click events
             'click [data-action="remove-link"]': 'removeLink'
@@ -54,10 +55,11 @@ define(function (require, exports, module) {
 
         initialize: function (options) {
             this.link = options.link;
+            this.fields = options.fields;
         },
 
         render: function () {
-            var html = this.template({link: this.link});
+            var html = this.template({link: this.link, fields: this.fields});
             this.$el.html(html);
 
             return this;
@@ -106,6 +108,11 @@ define(function (require, exports, module) {
                 this.link.tittel = inputValue;
                 this.validateTitle();
             }
+        },
+
+        setType: function (e) {
+            var inputValue = e.target.value;
+            this.link.type = inputValue;
         },
 
         setUrl: function (e) {

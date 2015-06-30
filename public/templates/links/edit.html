@@ -1,7 +1,23 @@
-<div class="col-lg-6 col-md-6 col-sm-6">
+<% var fieldCount = _.keys(fields).length; %>
+<% var fieldCols = 12 / fieldCount; %>
+<div class="col-lg-<%= fieldCols %> col-md-<%= fieldCols %> col-sm-<%= fieldCols %>">
   <input type="text" class="form-control" name="lenke-tittel" value="<%= link.tittel %>" placeholder="Tittel" data-model-validation-field-name="tittel">
 </div>
-<div class="col-lg-6 col-md-6 col-sm-6">
+<% if (typeof fields.type !== 'undefined') { %>
+  <div class="col-lg-<%= fieldCols %> col-md-<%= fieldCols %> col-sm-<%= fieldCols %>">
+    <select type="text" class="form-control" name="lenke-type" data-model-validation-field-name="type">
+    <%= fields.type.options.length %>
+      <% for (var i = 0; i < fields.type.options.length; i++ ) { %>
+        <option
+          value="<%= fields.type.options[i] %>"
+          <% if (link.type === fields.type.options[i]) { %>selected<% } %>>
+          <%= fields.type.options[i] %>
+        </option>
+      <% } %>
+    </select>
+  </div>
+<% } %>
+<div class="col-lg-<%= fieldCols %> col-md-<%= fieldCols %> col-sm-<%= fieldCols %>">
   <input type="text" class="form-control" name="lenke-url" value="<%= link.url %>" placeholder="Adresse" data-model-validation-field-name="url">
 </div>
 <a class="remove-link" data-action="remove-link">Slett</a>

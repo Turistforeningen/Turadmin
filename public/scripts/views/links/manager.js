@@ -24,6 +24,27 @@ define(function (require, exports, module) {
             'click [data-action="add-link"]': 'addLink'
         },
 
+        fields: {
+            tittel: {
+                type: 'text'
+            },
+            type: {
+                type: 'select',
+                options: [
+                    'Hjemmeside',
+                    'Facebook',
+                    'Vilkår',
+                    'Risikovurdering',
+                    'Kontaktinfo',
+                    'Kart',
+                    'Annet'
+                ]
+            },
+            url: {
+                type: 'text'
+            }
+        },
+
         initialize: function (options) {
 
             // Set scope of methods to this view
@@ -31,10 +52,21 @@ define(function (require, exports, module) {
 
             this.linksField = options.linksField || 'lenker';
             this.links = this.model.get(this.linksField);
+            this.cols = options.cols || 12;
+
+            // If initalized with option fields, only keep fields in that array
+            if (options.fields) {
+                for (var fieldName in this.fields) {
+                    if (options.fields.indexOf(fieldName) === -1) {
+                        delete this.fields[fieldName];
+                    }
+                }
+            }
+
         },
 
         render: function () {
-            var html = this.template();
+            var html = this.template({cols: this.cols});
             this.$el.html(html);
 
             _.each(this.links, this.renderLink, this);
@@ -51,7 +83,8 @@ define(function (require, exports, module) {
 
             var linksEditView = new LinksEditView({
                 model: this.model,
-                link: link
+                link: link,
+                fields: this.fields
             }).render();
 
             this.$('[data-container-for="all-links"]').append(linksEditView.el);
@@ -70,8 +103,6 @@ define(function (require, exports, module) {
 
             this.renderLink(link);
         }
-
-
 
     });
 
