@@ -102,10 +102,23 @@ module.exports = function (app, restProxy, options) {
 
     };
 
-    app.get('/sted*', userGroupsFetcher);
-    app.get('/sted*', poi);
+    var redirect = function (req, res, next) {
+        var id = req.params.id;
+        if (id) {
+            res.redirect(301, '/steder/' + id);
 
-    app.get('/sted', poiNew);
-    app.get('/sted/:id', poiEdit);
+        } else {
+            res.redirect(301, '/steder/ny');
+        }
+    };
+
+    app.get('/sted', redirect);
+    app.get('/sted/:id', redirect);
+
+    app.get('/steder*', userGroupsFetcher);
+    app.get('/steder*', poi);
+
+    app.get('/steder/ny', poiNew);
+    app.get('/steder/:id', poiEdit);
 
 };

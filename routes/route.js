@@ -151,10 +151,23 @@ module.exports = function (app, restProxy, options) {
 
     };
 
-    app.get('/tur*', userGroupsFetcher);
-    app.get('/tur*', route);
+    var redirect = function (req, res, next) {
+        var id = req.params.id;
+        if (id) {
+            res.redirect(301, '/turer/' + id);
 
-    app.get('/tur', routeNew);
-    app.get('/tur/:id', routeEdit);
+        } else {
+            res.redirect(301, '/turer/ny');
+        }
+    };
+
+    app.get('/tur', redirect);
+    app.get('/tur/:id', redirect);
+
+    app.get('/turer*', userGroupsFetcher);
+    app.get('/turer*', route);
+
+    app.get('/turer/ny', routeNew);
+    app.get('/turer/:id', routeEdit);
 
 };
