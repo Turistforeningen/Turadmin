@@ -314,7 +314,9 @@ define(function (require, exports, module) {
             var linksManagerView = new LinksManagerView({
                 model: this.model,
                 linksField: 'lenker',
-                el: '[data-view="route-details-lenker"]'
+                el: '[data-view="route-details-lenker"]',
+                cols: 7,
+                fields: ['tittel', 'url']
             }).render();
 
 
