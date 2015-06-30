@@ -298,8 +298,35 @@ define(function (require, exports, module) {
         },
 
         setRouteModelGeoJsonFromMap: function () {
-            var geoJson = this.routing.getGeoJson();
-            this.route.set({geojson: geoJson});
+            var isLoadingGeoJsonFromRouting = this.isLoadingGeoJsonFromRouting();
+            if (!isLoadingGeoJsonFromRouting) {
+                var geoJson = this.routing.getGeoJson();
+                this.route.set({geojson: geoJson});
+            }
+        },
+
+        isLoadingGeoJsonFromRouting: function () {
+            var loadingGeoJson = this.loadingGeoJson;
+            var routingGeoJson = this.routing.getGeoJson();
+
+            if (typeof loadingGeoJson === 'undefined') {
+                return false;
+            }
+
+            var loadingGeoJsonLastCoordinates = loadingGeoJson.coordinates && loadingGeoJson.coordinates[loadingGeoJson.coordinates.length-1];
+            var routingGeoJsonLastCoordinates = routingGeoJson.coordinates && routingGeoJson.coordinates[routingGeoJson.coordinates.length-1];
+
+            if (typeof routingGeoJsonLastCoordinates === 'undefined') {
+                return false;
+            }
+
+            var isLastCoordinatesLoaded = !!((loadingGeoJsonLastCoordinates[0] === routingGeoJsonLastCoordinates[0]) && (loadingGeoJsonLastCoordinates[1] === routingGeoJsonLastCoordinates[1]));
+
+            if (isLastCoordinatesLoaded) {
+                this.loadingGeoJson = undefined;
+            }
+
+            return !isLastCoordinatesLoaded;
         },
 
         zoomAndCenter: function (latlng, zoomLevel) {
@@ -315,6 +342,7 @@ define(function (require, exports, module) {
             geoJson = geoJson || (this.route && this.route.get('geojson'));
 
             if (!!geoJson && (geoJson.type === 'LineString') && (!!geoJson.properties || !!geoJson.coordinates)) {
+                this.loadingGeoJson = geoJson; // Keep this so it can be used later in isLoadingGeoJsonFromRouting
                 this.routing.loadGeoJson(geoJson, {waypointDistance: 50, fitBounds: true}, function (err) {
                     if (err) {
                         Raven.captureMessage('Routing service returned error', {extra: {error: err}});
