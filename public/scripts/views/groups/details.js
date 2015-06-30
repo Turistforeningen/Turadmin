@@ -13,6 +13,7 @@ define(function (require, exports, module) {
         Backbone = require('backbone'),
         GroupModel = require('models/group'),
         DetailsTemplate = require('text!templates/groups/details.html'),
+        LinksManagerView = require('views/links/manager'),
         state = require('state'),
         User = require('models/user'),
         user = new User();
@@ -112,6 +113,13 @@ define(function (require, exports, module) {
 
             // Set up file upload button for uploading profile picture
             this.setupFileupload();
+
+            // Links Manager
+            var linksManagerView = new LinksManagerView({
+                model: this.model,
+                linksField: 'lenker',
+                el: '[data-view="group-details-lenker"]'
+            }).render();
 
             // Set up view bindings and validation
             this.stickit(); // Uses view.bindings and view.model to setup bindings
