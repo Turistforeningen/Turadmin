@@ -19,6 +19,10 @@ define(function (require, exports, module) {
         type: 'marking',
 
         validation: {
+            kode: {
+                required: true,
+                msg: 'Ruten må ha en rutekode.'
+            },
             beskrivelse: {
                 required: true,
                 msg: 'Dette feltet er påkrevd.'

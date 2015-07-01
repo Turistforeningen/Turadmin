@@ -3,7 +3,11 @@
     <div class="form-group route-marking-id">
         <label for="route-marking-id" class="control-label col-lg-2 col-md-2 col-sm-3">Rute-ID</label>
         <div class="col-lg-7 col-md-7 col-sm-7">
-            <p class="form-control-static" data-dnt-placeholder="rute-kode" type="text"></p>
+            <% if (!!user && user.er_admin) { %>
+                <input type="text" class="form-control" name="route-marking-id" placeholder="Rutekode" data-model-validation-field-name="kode">
+            <% } else { %>
+                <p class="form-control-static" data-dnt-placeholder="rute-kode" type="text"></p>
+            <% } %>
         </div>
         <div class="col-lg-7 col-md-7 col-sm-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-3">
             <p class="help-block">Offisiell rutekode. Denne kan kun endres av administrasjonen i DNT.</p>

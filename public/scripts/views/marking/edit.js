@@ -43,6 +43,12 @@ define(function (require, exports, module) {
             '[data-dnt-placeholder="rute-kode"]': {
                 observe: 'kode'
             },
+            '[name="route-marking-id"]': {
+                observe: 'kode',
+                setOptions: {
+                    validate: true
+                }
+            },
             '[name="beskrivelse"]': {
                 observe: 'beskrivelse',
                 setOptions: {
@@ -75,7 +81,7 @@ define(function (require, exports, module) {
 
             // Render template
             var jsonModel = this.model.toJSON();
-            var html =  this.template({model: jsonModel, availableMarkings: this.availableMarkings});
+            var html =  this.template({model: jsonModel, availableMarkings: this.availableMarkings, user: user.toJSON()});
             $(this.el).html(html);
 
             // Fix datepickers
