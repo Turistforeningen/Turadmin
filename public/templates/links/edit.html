@@ -6,6 +6,7 @@
 <% if (typeof fields.type !== 'undefined') { %>
   <div class="col-lg-<%= fieldCols %> col-md-<%= fieldCols %> col-sm-<%= fieldCols %>">
     <select type="text" class="form-control" name="lenke-type" data-model-validation-field-name="type">
+      <option></option>
       <% for (var i = 0; i < fields.type.options.length; i++ ) { %>
         <option
           value="<%= fields.type.options[i] %>"
