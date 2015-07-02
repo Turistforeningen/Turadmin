@@ -113,6 +113,7 @@ define(function (require, exports, module) {
         setType: function (e) {
             var inputValue = e.target.value;
             this.link.type = inputValue;
+            this.updateLink();
         },
 
         setUrl: function (e) {
