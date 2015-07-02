@@ -21,7 +21,9 @@ define(function (require, exports, module) {
         PoiManager = require('views/pois/manager'),
         MarkingModel = require('models/marking'),
         MarkingEdit = require('views/marking/edit'),
-        RouteDetailsView = require('views/routes/details');
+        RouteDetailsView = require('views/routes/details'),
+        User = require('models/user'),
+        user = new User();
 
     require('backbone-stickit');
     require('backbone-validation');
@@ -65,6 +67,9 @@ define(function (require, exports, module) {
                         model: this.marking
                     }
                 ];
+
+            } else {
+                this.$('[data-action="set-as-marked-route"]').on('click', $.proxy(this.setAsMarkedRoute, this));
             }
 
             // Set up views
@@ -113,6 +118,25 @@ define(function (require, exports, module) {
             this.listenTo(this.model, 'change:status', $.proxy(this.updatePublishButtons, this));
 
             NtbEditorView.prototype.initialize.call(this, options);
+        },
+
+        setAsMarkedRoute: function () {
+            if (!this.markingEdit) {
+                this.marking = new MarkingModel();
+
+                this.relatedModels = [
+                    {
+                        field: 'rute',
+                        model: this.marking
+                    }
+                ];
+
+                this.markingEdit = new MarkingEdit({
+                    el: '[data-view="route-marking"]',
+                    model: this.marking
+                }).render();
+
+            }
         },
 
         render: function () {

@@ -35,6 +35,10 @@ define(function (require, exports, module) {
             }
         },
 
+        defaults: {
+            merkinger: []
+        },
+
         serverAttrs: [
             'kode',
             'type',
@@ -45,6 +49,8 @@ define(function (require, exports, module) {
         ],
 
         initialize: function (options) {
+
+            options = options || {};
 
             if (typeof options.kvisting === 'object') {
                 if (options.merkinger.indexOf('Kvisting') === -1) {

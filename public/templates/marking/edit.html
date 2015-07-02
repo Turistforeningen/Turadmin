@@ -29,7 +29,7 @@
             <p class="help-block">Spesifiser hvilke kombinasjoner av merking denne ruten inneholder.</p>
         </div>
     </div>
-    <% if ((model.merkinger.indexOf('Kvisting') > -1)) { %>
+    <% if ((model.merkinger) && (model.merkinger.indexOf('Kvisting') > -1)) { %>
     <div class="form-group route-marking-period">
         <label for="route-marking-period" class="control-label col-lg-2 col-md-2 col-sm-3">Kvisting</label>
         <div class="col-sm-7">
