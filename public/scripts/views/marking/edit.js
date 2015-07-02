@@ -40,6 +40,7 @@ define(function (require, exports, module) {
         ],
 
         bindings: {
+            '[name="route-comment"]': 'merknader',
             '[data-dnt-placeholder="rute-kode"]': {
                 observe: 'kode'
             },
