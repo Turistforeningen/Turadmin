@@ -29,6 +29,7 @@ define(function (require, exports, module) {
         availableTags: [
             'Kommune',
             'Fylkeskommune',
+            'Turlag',
             'Bedrift',
             'Fotballag',
             'Idrettslag',
