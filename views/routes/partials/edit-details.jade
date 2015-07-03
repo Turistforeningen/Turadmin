@@ -35,14 +35,14 @@ div.row
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-tilkomst_kollektivtransport") Kollektivtransport
                 div.col-lg-7.col-md-7.col-sm-7
                     // TODO: Move styles to CSS.
-                    div.checkbox(style="margin-bottom: 10px;")
+                    //- div.checkbox(style="margin-bottom: 10px;")
                         label
                             input#checkbox_kollektivMulig(type="checkbox")
                             | &nbsp;Det er mulighet for ankomst med kollektivtransport
 
-                    textarea#route-details-field-tilkomst_kollektivtransport.form-control.hidden(name="route-details-field-tilkomst_kollektivtransport" placeholder="Ankomst med kollektivtransport" rows="3" data-model-validation-field-name="kollektivtransport")
+                    textarea#route-details-field-tilkomst_kollektivtransport.form-control(name="route-details-field-tilkomst_kollektivtransport" placeholder="" rows="3" data-model-validation-field-name="kollektivtransport")
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    p#route-details-field-tilkomst_kollektivtransport_description.help-block Beskriv hvordan man kommer seg til startpunktet for turen med kollektivtransport.
+                    p#route-details-field-tilkomst_kollektivtransport_description.help-block Dersom det er mulig å komme seg til startpunktet for turen ved hjelp av kollektivtransport, beskriv hvordan.
 
             div.form-group.route-details-field-lenker
                 label.control-label.col-lg-2.col-md-2.col-sm-3(for="route-details-field-lenker") Lenker
