@@ -53,6 +53,12 @@ module.exports = function (app, options) {
             for (var i = 0, key, val; i < paramsArr.length; i++) {
                 key = decodeURIComponent(paramsArr[i].split('=')[0]);
                 val = decodeURIComponent(paramsArr[i].split('=')[1] || "");
+
+                // Backbone will encode spaces as "+", while NTB expects "%20" which will be taken care of by restler
+                if (val.indexOf('+') !== -1) {
+                    val = val.replace('+', ' ');
+                }
+
                 options.query[key] = val;
             }
         }
