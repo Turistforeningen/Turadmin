@@ -39,6 +39,7 @@ define(function (require, exports, module) {
             'Orienteringslag',
             'Skole',
             'Turistinformasjon',
+            'Destinasjonsselskap',
             'Speidergruppe'
         ],
 
