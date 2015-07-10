@@ -19,7 +19,7 @@ define(function (require, exports, module) {
 
         type: 'route',
         idAttribute: '_id',
-        forcedLicense: 'CC BY 4.0',
+        forcedLicense: 'CC BY-SA 4.0',
 
         defaults: {
             // navn: '', // Not set as default, because of validation
@@ -30,7 +30,7 @@ define(function (require, exports, module) {
             tidsbrukMinutter: '0',
             tidsbruk: {normal: {dager: 1, timer: 1, minutter: 0}},
             retning: 'AB',
-            lisens: 'CC BY-NC 4.0',
+            lisens: 'CC BY-SA 4.0',
             status: 'Kladd',
             tags: [],
             // gradering: '', // Not set as default, because of validation

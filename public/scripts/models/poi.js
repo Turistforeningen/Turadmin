@@ -23,7 +23,7 @@ define(function (require, exports, module) {
         changed: false,
         deleted: false,
         popoverTemplate: PopoverTemplate,
-        forcedLicense: 'CC BY 4.0',
+        forcedLicense: 'CC BY-SA 4.0',
 
         urlRoot: function () {
             return '/restProxy/steder';
@@ -57,7 +57,7 @@ define(function (require, exports, module) {
         defaults: {
             navn: '',
             lenker: [],
-            lisens: 'CC BY-NC 4.0',
+            lisens: 'CC BY-SA 4.0',
             status: 'Kladd',
             tags: [],
             markerIcon: '21'
