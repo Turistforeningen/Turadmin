@@ -176,7 +176,7 @@ define(function (require, exports, module) {
             if (!!imageArray && imageArray.length) {
                 if (imageArray.length >= 2) {
                   urls.thumbnail = imageArray[imageArray.length-2].url;
-                } else {
+                } else {
                   urls.thumbnail = imageArray[imageArray.length-1].url;
                 }
                 urls.url = imageArray[0].url;
