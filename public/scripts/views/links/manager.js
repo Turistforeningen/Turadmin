@@ -33,6 +33,9 @@ define(function (require, exports, module) {
                 options: [
                     'Hjemmeside',
                     'Facebook',
+                    'Twitter',
+                    'Instagram',
+                    'YouTube',
                     'Vilkår',
                     'Risikovurdering',
                     'Kontaktinfo',
