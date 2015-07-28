@@ -175,7 +175,7 @@ define(function (require, exports, module) {
 
                 // On response from server
                 done: function (e, data) {
-                    var uploadedLogo = data && data.result && data.result[0];
+                    var uploadedLogo = data && data.result;
                     var uploadedLogoOriginalVersion = uploadedLogo.versions[0];
 
                     me.model.set('logo', uploadedLogoOriginalVersion.url);

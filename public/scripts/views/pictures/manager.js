@@ -170,9 +170,7 @@ define(function (require, exports, module) {
                         setTimeout(that.hideAndResetProgressBar, 1500);
                     }
 
-                    $.each(data.result, function (index, file) {
-                        that.addNewFile(file);
-                    });
+                    that.addNewFile(data.result);
                 },
 
                 // On error
