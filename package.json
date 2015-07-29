@@ -18,7 +18,6 @@
     "jade": "~1.9",
     "method-override": "~2.3",
     "node-cache": "~2.1",
-    "openid": "~0.5",
     "raven": "~0.7",
     "restler": "~3.2",
     "supervisor": "~0.6",
