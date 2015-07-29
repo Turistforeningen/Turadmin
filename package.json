@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/supervisor --watch routes,views,app.js --extensions node,js,jade app.js",
-    "test": "./node_modules/.bin/mocha -b -c test/suite.js -R spec"
+    "hint": "jshint .",
+    "start": "supervisor -w routes,views,app.js -e node,js,jade app.js",
+    "test": "mocha -b -c test/suite.js -R spec"
   },
   "dependencies": {
     "body-parser": "~1.12",
