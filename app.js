@@ -1,3 +1,5 @@
+require('newrelic');
+
 /**
  * Set keys and URL's
  */
