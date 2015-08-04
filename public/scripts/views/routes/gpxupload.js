@@ -49,6 +49,8 @@ define(function (require, exports, module) {
                 url: this.uploadUrl,
                 dataType: 'json',
                 paramName: 'gpx',
+                formData: [], // Prevent fileUpload from sending entire form, only send files
+
                 processstart: function (e) {
                     me.renderUploading();
                 },

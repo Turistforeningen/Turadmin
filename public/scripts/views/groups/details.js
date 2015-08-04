@@ -196,6 +196,7 @@ define(function (require, exports, module) {
                 url: this.uploadUrl,
                 dataType: 'json',
                 maxFileSize: 6000000,
+                formData: [], // Prevent fileUpload from sending entire form, only send files
 
                 // On response from server
                 done: function (e, data) {
