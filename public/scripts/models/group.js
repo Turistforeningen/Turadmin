@@ -86,6 +86,8 @@ define(function (require, exports, module) {
             this.on('change:kontaktinfoAdresse2', this.setKontaktinfoObject, this);
             this.on('change:kontaktinfoTelefon', this.setKontaktinfoObject, this);
             this.on('change:kontaktinfoFax', this.setKontaktinfoObject, this);
+            this.on('change:kontaktinfoPostnummer', this.setKontaktinfoObject, this);
+            this.on('change:kontaktinfoPoststed', this.setKontaktinfoObject, this);
             this.setKontaktinfoFlattened();
 
             NtbModel.prototype.initialize.call(this, options);
@@ -98,6 +100,8 @@ define(function (require, exports, module) {
             var kontaktinfoFax = this.get('kontaktinfoFax');
             var kontaktinfoAdresse1 = this.get('kontaktinfoAdresse1');
             var kontaktinfoAdresse2 = this.get('kontaktinfoAdresse2');
+            var kontaktinfoPostnummer = this.get('kontaktinfoPostnummer');
+            var kontaktinfoPoststed = this.get('kontaktinfoPoststed');
 
             if (kontaktinfoEpost) {
                 kontaktinfo[0].epost = kontaktinfoEpost;
@@ -129,6 +133,18 @@ define(function (require, exports, module) {
                 delete kontaktinfo[0].adresse2;
             }
 
+            if (kontaktinfoPostnummer) {
+                kontaktinfo[0].postnummer = kontaktinfoPostnummer;
+            } else {
+                delete kontaktinfo[0].postnummer;
+            }
+
+            if (kontaktinfoPoststed) {
+                kontaktinfo[0].poststed = kontaktinfoPoststed;
+            } else {
+                delete kontaktinfo[0].poststed;
+            }
+
             this.set({kontaktinfo: kontaktinfo}, {silent: true});
         },
 
@@ -139,7 +155,9 @@ define(function (require, exports, module) {
                 kontaktinfoTelefon: kontaktinfo[0].telefon,
                 kontaktinfoFax: kontaktinfo[0].fax,
                 kontaktinfoAdresse1: kontaktinfo[0].adresse1,
-                kontaktinfoAdresse2: kontaktinfo[0].adresse2
+                kontaktinfoAdresse2: kontaktinfo[0].adresse2,
+                kontaktinfoPostnummer: kontaktinfo[0].postnummer,
+                kontaktinfoPoststed: kontaktinfo[0].poststed
             }, {silent: true});
         },
 

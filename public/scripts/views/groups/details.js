@@ -90,6 +90,18 @@ define(function (require, exports, module) {
                     validate: true
                 }
             },
+            '[name="group-details-field-postnummer"]': {
+                observe: 'kontaktinfoPostnummer',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="group-details-field-poststed"]': {
+                observe: 'kontaktinfoPoststed',
+                setOptions: {
+                    validate: true
+                }
+            },
             '[name="group-details-field-beskrivelse"]': {
                 observe: 'beskrivelse'
             },
