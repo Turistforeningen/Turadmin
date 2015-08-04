@@ -1,7 +1,7 @@
 <h3>Detaljer</h3>
 <form>
   <div class="row">
-    <div class="col-md-6 col-lg-5">
+    <div class="col-md-6 col-lg-4">
       <div class="form-group">
         <label>Navn</label>
         <input type="text" name="group-details-field-navn" class="form-control" placeholder="Uten navn">
@@ -15,6 +15,33 @@
           <% } %>
         </select>
       </div>
+      <label>Logo</label>
+      <div class="well">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="thumbnail">
+              <% if (model.logo) { %>
+                <img src="<%= model.logo %>">
+              <% } else { %>
+                Logo mangler
+              <% } %>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <span class="btn btn-primary btn-block fileinput-button">
+              <span class="glyphicon glyphicon-plus"></span>
+              <span>&nbsp;Ny logo</span>
+              <input id="fileupload" type="file" name="image">
+            </span>
+            <button type="button" data-dnt-action="remove-logo" class="btn btn-block btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>&nbsp;
+              Slett logo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
       <div class="form-group">
         <label>Epost</label>
         <input type="text" name="group-details-field-epost" class="form-control" placeholder="">
@@ -35,39 +62,10 @@
         <input type="text" name="group-details-field-adresse2" class="form-control" placeholder="">
       </div>
     </div>
-    <div class="col-md-6 col-lg-5">
+    <div class="col-md-12 col-lg-4">
       <div class="form-group">
         <label>Beskrivelse</label>
         <textarea name="group-details-field-beskrivelse"></textarea>
-      </div>
-    </div>
-    <div class="col-md-12 col-lg-2">
-      <label>Logo</label>
-      <div class="well">
-        <div class="row">
-          <div class="col-md-4 col-lg-12">
-            <div class="thumbnail">
-              <% if (model.logo) { %>
-                <img src="<%= model.logo %>">
-              <% } else { %>
-                Logo mangler
-              <% } %>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <span class="btn btn-primary btn-block fileinput-button">
-              <span class="glyphicon glyphicon-plus"></span>
-              <span>&nbsp;Ny logo</span>
-              <input id="fileupload" type="file" name="image">
-            </span>
-            <button type="button" data-dnt-action="remove-logo" class="btn btn-block btn-danger">
-              <span class="glyphicon glyphicon-trash"></span>&nbsp;
-              Slett logo
-            </button>
-          </div>
-        </div>
       </div>
     </div>
     <div class="col-md-12">
