@@ -82,6 +82,10 @@ define(function (require, exports, module) {
             }
 
             this.on('change:kontaktinfoEpost', this.setKontaktinfoObject, this);
+            this.on('change:kontaktinfoAdresse1', this.setKontaktinfoObject, this);
+            this.on('change:kontaktinfoAdresse2', this.setKontaktinfoObject, this);
+            this.on('change:kontaktinfoTelefon', this.setKontaktinfoObject, this);
+            this.on('change:kontaktinfoFax', this.setKontaktinfoObject, this);
             this.setKontaktinfoFlattened();
 
             NtbModel.prototype.initialize.call(this, options);
@@ -90,15 +94,53 @@ define(function (require, exports, module) {
         setKontaktinfoObject: function () {
             var kontaktinfo = this.get('kontaktinfo') || [{}];
             var kontaktinfoEpost = this.get('kontaktinfoEpost');
+            var kontaktinfoTelefon = this.get('kontaktinfoTelefon');
+            var kontaktinfoFax = this.get('kontaktinfoFax');
+            var kontaktinfoAdresse1 = this.get('kontaktinfoAdresse1');
+            var kontaktinfoAdresse2 = this.get('kontaktinfoAdresse2');
+
             if (kontaktinfoEpost) {
                 kontaktinfo[0].epost = kontaktinfoEpost;
-                this.set({kontaktinfo: kontaktinfo}, {silent: true});
+            } else {
+                delete kontaktinfo[0].epost;
             }
+
+            if (kontaktinfoTelefon) {
+                kontaktinfo[0].telefon = kontaktinfoTelefon;
+            } else {
+                delete kontaktinfo[0].telefon;
+            }
+
+            if (kontaktinfoFax) {
+                kontaktinfo[0].fax = kontaktinfoFax;
+            } else {
+                delete kontaktinfo[0].fax;
+            }
+
+            if (kontaktinfoAdresse1) {
+                kontaktinfo[0].adresse1 = kontaktinfoAdresse1;
+            } else {
+                delete kontaktinfo[0].adresse1;
+            }
+
+            if (kontaktinfoAdresse2) {
+                kontaktinfo[0].adresse2 = kontaktinfoAdresse2;
+            } else {
+                delete kontaktinfo[0].adresse2;
+            }
+
+            this.set({kontaktinfo: kontaktinfo}, {silent: true});
         },
 
         setKontaktinfoFlattened: function () {
             var kontaktinfo = this.get('kontaktinfo') || [{}];
-            this.set({kontaktinfoEpost: kontaktinfo[0].epost}, {silent: true});
+            this.set({
+                kontaktinfoEpost: kontaktinfo[0].epost,
+                kontaktinfoTelefon: kontaktinfo[0].telefon,
+                kontaktinfoFax: kontaktinfo[0].fax,
+                kontaktinfoAdresse1: kontaktinfo[0].adresse1,
+                kontaktinfoAdresse2: kontaktinfo[0].adresse2
+            }, {silent: true});
         },
 
         updateUrl: function () {

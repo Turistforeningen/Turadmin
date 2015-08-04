@@ -66,6 +66,30 @@ define(function (require, exports, module) {
                     validate: true
                 }
             },
+            '[name="group-details-field-telefon"]': {
+                observe: 'kontaktinfoTelefon',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="group-details-field-fax"]': {
+                observe: 'kontaktinfoFax',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="group-details-field-adresse1"]': {
+                observe: 'kontaktinfoAdresse1',
+                setOptions: {
+                    validate: true
+                }
+            },
+            '[name="group-details-field-adresse2"]': {
+                observe: 'kontaktinfoAdresse2',
+                setOptions: {
+                    validate: true
+                }
+            },
             '[name="group-details-field-beskrivelse"]': {
                 observe: 'beskrivelse'
             },
