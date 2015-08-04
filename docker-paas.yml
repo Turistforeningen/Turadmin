@@ -15,6 +15,10 @@ turadmin:
     - APP_URL
     - DNT_CONNECT_KEY
     - DNT_CONNECT_USER
+    - NEW_RELIC_APP_NAME=Turadmin
+    - NEW_RELIC_LICENSE_KEY
+    - NEW_RELIC_LOG=stdout
+    - NEW_RELIC_NO_CONFIG_FILE=true
     - NODE_ENV=production
     - NTB_API_ENV=api
     - NTB_API_KEY
