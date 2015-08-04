@@ -17,6 +17,7 @@
     "express": "~4.12",
     "jade": "~1.9",
     "method-override": "~2.3",
+    "newrelic": "~1.21",
     "node-cache": "~2.1",
     "raven": "~0.7",
     "restler": "~3.2",
