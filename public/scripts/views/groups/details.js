@@ -49,58 +49,31 @@ define(function (require, exports, module) {
 
         bindings: {
             '[name="group-details-field-navn"]': {
-                observe: 'navn',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'navn'
             },
             '[name="group-details-field-url"]': {
-                observe: 'url',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'url'
             },
             '[name="group-details-field-epost"]': {
-                observe: 'kontaktinfoEpost',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoEpost'
             },
             '[name="group-details-field-telefon"]': {
-                observe: 'kontaktinfoTelefon',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoTelefon'
             },
             '[name="group-details-field-fax"]': {
-                observe: 'kontaktinfoFax',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoFax'
             },
             '[name="group-details-field-adresse1"]': {
-                observe: 'kontaktinfoAdresse1',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoAdresse1'
             },
             '[name="group-details-field-adresse2"]': {
-                observe: 'kontaktinfoAdresse2',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoAdresse2'
             },
             '[name="group-details-field-postnummer"]': {
-                observe: 'kontaktinfoPostnummer',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoPostnummer'
             },
             '[name="group-details-field-poststed"]': {
-                observe: 'kontaktinfoPoststed',
-                setOptions: {
-                    validate: true
-                }
+                observe: 'kontaktinfoPoststed'
             },
             '[name="group-details-field-beskrivelse"]': {
                 observe: 'beskrivelse'
