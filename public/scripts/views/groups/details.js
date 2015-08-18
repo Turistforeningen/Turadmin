@@ -154,7 +154,8 @@ define(function (require, exports, module) {
                 toolbarGroups: [
                     {name: 'basicstyles', groups: ['basicstyles']},
                     {name: 'paragraph', groups: ['list']},
-                    {name: 'styles', groups: ['styles']}
+                    {name: 'styles', groups: ['styles']},
+                    {name: 'links'}
                 ],
                 format_tags: 'p;h2;h3',
                 // Remove the redundant buttons from toolbar groups defined above.
