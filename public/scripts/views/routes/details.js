@@ -255,7 +255,7 @@ define(function (require, exports, module) {
                 for (var i = 0; i < userGroups.length; i++) {
                     select2UserGroups[i] = {};
                     select2UserGroups[i].id = userGroups[i].object_id;
-                    select2UserGroups[i].text = userGroups[i].navn;
+                    select2UserGroups[i].text = userGroups[i].navn; || 'Gruppe uten navn'
                 }
 
                 if (user.get('er_admin') === true) {
@@ -267,7 +267,7 @@ define(function (require, exports, module) {
                     for (var j = 0; j < externalGroups.length; j++) {
                         select2ExternalGroups[j] = {};
                         select2ExternalGroups[j].id = externalGroups[j]._id;
-                        select2ExternalGroups[j].text = externalGroups[j].navn;
+                        select2ExternalGroups[j].text = externalGroups[j].navn || 'Gruppe uten navn';
                     }
 
                     select2Options = [
