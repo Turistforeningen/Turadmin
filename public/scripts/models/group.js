@@ -20,7 +20,7 @@ define(function (require, exports, module) {
         idAttribute: '_id',
         forcedLicense: 'CC BY-SA 4.0',
 
-        urlRoot: '/ntb-api/grupper',
+        urlRoot: '/restProxy/grupper',
 
         defaults: {
             // navn: '', // Not set as default, because of validation
