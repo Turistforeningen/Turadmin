@@ -56,7 +56,7 @@
         var sUrl = apiUri + '/bbox/?bbox=';
 
         // Listen to map:moveend event to get updated snappingLayer data
-        map.on('moveend', $.proxy(function(e) {
+        /* map.on('moveend', $.proxy(function(e) {
             if (map.getZoom() > 12 && enableSnapping) {
                 var url;
                 url = sUrl + map.getBounds().toBBoxString() + '&callback=?';
@@ -74,7 +74,7 @@
             } else {
                 snappingLayer.clearLayers();
             }
-        }), this);
+        }), this); */
 
         // Trigger first map:moveend event to get initial snappingLayer data
         map.fire('moveend');

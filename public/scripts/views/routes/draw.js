@@ -83,6 +83,9 @@ define(function (require, exports, module) {
             var gpxUploadView = new GpxUploadView({callback: $.proxy(this.onGpxUpload, this)}).render();
 
             this.updateRoutingToggle();
+            this.toggleRouting();
+            this.toggleSnapping();
+
             this.updateRouteDirectionSelect();
             this.renderDrawButton();
             this.renderBoundaryIntersect();
