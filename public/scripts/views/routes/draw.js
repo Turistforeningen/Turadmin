@@ -173,14 +173,20 @@ define(function (require, exports, module) {
 //         },
 
         setRouteDirection: function (e) {
-            e.preventDefault();
+            if (e && typeof e.preventDefault === 'function') {
+              e.preventDefault();
+            }
+
             var selectedDirection = $(e.currentTarget).attr('data-route-direction-option');
             this.routeModel.set('retning', selectedDirection);
             this.updateRouteDirectionSelect();
         },
 
         toggleRouting: function (e) {
-            e.preventDefault();
+            if (e && typeof e.preventDefault === 'function') {
+              e.preventDefault();
+            }
+
             this.routingEnabled = !this.routingEnabled;
             this.mapWrapper.routing.enableSnapping(this.routingEnabled);
             this.updateRoutingToggle();
@@ -192,7 +198,10 @@ define(function (require, exports, module) {
         },
 
         toggleSnapping: function (e) {
-            e.preventDefault();
+            if (e && typeof e.preventDefault === 'function') {
+              e.preventDefault();
+            }
+
             this.snappingEnabled = !this.snappingEnabled;
             this.mapWrapper.routing.enableSnapping(this.snappingEnabled);
         },
