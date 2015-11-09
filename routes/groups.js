@@ -158,5 +158,4 @@ module.exports = function (app, options) {
 
     app.post('/ntb-api/grupper', postPutGroups);
     app.put('/ntb-api/grupper/:id', postPutGroups);
-
 };
