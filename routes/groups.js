@@ -105,6 +105,10 @@ module.exports = function (app, options) {
         restProxy.makeApiRequest('/grupper/' + groupId, req, undefined, onCompleteGroupRequest);
     };
 
+    var deleteGroups = function (req, res, next) {
+        restProxy.makeApiRequest('/grupper/' + req.params.id, req, res, undefined);
+    };
+
     var postPutGroups = function (req, res, next) {
         var group = req.body;
         var users = group && group.privat && group.privat.brukere || [];
@@ -158,4 +162,5 @@ module.exports = function (app, options) {
 
     app.post('/ntb-api/grupper', postPutGroups);
     app.put('/ntb-api/grupper/:id', postPutGroups);
+    app.delete('/ntb-api/grupper/:id', deleteGroups);
 };
