@@ -25,7 +25,7 @@ deploy:
             keyname: SSH_KEY
             host: $SSH_HOST
 
-        - add-to-known_hosts:
+        - wercker/add-to-known_hosts@1.4.0:
             hostname: $SSH_HOST
 
         - script:
