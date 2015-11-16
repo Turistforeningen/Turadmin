@@ -39,10 +39,18 @@ define(function (require, exports, module) {
             'Kvisting'
         ],
 
+        availableTypes: [
+            'Sommer',
+            'Vinter'
+        ],
+
         bindings: {
             '[name="route-comment"]': 'merknader',
             '[data-dnt-placeholder="rute-kode"]': {
                 observe: 'kode'
+            },
+            '[name="route-type"]': {
+                observe: 'type'
             },
             '[name="route-marking-id"]': {
                 observe: 'kode',
@@ -85,6 +93,7 @@ define(function (require, exports, module) {
             var html =  this.template({
                 model: jsonModel,
                 availableMarkings: this.availableMarkings,
+                availableTypes: this.availableTypes,
                 user: user.toJSON()
             });
             $(this.el).html(html);
