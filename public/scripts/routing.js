@@ -7,32 +7,23 @@
 (function () {
     "use strict";
 
+    var _map;
     var routing;
     var enableSnapping = true;
     var maxDistanceToSnapLine = 100;
 
     var snappingRouter = function (l1, l2, cb) {
         var apiUri = $('body').data("apiuri");
-
-        var restUri = apiUri + "/route/?coords=";
-        var routeUri = restUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',') + '&callback=?';
+        var apiUri = "http://n50.api.dnt.privat/api/v1/routing/?coords=";
+        var routeUri = apiUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',');
         var req = $.getJSON(routeUri);
         req.always(function (data, status) {
             if (status === 'success') {
-                try {
-                    L.GeoJSON.geometryToLayer(JSON.parse(data)).eachLayer(function (layer) {
-                        // 14026
-                        var d1 = l1.distanceTo(layer._latlngs[0]);
-                        var d2 = l2.distanceTo(layer._latlngs[layer._latlngs.length - 1]);
+                L.GeoJSON.geometryToLayer(data).eachLayer(function (layer) {
+                    return cb(null, layer);
+                });
 
-                        if (d1 < maxDistanceToSnapLine && d2 < maxDistanceToSnapLine) {
-                            return cb(null, layer);
-                        }
-                        return cb(new Error('This has been discarded'));
-                    });
-                } catch (e) {
-                    return cb(new Error('Invalid JSON'));
-                }
+                //cb(new Error('foo'));
             } else {
                 return cb(new Error('Routing failed'));
             }
@@ -51,18 +42,19 @@
     };
 
     var Routing = function (map, snappingLayer) {
+        _map = map;
 
         var apiUri = $('body').data("apiuri");
         var sUrl = apiUri + '/bbox/?bbox=';
+        var sUrl = "http://n50.api.dnt.privat/api/v1/snapping/?coords=";
 
         // Listen to map:moveend event to get updated snappingLayer data
         map.on('moveend', $.proxy(function(e) {
-            if (map.getZoom() > 12 && enableSnapping) {
+            if (enableSnapping) {
                 var url;
-                url = sUrl + map.getBounds().toBBoxString() + '&callback=?';
+                url = sUrl + map.getBounds().toBBoxString();
                 $.getJSON(url).always(function(data, status) {
                     if (status === 'success') {
-                        data = JSON.parse(data);
                         if (data.geometries && data.geometries.length > 0) {
                             snappingLayer.clearLayers();
                             snappingLayer.addData(data);
