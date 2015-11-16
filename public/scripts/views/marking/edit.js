@@ -82,7 +82,11 @@ define(function (require, exports, module) {
 
             // Render template
             var jsonModel = this.model.toJSON();
-            var html =  this.template({model: jsonModel, availableMarkings: this.availableMarkings, user: user.toJSON()});
+            var html =  this.template({
+                model: jsonModel,
+                availableMarkings: this.availableMarkings,
+                user: user.toJSON()
+            });
             $(this.el).html(html);
 
             // Fix datepickers
