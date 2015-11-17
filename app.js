@@ -99,6 +99,11 @@ require('./routes/groups')(app, {
     restProxy: restProxy
 });
 
+require('./routes/chown')(app, {
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    restProxy: restProxy
+});
+
 // Redirect requests to '/' to '/turer'
 app.use('/', function (req, res, next) {
     "use strict";

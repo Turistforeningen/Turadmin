@@ -1,0 +1,94 @@
+extends ../index
+
+
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(externalGroups) !== 'undefined')
+            | appData.externalGroups = !{externalGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(areas) !== 'undefined')
+            | appData.areas = !{areas};
+            //- | console.log('Loaded index with areas:', !{areas});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded route with userData:', !{userData});
+        - if (typeof(userDefaultRouteFetchQuery) !== 'undefined')
+            | appData.userDefaultRouteFetchQuery = !{userDefaultRouteFetchQuery};
+            //- | console.log('Loaded route with userDefaultGroup:', '#{userDefaultGroup}');
+        - if (typeof(authType) !== 'undefined')
+            | appData.authType = '#{authType}';
+            //- | console.log('Loaded route with authType:', '#{authType}');
+
+        | appData.itemType = '#{itemType}';
+
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/chown-index.js']);
+
+
+
+block navbarCollapse
+
+    +navbarCollapseIndex('routes')
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        include ../dropdownmenu
+
+
+block content
+
+    div.container
+        div.masthead
+            h2.page-header Bytte eier
+
+        h3.page-header Finn objekter
+        div#current-owner.form-horizontal
+            div.form-group
+                label.col-sm-2.control-label ID
+                div.col-sm-4
+                    input(type="text" class="form-control" placeholder="sherpa3:12345" value="")
+            div.form-group
+                label.col-sm-2.control-label Type
+                div.col-sm-4
+                    select.form-control
+                        option(value="turer") Turer
+                        option(value="steder") Steder
+                        option(value="bilder") Bilder
+            div.form-group
+                div.col-sm-offset-2
+                    div.col-sm-4
+                        button.btn.btn-primary(data-action="search" type="button") Hent objekter
+
+
+        h3.page-header Objekter
+        div#objects
+            ul
+
+        h3.page-header Ny eier
+        div#new-owner.form-horizontal
+            div.form-group
+                label.col-sm-2.control-label ID
+                div.col-sm-4
+                    input(name="id" placeholder="sherpa3:54321").form-control
+
+            div.form-group
+                label.col-sm-2.control-label Navn
+                div.col-sm-4
+                    input(name="navn").form-control
+
+            div.form-group
+                label.col-sm-2.control-label Epost
+                div.col-sm-4
+                    input(name="epost").form-control
+
+            div.form-group
+                div.col-sm-offset-2.col-sm-2
+                    button.btn.btn.btn-primary Endre alle
