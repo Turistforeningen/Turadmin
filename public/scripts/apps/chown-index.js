@@ -20,6 +20,17 @@ define(function (require, exports, module) {
     var currentOwnerId;
     var $list = $('#objects ul');
 
+    var onObjectFetch = function (data, textStatus, jqXhr) {
+        var $li = $('li[data-id="' + data._id + '"]');
+        objects[data._id] = data;
+        $li.html(data.navn + '<span class="done"></span>');
+    };
+
+    var  onObjectPatch = function (data, textStatus, jqXhr) {
+        var id = this.url.split('/').reverse()[0];
+        $('li[data-id="'+ id +'"] span').html('&#10004;');
+    };
+
     $('#current-owner button').on('click', function () {
         currentOwnerId = $('#current-owner input').val();
         objectType = $('#current-owner select').val();
@@ -45,17 +56,13 @@ define(function (require, exports, module) {
                             data: 'fields=navn,privat',
                             processData: false,
                             dataType: 'json',
-                            success: function (data, textStatus, jqXhr) {
-                                var $li = $('li[data-id="' + data._id + '"]');
-                                objects[data._id] = data;
-                                $li.html(data.navn + '<span class="done"></span>');
-                            }
+                            success: onObjectFetch
                         });
 
                     }
                 } else {
-                    var $li = '<li>Fant ingen ' + objectType + ' tilhørende denne bruker med id <strong>' + currentOwnerId + '</strong></li>';
-                    $list.append($li);
+                    var $emptyLi = '<li>Fant ingen ' + objectType + ' tilhørende denne bruker med id <strong>' + currentOwnerId + '</strong></li>';
+                    $list.append($emptyLi);
                 }
             }
         });
@@ -65,14 +72,11 @@ define(function (require, exports, module) {
     $('#new-owner button').on('click', function () {
         var $listItems = $list.find('li');
         var $newOwner = $('#new-owner');
-        var id = $newOwner.find('input[name="id"]').val();
-        var navn = $newOwner.find('input[name="navn"]').val();
-        var epost = $newOwner.find('input[name="epost"]').val();
 
         var newOwner = {
-            id: id,
-            navn: navn,
-            epost: epost
+            id: $newOwner.find('input[name="id"]').val(),
+            navn: $newOwner.find('input[name="navn"]').val(),
+            epost: $newOwner.find('input[name="epost"]').val()
         };
 
         for (var i = 0; i < $listItems.length; i++) {
@@ -90,10 +94,7 @@ define(function (require, exports, module) {
                 },
                 method: 'PUT',
                 dataType: 'json',
-                success: function (data, textStatus, jqXhr) {
-                    var id = this.url.split('/').reverse()[0];
-                    $('li[data-id="'+ id +'"] span').html('&#10004;');
-                }
+                success: onObjectPatch
             });
         }
     });
