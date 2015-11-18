@@ -14,7 +14,7 @@
     var routingSensitivity = 500;
 
     var snappingRouter = function (l1, l2, cb) {
-        var apiUri = '//n50.dnt.no/api/v1/routing/?coords=';
+        var apiUri = '//n50.dnt.no/api/v1/routing/?sensitivity=' + routingSensitivity + '&coords=';
         var routeUri = apiUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',');
 
         var req = $.getJSON(routeUri);
