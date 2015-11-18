@@ -36,6 +36,6 @@ module.exports = function (app, options) {
         res.render('chown/index', renderOptions);
     };
 
-    app.get('/chown', getChownIndex);
+    app.get('/eierskifte', getChownIndex);
 };
 
