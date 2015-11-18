@@ -38,4 +38,3 @@ module.exports = function (app, options) {
 
     app.get('/eierskifte', getChownIndex);
 };
-
