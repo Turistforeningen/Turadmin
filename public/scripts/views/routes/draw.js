@@ -36,12 +36,13 @@ define(function (require, exports, module) {
             'click [data-toggle="route-draw-tool"]': 'toggleDraw',
             'click [data-route-draw-toggle-routing]': 'toggleRouting',
             'click [data-route-direction-option]': 'setRouteDirection',
-            'click [data-action="route-draw-reset"]': 'routeDrawReset'
+            'click [data-action="route-draw-reset"]': 'routeDrawReset',
+            'click [data-action="set-sensitivity"]': 'setRoutingSensitivity',
         },
 
         initialize: function (options) {
 
-            _.bindAll(this, 'zoomAndCenter', 'loadGpxGeometry', 'renderDrawButton', 'toggleRouting');
+            _.bindAll(this, 'zoomAndCenter', 'loadGpxGeometry', 'renderDrawButton', 'toggleRouting', 'setRoutingSensitivity');
 
             // this.poiCollection = this.model.get('poiCollection');
             this.pictures = options.pictures;
