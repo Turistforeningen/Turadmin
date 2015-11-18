@@ -76,10 +76,22 @@
                 </button>
               </div>
               <div class="toggleRouting">
-                <button data-toggle="tooltip" title="" data-placement="top" data-route-draw-toggle-routing="" class="btn btn-default" data-original-title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på.">
-                  <input type="checkbox">
-                  <span>&nbsp;Ruting</span>
-                </button>
+                <div class="btn-group">
+                    <button data-toggle="tooltip" title="" data-placement="top" data-route-draw-toggle-routing="" class="btn btn-default" data-original-title="Når du tegner inn ruten vil markøren automatisk feste seg til nærmeste stier og veier. Denne funksjonen kan slås av og på.">
+                      <input type="checkbox">
+                      <span>&nbsp;Ruting</span>
+                    </button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">Sensitivitet</li>
+                        <li><a data-action="set-sensitivity" data-sensitivity="1000">Lav</a></li>
+                        <li><a data-action="set-sensitivity" data-sensitivity="500">Medium</a></li>
+                        <li><a data-action="set-sensitivity" data-sensitivity="50" data-default>Høy</a></li>
+                    </ul>
+                </div>
                 <script>
                 $('.toggleRouting button').tooltip();
                 </script>
