@@ -11,6 +11,7 @@
     var routing;
     var enableSnapping = true;
     var maxDistanceToSnapLine = 100;
+    var routingSensitivity = 500;
 
     var snappingRouter = function (l1, l2, cb) {
         var apiUri = '//n50.dnt.no/api/v1/routing/?coords=';
