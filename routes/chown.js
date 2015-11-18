@@ -36,12 +36,6 @@ module.exports = function (app, options) {
         res.render('chown/index', renderOptions);
     };
 
-    var patchChown = function (req, res, next) {
-        console.log(req);
-        restProxy.makeApiRequest(req.originalUrl, req.params.id, req, res, undefined);
-    };
-
     app.get('/chown', getChownIndex);
-    app.patch('/chown', patchChown);
 };
 
