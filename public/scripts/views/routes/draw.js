@@ -92,6 +92,8 @@ define(function (require, exports, module) {
             this.renderDrawButton();
             this.renderBoundaryIntersect();
 
+            this.$('[data-sensitivity][data-default]').click();
+
             return this;
         },
 
