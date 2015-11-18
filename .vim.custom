@@ -1,0 +1,8 @@
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules|bower_components|dist)$',
+  \ 'file': '\v\.(exe|so|dll|pyc|DS_Store)$',
+  \ } "use this for files and directories you want only CtrlP to not show
+
+autocmd filetype html :setlocal sw=4 ts=4 sts=4 tw=100         " four spaces for html "
+autocmd filetype jade :setlocal sw=4 ts=4 sts=4 tw=100         " four spaces for jade "
+autocmd filetype javascript :setlocal sw=4 ts=4 sts=4 tw=100   " four spaces for javascript "
