@@ -23,7 +23,7 @@ define(function (require, exports, module) {
     var onObjectFetch = function (data, textStatus, jqXhr) {
         var $li = $('li[data-id="' + data._id + '"]');
         objects[data._id] = data;
-        $li.html(data.navn + '<span class="done"></span>');
+        $li.html('<span class="done"></span>' + data.navn);
     };
 
     var  onObjectPatch = function (data, textStatus, jqXhr) {
