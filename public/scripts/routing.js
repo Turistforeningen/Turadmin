@@ -108,6 +108,10 @@
             }
         };
 
+        this.setRoutingSensitivity = function (sensitivity) {
+            routingSensitivity = parseInt(sensitivity, 10);
+        };
+
         this.getGeoJson = function () {
             return this.routing.toGeoJSON(true);
         };
