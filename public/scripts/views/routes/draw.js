@@ -210,6 +210,15 @@ define(function (require, exports, module) {
             this.mapWrapper.routing.enableSnapping(this.snappingEnabled);
         },
 
+        setRoutingSensitivity: function (e) {
+            var sensitivity = e.target.dataset.sensitivity;
+            var $el = $(e.target);
+            var $li = $el.parent();
+            $li.siblings().removeClass('active');
+            $li.addClass('active');
+            this.mapWrapper.routing.setRoutingSensitivity(sensitivity);
+        },
+
         updateRouteDirectionSelect: function () {
             var routeDirection = this.routeModel.get('retning') || '';
             $('[data-route-direction-option]').removeClass('active');
