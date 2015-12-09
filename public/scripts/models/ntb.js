@@ -156,7 +156,7 @@ define(function (require, exports, module) {
             var namingBy;
             var state = require('state');
 
-            if (userProvider === 'DNT Connect' || userProvider === 'Innholdspartner') {
+            if (userProvider === 'DNT Connect' || userProvider === 'Innholdspartner') {
                 var userGroups = user.get('grupper');
                 var externalGroups = state.externalGroups;
                 var objectGroups = this.get('grupper');
