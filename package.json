@@ -5,29 +5,30 @@
   "scripts": {
     "hint": "jshint .",
     "start": "supervisor -w routes,views,app.js -e node,js,jade app.js",
-    "test": "mocha -b -c test/suite.js -R spec"
+    "test": "mocha -b -c test/suite.js -R spec",
+    "watch": "mocha -b -c -w test/suite.js -R progress"
   },
   "dependencies": {
-    "body-parser": "~1.12",
-    "cookie-parser": "~1.3",
-    "cookie-session": "~1.0",
-    "dnt-api": "~1.1",
-    "dnt-connect": "~2.0",
-    "errorhandler": "~1.3",
-    "express": "~4.12",
-    "jade": "~1.9",
-    "method-override": "~2.3",
-    "newrelic": "~1.21",
-    "node-cache": "~2.1",
-    "raven": "~0.7",
-    "restler": "~3.2",
-    "supervisor": "~0.6",
-    "turbasen-auth": "~1.2",
-    "underscore": "~1.7"
+    "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.0",
+    "cookie-session": "^1.2.0",
+    "dnt-api": "^1.1.0",
+    "dnt-connect": "^2.0.0",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.0",
+    "newrelic": "^1.24.0",
+    "node-cache": "^2.1.1",
+    "raven": "^0.9.0",
+    "restler": "^3.4.0",
+    "supervisor": "^0.9.1",
+    "turbasen-auth": "^1.2.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "mocha": "~2.2",
-    "jshint": "~2.8",
-    "supertest": "~0.15"
+    "mocha": "^2.3.4",
+    "jshint": "^2.9.0",
+    "supertest": "^1.1.0"
   }
 }
