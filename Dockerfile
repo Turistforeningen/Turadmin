@@ -1,10 +1,10 @@
-FROM node:0.10-slim
+FROM node:argon-slim
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app/
-RUN npm install
+RUN npm install --production
 COPY . /usr/src/app
 
-CMD [ "npm", "start" ]
+CMD [ "node", "app.js" ]
