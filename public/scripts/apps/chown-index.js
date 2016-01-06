@@ -37,7 +37,7 @@ define(function (require, exports, module) {
 
         $.ajax({
             url: '/restProxy/' + objectType + '/',
-            data: 'privat.opprettet_av.id=' + currentOwnerId + '&limit=50&fields=navn,privat',
+            data: 'privat.opprettet_av.id=' + encodeURIComponent(currentOwnerId) + '&limit=50&fields=navn,privat',
             processData: false,
             dataType: 'json',
             success: function (data, textStatus, jqXhr) {
