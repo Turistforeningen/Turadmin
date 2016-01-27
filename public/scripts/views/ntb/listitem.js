@@ -23,7 +23,6 @@ define(function (require, exports, module) {
 
         template: _.template(Template),
         tagName: 'tr',
-        className: 'clickable',
 
         events: {
             'click td.route-title': 'loadRoute',
@@ -40,9 +39,8 @@ define(function (require, exports, module) {
             _.bindAll(this, 'publish', 'unpublish');
         },
 
-        loadRoute: function () {
-            var url = '/' + this.path + '/' + this.model.get('id');
-            window.location.href = url;
+        getItemEditUrl: function () {
+            return '/' + this.path + '/' + this.model.get('id');
         },
 
         deleteRoute: function (e) {
@@ -80,6 +78,7 @@ define(function (require, exports, module) {
             } else {
                 var data = this.makeJsonModel();
                 data.userIsAdmin = user.get('er_admin');
+                data.url = this.getItemEditUrl();
                 var html = this.template(data);
                 $(this.el).html(html);
             }

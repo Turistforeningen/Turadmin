@@ -1,7 +1,7 @@
 <td class="route-title">
-    <span>
+    <a href="<%= url %>">
         <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %><em>Uten navn</em><% } %>
-    </span>
+    </a>
 </td>
 <td>
     <%if (userIsAdmin === true) { %>
@@ -32,7 +32,7 @@
     <span><%= endret %></span>
 </td>
 <td class="actions">
-    <a class="edit">Rediger</a>
+    <a href="<%= url %>" class="edit">Rediger</a>
     <span class="separator">|</span>
     <a id="deleteRoute" data-action="route-delete-modal-open">Slett</a>
     <div class="modal fade">
