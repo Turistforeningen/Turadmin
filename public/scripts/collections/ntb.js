@@ -16,8 +16,8 @@ define(function (require, exports, module) {
     // Module
     return Backbone.Collection.extend({
 
-        // NOTE: DO NOT define properties that should not be shared
-        // between collections extending this collection, like removedModels
+        // NOTE: DO NOT define properties that should not share state
+        // across collections extending this collection, like removedModels
 
         state: {
             pageSize: 20,
