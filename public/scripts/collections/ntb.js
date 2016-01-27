@@ -115,6 +115,15 @@ define(function (require, exports, module) {
                 reset: true,
                 data: this.fetchQuery
             });
+
+            var queryParamsArray = [];
+
+            for (var key in this.fetchQuery) {
+                queryParamsArray.push([key, '=', this.fetchQuery[key]].join(''));
+            }
+
+            var queryParamsString = '?' + queryParamsArray.join('&');
+            history.pushState(null, null, queryParamsString);
         },
 
 

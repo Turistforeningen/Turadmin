@@ -34,28 +34,28 @@ define(function (require, exports, module) {
             this.fetchQuery = this.fetchQuery || {};
 
             switch (type) {
-                case 'Alle':
+                case '':
                     delete this.fetchQuery['fields'];
                     delete this.fetchQuery['rute.type'];
                     delete this.fetchQuery['rute'];
 
                     break;
 
-                case 'Turforslag':
+                case '!':
                     this.fetchQuery['rute'] = '!';
                     this.fetchQuery['fields'] = 'endret,navn,status';
                     delete this.fetchQuery['rute.type'];
 
                     break;
 
-                case 'Sommerrute':
+                case 'Sommer':
                     this.fetchQuery['rute.type'] = 'Sommer';
                     this.fetchQuery['fields'] = 'rute,endret,navn,status';
                     delete this.fetchQuery['rute'];
 
                     break;
 
-                case 'Vinterløype':
+                case 'Vinter':
                     this.fetchQuery['rute.type'] = 'Vinter';
                     this.fetchQuery['fields'] = 'rute,endret,navn,status';
                     delete this.fetchQuery['rute'];

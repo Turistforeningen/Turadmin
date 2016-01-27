@@ -40,6 +40,7 @@ define(function (require, exports, module) {
             this.user = user;
 
             this.defaultFetchQuery = this.defaultFetchQuery || {'privat.opprettet_av.id': user.get('id')};
+            var urlFetchQuery = this.getUrlFetchQuery();
 
             this.itemType = options.itemType;
 
@@ -53,14 +54,14 @@ define(function (require, exports, module) {
 
             if (provider == 'DNT Connect' && groups.length) {
                 this.groups = groups;
-                this.collection.fetchQuery = options.userDefaultRouteFetchQuery || this.defaultFetchQuery;
+                this.collection.fetchQuery = urlFetchQuery || options.userDefaultRouteFetchQuery || this.defaultFetchQuery;
 
             } else if (provider == 'Innholdspartner') {
                 group = user.get('gruppe');
-                this.collection.fetchQuery = (!!group) ? {gruppe: group} : {};
+                this.collection.fetchQuery = urlFetchQuery || (!!group) ? {gruppe: group} : {};
 
             } else {
-                this.collection.fetchQuery = {'privat.opprettet_av.id': user.get('id')};
+                this.collection.fetchQuery = urlFetchQuery || {'privat.opprettet_av.id': user.get('id')};
             }
 
             this.fetchItems();
@@ -119,6 +120,20 @@ define(function (require, exports, module) {
 
         clearSearch: function () {
             this.$el.find('[name="search-term"]').val('');
+        },
+
+        getUrlFetchQuery: function () {
+            var fetchQuery = {};
+            var queryParamsString = window.location.search.substring(1);
+            if (queryParamsString) {
+                var queryParamsArray = queryParamsString.split('&');
+                for (var i = 0; i < queryParamsArray.length; i++) {
+                    var param = queryParamsArray[i].split('=');
+                    fetchQuery[param[0]] = param[1];
+                }
+                return fetchQuery;
+            }
+            return null;
         },
 
         showLoading: function () {
@@ -204,6 +219,10 @@ define(function (require, exports, module) {
                     this.$('[data-placeholder-for="group-select"] select').select2({
                         formatNoMatches: function (term) { return 'Ingen treff'; }
                     });
+
+                    if (this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']) {
+                        this.$('select[data-filter="type"]').val(this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']);
+                    }
 
                 } else {
                     this.$('.no-groups-info').removeClass('hidden');
