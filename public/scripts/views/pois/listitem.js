@@ -29,6 +29,7 @@ define(function (require, exports, module) {
             } else {
                 var data = this.makeJsonModel();
                 data.userIsAdmin = user.get('er_admin');
+                data.url = this.getItemEditUrl();
                 var html = this.template(data);
                 $(this.el).html(html);
                 if (this.model.hasTag('Hytte')) {
