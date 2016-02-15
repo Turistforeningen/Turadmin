@@ -130,6 +130,78 @@ block content
                                 p.help-block Velg type sted.
 
 
+                        div.row.info-type-sesong-enabled.hidden
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                div.alert.alert-info
+                                    |For valgt og noen andre typer sted kan du angi hvilke måneder stedet har sesong og om det er åpent nå, som vil overstyre valgt sesong.
+
+                        // Sesong
+                        div.form-group.poi-details-field-sesong.hidden
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-sesong") Sesong
+                            div.col-lg-7.col-md-7.col-sm-7
+                                div.btn-group(data-model-validation-field-name="sesong")
+                                    div
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-1(type="checkbox" value="1")
+                                            | Jan
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-2(type="checkbox" value="2")
+                                            | Feb
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-3(type="checkbox" value="3")
+                                            | Mar
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-4(type="checkbox" value="4")
+                                            | Apr
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-5(type="checkbox" value="5")
+                                            | Mai
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-6(type="checkbox" value="6")
+                                            | Jun
+
+                                    div
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-7(type="checkbox" value="7")
+                                            | Jul
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-8(type="checkbox" value="8")
+                                            | Aug
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-9(type="checkbox" value="9")
+                                            | Sep
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-10(type="checkbox" value="10")
+                                            | Okt
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-11(type="checkbox" value="11")
+                                            | Nov
+                                        label.checkbox-inline
+                                            input#poi-details-field-sesong-12(type="checkbox" value="12")
+                                            | Des
+
+                            // TODO: Move style to stylesheets
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3(style="margin-top: 10px; margin-bottom: 10px;")
+                                a#poi-details-field-sesong-select-alle Hele året
+                                | |&nbsp;
+                                a#poi-details-field-sesong-select-sommer Sommer
+                                | |&nbsp;
+                                a#poi-details-field-sesong-select-vinter Vinter
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Velg hvilke måneder stedet har sesong, ved å bruke hurtigvalg for årstid eller velge hver enkelt måned.
+
+                        // Åpen
+                        div.form-group.poi-details-field-open.hidden
+                            label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-åpen") Åpen nå
+                            div.col-lg-7.col-md-7.col-sm-7
+                                label.checkbox-inline
+                                    input(type="checkbox" name="poi-details-field-åpen")
+                                    | Åpen nå
+
+                            div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                                p.help-block Kryss av ovenfor dersom stedet skal merkes som åpent nå, uten at sesongen endres. Fjern avkryssingen når stedet ikke er åpen lenger.
+
                         // Flere typer
                         div.form-group.poi-details-field-tags-other.hidden
                             label.control-label.col-lg-2.col-md-2.col-sm-3(for="poi-details-field-flere-typer") Velg flere typer
@@ -138,7 +210,6 @@ block content
 
                             div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                                 p.help-block Er det flere typer som beskriver dette stedet? Velg alle som passer.
-
 
                         // Tilrettelagt for
                         div.form-group.poi-details-field-tilrettelagt_for
