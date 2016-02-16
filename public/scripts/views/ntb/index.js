@@ -221,10 +221,6 @@ define(function (require, exports, module) {
                         formatNoMatches: function (term) { return 'Ingen treff'; }
                     });
 
-                    if (this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']) {
-                        this.$('select[data-filter="type"]').val(this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']);
-                    }
-
                 } else {
                     this.$('.no-groups-info').removeClass('hidden');
                 }

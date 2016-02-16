@@ -16,7 +16,17 @@ define(function (require, exports, module) {
 
     // Module
     return NtbIndexView.extend({
-        collection: new RouteCollection()
+        collection: new RouteCollection(),
+
+        render: function () {
+            var $selectType = this.$('select[data-filter="type"]');
+            if ($selectType.length && (this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type'])) {
+                $selectType.val(this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']);
+            }
+
+            NtbIndexView.prototype.render.call(this);
+        }
+
     });
 
 });
