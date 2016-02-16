@@ -208,7 +208,8 @@ define(function (require, exports, module) {
                             admin: this.user.get('er_admin'),
                             itemType: this.itemType,
                             externalGroups: state.externalGroups
-                        }, selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
+                        },
+                        selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
                     });
 
                     this.$('[data-placeholder-for="group-select"]').off('change.groupselect');
@@ -219,10 +220,6 @@ define(function (require, exports, module) {
                     this.$('[data-placeholder-for="group-select"] select').select2({
                         formatNoMatches: function (term) { return 'Ingen treff'; }
                     });
-
-                    if (this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']) {
-                        this.$('select[data-filter="type"]').val(this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']);
-                    }
 
                 } else {
                     this.$('.no-groups-info').removeClass('hidden');

@@ -20,7 +20,9 @@ define(function (require, exports, module) {
         collection: new PoiCollection(),
 
         fetchItems: function () {
-            this.collection.fetchQuery['tags.0'] = '!Hytte';
+            if (!this.collection.fetchQuery['tags.0']) {
+                this.collection.fetchQuery['tags.0'] = '!Hytte';
+            }
             NtbIndexView.prototype.fetchItems.call(this);
         },
 
@@ -46,6 +48,11 @@ define(function (require, exports, module) {
                 $('[data-container-for="cabins-disabled-message"]').removeClass('hidden');
             } else {
                 $('[data-container-for="cabins-disabled-message"]').addClass('hidden');
+            }
+
+            var $selectType = this.$('select[data-filter="type"]');
+            if ($selectType.length && this.collection.fetchQuery['tags.0']) {
+                $selectType.val(this.collection.fetchQuery['tags.0']);
             }
 
             NtbIndexView.prototype.render.call(this);

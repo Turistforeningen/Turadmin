@@ -23,6 +23,13 @@ define(function (require, exports, module) {
     // Module
     return Backbone.View.extend({
 
+        events: {
+            'click #poi-details-field-sesong-select-alle': 'selectSesongAlle',
+            'click #poi-details-field-sesong-select-sommer': 'selectSesongSommer',
+            'click #poi-details-field-sesong-select-vinter': 'selectSesongVinter',
+            'click .poi-details-field-sesong input[type="checkbox"]': 'updateSeasonSelection',
+        },
+
         el: '[data-view="poi-details"]',
 
         bindings: {
@@ -44,15 +51,61 @@ define(function (require, exports, module) {
                     validate: true
                 }
             },
-            '[data-placeholder-for="poi-name"]': 'navn'
+            '[data-placeholder-for="poi-name"]': 'navn',
+
+            '.poi-details-field-sesong input': {
+                observe: 'sesong',
+                onGet: function(val) {
+                    if (!!val && val.length) {
+                        for (var i = 0; i < val.length; i++) {
+                            // Validation need month number as string, to compare with field value
+                            val[i] = '' + val[i];
+                        }
+                    }
+                    return val;
+                },
+                onSet: function(val) {
+                    // Season month conversion to integer is moved to route.js model
+                    // for (var i = 0; i < val.length; i++) {
+                    //     val[i] = parseInt(val[i], 10);
+                    // }
+                    return val;
+                }
+            },
+            '[name="poi-details-field-åpen"]': {
+                observe: 'åpen'
+            }
         },
 
         tilrettelagtForOptions: ['Barnevogn', 'Rullestol'],
 
-
         initialize: function (options) {
             this.model.on('change:kategori', this.onKategoriChange, this);
+            this.model.on('change:sesong', this.onSesongChange, this);
             this.listenTo(this.model, 'change:navn', this.updatePoiNamePlaceholders);
+        },
+
+        selectSesongAlle: function () {
+            this.model.set('sesong', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+        },
+
+        selectSesongVinter: function () {
+            this.model.set('sesong', [1, 2, 3, 10, 11, 12]);
+        },
+
+        selectSesongSommer: function () {
+            this.model.set('sesong', [4, 5, 6, 7, 8, 9]);
+        },
+
+        updateSesongModel: function () {
+            var checked = this.$('.poi-details-field-sesong input[type="checkbox"]:checked');
+            var seasons = [];
+            for (var i = 0; i < checked.length; i =  i + 1) {
+                var val = this.$(checked[i]).val();
+                seasons.push(val);
+            }
+
+            this.model.set('sesong', seasons);
         },
 
         render: function () {
@@ -106,6 +159,7 @@ define(function (require, exports, module) {
             this.$('input[name="poi-details-field-flere-typer"]').select2('val', poiAdditionalCategories);
 
 
+            this.toggleÅpningstiderFields();
 
             var tilrettelagtForOptions = this.tilrettelagtForOptions;
 
@@ -169,6 +223,30 @@ define(function (require, exports, module) {
                 $('div.form-group.poi-details-field-tags-other').removeClass('hidden');
             } else {
                 $('div.form-group.poi-details-field-tags-other').addClass('hidden');
+            }
+
+            this.toggleÅpningstiderFields();
+        },
+
+        toggleÅpningstiderFields: function () {
+            // Toggle fields sesong and åpen
+            if (['Attraksjon', 'Badeplass', 'Bro', 'Parkering', 'Servering', 'Skitrekk', 'Teltplass', 'Toalett'].indexOf(this.model.get('kategori')) === -1) {
+                // Sesong and åpen should not be available
+                this.model.set({
+                    åpen: undefined,
+                    sesong: undefined
+                });
+
+                $('div.form-group.poi-details-field-sesong').addClass('hidden');
+                $('div.form-group.poi-details-field-open').addClass('hidden');
+                $('div.info-type-sesong-enabled').addClass('hidden');
+
+
+            } else {
+                // Sesong and åpen should be available
+                $('div.form-group.poi-details-field-sesong').removeClass('hidden');
+                $('div.form-group.poi-details-field-open').removeClass('hidden');
+                $('div.info-type-sesong-enabled').removeClass('hidden');
             }
         },
 

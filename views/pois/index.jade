@@ -47,19 +47,75 @@ block content
             p(style="margin-bottom: 30px;") Her er alle stedene du har lagt inn. Klikk på de enkelte stedene for å gjøre endringer.
                 a.btn.btn-primary.pull-right(href="/steder/ny") Nytt sted
 
-            // TODO: Move styles to CSS-file
-            div.group-select-container(style="margin-bottom: 20px;" class="hidden")
-                div(data-placeholder-for="group-select")
-                p.help-block Du har tilgang til flere grupper. Velg hvilken gruppe du vil se steder for, eller om du vil se steder knyttet til din bruker.
-
             div.no-groups-info(style="margin-bottom: 20px;" class="hidden")
                 div.alert.alert-info
                     | Din bruker er ikke knyttet til noen forening. Du har derfor bare tilgang til dine egne steder. Kontakt din forening for å få tilgang til foreningen sine steder.
 
-            div.search.well
-                label Søk etter sted
-                input(type="text" class="form-control" placeholder="" name="search-term")
-                button.btn.btn-default(data-action="search" type="button") Søk
+            div.filters-and-search.well
+                div.filters.hidden
+                    div.row
+                        div.col-sm-12
+                            h4
+                                span.glyphicon.glyphicon-filter
+                                | &nbsp;Filter
+
+                    div.row
+                        div.col-md-4
+                            div.area
+                                label Område
+                                select.form-control(data-filter="omrade")
+                                    option(value="") Alle områder
+                                    if areas
+                                        each val in JSON.parse(areas)
+                                            option(value=val._id)= val.navn
+
+                        div.col-md-4
+                            div.owner
+                                label Eier
+                                div(data-placeholder-for="group-select")
+
+                        div.col-md-4
+                            div.type
+                                label Type
+                                select.form-control(data-filter="type")
+                                    option(value="!Hytte") Alle
+                                    option(value="Akebakke") Akebakke
+                                    option(value="Attraksjon") Attraksjon
+                                    option(value="Badeplass") Badeplass
+                                    option(value="Bro") Bro
+                                    option(value="Bu") Bu
+                                    option(value="Fiskeplass") Fiskeplass
+                                    option(value="Fjelltopp") Fjelltopp
+                                    option(value="Gapahuk") Gapahuk
+                                    option(value="Geocaching") Geocaching
+                                    option(value="Grotte") Grotte
+                                    option(value="Holdeplass") Holdeplass
+                                    option(value="Kitested") Kitested
+                                    option(value="Klatrefelt") Klatrefelt
+                                    option(value="Parkering") Parkering
+                                    option(value="Rasteplass") Rasteplass
+                                    option(value="Servering") Servering
+                                    option(value="Skitrekk") Skitrekk
+                                    option(value="Skøytevann") Skøytevann
+                                    option(value="Teltplass") Teltplass
+                                    option(value="Toalett") Toalett
+                                    option(value="Togstasjon") Togstasjon
+                                    option(value="Turorientering") Turorientering
+                                    option(value="Turpostkasse") Turpostkasse
+                                    option(value="Utsiktspunkt") Utsiktspunkt
+                                    option(value="Vadested") Vadested
+                div.row
+                    div.col-sm-12
+                        h4
+                            span.glyphicon.glyphicon-search
+                            | &nbsp; Søk
+
+                div.row.search
+                    div.col-sm-12
+                        div.search
+                            label Søk etter sted
+                            input(type="text" class="form-control" placeholder="" name="search-term")
+                            button.btn.btn-default(data-action="search" type="button") Søk
 
             div(class="hidden" data-container-for="search-term-info")
                 div.alert.alert-info

@@ -47,11 +47,13 @@ define(function (require, exports, module) {
             'navngiving',
             'områder',
             'privat',
+            'sesong',
             'status',
             'ssr_id',
             'tags',
             'tilbyder',
-            'tilrettelagt_for'
+            'tilrettelagt_for',
+            'åpen'
         ],
 
         defaults: {
@@ -262,8 +264,25 @@ define(function (require, exports, module) {
                 this.set('områder', _.pluck(data['områder'], '_id'));
                 this.set('områder_navn', _.pluck(data['områder'], 'navn'));
             }
-        }
+        },
 
+        // Season months must be saved as integers
+        updateSeason: function () {
+            var season = this.get('sesong');
+            if (!!season && season.length) {
+                for (var i = 0; i < season.length; i++) {
+                    season[i] = parseInt(season[i], 10);
+                }
+                this.set('sesong', season);
+            }
+        },
+
+        save: function (attrs, options) {
+            this.updateSeason();
+
+            // Call super with attrs moved to options
+            return NtbModel.prototype.save.call(this, attrs, options);
+        }
     });
 
 });
