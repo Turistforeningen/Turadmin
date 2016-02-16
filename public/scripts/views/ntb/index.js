@@ -208,7 +208,8 @@ define(function (require, exports, module) {
                             admin: this.user.get('er_admin'),
                             itemType: this.itemType,
                             externalGroups: state.externalGroups
-                        }, selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
+                        },
+                        selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
                     });
 
                     this.$('[data-placeholder-for="group-select"]').off('change.groupselect');
