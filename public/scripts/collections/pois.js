@@ -44,6 +44,23 @@ define(function (require, exports, module) {
 
         getPoiIds: function () {
             return this.pluck('_id');
+        },
+
+        setFilterType: function (type) {
+            this.fetchQuery = this.fetchQuery || {};
+
+            switch (type) {
+                case '':
+                    delete this.fetchQuery['fields'];
+                    delete this.fetchQuery['tags'];
+                    break;
+
+                default:
+                    this.fetchQuery['tags.0'] = type;
+                    break;
+            }
+
+            this.trigger('change:filter');
         }
 
     });
