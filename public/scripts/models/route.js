@@ -193,7 +193,7 @@ define(function (require, exports, module) {
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: 'http://geoserver2.dotcloudapp.com/api/v1/boundary/intersect',
+                    url: 'https://geoserver.app.dnt.no/api/v1/boundary/intersect',
                     data: JSON.stringify({geojson: geojson}),
                     success: $.proxy(this.setBoundaryIntersect, this),
                     error: $.proxy(this.onGeoServerError, this)
@@ -221,7 +221,7 @@ define(function (require, exports, module) {
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: 'http://geoserver2.dotcloudapp.com/api/v1/line/analyze',
+                    url: 'https://geoserver.app.dnt.no/api/v1/line/analyze',
                     data: JSON.stringify({geojson: geojson}),
                     success: $.proxy(function (data) {
                         this.set('distanse', data.length);
