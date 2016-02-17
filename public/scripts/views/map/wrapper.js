@@ -364,9 +364,9 @@ define(function (require, exports, module) {
         createMapLayers: function () {
             var topo, summer, winter, cabin, baseLayerConf, overlayConf;
 
-            topo =  L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
+            topo =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
                 maxZoom: 16,
-                attribution: '<a href="http://www.statkart.no/">Statens kartverk</a>'
+                attribution: '<a href="http://kartverket.no/">Kartverket</a>'
             });
 
             summer = L.tileLayer('http://mt3.turistforeningen.no/prod/trail_summer/{z}/{x}/{y}.png', {
