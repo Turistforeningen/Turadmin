@@ -139,7 +139,7 @@ define(function (require, exports, module) {
             this.$el.html(html);
 
             var mapOptions = {
-                layers: [this.mapLayers.baseLayerConf['Topo 2']],
+                layers: [this.mapLayers.baseLayerConf['Kartdata 2']],
                 scrollWheelZoom: false,
                 center: this.mapCenter,
                 zoom: this.mapZoom
@@ -362,7 +362,12 @@ define(function (require, exports, module) {
         },
 
         createMapLayers: function () {
-            var topo, summer, winter, cabin, baseLayerConf, overlayConf;
+            var kartdata, topo, summer, winter, cabin, baseLayerConf, overlayConf;
+
+            kartdata =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=kartdata2&zoom={z}&x={x}&y={y}', {
+                maxZoom: 16,
+                attribution: '<a href="http://kartverket.no/">Kartverket</a>'
+            });
 
             topo =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
                 maxZoom: 16,
@@ -384,7 +389,7 @@ define(function (require, exports, module) {
                 attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
             });
 
-            baseLayerConf = {'Topo 2': topo};
+            baseLayerConf = {'Kartdata 2': kartdata, 'Topo 2': topo};
             overlayConf = {
                 'DNTs merkede stier': summer,
                 'DNTs merkede vinterruter': winter,
