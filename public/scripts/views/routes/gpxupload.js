@@ -24,7 +24,7 @@ define(function (require, exports, module) {
         $uploadSpinner: null,
         $uploadStatus: null,
 
-        uploadUrl: 'http://geoserver2.dotcloudapp.com/api/v1/gpx/parse',
+        uploadUrl: 'https://geoserver.app.dnt.no/api/v1/gpx/parse',
 
         events: {
             'click [data-action="gpx-upload-confirm"]': 'gpxUploadConfirm'
