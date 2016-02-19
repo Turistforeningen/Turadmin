@@ -70,9 +70,21 @@ block content
 
         h3.page-header Objekter
         div#objects
-            ul
+            table.table.table-bordered
+                thead
+                    tr
+                        th
+                            input(type="checkbox" checked)
+                        th Objekt ID
+                        th Objekt navn
+                        th Eier ID
+                        th Eier navn
+                        th Eier epost
+                tbody
 
         h3.page-header Ny eier
+        div.alert.alert-info
+            p Husk å fylle ut alle feltene for at de ikke skal bli blanke
         div#new-owner.form-horizontal
             div.form-group
                 label.col-sm-2.control-label ID

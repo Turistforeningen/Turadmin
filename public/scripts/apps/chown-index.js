@@ -18,18 +18,41 @@ define(function (require, exports, module) {
     var objects = {};
     var objectType;
     var currentOwnerId;
-    var $list = $('#objects ul');
+    var $table = $('#objects table tbody');
 
-    var onObjectFetch = function (data, textStatus, jqXhr) {
-        var $li = $('li[data-id="' + data._id + '"]');
-        objects[data._id] = data;
-        $li.html('<span class="done"></span>' + data.navn);
-    };
-
-    var  onObjectPatch = function (data, textStatus, jqXhr) {
+    var onObjectPatch = function (data, textStatus, jqXhr) {
         var id = this.url.split('/').reverse()[0];
-        $('li[data-id="'+ id +'"] span').html('&#10004;');
+        $('tr[data-id="'+ id +'"]').addClass('success');
     };
+
+    var appendObject = function (obj) {
+        var $tr = $('<tr data-id="' + obj._id + '" data-checked>');
+        $tr.html([
+            '<td><input type="checkbox" checked></td>',
+            '<td><code>' + obj._id + '</code></td>',
+            '<td>' + obj.navn + '</td>',
+            '<td><code>' + obj.privat.opprettet_av.id + '</code></td>',
+            '<td>' + obj.privat.opprettet_av.navn + '</td>',
+            '<td>' + obj.privat.opprettet_av.epost + '</td>'
+        ].join());
+
+        $tr.find('input').on('change', function (e) {
+            var $tr = $(this).parents('tr').first();
+            if (this.checked) {
+               $tr.attr('data-checked', '');
+               $tr.removeClass('active');
+            } else {
+               $tr.removeAttr('data-checked');
+               $tr.addClass('active');
+            }
+        });
+
+        $table.append($tr);
+    };
+
+    $('table thead input[type="checkbox"]').on('click', function () {
+        $('table tbody input[type="checkbox"]').prop('checked', this.checked ? true : false).trigger('change');
+    });
 
     $('#current-owner button').on('click', function () {
         currentOwnerId = $('#current-owner input').val();
@@ -41,28 +64,17 @@ define(function (require, exports, module) {
             processData: false,
             dataType: 'json',
             success: function (data, textStatus, jqXhr) {
-                $list.html('');
+                $table.html('');
                 objects = {};
 
                 if (data.documents && data.documents.length) {
                     for (var i = 0; i < data.documents.length; i++) {
-                        var object = data.documents[i];
-
-                        var $li = '<li data-id="' + object._id + '">' + object.navn + ' -  Henter detaljer... <span style="color: red; font-weight: bold;">Vennligst vent til alle er ferdige</span></li>';
-                        $list.append($li);
-
-                        $.ajax({
-                            url: '/restProxy/' + objectType + '/' + object._id,
-                            data: 'fields=navn,privat',
-                            processData: false,
-                            dataType: 'json',
-                            success: onObjectFetch
-                        });
-
+                        appendObject(data.documents[i]);
+                        objects[data.documents[i]['_id']] = data.documents[i];
                     }
                 } else {
-                    var $emptyLi = '<li>Fant ingen ' + objectType + ' tilhørende denne bruker med id <strong>' + currentOwnerId + '</strong></li>';
-                    $list.append($emptyLi);
+                    var $emptyLi = '<tr><td colspan="6">Fant ingen ' + objectType + ' tilhørende bruker med id <code>' + currentOwnerId + '</code></td></tr>';
+                    $table.html($emptyLi);
                 }
             }
         });
@@ -70,7 +82,7 @@ define(function (require, exports, module) {
     });
 
     $('#new-owner button').on('click', function () {
-        var $listItems = $list.find('li');
+        var $tableItems = $table.find('tr[data-checked]');
         var $newOwner = $('#new-owner');
 
         var newOwner = {
@@ -79,8 +91,8 @@ define(function (require, exports, module) {
             epost: $newOwner.find('input[name="epost"]').val()
         };
 
-        for (var i = 0; i < $listItems.length; i++) {
-            var $item = $listItems[i];
+        for (var i = 0; i < $tableItems.length; i++) {
+            var $item = $tableItems[i];
             var id = $item.dataset.id;
             var privat = objects[id].privat;
 
