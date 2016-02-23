@@ -95,6 +95,8 @@ define(function (require, exports, module) {
 
         setKontaktinfoObject: function () {
             var kontaktinfo = this.get('kontaktinfo') || [{}];
+            var primaryKontaktinfo = _.findWhere(kontaktinfo, {type: 'Primærkontakt'}) || kontaktinfo[0] || {};
+
             var kontaktinfoEpost = this.get('kontaktinfoEpost');
             var kontaktinfoTelefon = this.get('kontaktinfoTelefon');
             var kontaktinfoFax = this.get('kontaktinfoFax');
@@ -104,60 +106,64 @@ define(function (require, exports, module) {
             var kontaktinfoPoststed = this.get('kontaktinfoPoststed');
 
             if (kontaktinfoEpost) {
-                kontaktinfo[0].epost = kontaktinfoEpost;
+                primaryKontaktinfo.epost = kontaktinfoEpost;
             } else {
-                delete kontaktinfo[0].epost;
+                delete primaryKontaktinfo.epost;
             }
 
             if (kontaktinfoTelefon) {
-                kontaktinfo[0].telefon = kontaktinfoTelefon;
+                primaryKontaktinfo.telefon = kontaktinfoTelefon;
             } else {
-                delete kontaktinfo[0].telefon;
+                delete primaryKontaktinfo.telefon;
             }
 
             if (kontaktinfoFax) {
-                kontaktinfo[0].fax = kontaktinfoFax;
+                primaryKontaktinfo.fax = kontaktinfoFax;
             } else {
-                delete kontaktinfo[0].fax;
+                delete primaryKontaktinfo.fax;
             }
 
             if (kontaktinfoAdresse1) {
-                kontaktinfo[0].adresse1 = kontaktinfoAdresse1;
+                primaryKontaktinfo.adresse1 = kontaktinfoAdresse1;
             } else {
-                delete kontaktinfo[0].adresse1;
+                delete primaryKontaktinfo.adresse1;
             }
 
             if (kontaktinfoAdresse2) {
-                kontaktinfo[0].adresse2 = kontaktinfoAdresse2;
+                primaryKontaktinfo.adresse2 = kontaktinfoAdresse2;
             } else {
-                delete kontaktinfo[0].adresse2;
+                delete primaryKontaktinfo.adresse2;
             }
 
             if (kontaktinfoPostnummer) {
-                kontaktinfo[0].postnummer = kontaktinfoPostnummer;
+                primaryKontaktinfo.postnummer = kontaktinfoPostnummer;
             } else {
-                delete kontaktinfo[0].postnummer;
+                delete primaryKontaktinfo.postnummer;
             }
 
             if (kontaktinfoPoststed) {
-                kontaktinfo[0].poststed = kontaktinfoPoststed;
+                primaryKontaktinfo.poststed = kontaktinfoPoststed;
             } else {
-                delete kontaktinfo[0].poststed;
+                delete primaryKontaktinfo.poststed;
             }
+
+            primaryKontaktinfo.type = 'Primærkontakt';
 
             this.set({kontaktinfo: kontaktinfo}, {silent: true});
         },
 
         setKontaktinfoFlattened: function () {
-            var kontaktinfo = this.get('kontaktinfo') || [{}];
+            var kontaktinfo = this.get('kontaktinfo');
+            var primaryKontaktinfo = _.findWhere(kontaktinfo, {type: 'Primærkontakt'}) || kontaktinfo[0] || {};
+
             this.set({
-                kontaktinfoEpost: kontaktinfo[0].epost,
-                kontaktinfoTelefon: kontaktinfo[0].telefon,
-                kontaktinfoFax: kontaktinfo[0].fax,
-                kontaktinfoAdresse1: kontaktinfo[0].adresse1,
-                kontaktinfoAdresse2: kontaktinfo[0].adresse2,
-                kontaktinfoPostnummer: kontaktinfo[0].postnummer,
-                kontaktinfoPoststed: kontaktinfo[0].poststed
+                kontaktinfoEpost: primaryKontaktinfo.epost,
+                kontaktinfoTelefon: primaryKontaktinfo.telefon,
+                kontaktinfoFax: primaryKontaktinfo.fax,
+                kontaktinfoAdresse1: primaryKontaktinfo.adresse1,
+                kontaktinfoAdresse2: primaryKontaktinfo.adresse2,
+                kontaktinfoPostnummer: primaryKontaktinfo.postnummer,
+                kontaktinfoPoststed: primaryKontaktinfo.poststed
             }, {silent: true});
         },
 
@@ -174,8 +180,8 @@ define(function (require, exports, module) {
         },
 
         save: function (attrs, options) {
-
             this.updateUrl();
+            this.setKontaktinfoObject();
 
             // Call super with attrs moved to options
             return NtbModel.prototype.save.call(this, attrs, options);
