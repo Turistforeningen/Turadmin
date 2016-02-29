@@ -152,8 +152,8 @@ define(function (require, exports, module) {
             this.set({kontaktinfo: kontaktinfo}, {silent: true});
         },
 
-        setKontaktinfoFlattened: function () {
-            var kontaktinfo = this.get('kontaktinfo');
+        setKontaktinfoFlattened: function (){
+            var kontaktinfo = this.get('kontaktinfo') || [];
             var primaryKontaktinfo = _.findWhere(kontaktinfo, {type: 'Primærkontakt'}) || kontaktinfo[0] || {};
 
             this.set({
