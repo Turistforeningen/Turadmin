@@ -286,11 +286,26 @@ define(function (require, exports, module) {
 
         /* Server interactions */
 
+        setChangedBy: function () {
+
+            var privat = this.get('privat') || {};
+
+            privat.endret_av = {
+                id: user.get('id'),
+                navn: user.get('navn'),
+                epost: user.get('epost')
+            };
+
+            this.set('privat', privat);
+
+        },
+
         save: function (attrs, options) {
 
             this.setLicense();
             this.setNaming();
             this.setForced();
+            this.setChangedBy();
 
             attrs = attrs || this.toJSON();
             options = options || {};
