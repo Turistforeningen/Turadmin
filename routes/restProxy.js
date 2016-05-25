@@ -117,18 +117,17 @@ module.exports = function (app, options) {
                             skip += data.count;
                             options.query.skip = skip;
 
-                            restler.get(url, options).on('complete', prepData);
+                            restler.get(encodeURI(url), options).on('complete', prepData);
                         }
 
                     } else {
                         onComplete(data, response);
                     }
                 };
-
-                restler.get(url, options).on('complete', prepData);
+                restler.get(encodeURI(url), options).on('complete', prepData);
 
             } else {
-                restler.get(url, options).on('complete', onComplete);
+                restler.get(encodeURI(url), options).on('complete', onComplete);
             }
 
         } else if (method === "POST") {
