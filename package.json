@@ -3,10 +3,10 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "hint": "jshint .",
+    "lint": "jshint .",
     "start": "supervisor -w routes,views,app.js -e node,js,jade app.js",
     "test": "mocha -b -c test/suite.js -R spec",
-    "watch": "mocha -b -c -w test/suite.js -R progress"
+    "test:watch": "mocha -b -c -w test/suite.js -R progress"
   },
   "dependencies": {
     "body-parser": "^1.14.2",

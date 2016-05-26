@@ -1,40 +1,42 @@
 box: node:argon
 
 build:
-    steps:
-        - npm-install
+  steps:
+    - script:
+        name: echo nodejs information
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
 
-        - script:
-            name: JSHint validation
-            code: npm run hint
+    - npm-install
 
-        - npm-test
+    - script:
+        name: lint
+        code: npm run lint
 
-        - script:
-            name: echo nodejs information
-            code: |
-                echo "node version $(node -v) running"
-                echo "npm version $(npm -v) running"
+    - npm-test
 
-    after-steps:
-        - turistforeningen/slack-notifier:
-                url: $SLACK_WEBHOOK_URL
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
 
 deploy:
     steps:
-        - add-ssh-key:
-            keyname: SSH_KEY
-            host: $SSH_HOST
+        # Rebuild npm dependencies to fix broken symlinks
+        # https://github.com/wercker/docs/issues/310
+        - script:
+            name: npm rebuild
+            code: npm rebuild
 
-        - wercker/add-to-known_hosts@1.4.0:
-            hostname: $SSH_HOST
+        - npm-install
 
         - script:
-            name: start application
+            name: docker hub build
             code: |
-                ssh -l ${SSH_USER} ${SSH_HOST} \
-                COMPOSE_FILE=docker-paas.yml /var/www/config/manage.sh \
-                ${SSH_APP} update --rebuild
+                curl --verbose \
+                    -H "Content-Type: application/json" \
+                    -d "{\"docker_tag\": \"$DOCKER_TRIGGER_TAG\"}" \
+                    -X POST $DOCKER_TRIGGER_URL
 
     after-steps:
         - turistforeningen/slack-notifier:
