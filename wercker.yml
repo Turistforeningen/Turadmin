@@ -33,7 +33,7 @@ deploy:
             code: |
                 curl --verbose \
                     -H "Content-Type: application/json" \
-                    -d "{\"docker_tag\": \"$DOCKER_TRIGGER_TAG\"}" \
+                    -d "{\"source_type\": \"Branch\", \"source_name\": \"$DOCKER_TRIGGER_BRANCH\"}"
                     -X POST $DOCKER_TRIGGER_URL
 
     after-steps:
