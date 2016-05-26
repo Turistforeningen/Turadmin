@@ -1,32 +1,39 @@
-www:
-  build: public
-  links:
-    - turadmin
-  volumes:
-    - "./public:/usr/share/nginx/public"
-    - "./public/default.conf:/etc/nginx/conf.d/default.conf"
-    - "./public/mime.types:/etc/nginx/mime.types"
-  ports:
-    - "8080"
-  environment:
-    - VIRTUAL_HOST=tur.app.dnt.privat
-    - VIRTUAL_PORT=8080
+version: '2'
 
-turadmin:
-  image: node:argon-slim
-  working_dir: /usr/src/app
-  volumes:
-    - ".:/usr/src/app"
-  ports:
-    - "8080"
-  env_file: .env
-  environment:
-    - APP_PORT=8080
-    - APP_URL=http://tur.app.dnt.privat
-    - NEW_RELIC_APP_NAME=Turadmin
-    - NEW_RELIC_LOG=stdout
-    - NEW_RELIC_NO_CONFIG_FILE=true
-    - NODE_ENV=development
-    - NTB_API_ENV=dev
-    - NTB_API_URL=http://dev.nasjonalturbase.no
-  command: npm start
+services:
+  www:
+    build: public
+    network_mode: 'bridge'
+    links:
+      - node
+    depends_on:
+      - node
+    volumes:
+      - "./public:/usr/share/nginx/public"
+      - "./public/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./public/mime.types:/etc/nginx/mime.types"
+    ports:
+      - "8080"
+    environment:
+      - VIRTUAL_HOST=tur.app.dnt.privat
+      - VIRTUAL_PORT=8080
+
+  node:
+    image: node:argon
+    network_mode: 'bridge'
+    working_dir: /usr/src/app
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "8080"
+    env_file: .env
+    environment:
+      - APP_PORT=8080
+      - APP_URL=http://tur.app.dnt.privat
+      - NEW_RELIC_APP_NAME=Turadmin
+      - NEW_RELIC_LOG=stdout
+      - NEW_RELIC_NO_CONFIG_FILE=true
+      - NODE_ENV=development
+      - NTB_API_ENV=dev
+      - NTB_API_URL=http://dev.nasjonalturbase.no
+    command: npm start
