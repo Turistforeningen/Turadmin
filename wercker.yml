@@ -28,8 +28,6 @@ deploy:
             name: npm rebuild
             code: npm rebuild
 
-        - npm-install
-
         - script:
             name: docker hub build
             code: |
