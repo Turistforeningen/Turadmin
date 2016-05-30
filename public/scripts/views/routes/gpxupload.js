@@ -104,9 +104,20 @@ define(function (require, exports, module) {
         },
 
         uploadDone: function (geometry) {
-            this.geometry = geometry;
+            if (geometry && geometry.type === 'MultiLineString') {
+              var coordinates = [];
+
+              for (var i = 0; i < geometry.coordinates.length; i++) {
+                coordinates.push.apply(coordinates, geometry.coordinates[i]);
+              }
+
+              this.geometry = { type: 'LineString', coordinates: coordinates };
+            } else {
+              this.geometry = geometry;
+            }
+
             try {
-                this.callback(geometry);
+                this.callback(this.geometry);
             } catch (e) {
                 Raven.captureException(e, {extra: {message: 'GPX upload callback failed'}});
             }
