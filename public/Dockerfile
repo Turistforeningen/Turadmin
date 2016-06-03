@@ -1,4 +1,4 @@
-FROM nginx:1.9
+FROM nginx:1.11-alpine
 
 RUN sed -i 's/sendfile        on/sendfile       off/g' etc/nginx/nginx.conf
 COPY . /usr/share/nginx/public
