@@ -30,10 +30,6 @@ services:
     environment:
       - APP_PORT=8080
       - APP_URL=http://tur.app.dnt.privat
-      - NEW_RELIC_APP_NAME=Turadmin
-      - NEW_RELIC_LOG=stdout
-      - NEW_RELIC_NO_CONFIG_FILE=true
-      - NODE_ENV=development
       - NTB_API_ENV=dev
-      - NTB_API_URL=http://dev.nasjonalturbase.no
+      - NTB_API_URL=https://dev.nasjonalturbase.no
     command: npm start
