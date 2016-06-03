@@ -9,15 +9,18 @@
 
     var _map;
     var routing;
+    var routingUrl = 'https://raido.app.dnt.no/api/v1/routing';
+    var snappingUrl = 'https://raido.app.dnt.no/api/v1/snapping';
     var enableSnapping = true;
     var maxDistanceToSnapLine = 100;
     var routingSensitivity = 500;
 
     var snappingRouter = function (l1, l2, cb) {
-        var apiUri = '//n50.dnt.no/api/v1/routing/?sensitivity=' + routingSensitivity + '&coords=';
-        var routeUri = apiUri + [l1.lng, l1.lat, l2.lng, l2.lat].join(',');
+        var url = routingUrl + '?sensitivity=' + routingSensitivity + '&coords=' + [
+          l1.lng, l1.lat, l2.lng, l2.lat
+        ].join(',');
 
-        var req = $.getJSON(routeUri);
+        var req = $.getJSON(url);
         req.always(function (data, status) {
             if (status === 'success' && data && data.geometries && data.geometries.length && data.geometries[0].coordinates) {
                 L.GeoJSON.geometryToLayer(data).eachLayer(function (layer) {
@@ -45,12 +48,10 @@
     var Routing = function (map, snappingLayer) {
 
         _map = map;
-        var sUrl = '//n50.dnt.no/api/v1/snapping/?coords=';
         // Listen to map:moveend event to get updated snappingLayer data
         /* map.on('moveend', $.proxy(function(e) {
             if (enableSnapping) {
-                var url;
-                url = sUrl + map.getBounds().toBBoxString();
+                var url = snappingUrl + ?bbox=' + map.getBounds().toBBoxString();
                 $.getJSON(url).always(function(data, status) {
                     if (status === 'success') {
                         if (data.geometries && data.geometries.length > 0) {
