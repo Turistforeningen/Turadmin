@@ -9,8 +9,8 @@
 
     var _map;
     var routing;
-    var routingUrl = 'https://raido.app.dnt.no/api/v1/routing';
-    var snappingUrl = 'https://raido.app.dnt.no/api/v1/snapping';
+    var routingUrl = 'https://raido.app.dnt.no/v1/routing';
+    var snappingUrl = 'https://raido.app.dnt.no/v1/snapping';
     var enableSnapping = true;
     var maxDistanceToSnapLine = 100;
     var routingSensitivity = 500;
