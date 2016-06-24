@@ -87,7 +87,7 @@ module.exports = function (app, options) {
 
             var groupData = data;
 
-            if ((typeof groupData.tags === 'undefined') || (groupData.tags.indexOf('DNT') === -1)) {
+            if ((typeof groupData.tags === 'undefined') || (groupData.tags.indexOf('Hytte') > -1) || (groupData.tags.indexOf('DNT') === -1)) {
 
                 req.renderOptions = req.renderOptions || {};
                 req.renderOptions.title = groupData.navn;
