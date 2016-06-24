@@ -46,7 +46,7 @@ define(function (require, exports, module) {
             'områder',
             'kommuner',
             'fylker',
-            'organisasjonsnummer',
+            'organisasjonsnr',
             'beskrivelse',
             'logo',
             'ansatte',
