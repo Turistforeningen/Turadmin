@@ -24,7 +24,16 @@ define(function (require, exports, module) {
         template: _.template(Template),
 
         isEditable: function () {
-            return !this.model.hasTag('DNT') || this.model.hasTag('Hytte');
+            return !(this.model.hasTag('DNT') && (
+                this.model.hasTag('Sentral') ||
+                this.model.hasTag('Medlemsforening') ||
+                this.model.hasTag('Lokalforening') ||
+                this.model.hasTag('Barnas Turlag') ||
+                this.model.hasTag('Ungdomgruppe') ||
+                this.model.hasTag('Fjellsport') ||
+                this.model.hasTag('Senior') ||
+                this.model.hasTag('Andre turgrupper')
+            ));
         },
 
         render: function () {
