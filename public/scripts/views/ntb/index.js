@@ -115,6 +115,7 @@ define(function (require, exports, module) {
 
         doSearch: function () {
             var term = this.$el.find('[name="search-term"]').val();
+            delete this.collection.fetchQuery.skip;
             this.collection.setFilterNavn(term);
         },
 

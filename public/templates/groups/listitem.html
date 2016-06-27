@@ -1,0 +1,77 @@
+<td class="group-title">
+    <% if (isEditable) {%>
+        <a href="<%= url %>" style="display: inline-block; width: 100%;">
+            <% if (typeof navn != 'undefined' && navn !== '') { %>
+                <%= navn %>
+            <% } else { %>
+                <em>Uten navn</em>
+            <% } %>
+        </a>
+    <% } else { %>
+        <span
+            data-toggle="tooltip"
+            data-placement="top"
+            data-container="body"
+            title="Denne gruppen kan ikke endres i gruppeadmin, men må redigeres under Foreninger og Turgrupper i Sherpa.">
+            <% if (typeof navn != 'undefined' && navn !== '') { %>
+                <%= navn %>
+            <% } else { %>
+                <em>Uten navn</em>
+            <% } %>
+        </span>
+    <% } %>
+</td>
+<td>
+    <span class="label <% if (status === "Kladd") { %>label-warning<% } else { %>label-success<% } %>">
+        <%= erPublisert %>
+    </span>
+</td>
+<td>
+    <span><%= endret %></span>
+</td>
+<!-- NOTE: Should change route to group, but would have to do something about NTB-list-item view file, to catch events and for selectors to work -->
+<td class="actions">
+    <% if (isEditable) {%>
+        <a href="<%= url %>">
+            Rediger
+        </a>
+        <span class="separator">|</span>
+        <a id="deleteRoute" data-action="route-delete-modal-open">Slett</a>
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">Slette?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Er du sikker på at du vil slette<span data-placeholder-for="route-name"><% if (typeof navn != 'undefined') { %> <%= navn %><% } %></span>?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal">
+                            Avbryt
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-action="route-delete">
+                            Slett
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <% } %>
+</td>
+<script>$('[data-toggle="tooltip"]').tooltip();</script>
