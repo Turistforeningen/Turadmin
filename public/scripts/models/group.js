@@ -136,7 +136,8 @@ define(function (require, exports, module) {
             }
 
             if (kontaktinfoPostnummer) {
-                primaryKontaktinfo.postnummer = kontaktinfoPostnummer.replace(/[\D]/g,''); // Replace any non digit char
+                // Replace any non digit char
+                primaryKontaktinfo.postnummer = String(kontaktinfoPostnummer).replace(/[\D]/g,'');
             } else {
                 delete primaryKontaktinfo.postnummer;
             }
