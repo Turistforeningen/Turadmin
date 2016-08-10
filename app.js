@@ -99,6 +99,12 @@ require('./routes/groups')(app, {
     restProxy: restProxy
 });
 
+require('./routes/lists')(app, {
+    dntApi: new DNT('Turadmin/1.0', dntApiKey),
+    userGroupsFetcher: userGroupsFetcher,
+    restProxy: restProxy
+});
+
 require('./routes/chown')(app, {
     dntApi: new DNT('Turadmin/1.0', dntApiKey),
     restProxy: restProxy

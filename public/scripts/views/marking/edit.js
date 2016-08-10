@@ -19,7 +19,6 @@ define(function (require, exports, module) {
 
     require('datepicker-lang-no');
     require('moment');
-    require('select2');
     require('backbone-stickit');
     require('backbone-validation');
 

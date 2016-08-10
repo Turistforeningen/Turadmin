@@ -1,0 +1,76 @@
+<h3>
+  <span>Steder</span>
+</h3>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="well">
+      <label style="margin-right: 10px;">Legg til sted</label>
+      <input type="text" name="poi-search" class="form-control" style="width: 350px;">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Stedsnavn</th>
+          <th>Handlinger</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var i = 0; !!pois && i < pois.length; i++) { %>
+          <tr data-dnt-id="<%= pois[i]._id %>">
+            <td>
+              <%= pois[i].navn %>
+            </td>
+            <td>
+              <a id="removePoi" data-dnt-action="poi-remove-modal-open">
+                Fjern sted fra liste
+              </a>
+              <div class="modal fade">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true">
+                        &times;
+                      </button>
+                      <h4 class="modal-title">Slette?</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        Er du sikker på at du vil fjerne<span data-placeholder-for="poi-name"><% if (typeof navn != 'undefined') { %> <%=
+                          navn %><% } %></span> fra listen?
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-default"
+                        data-dismiss="modal">
+                        Avbryt
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-dnt-action="poi-remove"
+                        data-dnt-id="<%= pois[i]._id %>">
+                        Fjern
+                      </button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

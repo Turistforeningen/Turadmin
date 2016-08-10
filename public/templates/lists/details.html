@@ -1,0 +1,35 @@
+<h3>Detaljer</h3>
+<% if (model.status === 'Kladd') { %>
+  <div class="alert alert-info">
+    Gruppen kan ikke publiseres, trolig på grunn av at ikke alle påkrevde er fylt ut. Kontroller at alle felt markert med <strong>*</strong> er fylt ut.
+  </div>
+<% } %>
+<form>
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <div class="form-group required">
+        <label>Navn</label>
+        <input type="text" name="list-details-field-navn" class="form-control" placeholder="Uten navn">
+      </div>
+      <div class="form-group">
+        <label>Kategori</label>
+        <select name="list-details-field-kategori" class="form-control">
+          <option></option>
+          <% for (var i = 0; i < availableTags.length; i++) { %>
+            <option value="<%= availableTags[i] %>"><%= availableTags[i] %></option>
+          <% } %>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-4">
+      <div class="form-group required">
+        <label>Beskrivelse</label>
+        <textarea name="list-details-field-beskrivelse"></textarea>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <label>Lenker</label>
+    </div>
+    <div data-view="list-details-lenker"></div>
+  </div>
+</form>

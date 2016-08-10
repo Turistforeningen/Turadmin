@@ -1,0 +1,51 @@
+extends ../editor
+
+append head
+
+    script
+        | var appData = {};
+        - if (typeof(listData) !== 'undefined')
+            | appData.listData = !{listData};
+            //- | console.log('Loaded route with listData:', !{listData});
+        - if (typeof(userGroups) !== 'undefined')
+            | appData.userGroups = !{userGroups};
+            //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(userData) !== 'undefined')
+            | appData.userData = !{userData};
+            //- | console.log('Loaded route with userData:', !{userData});
+        | define('state', appData);
+
+    script.
+        require(['/scripts/apps/list-edit.js']);
+
+block navbarHeader
+    a.navbar-brand(href="/" alt="Til mine turer")
+        img(src="/images/ut-no-logo-hvit.png")
+    div.navbar-brand.hidden-xs.list-name(data-placeholder-for="list-name")
+        if listData
+            | #{listName}
+        else
+            | Liste uten navn
+
+    button.navbar-toggle(type="button" data-toggle="collapse" data-target="#app-navigation-collapse")
+        span.sr-only Vis meny
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+block navbarCollapse
+
+    // Right side navigation
+    ul.nav.navbar-nav.navbar-right
+
+        li.action-do-save
+            a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").list-save
+                span.glyphicon.glyphicon-floppy-disk
+                | &nbsp;Lagre
+        include ../dropdownmenu
+
+block content
+
+    div.container
+        div#detaljer.page-block.list-details(data-view="list-details")
+        div#steder.page-block.list-pois(data-view="list-pois")
