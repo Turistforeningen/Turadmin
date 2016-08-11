@@ -14,6 +14,7 @@ define(function (require, exports, module) {
         ListModel = require('models/list'),
         DetailsTemplate = require('text!templates/lists/details.html'),
         LinksManagerView = require('views/links/manager'),
+        PictureManagerView = require('views/pictures/manager'),
         state = require('state'),
         User = require('models/user'),
         user = new User();
@@ -94,6 +95,17 @@ define(function (require, exports, module) {
                 model: this.model,
                 linksField: 'lenker',
                 el: '[data-view="list-details-lenker"]'
+            }).render();
+
+            // Pictures manager
+            this.pictureManagerView = new PictureManagerView({
+                el: '[data-view="list-pictures"]',
+                pictures: this.model.bilder,
+                stripped: true,
+                messages: {
+                    empty: 'Husk å legge inn bilder.',
+                    info: 'Det første bildet vil bli brukt som hovedbilde og det andre vil bli brukt som bakgrunnsbilde i SjekkUT-appen.'
+                }
             }).render();
 
             // Set up view bindings and validation

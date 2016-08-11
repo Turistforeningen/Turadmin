@@ -97,7 +97,7 @@ module.exports = function (app, options) {
             res.render('lists/editor', req.renderOptions);
         };
 
-        restProxy.makeApiRequest('/lister/' + listId + '?expand=steder', req, undefined, onCompleteListRequest);
+        restProxy.makeApiRequest('/lister/' + listId + '?expand=bilder,steder', req, undefined, onCompleteListRequest);
     };
 
     var deleteLists = function (req, res, next) {

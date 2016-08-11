@@ -753,6 +753,7 @@ body.modal-open {
 	margin: 0;
 }
 
+.editor-list .picture-edit .show-position,
 .editor-poi .picture-edit .show-position {
 	display: none;
 }
