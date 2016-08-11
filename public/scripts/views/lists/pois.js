@@ -52,7 +52,7 @@ define(function (require, exports, module) {
                     data: function (term) {
                         return {
                             'navn': '~' + term
-                        }
+                        };
                     },
                     cache: true,
                     results: function (data, params) {
@@ -61,7 +61,7 @@ define(function (require, exports, module) {
                                 prevVal.push({id: currVal._id, text: currVal.navn});
                                 return prevVal;
                             }, [])
-                        }
+                        };
                     }
                 },
                 minimumInputLength: 3
