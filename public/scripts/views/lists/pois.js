@@ -100,12 +100,12 @@ define(function (require, exports, module) {
                 pois: this.pois.toJSON()
             });
 
+            this.$el.html(html);
+
             this.poiPositioningView = new PoiPositioningView({
                 model: this.list,
                 el: '[data-view="list-positioning"]'
             }).render();
-
-            this.$el.html(html);
 
             this.initPoiSearch();
 
