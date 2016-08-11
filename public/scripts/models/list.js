@@ -49,6 +49,7 @@ define(function (require, exports, module) {
             'tags',
             'privat',
             'grupper',
+            'geojson',
             'bilder',
             'steder',
             'url'
