@@ -50,6 +50,8 @@ define(function (require, exports, module) {
             'privat',
             'grupper',
             'geojson',
+            'start',
+            'stopp',
             'bilder',
             'steder',
             'url'
