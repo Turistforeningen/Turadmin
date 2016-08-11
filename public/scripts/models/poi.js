@@ -190,10 +190,6 @@ define(function (require, exports, module) {
             return !!this.get('deleted') && this.get('deleted');
         },
 
-        getGeoJson: function () {
-            return _.clone(this.get('geojson'));
-        },
-
         getMarker: function () {
             return this.marker;
         },

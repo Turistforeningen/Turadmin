@@ -87,6 +87,10 @@ define(function (require, exports, module) {
             this.set('status', 'Kladd');
         },
 
+        getGeoJson: function () {
+            return _.clone(this.get('geojson'));
+        },
+
         getLatLng: function () {
             var geojson = this.get('geojson');
 
