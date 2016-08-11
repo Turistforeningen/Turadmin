@@ -13,6 +13,7 @@ define(function (require, exports, module) {
         Backbone = require('backbone'),
         PoiModel = require('models/poi'),
         Template = require('text!templates/lists/pois.html'),
+        PoiPositioningView = require('views/pois/positioning'),
         state = require('state');
 
     require('bootstrap');
@@ -34,6 +35,7 @@ define(function (require, exports, module) {
 
         initialize: function (options) {
             this.pois = options.pois;
+            this.list = options.list;
             this.editor = options.editor;
 
             // Bind these methods to this scope
@@ -97,6 +99,11 @@ define(function (require, exports, module) {
             var html = this.template({
                 pois: this.pois.toJSON()
             });
+
+            this.poiPositioningView = new PoiPositioningView({
+                model: this.list,
+                el: '[data-view="list-positioning"]'
+            }).render();
 
             this.$el.html(html);
 

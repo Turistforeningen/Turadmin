@@ -43,7 +43,7 @@ define(function (require, exports, module) {
 
             this.listPoisView = new ListPoisView({
                 el: '[data-view="list-pois"]',
-                // list: this.model,
+                list: this.model,
                 pois: this.model.steder,
                 editor: this
             }).render();
