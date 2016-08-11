@@ -60,7 +60,10 @@ define(function (require, exports, module) {
             this.$el.addClass(this.className);
 
             this.poiPositioningView = new PoiPositioningView({
-                model: this.model
+                model: this.model,
+                messages: {
+                    info: 'Du kan posisjonere stedet ved å søke det opp, plassere manuelt i kart eller skrive inn koordinatene.'
+                }
             }).render();
 
             this.poiDetailsView = new PoiDetailsView({

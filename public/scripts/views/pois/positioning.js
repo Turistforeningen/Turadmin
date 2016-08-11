@@ -29,10 +29,13 @@ define(function (require, exports, module) {
             this.model.on('change:fylke', this.renderBoundaryIntersect, this);
             this.model.on('change:kommune', this.renderBoundaryIntersect, this);
             this.model.on('change:områder_navn', this.renderBoundaryIntersect, this);
-        },
 
-        initPositionByCoordinates: function () {
-
+            this.messages = this.messages || {};
+            if (typeof options.messages === 'object') {
+                for (var key in options.messages) {
+                    this.messages[key] = options.messages[key];
+                }
+            }
         },
 
         initPositionByMarker: function () {
@@ -145,8 +148,7 @@ define(function (require, exports, module) {
 
         render: function () {
 
-            // var data = this.model.toJSON();
-            var html = this.template();
+            var html = this.template({messages: this.messages});
             this.$el.html(html);
 
             this.$initPositionByMarkerButton = $('button[data-action="init-position-by-marker"]');
