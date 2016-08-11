@@ -39,7 +39,8 @@ define(function (require, exports, module) {
 
         messages: {
             // TODO: Document
-            empty: 'Husk å legge inn bilder!'
+            empty: 'Husk å legge inn bilder!',
+            info: '<strong>Hint!</strong> Du kan endre på rekkefølgen ved å dra i bildene. Det første bildet vil bli bruk som forsidebilde for turforslaget ditt på UT.no.'
         },
 
         events: {
@@ -66,8 +67,13 @@ define(function (require, exports, module) {
             }, this);
 
             this.defaults = options.defaults || {};
-            this.messages = options.messages || this.messages;
 
+            this.messages = this.messages || {};
+            if (typeof options.messages === 'object') {
+                for (var key in options.messages) {
+                    this.messages[key] = options.messages[key];
+                }
+            }
         },
 
         appendPicture: function (picture) {
