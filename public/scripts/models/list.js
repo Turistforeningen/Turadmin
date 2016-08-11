@@ -12,6 +12,7 @@ define(function (require, exports, module) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         PoiCollection = require('collections/pois'),
+        PictureCollection = require('collections/pictures'),
         NtbModel = require('models/ntb');
 
     // Module
@@ -69,6 +70,7 @@ define(function (require, exports, module) {
                 this.set('id', this.get(this.idAttribute));
             }
 
+            this.bilder = new PictureCollection(options.bilder);
             this.steder = new PoiCollection(options.steder);
 
             NtbModel.prototype.initialize.call(this, options);
@@ -78,6 +80,7 @@ define(function (require, exports, module) {
 
             attrs = attrs || this.toJSON();
             attrs.steder = this.steder.pluck('id');
+            attrs.bilder = this.bilder.pluck('id');
             options.attrs = attrs;
 
             // Call super with attrs moved to options

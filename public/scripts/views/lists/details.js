@@ -134,54 +134,6 @@ define(function (require, exports, module) {
                 var data = e.editor.getData();
                 this.model.set('beskrivelse', data);
             }, this));
-        },
-
-        setupFileupload: function () {
-            var ended = false;
-            var me = this;
-
-            var fileUpload = this.$('#fileupload').fileupload({
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-                sequentialUploads: true,
-                url: this.uploadUrl,
-                dataType: 'json',
-                maxFileSize: 6000000,
-                formData: [], // Prevent fileUpload from sending entire form, only send files
-
-                // On response from server
-                done: function (e, data) {
-                    var uploadedLogo = data && data.result;
-                    var uploadedLogoOriginalVersion = uploadedLogo.versions[0];
-
-                    me.model.set('logo', uploadedLogoOriginalVersion.url);
-                },
-
-                // On error
-                fail: function (e, data) {
-                    Raven.captureException(e, {extra: {message: 'Logo upload failed', data: data}});
-
-                    me.editor.showNotification({
-                        type: 'alert',
-                        message: 'Det skjedde en feil under opplasting av bildet.'
-                    });
-
-                }
-            });
-
-            fileUpload.on('fileuploadprocessfail', function (e, data) {
-
-                me.editor.showNotification({
-                    type: 'alert',
-                    message: 'Det skjedde en feil under opplasting av bildet. Pass på at filen ikke er større enn 6 MB.'
-                });
-
-            });
-
-        },
-
-        removeLogo: function () {
-            this.model.unset('logo');
-            this.render();
         }
 
     });
