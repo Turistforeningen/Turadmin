@@ -105,6 +105,9 @@ define(function (require, exports, module) {
                 messages: {
                     empty: 'Husk å legge inn bilder.',
                     info: 'Det første bildet vil bli brukt som hovedbilde og det andre vil bli brukt som bakgrunnsbilde i SjekkUT-appen.'
+                },
+                defaults: {
+                    status: 'Offentlig'
                 }
             }).render();
 
