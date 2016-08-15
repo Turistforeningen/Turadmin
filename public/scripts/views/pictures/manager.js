@@ -66,7 +66,12 @@ define(function (require, exports, module) {
                 }
             }, this);
 
-            this.defaults = options.defaults || {};
+            this.defaults = this.defaults || {};
+            if (typeof options.defaults === 'object') {
+                for (var key in options.defaults) {
+                    this.defaults[key] = options.defaults[key];
+                }
+            }
 
             this.messages = this.messages || {};
             if (typeof options.messages === 'object') {
@@ -248,7 +253,7 @@ define(function (require, exports, module) {
 
             if (typeof this.defaults === 'object') {
                 for (var prop in this.defaults) {
-                    file[prop] = this.defaults[prop];
+                    pictureData[prop] = this.defaults[prop];
                 }
             }
 
