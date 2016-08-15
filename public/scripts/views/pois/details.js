@@ -45,7 +45,7 @@ define(function (require, exports, module) {
                     validate: true
                 }
             },
-            '[name="poi-details-field-type-sted"]': {
+            '[name="poi-details-field-kategori"]': {
                 observe: 'kategori',
                 setOptions: {
                     validate: true
@@ -132,7 +132,7 @@ define(function (require, exports, module) {
             var alleStedKategorier = _.pluck(this.model.availableCategories, 'name');
             var selectableStedKategorier = _.without(alleStedKategorier, 'Hytte');
 
-            var $primaryTagSelect = this.$('select[name="poi-details-field-type-sted"]');
+            var $primaryTagSelect = this.$('select[name="poi-details-field-kategori"]');
 
             var options = ['<option value="">Velg en</option>'];
             for (var i = 0; i < selectableStedKategorier.length; i++) {

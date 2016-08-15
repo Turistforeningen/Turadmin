@@ -242,19 +242,13 @@ define(function (require, exports, module) {
 
         addNewFile: function (file) {
 
-            var pictureData = {};
+            var pictureData = this.defaults || {};
 
             pictureData.img = file.versions;
             pictureData.fotograf = {navn: user.get('navn'), epost: user.get('epost')};
 
             if (!!file.meta && !!file.meta.geojson) {
                 pictureData.geojson = file.meta.geojson;
-            }
-
-            if (typeof this.defaults === 'object') {
-                for (var prop in this.defaults) {
-                    pictureData[prop] = this.defaults[prop];
-                }
             }
 
             var picture = new PictureModel(pictureData);
