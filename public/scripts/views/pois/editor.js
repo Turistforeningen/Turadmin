@@ -74,7 +74,8 @@ define(function (require, exports, module) {
                 el: '[data-view="poi-pictures"]',
                 pictures: this.pictures,
                 defaults: {
-                    geojson: this.model.getGeoJson()
+                    geojson: this.model.getGeoJson(),
+                    status: this.model.get('status')
                 },
                 messages: {
                     empty: 'Husk å legge inn bilder fra stedet.'
