@@ -21,6 +21,9 @@ define(function (require, exports, module) {
 
     require('bootstrap');
     require('ckeditor-core');
+    require('datepicker');
+    require('datepicker-lang-no');
+    require('moment');
 
     // Module
     return Backbone.View.extend({
@@ -42,6 +45,28 @@ define(function (require, exports, module) {
             },
             '[name="list-details-field-beskrivelse"]': {
                 observe: 'beskrivelse'
+            },
+            '[name="list-details-field-start"]': {
+                observe: 'start',
+                onGet: function(value) {
+                    if (value) {
+                        return moment(value).format('DD.MM.YYYY');
+                    }
+                },
+                onSet: function(value) {
+                    return moment(value, 'DD.MM.YYYY').toISOString();
+                }
+            },
+            '[name="list-details-field-stopp"]': {
+                observe: 'stopp',
+                onGet: function(value) {
+                    if (value) {
+                        return moment(value).format('DD.MM.YYYY');
+                    }
+                },
+                onSet: function(value) {
+                    return moment(value, 'DD.MM.YYYY').toISOString();
+                }
             },
             '[name="list-details-field-kategori"]': {
                 observe: 'tags',
@@ -89,6 +114,22 @@ define(function (require, exports, module) {
 
             // Beskrivelse
             this.setupCkeditor();
+
+            // Dates
+            $('input[name="list-details-field-start"]').datepicker({
+                forceParse: false, // AFAICS forceparse fails and causes existing date to be cleared when picker is dismissed
+                format: 'dd.mm.yyyy',
+                weekStart: 1,
+                startDate: moment().format('DD.MM.YYYY'),
+                language: 'no'
+            });
+            $('input[name="list-details-field-stopp"]').datepicker({
+                forceParse: false, // AFAICS forceparse fails and causes existing date to be cleared when picker is dismissed
+                format: 'dd.mm.yyyy',
+                weekStart: 1,
+                startDate: moment().format('DD.MM.YYYY'),
+                language: 'no'
+            });
 
             // Links Manager
             var linksManagerView = new LinksManagerView({
