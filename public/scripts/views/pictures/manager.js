@@ -68,15 +68,15 @@ define(function (require, exports, module) {
 
             this.defaults = this.defaults || {};
             if (typeof options.defaults === 'object') {
-                for (var key in options.defaults) {
-                    this.defaults[key] = options.defaults[key];
+                for (var defaultsKey in options.defaults) {
+                    this.defaults[defaultsKey] = options.defaults[defaultsKey];
                 }
             }
 
             this.messages = this.messages || {};
             if (typeof options.messages === 'object') {
-                for (var key in options.messages) {
-                    this.messages[key] = options.messages[key];
+                for (var messagesKey in options.messages) {
+                    this.messages[messagesKey] = options.messages[messagesKey];
                 }
             }
         },
