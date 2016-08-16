@@ -142,6 +142,9 @@ define(function (require, exports, module) {
                 this.stickit(); // Uses view.bindings and view.model to setup bindings
                 Backbone.Validation.bind(this);
 
+                // Validate to show error msg if invalid
+                this.model.isValid(true);
+
                 this.$('input[name="foto-tags"]')
                     .select2({placeholder: 'Tagger', tags: this.allFotoTags, tokenSeparators: [',', ' ']})
                     .select2('val', this.model.get('tags'))
