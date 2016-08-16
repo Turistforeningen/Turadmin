@@ -82,7 +82,6 @@ define(function (require, exports, module) {
         },
 
         save: function (attrs, options) {
-
             attrs = attrs || this.toJSON();
             attrs.steder = this.steder.pluck('id');
             attrs.bilder = this.bilder.pluck('id');
