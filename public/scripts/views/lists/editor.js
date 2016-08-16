@@ -34,7 +34,6 @@ define(function (require, exports, module) {
 
 
             // Set up views
-
             this.listDetailsView = new ListDetailsView({
                 el: '[data-view="list-details"]',
                 list: this.model,

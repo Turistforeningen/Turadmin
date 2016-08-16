@@ -84,9 +84,7 @@ define(function (require, exports, module) {
             }
         },
 
-        events: {
-            // 'click [data-dnt-action="remove-logo"]': 'removeLogo'
-        },
+        events: {},
 
         initialize: function (options) {
 
@@ -96,10 +94,6 @@ define(function (require, exports, module) {
             this.model.on('sync', this.render, this);
 
             this.editor = options.editor;
-
-            // Bind these methods to this scope
-            // _.bindAll(this, 'removeLogo');
-
             this.user = user;
 
         },
