@@ -118,7 +118,7 @@ app.use('/', function (req, res, next) {
     // with regexp matching all file extensions except html Also, this should be
     // in the route below, but did not get that to work, because this route also
     // caught requests for files and stuff
-    var isFileRequest = !!req.url.match(/^.*\.(css|js)$/);
+    var isFileRequest = !!req.url.match(/^.*\.(css|js|map)$/);
     var isXhr = req.xhr;
 
     if (isFileRequest || isXhr) {
