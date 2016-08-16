@@ -42,6 +42,13 @@ block navbarCollapse
             a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").list-save
                 span.glyphicon.glyphicon-floppy-disk
                 | &nbsp;Lagre
+        li.action-do-switch-published-state
+            a(data-action="do-publish")
+                span.glyphicon.glyphicon-cloud-upload
+                | &nbsp;Publiser
+            a(data-action="do-unpublish")
+                span.glyphicon.glyphicon-cloud-download
+                | &nbsp;Avpubliser
         include ../dropdownmenu
 
 block content
