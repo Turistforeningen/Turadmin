@@ -49,6 +49,7 @@ define(function (require, exports, module) {
         },
 
         initialize: function (options) {
+            options = options || {};
 
             // Set scope of methods to this view
             _.bindAll(this, 'addLink');
