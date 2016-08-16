@@ -84,7 +84,6 @@ define(function (require, exports, module) {
         },
 
         renderLink: function (link) {
-
             var linksEditView = new LinksEditView({
                 model: this.model,
                 link: link,
