@@ -69,6 +69,8 @@ define(function (require, exports, module) {
         },
 
         initialize: function (options) {
+            options = options || {};
+
             if (!!this.idAttribute && !!this.get(this.idAttribute)) {
                 this.set('id', this.get(this.idAttribute));
             }
