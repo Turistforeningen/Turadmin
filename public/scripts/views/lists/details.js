@@ -54,7 +54,9 @@ define(function (require, exports, module) {
                     }
                 },
                 onSet: function(value) {
-                    return moment(value, 'DD.MM.YYYY').toISOString();
+                    if (value) {
+                        return moment(value, 'DD.MM.YYYY').toISOString();
+                    }
                 }
             },
             '[name="list-details-field-stopp"]': {
@@ -65,7 +67,9 @@ define(function (require, exports, module) {
                     }
                 },
                 onSet: function(value) {
-                    return moment(value, 'DD.MM.YYYY').toISOString();
+                    if (value) {
+                        return moment(value, 'DD.MM.YYYY').toISOString();
+                    }
                 }
             },
             '[name="list-details-field-kategori"]': {
