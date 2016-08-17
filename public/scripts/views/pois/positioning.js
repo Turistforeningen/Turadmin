@@ -23,12 +23,17 @@ define(function (require, exports, module) {
         el: '[data-view="poi-positioning"]',
         template: _.template(Template),
         boundaryIntersectTemplate: _.template(BoundaryIntersectTemplate),
+        updateSsrId: true,
+        updateNavn: true,
 
         initialize: function (options) {
             this.model = options.model;
             this.model.on('change:fylke', this.renderBoundaryIntersect, this);
             this.model.on('change:kommune', this.renderBoundaryIntersect, this);
             this.model.on('change:områder_navn', this.renderBoundaryIntersect, this);
+
+            this.updateSsrId = options.updateSsrId === false ? false : true;
+            this.updateNavn = options.updateNavn === false ? false : true;
 
             this.messages = this.messages || {};
             if (typeof options.messages === 'object') {
@@ -179,8 +184,14 @@ define(function (require, exports, module) {
                 lng = sted.aust;
 
             this.model.setLatLng([lat, lng]);
-            this.model.set('navn', navn);
-            this.model.set('ssr_id', ssrId); // NOTE: Important to set SSR ID last, because changing position or name unsets ssr_id.
+
+            if (this.updateSsrId === true) {
+                this.model.set('ssr_id', ssrId); // NOTE: Important to set SSR ID last, because changing position or name unsets ssr_id.
+            }
+
+            if (this.updateNavn === true) {
+                this.model.set('navn', navn);
+            }
         }
 
     });
