@@ -104,7 +104,9 @@ define(function (require, exports, module) {
 
             this.poiPositioningView = new PoiPositioningView({
                 model: this.list,
-                el: '[data-view="list-positioning"]'
+                el: '[data-view="list-positioning"]',
+                updateSsrId: false,
+                updateNavn: false
             }).render();
 
             this.initPoiSearch();
