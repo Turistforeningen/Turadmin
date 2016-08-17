@@ -106,11 +106,6 @@ define(function (require, exports, module) {
             this.$el.trigger('updatePictureIndexes', [this.model, index]);
         },
 
-        // onPictureSortStop: function (e, index) {
-        //     // Trig event to tell picturesView.js instance which model has a new index
-        //     this.$el.trigger('updatePictureIndexes', [this.model, index]);
-        // },
-
         setCurrentUserAsFotograf: function () {
             var currentUser = user;
             this.model.set('fotografNavn', currentUser.get('navn'));
