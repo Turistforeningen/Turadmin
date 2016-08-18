@@ -54,6 +54,8 @@ define(function (require, exports, module) {
             'stopp',
             'bilder',
             'steder',
+            'kommuner',
+            'fylker',
             'url'
         ],
 
