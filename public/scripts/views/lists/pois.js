@@ -37,13 +37,13 @@ define(function (require, exports, module) {
         bindings: {
             '[data-dnt-container="kommuner"]': {
                 observe: 'kommuner',
-                onGet: function (value) {
+                onGet: function (value) {
                     return value.join(', ');
                 }
             },
             '[data-dnt-container="fylker"]': {
                 observe: 'fylker',
-                onGet: function (value) {
+                onGet: function (value) {
                     return value.join(', ');
                 }
             }
