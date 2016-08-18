@@ -150,6 +150,8 @@ define(function (require, exports, module) {
                 }
             }).render();
 
+            this.setupGrupperSelect();
+
             // Set up view bindings and validation
             this.stickit(); // Uses view.bindings and view.model to setup bindings
             Backbone.Validation.bind(this);
@@ -188,6 +190,33 @@ define(function (require, exports, module) {
                 var data = e.editor.getData();
                 this.model.set('beskrivelse', data);
             }, this));
+        },
+
+        setupGrupperSelect: function () {
+            var userGroups = user.get('grupper');
+            if (userGroups.length > 0) {
+                var select2Groups = [];
+
+                for (var j = 0; j < userGroups.length; j++) {
+                    select2Groups[j] = {};
+                    select2Groups[j].id = userGroups[j].object_id;
+                    select2Groups[j].text = userGroups[j].navn;
+                }
+
+                $('input[name="list-details-field-grupper"]').select2({
+                    tags: select2Groups,
+                    createSearchChoice: function () { return null; } // This will prevent the user from entering custom tags
+                }).on('change', $.proxy(function (e) {
+                    var routeGroups = e.val;
+                    this.model.set('grupper', routeGroups);
+                }, this));
+
+                this.$('[name="list-details-field-grupper"]').select2('val', this.model.get('grupper'));
+
+            } else {
+                // If user does not belong to any groups, do not show groups field.
+                this.$('.form-group.list-details-field-grupper').remove();
+            }
         }
 
     });
