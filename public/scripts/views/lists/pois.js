@@ -16,6 +16,7 @@ define(function (require, exports, module) {
         PoiPositioningView = require('views/pois/positioning'),
         state = require('state');
 
+    require('backbone-stickit');
     require('bootstrap');
     require('select2');
     require('select2-locale_no');
@@ -33,9 +34,24 @@ define(function (require, exports, module) {
             'click [data-dnt-action="poi-remove"]': 'removePoi'
         },
 
+        bindings: {
+            '[data-dnt-container="kommuner"]': {
+                observe: 'kommuner',
+                onGet: function (value) {
+                    return value.join(', ');
+                }
+            },
+            '[data-dnt-container="fylker"]': {
+                observe: 'fylker',
+                onGet: function (value) {
+                    return value.join(', ');
+                }
+            }
+        },
+
         initialize: function (options) {
             this.pois = options.pois;
-            this.list = options.list;
+            this.model = options.list;
             this.editor = options.editor;
 
             // Bind these methods to this scope
@@ -77,7 +93,22 @@ define(function (require, exports, module) {
             });
             this.pois.add(poiModel);
             this.render();
-            poiModel.fetch();
+            poiModel.fetch({
+                success: $.proxy(function () {
+                    this.updateKommuner();
+
+                }, this)
+            });
+        },
+
+        updateKommuner: function () {
+            var kommuner = _.without(_.uniq(this.pois.pluck('kommune')), undefined);
+            this.model.set('kommuner', kommuner);
+        },
+
+        updateFylker: function () {
+            var fylker = _.without(_.uniq(this.pois.pluck('fylke')), undefined);
+            this.model.set('fylker', fylker);
         },
 
         removePoi: function (e) {
@@ -103,18 +134,25 @@ define(function (require, exports, module) {
             this.$el.html(html);
 
             this.poiPositioningView = new PoiPositioningView({
-                model: this.list,
+                model: this.model,
                 el: '[data-view="list-positioning"]',
                 updateSsrId: false,
                 updateNavn: false
             }).render();
 
+            // Set kommuner and fylker
+            this.updateKommuner();
+            this.updateFylker();
+
             this.initPoiSearch();
+
+            // Bind model to view
+            this.stickit(); // Uses view.bindings and view.model to setup bindings
 
             return this;
         },
 
-        remove: function() {
+        remove: function () {
             // Remove the validation binding
             // See: http://thedersen.com/projects/backbone-validation/#using-form-model-validation/unbinding
             Backbone.Validation.unbind(this);
