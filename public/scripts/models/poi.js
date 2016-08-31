@@ -100,6 +100,7 @@ define(function (require, exports, module) {
             {name: 'Rasteplass', markerIcon: '30'},
             {name: 'Servering', markerIcon: '34'},
             {name: 'Skitrekk', markerIcon: undefined},
+            {name: 'Skiltpunkt', markerIcon: undefined},
             {name: 'Skøytevann', markerIcon: undefined},
             {name: 'Teltplass', markerIcon: '32'},
             {name: 'Toalett', markerIcon: undefined},
