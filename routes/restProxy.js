@@ -40,7 +40,7 @@ module.exports = function (app, options) {
 
         // Create options object and set user agent & API key
         var options = {headers: {'User-Agent': 'turadmin-v2.0'}};
-        options.query = req.query || {};
+        options.query = underscore.clone(req.query) || {};
         options.query.api_key = ntbApiKey;
 
         // Apply query params from passed path to query object
