@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) $year, Den Norske Turistforening (DNT)
  *
