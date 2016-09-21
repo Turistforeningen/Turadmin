@@ -41,6 +41,8 @@ module.exports = function (app, express, options) {
                     var isAdmin = !!underscore.findWhere(userGroups, {navn: 'Den Norske Turistforening'});
                     req.session.user.er_admin = isAdmin;
 
+                    req.session.isDntGroupMember = !!associations.length;
+
                     next();
 
                 } else {
