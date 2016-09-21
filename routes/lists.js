@@ -26,7 +26,7 @@ module.exports = function (app, options) {
      */
     var getListsAll = function (req, res, next) {
 
-        if (req.session.user.er_admin) {
+        if (req.session.isDntGroupMember) {
             req.renderOptions = req.renderOptions || {};
             req.renderOptions.userData = JSON.stringify(req.session.user);
             req.renderOptions.userGroups = JSON.stringify(req.userGroups || []);
