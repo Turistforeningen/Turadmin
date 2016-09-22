@@ -13,7 +13,6 @@ define(function (require, exports, module) {
         Backbone = require('backbone'),
         PoiModel = require('models/poi'),
         Template = require('text!templates/lists/pois.html'),
-        PoiPositioningView = require('views/pois/positioning'),
         state = require('state');
 
     require('backbone-stickit');
@@ -132,13 +131,6 @@ define(function (require, exports, module) {
             });
 
             this.$el.html(html);
-
-            this.poiPositioningView = new PoiPositioningView({
-                model: this.model,
-                el: '[data-view="list-positioning"]',
-                updateSsrId: false,
-                updateNavn: false
-            }).render();
 
             // Set kommuner and fylker
             this.updateKommuner();
