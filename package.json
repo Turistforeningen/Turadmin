@@ -18,7 +18,7 @@
     "express": "^4.13.4",
     "jade": "^1.11.0",
     "method-override": "^2.3.6",
-    "newrelic": "^1.28.0",
+    "newrelic": "^1.30.4",
     "node-cache": "^2.1.1",
     "raven": "^0.11.0",
     "restler": "^3.4.0",
