@@ -18,11 +18,14 @@ module.exports = function (app, options) {
     /*
         Move id from document object to _id on result object, to update client side model with id.
      */
-    var moveId = function (data) {
+    var moveId = function (data, response) {
         if (data.document && data.document._id) {
             data._id = data.document._id;
         } else {
-            sentry.captureMessage('ID is missing in result after post!', {extra: {data: data}});
+            sentry.captureMessage(
+                'ID is missing in result after post!',
+                {extra: {data: data, response: response}}
+            );
         }
         data.document = undefined;
     };
@@ -78,7 +81,8 @@ module.exports = function (app, options) {
             if (!!response && !!response.statusCode) {
                 res.statusCode = response.statusCode;
             }
-            moveId(data);
+
+            moveId(data, response);
             res.json(data);
         };
 
