@@ -24,7 +24,6 @@ define(function (require, exports, module) {
     require('ckeditor-core');
     require('datepicker');
     require('datepicker-lang-no');
-    require('moment');
 
     // Module
     return Backbone.View.extend({
