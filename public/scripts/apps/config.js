@@ -39,7 +39,7 @@ requirejs.config({
         'jquery.fileupload-process': '/lib/jquery.fileupload/js/jquery.fileupload-process',
         'jquery.iframe-validate': '/lib/jquery.fileupload/js/jquery.fileupload-validate',
         'jquery-ssr': '/lib/jquery.ssr-1.0.0/jQuery.SSR',
-        'moment': '/lib/momentjs-2.9.0/moment',
+        'moment': '/lib/moment-2.15.1/moment',
         'select2': '/lib/select2-3.5.1/select2',
         'select2-locale_no': '/lib/select2-3.5.1/select2_locale_no',
         'text': '/lib/text-2.0.12/text',
