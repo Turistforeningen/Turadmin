@@ -182,7 +182,7 @@ define(function (require, exports, module) {
                 });
 
                 $('[data-action="do-publish"]').tooltip({
-                    title: 'Stedet kan ikke publiseres uten at alle de påkrevde feltene er fylt ut.',
+                    title: 'Turen kan ikke publiseres uten at alle de påkrevde feltene er fylt ut.',
                     placement: 'bottom',
                     trigger: 'manual'
                 }).tooltip('show');
