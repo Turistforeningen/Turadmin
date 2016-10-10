@@ -12,6 +12,7 @@ define(function (require, exports, module) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         L = require('leaflet'),
+        moment = require('moment'),
         NtbModel = require('models/ntb');
 
     // Module
@@ -215,6 +216,17 @@ define(function (require, exports, module) {
             this.set('områder_navn', _.pluck(data['områder'], 'navn'));
         },
 
+        validateDate: function (date) {
+            date = moment(date);
+
+            if (date.isValid() === false) {
+                return false;
+            } else if (date.isBefore('0001-01-01')) {
+                return false;
+            }
+            return true;
+        },
+
         updateRouteDistance: function () {
             if (this.hasRoute()) {
                 var geojson = this.get('geojson');
@@ -276,12 +288,35 @@ define(function (require, exports, module) {
             }
         },
 
+        updateMarkingKvisting: function () {
+            var rute = this.get('rute');
+
+            if (rute && rute.kvisting) {
+                if (rute.kvisting.fra) {
+                    if (!this.validateDate(rute.kvisting.fra)) {
+                        delete rute.kvisting.fra;
+                    } else {
+                        rute.kvisting.fra = moment(rute.kvisting.fra).format('YYYY-MM-DD')
+                    }
+                }
+                if (rute.kvisting.til) {
+                    if (!this.validateDate(rute.kvisting.til)) {
+                        delete rute.kvisting.til;
+                    } else {
+                        rute.kvisting.til = moment(rute.kvisting.til).format('YYYY-MM-DD')
+                    }
+                }
+                this.set('rute', rute);
+            }
+        },
+
         save: function (attrs, options) {
 
             this.updateStartpunkt();
             this.updateSeason();
             this.updateTidsbruk();
             this.updateUrl();
+            this.updateMarkingKvisting();
 
             // Remove geojson if empty
             if (!this.hasRoute()) {

@@ -28,8 +28,13 @@ define(function (require, exports, module) {
                 msg: 'Dette feltet er påkrevd.'
             },
             kvistingPeriode: function (val) {
-                var diff = moment(this.get('kvistingFra'), 'DD.MM.YYYY').diff(moment(this.get('kvistingTil'), 'DD.MM.YYYY'));
-                if (diff >= 0) {
+                var kvistingFra = moment(this.get('kvistingFra'), 'DD.MM.YYYY');
+                var kvistingTil = moment(this.get('kvistingTil'), 'DD.MM.YYYY');
+                var diff = kvistingFra.diff(kvistingTil);
+
+                if (kvistingFra.isBefore('0001-01-01') || kvistingTil.isBefore('0001-01-01')) {
+                    return 'Årstall må være høyere enn 1';
+                } else if (diff >= 0) {
                     return 'Fra dato må være tidligere enn til dato';
                 }
             }
@@ -70,7 +75,7 @@ define(function (require, exports, module) {
                 var isValid = this.isValid(true);
                 var kvisting = this.get('kvisting') || {};
                 if (typeof e.changed.kvistingFra === 'string') {
-                    kvisting.fra = moment(e.changed.kvistingFra, 'DD.MM.YYYY').format();
+                    kvisting.fra = moment(e.changed.kvistingFra, 'DD.MM.YYYY').format('YYYY-MM-DD');
                 } else {
                     delete kvisting.fra;
                 }
@@ -81,7 +86,7 @@ define(function (require, exports, module) {
                 var isValid = this.isValid(true);
                 var kvisting = this.get('kvisting') || {};
                 if (typeof e.changed.kvistingTil === 'string') {
-                    kvisting.til = moment(e.changed.kvistingTil, 'DD.MM.YYYY').format();
+                    kvisting.til = moment(e.changed.kvistingTil, 'DD.MM.YYYY').format('YYYY-MM-DD');
                 } else {
                     delete kvisting.til;
                 }
