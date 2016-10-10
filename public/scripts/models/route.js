@@ -296,14 +296,14 @@ define(function (require, exports, module) {
                     if (!this.validateDate(rute.kvisting.fra)) {
                         delete rute.kvisting.fra;
                     } else {
-                        rute.kvisting.fra = moment(rute.kvisting.fra).format('YYYY-MM-DD')
+                        rute.kvisting.fra = moment(rute.kvisting.fra).format('YYYY-MM-DD');
                     }
                 }
                 if (rute.kvisting.til) {
                     if (!this.validateDate(rute.kvisting.til)) {
                         delete rute.kvisting.til;
                     } else {
-                        rute.kvisting.til = moment(rute.kvisting.til).format('YYYY-MM-DD')
+                        rute.kvisting.til = moment(rute.kvisting.til).format('YYYY-MM-DD');
                     }
                 }
                 this.set('rute', rute);
