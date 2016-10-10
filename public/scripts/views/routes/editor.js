@@ -189,9 +189,13 @@ define(function (require, exports, module) {
 
                 var $firstError = $('.has-error').first();
 
-                $('html, body').animate({
-                    scrollTop: ($firstError.offset().top - 80)
-                }, 1000);
+                if ($firstError.length) {
+                    $('html, body').animate({
+                        scrollTop: ($firstError.offset().top - 80)
+                    }, 1000);
+                } else {
+                    Raven.captureMessage('Model is not valid, but no elements was marked as error.');
+                }
             }
 
             this.updatePublishButtons();
