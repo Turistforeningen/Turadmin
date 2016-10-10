@@ -72,10 +72,12 @@ define(function (require, exports, module) {
             }
 
             this.on('change:kvistingFra', function (e) {
-                var isValid = this.isValid(true);
+                var isValid = this.isValid(true); // Trigger validation to highlight invalid fields
                 var kvisting = this.get('kvisting') || {};
-                if (typeof e.changed.kvistingFra === 'string') {
-                    kvisting.fra = moment(e.changed.kvistingFra, 'DD.MM.YYYY').format('YYYY-MM-DD');
+                var kvistingFra = moment(e.changed.kvistingFra, 'DD.MM.YYYY');
+
+                if (kvistingFra.isValid()) {
+                    kvisting.fra = kvistingFra.format('YYYY-MM-DD');
                 } else {
                     delete kvisting.fra;
                 }
@@ -83,10 +85,12 @@ define(function (require, exports, module) {
             });
 
             this.on('change:kvistingTil', function (e) {
-                var isValid = this.isValid(true);
+                var isValid = this.isValid(true); // Trigger validation to highlight invalid fields
                 var kvisting = this.get('kvisting') || {};
-                if (typeof e.changed.kvistingTil === 'string') {
-                    kvisting.til = moment(e.changed.kvistingTil, 'DD.MM.YYYY').format('YYYY-MM-DD');
+                var kvistingTil = moment(e.changed.kvistingTil, 'DD.MM.YYYY');
+
+                if (kvistingTil.isValid()) {
+                    kvisting.til = kvistingTil.format('YYYY-MM-DD');
                 } else {
                     delete kvisting.til;
                 }
