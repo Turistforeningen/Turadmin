@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
+        moment = require('moment'),
         ListModel = require('models/list'),
         DetailsTemplate = require('text!templates/lists/details.html'),
         LinksManagerView = require('views/links/manager'),

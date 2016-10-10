@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
+        moment = require('moment'),
         Template = require('text!templates/ntb/listitem.html'),
         User = require('models/user'),
         user = new User();
