@@ -129,8 +129,8 @@ define(function (require, exports, module) {
             this.$('[data-action="init-position-by-coordinates"]').on('shown.bs.popover', $.proxy(function (e) {
 
                 this.$('[data-action="do-position-by-coordinates"]').on('click', $.proxy(function (e) {
-                    var latitude = this.$('.position-by-coordinates').find('input[name="latitude"]').val(),
-                        longitude = this.$('.position-by-coordinates').find('input[name="longitude"]').val();
+                    var latitude = parseFloat(this.$('.position-by-coordinates').find('input[name="latitude"]').val(), 10);
+                    var longitude = parseFloat(this.$('.position-by-coordinates').find('input[name="longitude"]').val(), 10);
 
                     this.model.setLatLng([latitude, longitude]);
 
