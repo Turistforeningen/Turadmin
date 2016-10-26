@@ -270,7 +270,7 @@ define(function (require, exports, module) {
             this.poisGeoJsonLayer = new L.GeoJSON(null);
 
             if (typeof this.pois === 'object' && this.pois.length) {
-                this.pois.each($.proxy(function(poi, index, list){
+                this.pois.each($.proxy(function(poi, index, list) {
                     if (poi.hasPosition()) {
                         var marker = this.createMarker(poi);
                         if (!!marker) {
