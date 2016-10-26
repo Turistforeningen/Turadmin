@@ -98,6 +98,23 @@ define(function (require, exports, module) {
 
             privat.opprettet_av = newOwner;
 
+            if (typeof privat.hovedkategori === 'string') {
+                privat.hovedkategori = parseInt(privat.hovedkategori, 10);
+            }
+
+            if (typeof privat.minutter === 'string') {
+                privat.minutter = parseInt(privat.minutter, 10);
+            }
+
+            if (typeof privat.sherpa2_id === 'string') {
+                privat.sherpa2_id = parseInt(privat.sherpa2_id, 10);
+            }
+
+            if (typeof privat.startpunkt === 'object') {
+                privat.startpunkt.coordinates[0] = parseFloat(privat.startpunkt.coordinates[0], 10);
+                privat.startpunkt.coordinates[1] = parseFloat(privat.startpunkt.coordinates[1], 10);
+            }
+
             $.ajax({
                 url: '/restProxy/' + objectType + '/' + id,
                 data: JSON.stringify({
