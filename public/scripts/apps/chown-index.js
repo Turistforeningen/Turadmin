@@ -100,12 +100,13 @@ define(function (require, exports, module) {
 
             $.ajax({
                 url: '/restProxy/' + objectType + '/' + id,
-                data: {
+                data: JSON.stringify({
                     privat: privat,
                     _method: 'PATCH'
-                },
+                }),
                 method: 'PUT',
                 dataType: 'json',
+                contentType: 'application/json',
                 success: onObjectPatch
             });
         }
