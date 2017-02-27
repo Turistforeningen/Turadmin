@@ -94,7 +94,10 @@ define(function (require, exports, module) {
                         return geojson.coordinates;
                     })
                 };
+            } else {
+                attrs.geojson = undefined;
             }
+
             options.attrs = attrs;
 
             // Call super with attrs moved to options
