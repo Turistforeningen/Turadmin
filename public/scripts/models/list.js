@@ -87,9 +87,14 @@ define(function (require, exports, module) {
             attrs = attrs || this.toJSON();
             attrs.steder = this.steder.pluck('id');
             attrs.bilder = this.bilder.pluck('id');
-            attrs.geojson = {type: 'MultiPoint', coordinates: this.steder.pluck('geojson').map(function(geojson) {
-                return geojson.coordinates;
-            })};
+            if (this.steder && this.steder.length > 0) {
+                attrs.geojson = {
+                    type: 'MultiPoint',
+                    coordinates: this.steder.pluck('geojson').map(function(geojson) {
+                        return geojson.coordinates;
+                    })
+                };
+            }
             options.attrs = attrs;
 
             // Call super with attrs moved to options
