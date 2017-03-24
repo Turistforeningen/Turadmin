@@ -19,7 +19,7 @@
     "jade": "^1.11.0",
     "method-override": "^2.3.6",
     "newrelic": "^1.28.0",
-    "node-cache": "^2.1.1",
+    "node-cache": "^4.1.0",
     "raven": "^0.11.0",
     "restler": "^3.4.0",
     "turbasen-auth": "^1.2.0",
