@@ -4,6 +4,8 @@
  * https://github.com/Turistforeningen/turadmin
  */
 
+/* global Promise: true  */
+
 var sentry = require('../lib/sentry');
 var fetch = require('node-fetch');
 
@@ -94,15 +96,15 @@ module.exports = function (app, options) {
             req.renderOptions.title = listData.navn;
             req.renderOptions.groupName = listData.navn;
 
-            Promise.all(data.steder.map(id => (
-                fetch(`${process.env.NTB_API_URL}/steder/${id}`, {
+            Promise.all(data.steder.map(function (id) {
+                return fetch(process.env.NTB_API_URL + '/steder/' + id, {
                     headers: {
-                        Authorization: `token ${process.env.NTB_API_KEY}`
+                        Authorization: 'token ' + process.env.NTB_API_KEY
                     }
-                }).then(sted => sted.json())
-            ))).catch(err => {
+                }).then(function (sted) { return sted.json(); });
+            })).catch(function(err) {
                 sentry.captureError(err);
-            }).then(stederData => {
+            }).then(function (stederData) {
                 listData.steder = stederData;
                 req.renderOptions.listData = JSON.stringify(listData);
                 res.render('lists/editor', req.renderOptions);
