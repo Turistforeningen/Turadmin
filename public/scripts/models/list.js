@@ -91,7 +91,11 @@ define(function (require, exports, module) {
                 attrs.geojson = {
                     type: 'MultiPoint',
                     coordinates: this.steder.pluck('geojson').map(function(geojson) {
-                        return geojson.coordinates;
+                        if (typeof geojson === 'object') {
+                            return geojson.coordinates;
+                        }
+                    }).filter(function (coordinates) {
+                        return typeof coordinates !== 'undefined';
                     })
                 };
             } else {
