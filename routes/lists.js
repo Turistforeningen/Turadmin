@@ -5,6 +5,7 @@
  */
 
 var sentry = require('../lib/sentry');
+var fetch = require('node-fetch');
 
 module.exports = function (app, options) {
     "use strict";
@@ -92,12 +93,23 @@ module.exports = function (app, options) {
             req.renderOptions = req.renderOptions || {};
             req.renderOptions.title = listData.navn;
             req.renderOptions.groupName = listData.navn;
-            req.renderOptions.listData = JSON.stringify(listData);
 
-            res.render('lists/editor', req.renderOptions);
+            Promise.all(data.steder.map(id => (
+                fetch(`${process.env.NTB_API_URL}/steder/${id}`, {
+                    headers: {
+                        Authorization: `token ${process.env.NTB_API_KEY}`
+                    }
+                }).then(sted => sted.json())
+            ))).catch(err => {
+                sentry.captureError(err);
+            }).then(stederData => {
+                listData.steder = stederData;
+                req.renderOptions.listData = JSON.stringify(listData);
+                res.render('lists/editor', req.renderOptions);
+            });
         };
 
-        restProxy.makeApiRequest('/lister/' + listId + '?expand=bilder,steder', req, undefined, onCompleteListRequest);
+        restProxy.makeApiRequest('/lister/' + listId + '?expand=bilder', req, undefined, onCompleteListRequest);
     };
 
     var deleteLists = function (req, res, next) {
