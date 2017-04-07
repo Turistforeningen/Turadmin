@@ -1,4 +1,4 @@
-FROM nginx:1.11
+FROM nginx:1.11.13-alpine
 
 RUN sed -i 's/sendfile        on/sendfile       off/g' etc/nginx/nginx.conf
 

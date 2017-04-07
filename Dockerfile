@@ -1,7 +1,7 @@
-FROM node:argon-slim
+FROM node:7.8.0-alpine
 
 # Add our user and group first to make sure their IDs get assigned consistently
-RUN groupadd -r app && useradd -r -g app app
+RUN addgroup -S app && adduser -S -g app app
 
 # Create a directory where the application code should live and set it as the
 # current working directory
