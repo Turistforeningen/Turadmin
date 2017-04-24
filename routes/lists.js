@@ -105,6 +105,10 @@ module.exports = function (app, options) {
             })).catch(function(err) {
                 sentry.captureError(err);
             }).then(function (stederData) {
+                return stederData.filter(function (sted) {
+                    return !!sted._id;
+                });
+            }).then(function (stederData) {
                 listData.steder = stederData;
                 req.renderOptions.listData = JSON.stringify(listData);
                 res.render('lists/editor', req.renderOptions);
