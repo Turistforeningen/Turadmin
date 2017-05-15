@@ -106,7 +106,7 @@ define(function (require, exports, module) {
             {name: 'Toalett', markerIcon: undefined},
             {name: 'Togstasjon', markerIcon: undefined},
             {name: 'Turorientering', markerIcon: undefined},
-            {name: 'Turpostkasse', markerIcon: undefined},
+            {name: 'Turpost', markerIcon: undefined},
             {name: 'Utsiktspunkt', markerIcon: '25'},
             {name: 'Vadested', markerIcon: undefined}
         ],
