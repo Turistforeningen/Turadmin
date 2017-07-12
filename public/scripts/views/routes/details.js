@@ -100,7 +100,18 @@ define(function (require, exports, module) {
             '[name="route-details-field-opprettet_av-epost"]': 'privat.opprettet_av.epost',
             '[name="route-details-field-opprettet_av-id"]': 'privat.opprettet_av.id',
             '[name="route-details-field-endret_av-navn"]': 'privat.endret_av.navn',
-            '[name="route-details-field-endret_av-epost"]': 'privat.endret_av.epost',
+            '[name="route-details-field-endret_av-epost"]': {
+                observe: 'privat.endret_av.epost',
+                attributes: [
+                    {
+                        name: 'href',
+                        observe: 'privat.endret_av.epost',
+                        onGet: function (value) {
+                            return 'mailto:' + value;
+                        }
+                    }
+                ]
+            },
             '[name="route-details-field-endret_av-id"]': 'privat.endret_av.id',
         },
 
