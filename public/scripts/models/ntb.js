@@ -8,8 +8,10 @@ define(function (require, exports, module) {
         User = require('models/user'),
         user = new User();
 
+    require('backbone-deep-model');
+
     // Module
-    return Backbone.Model.extend({
+    return Backbone.DeepModel.extend({
 
         initialize: function (options) {
 
