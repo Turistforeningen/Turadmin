@@ -95,7 +95,13 @@ define(function (require, exports, module) {
                 observe: 'passer_for',
                 onGet: 'onGetPasserForBarn',
                 onSet: 'onSetPasserForBarn'
-            }
+            },
+            '[name="route-details-field-opprettet_av-navn"]': 'privat.opprettet_av.navn',
+            '[name="route-details-field-opprettet_av-epost"]': 'privat.opprettet_av.epost',
+            '[name="route-details-field-opprettet_av-id"]': 'privat.opprettet_av.id',
+            '[name="route-details-field-endret_av-navn"]': 'privat.endret_av.navn',
+            '[name="route-details-field-endret_av-epost"]': 'privat.endret_av.epost',
+            '[name="route-details-field-endret_av-id"]': 'privat.endret_av.id',
         },
 
         events: {
