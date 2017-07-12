@@ -62,7 +62,8 @@ define(function (require, exports, module) {
             lisens: 'CC BY-SA 4.0',
             status: 'Kladd',
             tags: [],
-            markerIcon: '21'
+            markerIcon: '21',
+            privat: {}
         },
 
         validation: {

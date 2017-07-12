@@ -8,6 +8,12 @@
         <%= erPublisert %>
     </span>
 </td>
+<td>
+    <span><%= typeof privat.opprettet_av === 'object' ? privat.opprettet_av.navn : '' %></span>
+</td>
+<td>
+    <span><%= typeof privat.endret_av === 'object' ? privat.endret_av.navn : '' %></span>
+</td>
 <td<% if (hasTagHytte) {%> data-toggle="tooltip" data-placement="top" data-container="body" title="Hytter kan ikke redigeres i Stedsadmin. For å endre på en hytte må man bruke Hytteadmin."<% } %>>
     <span><%= endret %></span>
 </td>
