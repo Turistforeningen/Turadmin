@@ -29,6 +29,12 @@
     <% } %>
 </td>
 <td>
+    <span><%= typeof privat.opprettet_av === 'object' ? privat.opprettet_av.navn : '' %></span>
+</td>
+<td>
+    <span><%= typeof privat.endret_av === 'object' ? privat.endret_av.navn : '' %></span>
+</td>
+<td>
     <span><%= endret %></span>
 </td>
 <td class="actions">

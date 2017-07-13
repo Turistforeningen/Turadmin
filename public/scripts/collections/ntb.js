@@ -56,6 +56,14 @@ define(function (require, exports, module) {
             this.user = user;
         },
 
+        fetch: function (options) {
+            options = options || {};
+            options.data = options.data || {};
+            options.data.fields = options.data.fields + ',privat';
+
+            return Backbone.Collection.prototype.fetch.call(this, options);
+        },
+
         // Getters and setters
 
         setState: function (resp) {

@@ -211,6 +211,10 @@ span.error-msg {
 	color: #a94442;
 }
 
+label.control-label.text-left {
+  text-align: left;
+}
+
 
 /* Map and controls */
 
