@@ -18,6 +18,7 @@ requirejs.config({
         'jquery': '/lib/jquery-1.11.1/jquery.min',
         'jquery-ui': '/lib/jquery-ui-1.11.1/jquery-ui.min',
         'backbone': '/lib/backbone-1.1.2/backbone',
+        'backbone-deep-model': '/lib/backbone-deep-model-2.0.1/backbone-deep-model',
         'backbone-stickit': '/lib/backbone.stickit-0.8.0/backbone.stickit',
         'backbone-validation': '/lib/backbone-validation-0.9.1/backbone-validation',
         'bootstrap': '/lib/bootstrap-3.2.0-dist/js/bootstrap',
