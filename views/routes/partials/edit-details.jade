@@ -247,35 +247,37 @@ div.row
                 div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
                     p.help-block Velge hvilke foreninger som skal kunne gjøre endringer i dette turforslaget. Disse foreningene vil også bli kreditert når turforslaget vises på UT.no.
 
-            h4 Opprettet og endret av
+            if isAdmin
+                div
+                    h4 Opprettet og endret av
 
-            // Opprettet av
-            div.form-group.route-details-field-opprettet_av-navn
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-details-field-opprettet_av-navn") Navn
-                div.col-lg-4.col-md-4.col-sm-4
-                    input.form-control(type="text" name="route-details-field-opprettet_av-navn")
-            div.form-group.route-details-field-opprettet_av-epost
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-details-field-opprettet_av-epost") E-post
-                div.col-lg-4.col-md-4.col-sm-4
-                    input.form-control(type="text" name="route-details-field-opprettet_av-epost")
-            div.form-group.route-details-field-opprettet_av-id
-                label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-details-field-opprettet_av-id") ID
-                div.col-lg-4.col-md-4.col-sm-4
-                    input.form-control(type="text" name="route-details-field-opprettet_av-id")
+                    // Opprettet av
+                    div.form-group.route-details-field-opprettet_av-navn
+                        label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-details-field-opprettet_av-navn") Navn
+                        div.col-lg-4.col-md-4.col-sm-4
+                            input.form-control(type="text" name="route-details-field-opprettet_av-navn")
+                    div.form-group.route-details-field-opprettet_av-epost
+                        label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-details-field-opprettet_av-epost") E-post
+                        div.col-lg-4.col-md-4.col-sm-4
+                            input.form-control(type="text" name="route-details-field-opprettet_av-epost")
+                    div.form-group.route-details-field-opprettet_av-id
+                        label.control-label.col-lg-2.col-md-2.col-sm-3(for=".route-details-field-opprettet_av-id") ID
+                        div.col-lg-4.col-md-4.col-sm-4
+                            input.form-control(type="text" name="route-details-field-opprettet_av-id")
 
-                div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    p.help-block Brukeren som opprettet turforslaget.
+                        div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                            p.help-block Brukeren som opprettet turforslaget.
 
-            // Sist endret av
-            div.form-group.route-details-field-endret_av-navn
-                label.control-label.col-lg-2.col-md-2.col-sm-3 Sist endret av
-                div.col-lg-7.col-md-7.col-sm-7
-                    p.form-control-static
-                        span(name="route-details-field-endret_av-navn")
-                        span ,&nbsp;
-                        a(name="route-details-field-endret_av-epost")
-                        span ,&nbsp;
-                        span(name="route-details-field-endret_av-id")
+                    // Sist endret av
+                    div.form-group.route-details-field-endret_av-navn
+                        label.control-label.col-lg-2.col-md-2.col-sm-3 Sist endret av
+                        div.col-lg-7.col-md-7.col-sm-7
+                            p.form-control-static
+                                span(name="route-details-field-endret_av-navn")
+                                span ,&nbsp;
+                                a(name="route-details-field-endret_av-epost")
+                                span ,&nbsp;
+                                span(name="route-details-field-endret_av-id")
 
-                div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
-                    p.help-block Brukeren som sist gjorde endring på turforslaget.
+                        div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3
+                            p.help-block Brukeren som sist gjorde endring på turforslaget.
