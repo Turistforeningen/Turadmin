@@ -46,7 +46,7 @@ app.use(cookieParser(sessionSecret));
 app.use(cookieSession({name: 'turadmin:sess', secret: sessionSecret}));
 app.use(sentry.raven.middleware.express(sentry));
 app.use(errorHandler({dumpExceptions: true, showStack: true}));
-app.use('/', express.static(`${__dirname}/public`));
+app.use('/', express.static(__dirname + '/public'));
 
 app.disable('x-powered-by');
 app.set('x-powered-by', false);
