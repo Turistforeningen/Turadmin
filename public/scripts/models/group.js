@@ -93,7 +93,7 @@ define(function (require, exports, module) {
             NtbModel.prototype.initialize.call(this, options);
         },
 
-        setKontaktinfoObject: function () {
+        setKontaktinfoObject: function (removeInvalid) {
             var kontaktinfo = this.get('kontaktinfo') || [{}];
             var primaryKontaktinfo = _.findWhere(kontaktinfo, {type: 'Primærkontakt'}) || kontaktinfo[0] || {};
 
@@ -135,7 +135,10 @@ define(function (require, exports, module) {
                 delete primaryKontaktinfo.adresse2;
             }
 
-            if (kontaktinfoPostnummer) {
+            if (removeInvalid === true && kontaktinfoPostnummer.length !== 4) {
+                this.set('kontaktinfoPostnummer', '');
+                delete primaryKontaktinfo.postnummer;
+            } else if (kontaktinfoPostnummer) {
                 // Replace any non digit char
                 primaryKontaktinfo.postnummer = String(kontaktinfoPostnummer).replace(/[\D]/g,'');
             } else {
@@ -182,7 +185,7 @@ define(function (require, exports, module) {
 
         save: function (attrs, options) {
             this.updateUrl();
-            this.setKontaktinfoObject();
+            this.setKontaktinfoObject(true);
 
             // Call super with attrs moved to options
             return NtbModel.prototype.save.call(this, attrs, options);
