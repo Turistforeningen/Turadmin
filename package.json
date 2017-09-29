@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "jshint .",
-    "start": "supervisor -w routes,views,app.js -e node,js,jade app.js",
+    "start": "supervisor -w routes,lib,views,app.js -e node,js,jade app.js",
     "test": "mocha -b -c test/suite.js -R spec",
     "test:watch": "mocha -b -c -w test/suite.js -R progress"
   },
