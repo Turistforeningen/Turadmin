@@ -56,6 +56,7 @@ define(function (require, exports, module) {
         events: {
             'click [data-dnt-action="add-user"]': 'addUser',
             'click [data-dnt-action="edit-user"]': 'editUser',
+            'click [data-dnt-action="invite-user"]': 'inviteUser',
             'click [data-dnt-action="save-user"]': 'saveUser',
             'click [data-dnt-action="save-group"]': 'saveGroup',
             'click [data-dnt-action="set-random-password"]': 'setRandomPassword',
@@ -83,7 +84,6 @@ define(function (require, exports, module) {
             this.model.set('_editing_user_index', groupUsers.length);
             this.model.set('_editing_user_navn', '');
             this.model.set('_editing_user_epost', '');
-            this.model.set('_editing_user_passord', '');
         },
 
         editUser: function (e) {
@@ -164,6 +164,38 @@ define(function (require, exports, module) {
         saveUser: function (e) {
             this.saveChanges();
             this.editor.save();
+        },
+
+        inviteUser: function (e) {
+            e.preventDefault();
+
+            var data = {
+                navn: this.model.get('_editing_user_navn'),
+                epost: this.model.get('_editing_user_epost'),
+                gruppe: this.model.get('navn')
+            };
+
+
+            var invites = this.model.get('privat.invitasjoner') || [];
+
+            invites.push({
+                epost: '',
+                kode: 'abc123',
+                gyldig: true,
+            });
+
+            this.model.set('privat.invitasjoner', invites);
+
+            this.model.save(undefined, {
+                success: function () {
+                    console.log('success', data);
+                    // $.ajax({
+                    //     url: '/grupper/inviter',
+                    //     method: 'POST',
+                    //     data: data
+                    // });
+                }
+            });
         },
 
         render: function () {

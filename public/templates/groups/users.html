@@ -19,25 +19,9 @@
             <label>Epost:</label>
             <input type="email" name="group-user-field-epost" class="form-control">
           </div>
-          <div class="form-group">
-            <label>Passord:</label>
-            <div class="input-group">
-              <input type="text" name="group-user-field-new-passord" class="form-control" placeholder="Nytt passord">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button" data-dnt-action="set-random-password">
-                  <span class="glyphicon glyphicon-random"></span>&nbsp;
-                  Generer passord
-                </button>
-              </span>
-            </div><!-- /input-group -->
-            <p class="help-block">
-              Fyll inn nytt passord ovenfor dersom du ønsker å endre passordet for brukeren. Dersom feltet er tomt vil ikke passordet bli endret.
-            </p>
-          </div>
-          <div class="form-group pull-right">
-            <button type="button" class="btn btn-default" data-dnt-action="discard-user-changes">Avbryt</button>
-            <button type="button" class="btn btn-primary" data-dnt-action="save-user">Lagre</button>
-          </div>
+          <button class="btn btn-primary pull-right" data-dnt-action="invite-user">
+            Send invitasjon
+          </button>
         </form>
       </div>
     </div>

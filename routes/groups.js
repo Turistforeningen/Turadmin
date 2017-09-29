@@ -5,6 +5,7 @@
  */
 
 var sentry = require('../lib/sentry');
+var sendgrid = require('../lib/sendgrid');
 
 module.exports = function (app, options) {
     "use strict";
@@ -154,11 +155,34 @@ module.exports = function (app, options) {
 
     };
 
+    var inviteUser = function (req, res, next) {
+        console.log(req.body);
+
+        var email = {
+            to: req.body.epost,
+            from: 'hjelp@dnt.no',
+            subject: 'Invitasjon til ',
+            html: '<h2>Hei ' + req.body.navn + '</h2><p><a href="https://ntb.app.dnt.no/">Bli med!</a>.</p>'
+        };
+
+        sendgrid.send(email)
+            .then(([result, body]) => {
+                var json = result.toJSON();
+                res.status(json.statusCode).send();
+            })
+            .catch(err => {
+                res.json(err.response.body);
+            });
+
+    };
+
     app.get('/grupper*', userGroupsFetcher);
     app.get('/grupper*', getGroupsAll);
     app.get('/grupper', getGroupsIndex);
     app.get('/grupper/ny', getGroupsNew);
     app.get('/grupper/:id', getGroupsEdit);
+
+    app.post('/grupper/inviter', inviteUser);
 
     app.post('/ntb-api/grupper', postPutGroups);
     app.put('/ntb-api/grupper/:id', postPutGroups);
