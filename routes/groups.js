@@ -156,7 +156,6 @@ module.exports = function (app, options) {
     };
 
     var inviteUser = function (req, res, next) {
-        console.log(req.)
         var email = {
             to: req.body.epost,
             from: 'hjelp@dnt.no',
