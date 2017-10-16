@@ -144,7 +144,7 @@ define(function (require, exports, module) {
                 delete primaryKontaktinfo.adresse2;
             }
 
-            if (removeInvalid === true && kontaktinfoPostnummer.length !== 4) {
+            if (removeInvalid === true && kontaktinfoPostnummer && kontaktinfoPostnummer.length !== 4) {
                 this.set('kontaktinfoPostnummer', '');
                 delete primaryKontaktinfo.postnummer;
             } else if (kontaktinfoPostnummer) {

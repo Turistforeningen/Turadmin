@@ -167,11 +167,14 @@ module.exports = function (app, options) {
         };
 
         sendgrid.send(email)
-            .then(([result, body]) => {
+            .then(function (response) {
+                var result = response[0];
+                var body = response[1];
+
                 var json = result.toJSON();
                 res.status(json.statusCode).send();
             })
-            .catch(err => {
+            .catch(function (err) {
                 res.status(500).json(err.response.body);
             });
     };
