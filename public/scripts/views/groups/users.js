@@ -46,20 +46,19 @@ define(function (require, exports, module) {
                 }
             },
             '[name="group-user-field-new-passord"]': {
-                observe: '_editing_user_passord',
-                setOptions: {
-                    validate: true
-                }
+                observe: '_editing_user_passord'
             }
         },
 
         events: {
             'click [data-dnt-action="add-user"]': 'addUser',
             'click [data-dnt-action="edit-user"]': 'editUser',
+            'click [data-dnt-action="invite-user"]': 'inviteUser',
             'click [data-dnt-action="save-user"]': 'saveUser',
             'click [data-dnt-action="save-group"]': 'saveGroup',
             'click [data-dnt-action="set-random-password"]': 'setRandomPassword',
             'click [data-dnt-action="remove-user"]': 'removeUser',
+            'click [data-dnt-action="remove-invite"]': 'removeInvite',
             'click [data-dnt-action="discard-user-changes"]': 'resetEditingUser'
         },
 
@@ -83,7 +82,6 @@ define(function (require, exports, module) {
             this.model.set('_editing_user_index', groupUsers.length);
             this.model.set('_editing_user_navn', '');
             this.model.set('_editing_user_epost', '');
-            this.model.set('_editing_user_passord', '');
         },
 
         editUser: function (e) {
@@ -166,9 +164,78 @@ define(function (require, exports, module) {
             this.editor.save();
         },
 
-        render: function () {
+        inviteUser: function (e) {
+            e.preventDefault();
 
-            var html = this.template({model: this.model.toJSON()});
+            var isValid = this.model.isValid();
+            var invites = this.model.get('privat.invitasjoner') || [];
+
+            var length = 64;
+            var charset = 'abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var inviteCode = '';
+
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                inviteCode += charset.charAt(Math.floor(Math.random() * n));
+            }
+
+            var inviteUrl = 'https://asgardr.app.dnt.no/invitasjon?kode=' + inviteCode;
+
+            invites.push({
+                navn: this.model.get('_editing_user_navn'),
+                epost: this.model.get('_editing_user_epost'),
+                gyldig: true,
+                url: inviteUrl,
+                kode: inviteCode
+            });
+
+            this.model.set('privat.invitasjoner', invites);
+
+            this.invite = {
+                processed: false,
+                sent: false,
+                saved: false,
+                code: inviteCode,
+                url: inviteUrl
+            };
+
+            this.model.save(undefined, {
+                success: function () {
+                    this.invite.processed = true;
+                    this.invite.saved = true;
+
+                    $.ajax({
+                        url: '/grupper/inviter',
+                        method: 'POST',
+                        data: {
+                            navn: this.model.get('_editing_user_navn'),
+                            epost: this.model.get('_editing_user_epost'),
+                            gruppe: this.model.get('navn'),
+                            kode: inviteCode,
+                            url: inviteUrl
+                        },
+                        success: function () {
+                            this.invite.sent = true;
+                        }.bind(this),
+                        complete: function () {
+                            this.render();
+                        }.bind(this)
+                    });
+                }.bind(this),
+                error: function () {
+                    this.invite.processed = true;
+                }.bind(this)
+            });
+        },
+
+        removeInvite: function (e) {
+            var inviteIndex = parseInt(e.target.getAttribute('data-dnt-index'), 10);
+            var privat = this.model.get('privat');
+            var removedInvite = privat && privat.invitasjoner && privat.invitasjoner.splice(inviteIndex, 1) || [];
+            this.render();
+        },
+
+        render: function () {
+            var html = this.template({model: this.model.toJSON(), invite: this.invite});
             this.$el.html(html);
 
             // Set up view bindings and validation

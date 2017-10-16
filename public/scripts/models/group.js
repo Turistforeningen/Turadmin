@@ -73,6 +73,15 @@ define(function (require, exports, module) {
             kontaktinfoEpost: {
                 required: false,
                 msg: 'Dette feltet må fylles ut med en epostadresse.'
+            },
+            _editing_user_navn: {
+                required: false,
+                msg: 'Dette feltet må fylles ut med navn.'
+            },
+            _editing_user_epost: {
+                required: false,
+                pattern: 'email',
+                msg: 'Dette feltet må fylles ut med en epostadresse.'
             }
         },
 
