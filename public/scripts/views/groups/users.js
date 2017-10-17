@@ -185,7 +185,12 @@ define(function (require, exports, module) {
                 epost: this.model.get('_editing_user_epost'),
                 gyldig: true,
                 url: inviteUrl,
-                kode: inviteCode
+                kode: inviteCode,
+                invitert_av: {
+                    id: this.user.get('id'),
+                    navn: this.user.get('navn'),
+                    epost: this.user.get('epost')
+                }
             });
 
             this.model.set('privat.invitasjoner', invites);
