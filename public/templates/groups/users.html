@@ -47,11 +47,11 @@
   </div>
 <% } %>
 
-<h4>Ubrukte invitasjoner</h4>
-<% if (model.privat && model.privat.invitasjoner && model.privat.invitasjoner.length) { %>
+<h4>Invitasjoner</h4>
+<% if (unusedInvites && unusedInvites.length) { %>
   <div class="row">
     <div class="col-md-12">
-      <% for (var i = 0; model && model.privat && model.privat.invitasjoner && i < model.privat.invitasjoner.length; i++) { %>
+      <% for (var i = 0; i < unusedInvites.length; i++) { %>
         <div class="row">
           <div class="col-sm-12">
             <h5>
