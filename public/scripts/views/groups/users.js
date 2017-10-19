@@ -240,7 +240,14 @@ define(function (require, exports, module) {
         },
 
         render: function () {
-            var html = this.template({model: this.model.toJSON(), invite: this.invite});
+            var json = this.model.toJSON();
+            var unusedInvites = (json && json.privat && json.privat.invitasjoner && json.privat.invitasjoner.length) ? json.privat.invitasjoner.filter(function (invitasjon) { console.log('filtering', invitasjon); return invitasjon.brukt === false; }) : [];
+            var html = this.template({
+                model: json,
+                invite: this.invite,
+                unusedInvites: unusedInvites
+            });
+
             this.$el.html(html);
 
             // Set up view bindings and validation
