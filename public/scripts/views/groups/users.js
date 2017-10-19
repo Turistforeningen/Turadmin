@@ -241,7 +241,7 @@ define(function (require, exports, module) {
 
         render: function () {
             var json = this.model.toJSON();
-            var unusedInvites = (json && json.privat && json.privat.invitasjoner && json.privat.invitasjoner.length) ? json.privat.invitasjoner.filter(function (invitasjon) { console.log('filtering', invitasjon); return invitasjon.brukt === false; }) : [];
+            var unusedInvites = (json && json.privat && json.privat.invitasjoner && json.privat.invitasjoner.length) ? json.privat.invitasjoner.filter(function (invitasjon) { return invitasjon.brukt === false; }) : [];
             var html = this.template({
                 model: json,
                 invite: this.invite,

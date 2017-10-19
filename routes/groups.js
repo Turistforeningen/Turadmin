@@ -158,12 +158,18 @@ module.exports = function (app, options) {
     var inviteUser = function (req, res, next) {
         var email = {
             to: req.body.epost,
-            from: 'hjelp@dnt.no',
-            subject: 'Invitasjon til ' + req.body.gruppe,
+            from: '"UT.no / Den Norske Turistforening" <ut@dnt.no>',
+            subject: 'Bli medlem av gruppa ' + req.body.gruppe + ' på UT.no',
             html: [
                 '<h2>Hei ' + req.body.navn + ',</h2>',
-                '<p>Du er invitert til gruppen ' + req.body.gruppe + '. <a href="' + req.body.url + '">Klikk her for å bli med</a>.</p><p>Hilsen Den Norske Turistforeningen</p>'
-            ].join('')
+                '<p>' + req.body.gruppe + ' er registrert som innholdspartner på',
+                'UT.no, og du er invitert til å bidra med innhold.</p>',
+                '<p><a href="' + req.body.url + '">Klikk her for å bli medlem',
+                'av gruppa</a>.</p>',
+                '<p>Vennlig hilsen<br>',
+                '<a href="https://www.ut.no">UT.no</a> /',
+                'Den Norske Turistforening</p>'
+            ].join(' ')
         };
 
         sendgrid.send(email)
