@@ -183,7 +183,7 @@ define(function (require, exports, module) {
             invites.push({
                 navn: this.model.get('_editing_user_navn'),
                 epost: this.model.get('_editing_user_epost'),
-                gyldig: true,
+                brukt: false,
                 url: inviteUrl,
                 kode: inviteCode,
                 invitert_av: {
