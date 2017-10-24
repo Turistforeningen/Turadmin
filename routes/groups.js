@@ -158,7 +158,7 @@ module.exports = function (app, options) {
     var inviteUser = function (req, res, next) {
         var email = {
             to: req.body.epost,
-            from: '"UT.no / Den Norske Turistforening" <ut@dnt.no>',
+            from: 'UT.no / Den Norske Turistforening <ut@dnt.no>',
             subject: 'Bli medlem av gruppa ' + req.body.gruppe + ' på UT.no',
             html: [
                 '<h2>Hei ' + req.body.navn + ',</h2>',
