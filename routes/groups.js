@@ -168,7 +168,7 @@ module.exports = function (app, options) {
                 'av gruppa</a>.</p>',
                 '<p>Vennlig hilsen<br>',
                 '<a href="https://www.ut.no">UT.no</a> /',
-                'Den Norske Turistforening</p>'
+                '<a href="https://www.dnt.no">Den Norske Turistforening</a></p>'
             ].join(' ')
         };
 
