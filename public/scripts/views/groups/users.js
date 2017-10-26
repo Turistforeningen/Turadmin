@@ -151,8 +151,24 @@ define(function (require, exports, module) {
         removeUser: function (e) {
             var userIndex = parseInt(e.target.getAttribute('data-dnt-index'), 10);
             var privat = this.model.get('privat');
-            var removedUser = privat && privat.brukere && privat.brukere.splice(userIndex, 1) || [];
-            this.render();
+            var user = privat.brukere[userIndex];
+
+            if (window.confirm('Er du sikker på at du vil slette brukeren til ' + user.navn + ' (' + user.epost + ')?')) {
+                $.ajax({
+                    url: '/grupper/' + this.model.get('id') + '/brukere/' + user.id,
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data, textStatus, jqXhr) {
+                        // NOTE: Seems like set does not overwrite existing array, so first set it to empty array
+                        this.model.set('privat.brukere', []);
+                        this.model.set('privat.brukere', data.document.privat.brukere);
+                    }.bind(this),
+                    complete: function (jqXhr, textStatus) {
+                        this.render();
+                    }.bind(this)
+                });
+            }
         },
 
         saveGroup: function (e) {
@@ -180,7 +196,7 @@ define(function (require, exports, module) {
 
             var inviteUrl = 'https://asgardr.app.dnt.no/invitasjon?kode=' + inviteCode;
 
-            invites.push({
+            var invite = {
                 navn: this.model.get('_editing_user_navn'),
                 epost: this.model.get('_editing_user_epost'),
                 brukt: false,
@@ -191,43 +207,34 @@ define(function (require, exports, module) {
                     navn: this.user.get('navn'),
                     epost: this.user.get('epost')
                 }
-            });
-
-            this.model.set('privat.invitasjoner', invites);
-
-            this.invite = {
-                processed: false,
-                sent: false,
-                saved: false,
-                code: inviteCode,
-                url: inviteUrl
             };
 
-            this.model.save(undefined, {
-                success: function () {
-                    this.invite.processed = true;
-                    this.invite.saved = true;
+            $.ajax({
+                url: '/grupper/' + this.model.get('id') + '/invitasjoner',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    navn: this.model.get('_editing_user_navn'),
+                    epost: this.model.get('_editing_user_epost'),
+                    gruppe: this.model.get('navn'),
+                    kode: inviteCode,
+                    url: inviteUrl,
+                    invitasjon: invite,
+                }),
+                complete: function (jqXhr, textStatus) {
+                    var status = jqXhr.responseJSON;
 
-                    $.ajax({
-                        url: '/grupper/inviter',
-                        method: 'POST',
-                        data: {
-                            navn: this.model.get('_editing_user_navn'),
-                            epost: this.model.get('_editing_user_epost'),
-                            gruppe: this.model.get('navn'),
-                            kode: inviteCode,
-                            url: inviteUrl
-                        },
-                        success: function () {
-                            this.invite.sent = true;
-                        }.bind(this),
-                        complete: function () {
-                            this.render();
-                        }.bind(this)
-                    });
-                }.bind(this),
-                error: function () {
-                    this.invite.processed = true;
+                    this.invite = status;
+                    this.invite.url = inviteUrl;
+
+                    if (status.saved) {
+                        var invites = this.model.get('privat.invitasjoner');
+                        invites.push(invite);
+                        this.model.set('privat.invitasjoner', invites);
+                    }
+
+                    this.render();
                 }.bind(this)
             });
         },
@@ -235,13 +242,30 @@ define(function (require, exports, module) {
         removeInvite: function (e) {
             var inviteIndex = parseInt(e.target.getAttribute('data-dnt-index'), 10);
             var privat = this.model.get('privat');
-            var removedInvite = privat && privat.invitasjoner && privat.invitasjoner.splice(inviteIndex, 1) || [];
-            this.render();
+            var invite = privat.invitasjoner[inviteIndex];
+
+            if (window.confirm('Er du sikker på at du vil slette invitasjonen til ' + invite.epost + '?')) {
+                $.ajax({
+                    url: '/grupper/' + this.model.get('id') + '/invitasjoner/' + invite.kode,
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data, textStatus, jqXhr) {
+                        this.model.set('privat', data.document.privat);
+                    }.bind(this),
+                    complete: function (jqXhr, textStatus) {
+                        this.render();
+                    }.bind(this)
+                });
+            }
         },
 
         render: function () {
             var json = this.model.toJSON();
-            var unusedInvites = (json && json.privat && json.privat.invitasjoner && json.privat.invitasjoner.length) ? json.privat.invitasjoner.filter(function (invitasjon) { return invitasjon.brukt === false; }) : [];
+
+            var unusedInvites = (json && json.privat && json.privat.invitasjoner && json.privat.invitasjoner.length) ? json.privat.invitasjoner.filter(function (invitasjon) {
+                return !!invitasjon && invitasjon.brukt === false;
+            }) : [];
             var html = this.template({
                 model: json,
                 invite: this.invite,

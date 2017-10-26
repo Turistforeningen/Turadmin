@@ -55,12 +55,12 @@
         <div class="row">
           <div class="col-sm-12">
             <h5>
-              <span><%= model.privat.invitasjoner[i].navn %></span>
+              <span><%= unusedInvites[i].navn %></span>
               <button class="btn btn-xs btn-danger pull-right" data-dnt-action="remove-invite" data-dnt-index="<%= i %>">Slett</button>
             </h5>
             <dl>
               <dt>Epost:</dt>
-              <dd><%= model.privat.invitasjoner[i].epost %></dd>
+              <dd><%= unusedInvites[i].epost %></dd>
             </dl>
           </div>
         </div>

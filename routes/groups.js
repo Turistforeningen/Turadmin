@@ -116,39 +116,29 @@ module.exports = function (app, options) {
         var uri = '/grupper';
         uri += (!!req.params.id) ? '/' + req.params.id : '';
 
-        var saveGroup = function () {
+        var saveGroup = function (data) {
+            if (data) {
+                req.body.privat = Object.assign(
+                    req.body.privat,
+                    {
+                        brukere: data.privat.brukere || [],
+                        invitasjoner: data.privat.invitasjoner || [],
+                    }
+                );
+            }
+
             restProxy.makeApiRequest(uri, req, res, undefined);
         };
 
-        var passwordIsPbkdf2 = underscore.after(users.length, function () {
-            saveGroup();
-        });
-
-        var userAuthCreated = function (err, user) {
-            if (err) {
-                sentry.captureError(err, {extra: {query: req.query}});
-
-            } else {
-                var userIndex = users.indexOf(underscore.findWhere(users, {epost: user.epost}));
-                users[userIndex] = user;
-                passwordIsPbkdf2();
-            }
-        };
-
-        if (users && users.length > 0) {
-
-            for (var i = 0, user; i < users.length; i++) {
-                user = users[i];
-
-                // If new password is set for any of the users, generate pbkdf2
-                if (user.passord) {
-                    turbasenAuthClient.createUserAuth(user.navn, user.epost, user.passord, userAuthCreated);
-
-                } else {
-                    passwordIsPbkdf2();
-                }
-            }
-
+        // If the group has any invites, fetch the latest version of the
+        // group first, to make sure no changes is overwritten
+        if (req.params.id && req.body.privat && req.body.privat.invitasjoner && req.body.privat.invitasjoner.length) {
+            restProxy.makeApiRequest(
+                uri,
+                Object.assign({}, req, {method: 'GET'}),
+                undefined,
+                saveGroup
+            );
         } else {
             saveGroup();
         }
@@ -156,33 +146,162 @@ module.exports = function (app, options) {
     };
 
     var inviteUser = function (req, res, next) {
-        var email = {
-            to: req.body.epost,
-            from: 'UT.no / Den Norske Turistforening <ut@dnt.no>',
-            subject: 'Bli medlem av gruppa ' + req.body.gruppe + ' på UT.no',
-            html: [
-                '<h2>Hei ' + req.body.navn + ',</h2>',
-                '<p>' + req.body.gruppe + ' er registrert som innholdspartner på',
-                'UT.no, og du er invitert til å bidra med innhold.</p>',
-                '<p><a href="' + req.body.url + '">Klikk her for å bli medlem',
-                'av gruppa</a>.</p>',
-                '<p>Vennlig hilsen<br>',
-                '<a href="https://www.ut.no">UT.no</a> /',
-                '<a href="https://www.dnt.no">Den Norske Turistforening</a></p>'
-            ].join(' ')
+        var invite = req.body.invitasjon;
+        var groupId = req.params.id;
+        var groupUri = '/grupper/' + groupId;
+
+        var status = {
+            processed: false,
+            sent: false,
+            saved: false,
         };
 
-        sendgrid.send(email)
-            .then(function (response) {
-                var result = response[0];
-                var body = response[1];
+        var afterSave = function (data) {
+            status.saved = true;
 
-                var json = result.toJSON();
-                res.status(json.statusCode).send();
-            })
-            .catch(function (err) {
-                res.status(500).json(err.response.body);
+            var email = {
+                to: req.body.epost,
+                from: 'UT.no / Den Norske Turistforening <ut@dnt.no>',
+                subject: 'Bli medlem av gruppa ' + req.body.gruppe + ' på UT.no',
+                html: [
+                    '<h2>Hei ' + req.body.navn + ',</h2>',
+                    '<p>' + req.body.gruppe + ' er registrert som innholdspartner på',
+                    'UT.no, og du er invitert til å bidra med innhold.</p>',
+                    '<p><a href="' + req.body.url + '">Klikk her for å bli medlem',
+                    'av gruppa</a>.</p>',
+                    '<p>Vennlig hilsen<br>',
+                    '<a href="https://www.ut.no">UT.no</a> /',
+                    '<a href="https://www.dnt.no">Den Norske Turistforening</a></p>'
+                ].join(' ')
+            };
+
+            sendgrid.send(email)
+                .then(function (response) {
+                    var result = response[0];
+                    var body = response[1];
+                    status.sent = true;
+                    status.processed = true;
+
+                    res.json(status);
+                })
+                .catch(function (err) {
+                    status.processed = true;
+
+                    res.json(status);
+                });
+        };
+
+        var saveGroup = function (data) {
+            data.privat = data.privat || {};
+            data.privat.invitasjoner = data.privat.invitasjoner || [];
+            data.privat.invitasjoner.push(invite);
+
+            restProxy.makeApiRequest(
+                groupUri,
+                Object.assign(
+                    {},
+                    Object.assign({}, req, {
+                        body: data
+                    }),
+                    {method: 'PUT'}
+                ),
+                undefined,
+                afterSave
+            );
+        };
+
+        restProxy.makeApiRequest(
+            groupUri,
+            Object.assign({}, req, {method: 'GET'}),
+            undefined,
+            saveGroup
+        );
+    };
+
+    var deleteInvite = function (req, res, next) {
+        var groupId = req.params.id;
+        var groupUri = '/grupper/' + groupId;
+        var inviteCode = req.params.code;
+
+        var afterSave = function (data) {
+            res.json(data);
+        };
+
+        var saveGroup = function (data) {
+            data.privat = data.privat || {};
+            data.privat.invitasjoner = data.privat.invitasjoner || [];
+
+            var inviteIndex = data.privat.invitasjoner.findIndex(function (i) {
+                return i.kode === inviteCode;
             });
+
+            var removedInvite = data.privat.invitasjoner.splice(inviteIndex, 1);
+
+            restProxy.makeApiRequest(
+                groupUri,
+                Object.assign(
+                    {},
+                    Object.assign({}, req, {
+                        body: data
+                    }),
+                    {method: 'PUT'}
+                ),
+                undefined,
+                afterSave
+            );
+        };
+
+        restProxy.makeApiRequest(
+            groupUri,
+            Object.assign({}, req, {method: 'GET'}),
+            undefined,
+            saveGroup
+        );
+    };
+
+    var deleteUser = function (req, res, next) {
+        var groupId = req.params.id;
+        var groupUri = '/grupper/' + groupId;
+        var userId = Number(req.params.user);
+
+        var afterSave = function (data) {
+            res.json(data);
+        };
+
+        var saveGroup = function (data) {
+            data.privat = data.privat || {};
+            data.privat.brukere = data.privat.brukere || [];
+
+            var userIndex = data.privat.brukere.findIndex(function (u) {
+                return u.id === userId;
+            });
+
+            if (userIndex < 0) {
+                res.status(404);
+            }
+
+            var removedUser = data.privat.brukere.splice(userIndex, 1);
+
+            restProxy.makeApiRequest(
+                groupUri,
+                Object.assign(
+                    {},
+                    Object.assign({}, req, {
+                        body: data
+                    }),
+                    {method: 'PUT'}
+                ),
+                undefined,
+                afterSave
+            );
+        };
+
+        restProxy.makeApiRequest(
+            groupUri,
+            Object.assign({}, req, {method: 'GET'}),
+            undefined,
+            saveGroup
+        );
     };
 
     app.get('/grupper*', userGroupsFetcher);
@@ -191,7 +310,9 @@ module.exports = function (app, options) {
     app.get('/grupper/ny', getGroupsNew);
     app.get('/grupper/:id', getGroupsEdit);
 
-    app.post('/grupper/inviter', inviteUser);
+    app.post('/grupper/:id/invitasjoner', inviteUser);
+    app.delete('/grupper/:id/invitasjoner/:code', deleteInvite);
+    app.delete('/grupper/:id/brukere/:user', deleteUser);
 
     app.post('/ntb-api/grupper', postPutGroups);
     app.put('/ntb-api/grupper/:id', postPutGroups);
