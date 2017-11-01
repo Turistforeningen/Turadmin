@@ -204,7 +204,7 @@ define(function (require, exports, module) {
                     var groupSelect = new SelectView({
                         model: this.model,
                         selectOptions: {
-                            user: this.user.get('id'),
+                            user: this.user,
                             groups: this.groups,
                             admin: this.user.get('er_admin'),
                             itemType: this.itemType,
