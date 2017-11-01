@@ -69,7 +69,7 @@ module.exports = function (app, options) {
             res.render('groups/index', renderOptions);
         });
 
-        restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=200&fields=navn&sort=navn', req, undefined, onCompleteGrupperRequest);
+        restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=200&fields=navn,privat&sort=navn', req, undefined, onCompleteGrupperRequest);
 
     };
 

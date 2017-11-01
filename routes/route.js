@@ -28,16 +28,17 @@ module.exports = function (app, restProxy, options) {
         req.renderOptions.isAdmin = req.session.user.er_admin;
 
         var onCompleteExternalGroupsRequest = function (data) {
+            console.log(data);
             req.renderOptions.externalGroups = JSON.stringify(data.documents);
             next();
         };
 
-        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn');
+        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn');
         if (cachedGrupper) {
             onCompleteExternalGroupsRequest(cachedGrupper);
 
         } else {
-            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
+            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
         }
 
     };
