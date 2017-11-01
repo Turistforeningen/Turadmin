@@ -1,11 +1,11 @@
 <option value=<%= selectOptions.user.get('id') %>>Meg</option>
 <% if (selectOptions.admin === true) { %>
-<option value="alle">Alle</option>
+  <option value="alle">Alle</option>
 <% } %>
 <optgroup value="groups" label="Grupper jeg er medlem av">
-<% _.each(selectOptions.groups, function(element) { %>
-  <option value=<%= element.object_id %>><%= element.navn %></option>
-<% }); %>
+  <% _.each(selectOptions.groups, function(element) { %>
+    <option value=<%= element.object_id %>><%= element.navn %></option>
+  <% }); %>
 </optgroup>
 <optgroup value="groups" label="Eksterne grupper">
   <% if (selectOptions.admin === true) { %>
