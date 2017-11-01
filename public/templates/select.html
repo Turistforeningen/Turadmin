@@ -14,7 +14,7 @@
     <% }); %>
   <% } else { %>
     <% _.each(selectOptions.externalGroups, function(element) { %>
-      <% if (element.privat && element.privat.brukere && element.privat.brukere.find(function (u) { return u.id === selectOptions.user.get('id'); })) { %>
+      <% if (element.privat && element.privat.brukere && element.privat.brukere.find(function (u) { return 'sherpa3:' + u.id === selectOptions.user.get('id'); })) { %>
         <option value=<%= element._id %>><%= element.navn %></option>
       <% } %>
     <% }); %>
