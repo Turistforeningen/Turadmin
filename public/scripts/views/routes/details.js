@@ -291,11 +291,11 @@ define(function (require, exports, module) {
 
                     select2Options = [
                         {
-                            text: 'Grupper jeg er medlem av',
+                            text: 'DNT-grupper',
                             children: select2UserGroups
                         },
                         {
-                            text: 'Eksterne grupper',
+                            text: 'Innholdspartnere',
                             children: select2ExternalGroups
                         }
                     ];
@@ -307,7 +307,7 @@ define(function (require, exports, module) {
                             children: select2UserGroups
                         },
                         {
-                            text: 'Eksterne grupper',
+                            text: 'Innholdspartnere',
                             children: userExternalGroups.map(function (item) {
                                 return {id: item._id, text: item.navn};
                             })

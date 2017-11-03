@@ -2,12 +2,12 @@
 <% if (selectOptions.admin === true) { %>
   <option value="alle">Alle</option>
 <% } %>
-<optgroup value="groups" label="Grupper jeg er medlem av">
+<optgroup value="groups" label="DNT-grupper">
   <% _.each(selectOptions.groups, function(element) { %>
     <option value=<%= element.object_id %>><%= element.navn %></option>
   <% }); %>
 </optgroup>
-<optgroup value="groups" label="Eksterne grupper">
+<optgroup value="groups" label="Innholdspartnere">
   <% if (selectOptions.admin === true) { %>
     <% _.each(selectOptions.externalGroups, function(element) { %>
       <option value=<%= element._id %>><%= element.navn %></option>
