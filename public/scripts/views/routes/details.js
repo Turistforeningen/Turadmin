@@ -263,56 +263,52 @@ define(function (require, exports, module) {
             this.$('[name="route-details-field-tilrettelagt_for"]').select2('val', this.model.get('tilrettelagt_for'));
 
 
-            var userGroups = this.user.get('grupper');
-            var userExternalGroups = this.user.get('eksterne_grupper');
+            var dntGroups = this.user.get('grupper');
+            var externalGroups = this.user.get('eksterne_grupper');
 
-            var select2Options;
+            var select2Options = [];
 
-            if ((!!userGroups && userGroups.length > 0) || (!!userExternalGroups && userExternalGroups.length > 0)) {
+            if ((!!dntGroups && dntGroups.length > 0) || (!!externalGroups && externalGroups.length > 0)) {
                 var select2UserGroups = [];
+                var select2ExternalGroups = [];
 
-                for (var i = 0; i < userGroups.length; i++) {
+                for (var i = 0; i < dntGroups.length; i++) {
                     select2UserGroups[i] = {};
-                    select2UserGroups[i].id = userGroups[i].object_id;
-                    select2UserGroups[i].text = userGroups[i].navn || 'Gruppe uten navn';
+                    select2UserGroups[i].id = dntGroups[i].object_id;
+                    select2UserGroups[i].text = dntGroups[i].navn || 'Gruppe uten navn';
                 }
 
                 if (user.get('er_admin') === true) {
 
                     var state = require('state'); // NOTE: Should be enough to have this defined on top, but apparently it's not
-                    var externalGroups = state.externalGroups;
-                    var select2ExternalGroups = [];
 
+                    for (var j = 0; j < state.externalGroups.length; j++) {
+                        select2ExternalGroups[j] = {};
+                        select2ExternalGroups[j].id = state.externalGroups[j]._id;
+                        select2ExternalGroups[j].text = state.externalGroups[j].navn || 'Gruppe uten navn';
+                    }
+
+
+                } else {
                     for (var j = 0; j < externalGroups.length; j++) {
                         select2ExternalGroups[j] = {};
                         select2ExternalGroups[j].id = externalGroups[j]._id;
                         select2ExternalGroups[j].text = externalGroups[j].navn || 'Gruppe uten navn';
                     }
+                }
 
-                    select2Options = [
-                        {
-                            text: 'DNT-grupper',
-                            children: select2UserGroups
-                        },
-                        {
-                            text: 'Innholdspartnere',
-                            children: select2ExternalGroups
-                        }
-                    ];
+                if (select2UserGroups.length) {
+                    select2Options.push({
+                        text: 'DNT-grupper',
+                        children: select2UserGroups
+                    });
+                }
 
-                } else {
-                    select2Options = [
-                        {
-                            text: 'DNT-grupper',
-                            children: select2UserGroups
-                        },
-                        {
-                            text: 'Innholdspartnere',
-                            children: userExternalGroups.map(function (item) {
-                                return {id: item._id, text: item.navn};
-                            })
-                        }
-                    ];
+                if (select2ExternalGroups.length) {
+                    select2Options.push({
+                        text: 'Innholdspartnere',
+                        children: select2ExternalGroups
+                    });
                 }
 
                 $('input[name="route-details-field-grupper"]').select2({
