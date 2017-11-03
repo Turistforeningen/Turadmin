@@ -268,7 +268,7 @@ define(function (require, exports, module) {
 
             var select2Options;
 
-            if (!!userGroups && userGroups.length > 0) {
+            if ((!!userGroups && userGroups.length > 0) || (!!userExternalGroups && userExternalGroups.length > 0)) {
                 var select2UserGroups = [];
 
                 for (var i = 0; i < userGroups.length; i++) {
