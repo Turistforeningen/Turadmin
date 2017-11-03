@@ -4,15 +4,12 @@ append head
 
     script
         | var appData = {};
-        - if (typeof(groupData) !== 'undefined')
+        - if (typeof groupData !== 'undefined')
             | appData.groupData = !{groupData};
-            //- | console.log('Loaded route with groupsData:', !{groupsData});
-        - if (typeof(userGroups) !== 'undefined')
+        - if (typeof userGroups !== 'undefined')
             | appData.userGroups = !{userGroups};
-            //- | console.log('Loaded route with userGroups:', !{userGroups});
-        - if (typeof(userData) !== 'undefined')
+        - if (typeof userData !== 'undefined')
             | appData.userData = !{userData};
-            //- | console.log('Loaded route with userData:', !{userData});
         | define('state', appData);
 
     script.

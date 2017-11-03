@@ -4,21 +4,16 @@ append head
 
     script
         | var appData = {};
-        - if (typeof(userGroups) !== 'undefined')
+        - if (typeof userGroups !== 'undefined')
             | appData.userGroups = !{userGroups};
-            //- | console.log('Loaded route with userGroups:', !{userGroups});
-        - if (typeof(userData) !== 'undefined')
+        - if (typeof userData !== 'undefined')
             | appData.userData = !{userData};
-            //- | console.log('Loaded route with userData:', !{userData});
-        - if (typeof(userExternalGroups) !== 'undefined')
+        - if (typeof userExternalGroups !== 'undefined')
             | appData.userExternalGroups = !{userExternalGroups};
-            //- | console.log('Loaded route with userExternalGroups:', !{userExternalGroups});
-        - if (typeof(userDefaultRouteFetchQuery) !== 'undefined')
+        - if (typeof userDefaultRouteFetchQuery !== 'undefined')
             | appData.userDefaultRouteFetchQuery = !{userDefaultRouteFetchQuery};
-            //- | console.log('Loaded route with userDefaultGroup:', '#{userDefaultGroup}');
-        - if (typeof(authType) !== 'undefined')
+        - if (typeof authType !== 'undefined')
             | appData.authType = '#{authType}';
-            //- | console.log('Loaded route with authType:', '#{authType}');
 
         | appData.itemType = '#{itemType}';
 

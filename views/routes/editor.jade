@@ -4,30 +4,22 @@ append head
 
     script
         | var appData = {};
-        - if (typeof(routeData) !== 'undefined')
+        - if (typeof routeData !== 'undefined')
             | appData.routeData = !{routeData};
-            //- | console.log('Loaded route with poiData:', !{poiData});
-        - if (typeof(picturesData) !== 'undefined')
+        - if (typeof picturesData !== 'undefined')
             | appData.picturesData = !{picturesData};
-            //- | console.log('Loaded route with picturesData:', !{picturesData});
-        - if (typeof(poisData) !== 'undefined')
+        - if (typeof poisData !== 'undefined')
             | appData.poisData = !{poisData};
-            //- | console.log('Loaded route with poisData:', !{poisData});
-        - if (typeof(groupsData) !== 'undefined')
+        - if (typeof groupsData !== 'undefined')
             | appData.groupsData = !{groupsData};
-            //- | console.log('Loaded route with groupsData:', !{groupsData});
-        - if (typeof(userGroups) !== 'undefined')
+        - if (typeof userGroups !== 'undefined')
             | appData.userGroups = !{userGroups};
-            //- | console.log('Loaded route with userGroups:', !{userGroups});
-        - if (typeof(userData) !== 'undefined')
+        - if (typeof userData !== 'undefined')
             | appData.userData = !{userData};
-            //- | console.log('Loaded route with userData:', !{userData});
-        - if (typeof(userExternalGroups) !== 'undefined')
+        - if (typeof userExternalGroups !== 'undefined')
             | appData.userExternalGroups = !{userExternalGroups};
-            //- | console.log('Loaded route with userExternalGroups:', !{userExternalGroups});
-        - if (typeof(externalGroups) !== 'undefined')
+        - if (typeof externalGroups !== 'undefined')
             | appData.externalGroups = !{externalGroups};
-            //- | console.log('Loaded route with externalGroups:', !{externalGroups});
         | define('state', appData);
 
     script.
