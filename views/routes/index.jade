@@ -8,6 +8,9 @@ append head
         - if (typeof(userGroups) !== 'undefined')
             | appData.userGroups = !{userGroups};
             //- | console.log('Loaded route with userGroups:', !{userGroups});
+        - if (typeof(userExternalGroups) !== 'undefined')
+            | appData.userExternalGroups = !{userExternalGroups};
+            //- | console.log('Loaded route with userExternalGroups:', !{userExternalGroups});
         - if (typeof(externalGroups) !== 'undefined')
             | appData.externalGroups = !{externalGroups};
             //- | console.log('Loaded route with userGroups:', !{userGroups});

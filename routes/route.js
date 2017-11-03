@@ -28,7 +28,6 @@ module.exports = function (app, restProxy, options) {
         req.renderOptions.isAdmin = req.session.user.er_admin;
 
         var onCompleteExternalGroupsRequest = function (data) {
-            console.log(data);
             req.renderOptions.externalGroups = JSON.stringify(data.documents);
             next();
         };
@@ -57,6 +56,7 @@ module.exports = function (app, restProxy, options) {
     var routeEdit = function (req, res, next) {
 
         var turId = req.params.id;
+        var userExternalGroups = req.userExternalGroups || [];
 
         var onCompleteTurRequest = function (data) {
 
@@ -135,6 +135,7 @@ module.exports = function (app, restProxy, options) {
                 req.renderOptions = req.renderOptions || {};
                 req.renderOptions.title = data.navn;
                 req.renderOptions.routeName = routeData.navn;
+                req.renderOptions.userExternalGroups = JSON.stringify(userExternalGroups);
                 req.renderOptions.routeData = JSON.stringify(routeData);
                 req.renderOptions.picturesData = JSON.stringify(sortedPicturesData);
                 req.renderOptions.poisData = JSON.stringify(sortedPoisData);

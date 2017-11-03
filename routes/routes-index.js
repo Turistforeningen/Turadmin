@@ -17,6 +17,7 @@ module.exports = function (app, options) {
     var getRoutesIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
+        var userExternalGroups = req.userExternalGroups || [];
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies['userDefaultRouteFetchQuery_' + req.session.userId] : undefined;
 
         var areas;
@@ -40,6 +41,7 @@ module.exports = function (app, options) {
                 areas: JSON.stringify(areas),
                 userData: JSON.stringify(req.session.user),
                 userGroups: JSON.stringify(userGroups),
+                userExternalGroups: JSON.stringify(userExternalGroups),
                 externalGroups: JSON.stringify(groups),
                 userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
                 authType: req.session.authType,

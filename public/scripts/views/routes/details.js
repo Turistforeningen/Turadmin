@@ -264,6 +264,8 @@ define(function (require, exports, module) {
 
 
             var userGroups = this.user.get('grupper');
+            var userExternalGroups = this.user.get('eksterne_grupper');
+
             var select2Options;
 
             if (!!userGroups && userGroups.length > 0) {
@@ -299,7 +301,18 @@ define(function (require, exports, module) {
                     ];
 
                 } else {
-                    select2Options = select2UserGroups;
+                    select2Options = [
+                        {
+                            text: 'DNT-grupper',
+                            children: select2UserGroups
+                        },
+                        {
+                            text: 'Eksterne grupper',
+                            children: userExternalGroups.map(function (item) {
+                                return {id: item._id, text: item.navn};
+                            })
+                        }
+                    ];
                 }
 
                 $('input[name="route-details-field-grupper"]').select2({

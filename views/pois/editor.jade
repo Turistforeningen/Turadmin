@@ -22,6 +22,9 @@ append head
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
             //- | console.log('Loaded poi with userData:', !{userData});
+        - if (typeof(userExternalGroups) !== 'undefined')
+            | appData.userExternalGroups = !{userExternalGroups};
+            //- | console.log('Loaded route with userExternalGroups:', !{userExternalGroups});
         | define('state', appData);
 
     script.
@@ -224,7 +227,7 @@ block content
                         // Eiere
                         div.form-group.poi-details-field-grupper
                             label.control-label.col-lg-2.col-md-2.col-sm-3(for=".poi-details-field-grupper") Eiere
-                            div#grupperSelect.col-lg-7.col-md-7.col-sm-7
+                            div.col-lg-7.col-md-7.col-sm-7
                                 input.form-control(type="text" name="poi-details-field-grupper")
 
                             div.col-lg-7.col-md-7.col-sm-7.col-lg-offset-2.col-md-offset-2.col-sm-offset-3

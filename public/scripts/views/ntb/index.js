@@ -192,6 +192,7 @@ define(function (require, exports, module) {
         render: function () {
 
             var userGroups = this.user.get('grupper');
+            var userExternalGroups = this.user.get('eksterne_grupper');
 
             if (this.user.get('provider') === 'DNT Connect') {
 
@@ -199,7 +200,11 @@ define(function (require, exports, module) {
                     this.$('.filters-and-search .filters').removeClass('hidden');
                 }
 
-                if (userGroups && userGroups.length > 0) {
+                if (this.user.get('er_ekstern_gruppe_medlem') === true) {
+                    this.$('.filters-and-search .filters').removeClass('hidden');
+                }
+
+                if ((userGroups && userGroups.length > 0) || (userExternalGroups && userExternalGroups.length > 0)) {
                     this.$('.group-select-container').removeClass('hidden');
                     var groupSelect = new SelectView({
                         model: this.model,
@@ -208,7 +213,8 @@ define(function (require, exports, module) {
                             groups: this.groups,
                             admin: this.user.get('er_admin'),
                             itemType: this.itemType,
-                            externalGroups: state.externalGroups
+                            externalGroups: state.externalGroups,
+                            userExternalGroups: this.user.get('eksterne_grupper') || []
                         },
                         selectValue: this.collection.fetchQuery['gruppe'] || this.collection.fetchQuery['privat.opprettet_av.id'] || 'alle'
                     });

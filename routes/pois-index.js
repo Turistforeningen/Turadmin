@@ -14,12 +14,14 @@ module.exports = function (app, options) {
     var getPoisIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
+        var userExternalGroups = req.userExternalGroups || [];
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies['userDefaultRouteFetchQuery_' + req.session.userId] : undefined;
 
         var renderOptions = {
             title: 'Mine steder',
             userData: JSON.stringify(req.session.user),
             userGroups: JSON.stringify(userGroups),
+            userExternalGroups: JSON.stringify(userExternalGroups),
             userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
             authType: req.session.authType,
             isAdmin: req.session.user.er_admin,

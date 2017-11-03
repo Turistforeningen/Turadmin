@@ -26,10 +26,12 @@ define(function (require, exports, module) {
 
             options = state.userData;
             options.grupper = state.userGroups || [];
+            options.eksterne_grupper = state.userExternalGroups || [];
 
             var additionalGroups = state.groupsData || [];
 
             // Check if user is member of all groups that the route is associated with
+            // groupsData is an array of groups the object being edited belongs to
             // If not, add the missing groups to the user groups array
             // NOTE: The better (and more complicated) way to solve this would be to have two separate arrays,
             // but the current way be an acceptable solution, as the group will only be available in the
@@ -37,7 +39,7 @@ define(function (require, exports, module) {
             for (var i = 0; i < additionalGroups.length; i++) {
                 var additionalGroup = additionalGroups[i];
                 var additionalGroupId = additionalGroup._id;
-                if (!_.findWhere(options.grupper, {object_id: additionalGroupId})) {
+                if (!_.findWhere(options.grupper, {object_id: additionalGroupId}) || !_.findWhere(options.eksterne_grupper, {_id: additionalGroupId})) {
 
                     var group = {
                         object_id: additionalGroup._id,
@@ -55,6 +57,7 @@ define(function (require, exports, module) {
             this.set('epost', options.epost);
             this.set('grupper', options.grupper);
             this.set('navn', options.navn);
+            this.set('eksterne_grupper', options.eksterne_grupper);
             this.set('er_admin', options.er_admin);
 
             options = options || {};
@@ -90,6 +93,9 @@ define(function (require, exports, module) {
             var isDntGroupMember = this.isDntGroupMember({grupper: grupper});
             this.set('er_dnt_gruppe_medlem', isDntGroupMember);
 
+            var isExternalGroupMember = this.isExternalGroupMember(this);
+            this.set('er_ekstern_gruppe_medlem', isExternalGroupMember);
+
             this.set('_id', id);
             this.set('id', id);
 
@@ -107,6 +113,11 @@ define(function (require, exports, module) {
         isDntGroupMember: function (user) {
             var userGroups = user.grupper;
             return (!!userGroups && !!userGroups.length);
+        },
+
+        isExternalGroupMember: function (user) {
+            var externalGroups = user.get('eksterne_grupper');
+            return externalGroups && !!externalGroups.length;
         },
 
         getDefaultGroup: function () {

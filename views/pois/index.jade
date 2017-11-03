@@ -10,6 +10,9 @@ append head
         - if (typeof(userData) !== 'undefined')
             | appData.userData = !{userData};
             //- | console.log('Loaded route with userData:', !{userData});
+        - if (typeof(userExternalGroups) !== 'undefined')
+            | appData.userExternalGroups = !{userExternalGroups};
+            //- | console.log('Loaded route with userExternalGroups:', !{userExternalGroups});
         - if (typeof(userDefaultRouteFetchQuery) !== 'undefined')
             | appData.userDefaultRouteFetchQuery = !{userDefaultRouteFetchQuery};
             //- | console.log('Loaded route with userDefaultGroup:', '#{userDefaultGroup}');
