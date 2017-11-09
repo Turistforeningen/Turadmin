@@ -16,7 +16,9 @@ append head
         require(['/scripts/apps/list-edit.js']);
 
 block navbarHeader
-    a.navbar-brand(href="/" alt="Til mine turer")
+    a.navbar-brand.dnt-logo(href="https://asgardr.app.dnt.no" alt="Tilbake")
+        img(src="/images/dnt-logo-circle.svg")
+    a.navbar-brand.ut-logo(href="/" alt="Til mine turer")
         img(src="/images/ut-no-logo-hvit.png")
     div.navbar-brand.hidden-xs.list-name(data-placeholder-for="list-name")
         if listData
