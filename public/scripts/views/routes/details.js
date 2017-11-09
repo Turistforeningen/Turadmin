@@ -279,7 +279,7 @@ define(function (require, exports, module) {
                 }
 
                 if (user.get('er_admin') === true) {
-
+                    // Using the array of all external groups
                     var state = require('state'); // NOTE: Should be enough to have this defined on top, but apparently it's not
 
                     for (var j = 0; j < state.externalGroups.length; j++) {
@@ -290,10 +290,11 @@ define(function (require, exports, module) {
 
 
                 } else {
-                    for (var j = 0; j < externalGroups.length; j++) {
-                        select2ExternalGroups[j] = {};
-                        select2ExternalGroups[j].id = externalGroups[j]._id;
-                        select2ExternalGroups[j].text = externalGroups[j].navn || 'Gruppe uten navn';
+                    // Using the array of the users external groups
+                    for (var k = 0; k < externalGroups.length; k++) {
+                        select2ExternalGroups[k] = {};
+                        select2ExternalGroups[k].id = externalGroups[k]._id;
+                        select2ExternalGroups[k].text = externalGroups[k].navn || 'Gruppe uten navn';
                     }
                 }
 
