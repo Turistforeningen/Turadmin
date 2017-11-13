@@ -74,14 +74,23 @@ define(function (require, exports, module) {
                 required: false,
                 msg: 'Dette feltet må fylles ut med en epostadresse.'
             },
-            _editing_user_navn: {
+            _invite_name: {
                 required: false,
                 msg: 'Dette feltet må fylles ut med navn.'
             },
-            _editing_user_epost: {
-                required: false,
-                pattern: 'email',
-                msg: 'Dette feltet må fylles ut med en epostadresse.'
+            _invite_email: function (value) {
+                var json = this.toJSON();
+
+                if (!value || !/\S+@\S+\.\S+/.test(value)) {
+                    return 'Dette feltet må fylles ut med en epostadresse.';
+                }
+
+                var existingInvites = json.privat.invitasjoner || [];
+                var emailAlreadyInvited = !!_.findWhere(existingInvites, {epost: value});
+
+                if (emailAlreadyInvited) {
+                    return 'En invitasjon er allerede sendt til denne epostadressen.';
+                }
             }
         },
 

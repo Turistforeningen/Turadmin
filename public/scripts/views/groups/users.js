@@ -34,27 +34,22 @@ define(function (require, exports, module) {
                 }
             },
             '[name="group-user-field-navn"]': {
-                observe: '_editing_user_navn',
+                observe: '_invite_name',
                 setOptions: {
                     validate: true
                 }
             },
             '[name="group-user-field-epost"]': {
-                observe: '_editing_user_epost',
+                observe: '_invite_email',
                 setOptions: {
                     validate: true
                 }
-            },
-            '[name="group-user-field-new-passord"]': {
-                observe: '_editing_user_passord'
             }
         },
 
         events: {
-            'click [data-dnt-action="add-user"]': 'addUser',
-            'click [data-dnt-action="edit-user"]': 'editUser',
-            'click [data-dnt-action="invite-user"]': 'inviteUser',
-            'click [data-dnt-action="save-user"]': 'saveUser',
+            'click [data-dnt-action="create-invite"]': 'createInvite',
+            'click [data-dnt-action="send-invite"]': 'sendInvite',
             'click [data-dnt-action="save-group"]': 'saveGroup',
             'click [data-dnt-action="set-random-password"]': 'setRandomPassword',
             'click [data-dnt-action="remove-user"]': 'removeUser',
@@ -63,89 +58,49 @@ define(function (require, exports, module) {
         },
 
         initialize: function (options) {
-
             this.model = options.group || new GroupModel();
 
             this.editor = options.editor;
 
             // Bind these methods to this scope
-            _.bindAll(this, 'addUser', 'editUser', 'saveUser', 'saveGroup', 'removeUser', 'render');
+            _.bindAll(this, 'onStatusChange', 'createInvite', 'validateInvite', 'saveGroup', 'removeUser', 'render', 'toggleSendButton');
 
-            this.model.on('change:_editing_user_index', this.render);
+            this.model.on('change:_invite_disable_send', this.toggleSendButton);
+            this.model.on('change:_invite_name', this.validateInvite);
+            this.model.on('change:_invite_email', this.validateInvite);
+            this.model.on('change:_invite_sent', this.onStatusChange);
+            this.model.on('change:_invite_saved', this.onStatusChange);
+            this.model.on('change:_invite_is_valid', this.onStatusChange);
+            this.model.on('change:_id', this.render);
 
             this.user = user;
         },
 
-        addUser: function () {
-            var groupUsers = this.model.get('privat').brukere || [];
+        onStatusChange: function () {
+            var isSaved = this.model.get('_invite_saved');
+            var isValid = this.model.get('_invite_is_valid');
 
-            this.model.set('_editing_user_index', groupUsers.length);
-            this.model.set('_editing_user_navn', '');
-            this.model.set('_editing_user_epost', '');
-        },
-
-        editUser: function (e) {
-            var userIndex = parseInt(e.target.getAttribute('data-dnt-index'), 10);
-
-            var user = this.model.get('privat').brukere[userIndex];
-
-            this.model.set('_editing_user_index', userIndex);
-            this.model.set('_editing_user_navn', user.navn);
-            this.model.set('_editing_user_epost', user.epost);
-        },
-
-        resetEditingUser: function () {
-            this.model.unset('_editing_user_index');
-            this.model.unset('_editing_user_navn');
-            this.model.unset('_editing_user_epost');
-            this.model.unset('_editing_user_passord');
-        },
-
-        generatePassword: function () {
-            var length = 16;
-            var charset = 'abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var password = '';
-
-            for (var i = 0, n = charset.length; i < length; ++i) {
-                password += charset.charAt(Math.floor(Math.random() * n));
+            if (isSaved) {
+                this.model.set('_invite_disable_send', true);
+            } else if (!isValid) {
+                this.model.set('_invite_disable_send', true);
+            } else {
+                this.model.set('_invite_disable_send', false);
             }
 
-            return password;
+            this.model.trigger('change:_invite_disable_send');
         },
 
-        setRandomPassword: function () {
-            var password = this.generatePassword();
-            this.model.set('_editing_user_passord', password);
+        validateInvite: function () {
+            var isValid = this.model.isValid(['_invite_name', '_invite_email']);
+            this.model.set('_invite_is_valid', isValid);
         },
 
-        saveChanges: function () {
-            var userIndex = this.model.get('_editing_user_index');
-            var groupPrivate = this.model.get('privat') || {};
-            var groupUsers = groupPrivate.brukere || [];
-            var user;
+        toggleSendButton: function () {
+            var $sendButton = this.$el.find('button[data-dnt-action="send-invite"]').first();
+            var disable = this.model.get('_invite_disable_send') === true;
 
-            if (typeof userIndex === 'number') {
-                if (userIndex < groupUsers.length) {
-                    user = groupUsers[userIndex];
-                    var passord = this.model.get('_editing_user_passord');
-                    if (passord && passord.length) {
-                        user.passord = passord;
-                    }
-
-                } else if (userIndex === groupUsers.length) {
-                    user = {};
-                    user.passord = this.model.get('_editing_user_passord');
-
-                }
-
-                user.navn = this.model.get('_editing_user_navn');
-                user.epost = this.model.get('_editing_user_epost');
-
-                groupUsers[userIndex] = user;
-            }
-
-            groupPrivate.brukere = groupUsers;
-            this.model.set('privat', groupPrivate);
+            $sendButton.attr('disabled', disable);
         },
 
         removeUser: function (e) {
@@ -171,20 +126,8 @@ define(function (require, exports, module) {
             }
         },
 
-        saveGroup: function (e) {
-            this.model.save();
-        },
-
-        saveUser: function (e) {
-            this.saveChanges();
-            this.editor.save();
-        },
-
-        inviteUser: function (e) {
-            e.preventDefault();
-
-            var isValid = this.model.isValid();
-            var invites = this.model.get('privat.invitasjoner') || [];
+        createInvite: function () {
+            this.invite = undefined;
 
             var length = 64;
             var charset = 'abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -196,12 +139,28 @@ define(function (require, exports, module) {
 
             var inviteUrl = 'https://asgardr.app.dnt.no/invitasjon?kode=' + inviteCode;
 
+            this.model.set('_invite_create', true);
+            this.model.set('_invite_saved', false);
+            this.model.set('_invite_sent', false);
+            this.model.set('_invite_name', '');
+            this.model.set('_invite_email', '');
+            this.model.set('_invite_code', inviteCode);
+            this.model.set('_invite_url', inviteUrl);
+
+            this.render();
+        },
+
+        sendInvite: function (e) {
+            e.preventDefault();
+
+            this.model.set('_invite_disable_send', true);
+
             var invite = {
-                navn: this.model.get('_editing_user_navn'),
-                epost: this.model.get('_editing_user_epost'),
+                navn: this.model.get('_invite_name'),
+                epost: this.model.get('_invite_email'),
                 brukt: false,
-                url: inviteUrl,
-                kode: inviteCode,
+                url: this.model.get('_invite_url'),
+                kode: this.model.get('_invite_code'),
                 invitert_av: {
                     id: this.user.get('id'),
                     navn: this.user.get('navn'),
@@ -215,34 +174,38 @@ define(function (require, exports, module) {
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
-                    navn: this.model.get('_editing_user_navn'),
-                    epost: this.model.get('_editing_user_epost'),
+                    navn: this.model.get('_invite_name'),
+                    epost: this.model.get('_invite_email'),
                     gruppe: this.model.get('navn'),
-                    kode: inviteCode,
-                    url: inviteUrl,
+                    url: this.model.get('_invite_url'),
+                    kode: this.model.get('_invite_code'),
                     invitasjon: invite,
                 }),
                 complete: function (jqXhr, textStatus) {
                     var status = jqXhr.responseJSON;
 
                     this.invite = status;
-                    this.invite.url = inviteUrl;
+                    this.invite.url = this.model.get('_invite_url');
 
                     if (status.saved) {
-                        var invites = this.model.get('privat.invitasjoner');
+                        this.model.set('_invite_saved', true);
+                        var invites = this.model.get('privat.invitasjoner') || [];
                         invites.push(invite);
                         this.model.set('privat.invitasjoner', invites);
                     }
 
+                    this.model.set('_invite_sent', !!status.sent);
                     this.render();
                 }.bind(this)
             });
         },
 
+
+
         removeInvite: function (e) {
-            var inviteIndex = parseInt(e.target.getAttribute('data-dnt-index'), 10);
+            var code = e.target.getAttribute('data-dnt-code');
             var privat = this.model.get('privat');
-            var invite = privat.invitasjoner[inviteIndex];
+            var invite = _.findWhere(privat.invitasjoner, {kode: code});
 
             if (window.confirm('Er du sikker på at du vil slette invitasjonen til ' + invite.epost + '?')) {
                 $.ajax({
@@ -251,6 +214,7 @@ define(function (require, exports, module) {
                     contentType: 'application/json',
                     dataType: 'json',
                     success: function (data, textStatus, jqXhr) {
+                        this.model.unset('privat');
                         this.model.set('privat', data.document.privat);
                     }.bind(this),
                     complete: function (jqXhr, textStatus) {
@@ -260,12 +224,17 @@ define(function (require, exports, module) {
             }
         },
 
+        saveGroup: function (e) {
+            this.model.save();
+        },
+
         render: function () {
             var json = this.model.toJSON();
 
             var unusedInvites = (json && json.privat && json.privat.invitasjoner && json.privat.invitasjoner.length) ? json.privat.invitasjoner.filter(function (invitasjon) {
                 return !!invitasjon && invitasjon.brukt === false;
             }) : [];
+
             var html = this.template({
                 model: json,
                 invite: this.invite,

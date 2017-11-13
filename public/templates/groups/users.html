@@ -1,100 +1,108 @@
-<h3>
-  <span>Invitasjoner og brukere</span>
-  <button class="btn btn-primary pull-right" data-dnt-action="add-user">
-    <span class="glyphicon glyphicon-plus"></span>&nbsp;
-    Inviter ny bruker til gruppen
-  </button>
-</h3>
+<% if (!model._id) { %>
+  <h3>
+    <span>Invitasjoner og brukere</span>
+  </h3>
+  <div class="alert alert-info">Du må først lagre gruppa, før du kan invitere brukere.</div>
+<% } else { %>
+  <h3>
+    <span>Invitasjoner og brukere</span>
+    <button class="btn btn-primary pull-right" data-dnt-action="create-invite">
+      <span class="glyphicon glyphicon-plus"></span>&nbsp;
+      Inviter ny bruker til gruppen
+    </button>
+  </h3>
+  <% if (model && model._invite_create === true) { %>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="well clearfix">
+          <% if (invite && invite.processed) { %>
+            <% if (invite.sent) { %>
+              <div class="alert alert-success">
+                Invitasjonen ble sendt til <%= model._invite_email %>
+              </div>
+            <% } else if (invite.saved) { %>
+              <div class="alert alert-warning">
+                <p>Invitasjonen ble opprettet, men det skjedde en feil ved sending til <%= model._invite_email %>.</p>
+                <p>Du kan sende URL-en til invitasjonen selv, eller prøve igjen her senere.</p>
+                <p><strong>URL til invitasjon:</strong></p>
+                <p><pre><%= invite.url %></pre></p>
+              </div>
+            <% } else { %>
+              <div class="alert alert-error">
+                Det skjedde en feil ved oppretting av invitasjonen. Prøv igjen senere, eller ta kontakt dersom feilen vedvarer.
+              </div>
+            <% } %>
 
-<% if (model && typeof model._editing_user_index !== 'undefined') { %>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="well clearfix">
-        <% if (invite && invite.processed) { %>
-          <% if (invite.sent) { %>
-            <div class="alert alert-success">
-              Invitasjonen ble sendt til <%= model._editing_user_epost %>
-            </div>
-          <% } else if (invite.saved) { %>
-            <div class="alert alert-warning">
-              <p>Invitasjonen ble opprettet, men det skjedde en feil ved sending til <%= model._editing_user_epost %>.</p>
-              <p>Du kan sende URL-en til invitasjonen, som du finner nedenfor, manuelt, eller prøve igjen her senere.</p>
-              <p><strong>URL til invitasjon:</strong></p>
-              <p><pre><%= invite.url %></pre></p>
-            </div>
-          <% } else { %>
-            <div class="alert alert-error">
-              Det skjedde en feil ved oppretting av invitasjonen. Prøv igjen senere, eller ta kontakt dersom feilen vedvarer.
-            </div>
           <% } %>
-
-        <% } %>
-        <form>
-          <div class="form-group">
-            <label>Navn:</label>
-            <input type="text" name="group-user-field-navn" class="form-control" placeholder="Uten navn" data-model-validation-field-name="_editing_user_navn">
-          </div>
-          <div class="form-group">
-            <label>Epost:</label>
-            <input type="email" name="group-user-field-epost" class="form-control" data-model-validation-field-name="_editing_user_epost">
-          </div>
-          <button type="button" class="btn btn-primary pull-right" data-dnt-action="invite-user">
-            Send invitasjon
-          </button>
-        </form>
+          <form>
+            <div class="form-group">
+              <label>Navn:</label>
+              <input type="text" name="group-user-field-navn" class="form-control" placeholder="Uten navn"
+              data-model-validation-field-name="_invite_navn">
+            </div>
+            <div class="form-group">
+              <label>Epost:</label>
+              <input type="email" name="group-user-field-epost" class="form-control" data-model-validation-field-name="_invite_email">
+            </div>
+            <button type="button" <% if (model._invite_disable_send) { %>disabled<% } %> class="btn btn-primary pull-right" data-dnt-action="send-invite">
+              Send invitasjon
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-<% } %>
+  <% } %>
 
-<h4>Invitasjoner</h4>
-<% if (unusedInvites && unusedInvites.length) { %>
+  <h4>Invitasjoner</h4>
+
+  <% if (unusedInvites && unusedInvites.length) { %>
+    <div class="row">
+      <div class="col-md-12">
+        <% for (var i = 0; i < unusedInvites.length; i++) { %>
+          <div class="row">
+            <div class="col-sm-12">
+              <h5>
+                <span><%= unusedInvites[i].navn %></span>
+                <button class="btn btn-xs btn-danger pull-right" data-dnt-action="remove-invite" data-dnt-index="<%= i %>" data-dnt-code="<%= unusedInvites[i].kode %>">Slett</button>
+                <a style="margin-right: 5px;" class="btn btn-xs btn-info pull-right" href="<%= unusedInvites[i].url%>">Lenke</a>
+              </h5>
+              <dl>
+                <dt>Epost:</dt>
+                <dd><%= unusedInvites[i].epost %></dd>
+              </dl>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="well">Ingen ubrukte invitasjoner</div>
+  <% } %>
+
+  <h4>Brukere</h4>
   <div class="row">
     <div class="col-md-12">
-      <% for (var i = 0; i < unusedInvites.length; i++) { %>
+      <% for (var i = 0; model && model.privat && model.privat.brukere && i < model.privat.brukere.length; i++) { %>
         <div class="row">
           <div class="col-sm-12">
             <h5>
-              <span><%= unusedInvites[i].navn %></span>
-              <button class="btn btn-xs btn-danger pull-right" data-dnt-action="remove-invite" data-dnt-index="<%= i %>">Slett</button>
-              <a style="margin-right: 5px;" class="btn btn-xs btn-info pull-right" href="<%= unusedInvites[i].url%>">Lenke</a>
+              <span>
+                <%= model.privat.brukere[i].navn %>
+                <% if (model.privat.brukere[i].pbkdf2) { %>
+                  (utgått type)
+                <% } else { %>
+                  (DNT Connect)
+                <% } %>
+              </span>
+              <button class="btn btn-xs btn-danger pull-right" data-dnt-action="remove-user" data-dnt-index="<%= i %>">Slett</button>
             </h5>
             <dl>
               <dt>Epost:</dt>
-              <dd><%= unusedInvites[i].epost %></dd>
+              <dd><%= model.privat.brukere[i].epost %></dd>
             </dl>
           </div>
         </div>
       <% } %>
-    </div>
+  <!--   </div> -->
   </div>
-<% } else { %>
-  <div class="well">Ingen ubrukte invitasjoner</div>
 <% } %>
-
-<h4>Brukere</h4>
-<div class="row">
-  <div class="col-md-12">
-    <% for (var i = 0; model && model.privat && model.privat.brukere && i < model.privat.brukere.length; i++) { %>
-      <div class="row">
-        <div class="col-sm-12">
-          <h5>
-            <span>
-              <%= model.privat.brukere[i].navn %>
-              <% if (model.privat.brukere[i].pbkdf2) { %>
-                (utgått type)
-              <% } else { %>
-                (DNT Connect)
-              <% } %>
-            </span>
-            <button class="btn btn-xs btn-danger pull-right" data-dnt-action="remove-user" data-dnt-index="<%= i %>">Slett</button>
-          </h5>
-          <dl>
-            <dt>Epost:</dt>
-            <dd><%= model.privat.brukere[i].epost %></dd>
-          </dl>
-        </div>
-      </div>
-    <% } %>
-  </div>
-</div>
