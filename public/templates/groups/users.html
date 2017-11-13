@@ -37,12 +37,11 @@
           <form>
             <div class="form-group">
               <label>Navn:</label>
-              <input type="text" name="group-user-field-navn" class="form-control" placeholder="Uten navn"
-              data-model-validation-field-name="_invite_navn">
+              <input type="text" name="group-user-field-navn" class="form-control" placeholder="Uten navn" data-model-validation-field-name="_invite_navn" <% if (model._invite_saved) { %>disabled<% } %>>
             </div>
             <div class="form-group">
               <label>Epost:</label>
-              <input type="email" name="group-user-field-epost" class="form-control" data-model-validation-field-name="_invite_email">
+              <input type="email" name="group-user-field-epost" class="form-control" data-model-validation-field-name="_invite_email" <% if (model._invite_saved) { %>disabled<% } %>>
             </div>
             <button type="button" <% if (model._invite_disable_send) { %>disabled<% } %> class="btn btn-primary pull-right" data-dnt-action="send-invite">
               Send invitasjon
