@@ -79,17 +79,19 @@ define(function (require, exports, module) {
                 msg: 'Dette feltet må fylles ut med navn.'
             },
             _invite_email: function (value) {
-                var json = this.toJSON();
+                if (this.get('_invite_create')) {
+                    var json = this.toJSON();
 
-                if (!value || !/\S+@\S+\.\S+/.test(value)) {
-                    return 'Dette feltet må fylles ut med en epostadresse.';
-                }
+                    if (!value || !/\S+@\S+\.\S+/.test(value)) {
+                        return 'Dette feltet må fylles ut med en epostadresse.';
+                    }
 
-                var existingInvites = json.privat.invitasjoner || [];
-                var emailAlreadyInvited = !!_.findWhere(existingInvites, {epost: value});
+                    var existingInvites = json.privat.invitasjoner || [];
+                    var emailAlreadyInvited = !!_.findWhere(existingInvites, {epost: value});
 
-                if (emailAlreadyInvited) {
-                    return 'En invitasjon er allerede sendt til denne epostadressen.';
+                    if (emailAlreadyInvited) {
+                        return 'En invitasjon er allerede sendt til denne epostadressen.';
+                    }
                 }
             }
         },
