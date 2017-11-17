@@ -137,7 +137,7 @@ define(function (require, exports, module) {
                 inviteCode += charset.charAt(Math.floor(Math.random() * n));
             }
 
-            var inviteUrl = 'https://asgardr.app.dnt.no/invitasjon?kode=' + inviteCode;
+            var inviteUrl = 'https://admin.nasjonalturbase.no/invitasjon?kode=' + inviteCode;
 
             this.model.set('_invite_create', true);
             this.model.set('_invite_saved', false);
