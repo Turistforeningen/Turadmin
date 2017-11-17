@@ -15,7 +15,9 @@ mixin navbarCollapseIndex(active)
 
 
 block navbarHeader
-    a.navbar-brand(href="/" alt="Til mine turer")
+    a.navbar-brand.dnt-logo(href="https://admin.nasjonalturbase.no" alt="Tilbake")
+        img(src="/images/dnt-logo-circle.svg")
+    a.navbar-brand.ut-logo(href="/" alt="Til mine turer")
         img(src="/images/ut-no-logo-hvit.png")
 
     button.navbar-toggle(type="button" data-toggle="collapse" data-target="#app-navigation-collapse")

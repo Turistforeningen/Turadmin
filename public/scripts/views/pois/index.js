@@ -44,7 +44,7 @@ define(function (require, exports, module) {
 
         render: function () {
             var collectionContainsCabin = this.collectionContainsCabin();
-            if (collectionContainsCabin){
+            if (collectionContainsCabin) {
                 $('[data-container-for="cabins-disabled-message"]').removeClass('hidden');
             } else {
                 $('[data-container-for="cabins-disabled-message"]').addClass('hidden');

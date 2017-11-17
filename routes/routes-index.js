@@ -17,6 +17,7 @@ module.exports = function (app, options) {
     var getRoutesIndex = function (req, res) {
 
         var userGroups = req.userGroups || [];
+        var userExternalGroups = req.userExternalGroups || [];
         var userDefaultRouteFetchQuery = (!!req.signedCookies) ? req.signedCookies['userDefaultRouteFetchQuery_' + req.session.userId] : undefined;
 
         var areas;
@@ -29,7 +30,7 @@ module.exports = function (app, options) {
         };
 
         var onCompleteGrupperRequest = function (data) {
-            cache.set('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn', data, 86400);
+            cache.set('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn', data, 86400);
             groups = data.documents;
             onCompleteNtbRequest();
         };
@@ -40,6 +41,7 @@ module.exports = function (app, options) {
                 areas: JSON.stringify(areas),
                 userData: JSON.stringify(req.session.user),
                 userGroups: JSON.stringify(userGroups),
+                userExternalGroups: JSON.stringify(userExternalGroups),
                 externalGroups: JSON.stringify(groups),
                 userDefaultRouteFetchQuery: JSON.stringify(userDefaultRouteFetchQuery),
                 authType: req.session.authType,
@@ -58,13 +60,13 @@ module.exports = function (app, options) {
             restProxy.makeApiRequest('/områder/?limit=100&fields=navn,_id&sort=navn&tilbyder=DNT&status=Offentlig', req, undefined, onCompleteOmraderRequest);
         }
 
-        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn');
+        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn');
         if (cachedGrupper) {
             groups = cachedGrupper.documents;
             onCompleteNtbRequest();
 
         } else {
-            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn', req, undefined, onCompleteGrupperRequest);
+            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn', req, undefined, onCompleteGrupperRequest);
         }
 
     };

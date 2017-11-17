@@ -11,6 +11,7 @@ module.exports = function (app, express, options) {
 
     var underscore = require('underscore');
     var api = options.api;
+    var restProxy = options.restProxy;
 
     return function (req, res, next) {
 
@@ -43,7 +44,11 @@ module.exports = function (app, express, options) {
 
                     req.session.isDntGroupMember = !!associations.length;
 
-                    next();
+                    restProxy.makeApiRequest('/grupper', Object.assign({}, req, Object.assign({query: {'privat.brukere.id': 'sherpa3:' + req.session.user.sherpa_id}})), undefined, function (data) {
+                        req.userExternalGroups = data.documents;
+
+                        next();
+                    });
 
                 } else {
                     sentry.captureMessage('Request to DNT API failed!', {

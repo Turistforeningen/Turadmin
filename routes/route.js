@@ -19,10 +19,12 @@ module.exports = function (app, restProxy, options) {
 
         var userGroups = req.userGroups || [];
         var externalGroups = req.userGroups || [];
+        var userExternalGroups = req.userExternalGroups || [];
 
         req.renderOptions = req.renderOptions || {};
         req.renderOptions.userData = JSON.stringify(req.session.user);
         req.renderOptions.userGroups = JSON.stringify(userGroups);
+        req.renderOptions.userExternalGroups = JSON.stringify(userExternalGroups);
         req.renderOptions.routeApiUri = options.routeApiUri;
         req.renderOptions.authType = req.session.authType;
         req.renderOptions.isAdmin = req.session.user.er_admin;
@@ -32,12 +34,12 @@ module.exports = function (app, restProxy, options) {
             next();
         };
 
-        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn');
+        var cachedGrupper = cache.get('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn');
         if (cachedGrupper) {
             onCompleteExternalGroupsRequest(cachedGrupper);
 
         } else {
-            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
+            restProxy.makeApiRequest('/grupper/?tags=!DNT&limit=1000&fields=navn,privat&sort=navn', req, undefined, onCompleteExternalGroupsRequest);
         }
 
     };

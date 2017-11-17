@@ -60,15 +60,27 @@ ul.nav.navbar-nav.navbar-center li {
 	display: inline-block;
 }
 
+a.navbar-brand.dnt-logo, a.navbar-brand.dnt-logo:hover {
+  background-color: #d82d20;
+  margin-right: 15px;
+  padding: 10px;
+
+}
+
+a.navbar-brand.dnt-logo img {
+  margin: 0 !important;
+  width: 32px !important;
+}
+
 .navbar {
 	height: 50px;
 }
 
-.navbar-brand {
+.navbar-brand.ut-logo {
 	padding: 13px;
 }
 
-.navbar-brand img {
+.navbar-brand.ut-logo img {
 	 height: 24px;
 }
 

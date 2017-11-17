@@ -73,6 +73,26 @@ define(function (require, exports, module) {
             kontaktinfoEpost: {
                 required: false,
                 msg: 'Dette feltet må fylles ut med en epostadresse.'
+            },
+            _invite_name: {
+                required: false,
+                msg: 'Dette feltet må fylles ut med navn.'
+            },
+            _invite_email: function (value) {
+                if (this.get('_invite_create')) {
+                    var json = this.toJSON();
+
+                    if (!value || !/\S+@\S+\.\S+/.test(value)) {
+                        return 'Dette feltet må fylles ut med en epostadresse.';
+                    }
+
+                    var existingInvites = json.privat.invitasjoner || [];
+                    var emailAlreadyInvited = !!_.findWhere(existingInvites, {epost: value});
+
+                    if (emailAlreadyInvited) {
+                        return 'En invitasjon er allerede sendt til denne epostadressen.';
+                    }
+                }
             }
         },
 
@@ -135,7 +155,7 @@ define(function (require, exports, module) {
                 delete primaryKontaktinfo.adresse2;
             }
 
-            if (removeInvalid === true && kontaktinfoPostnummer.length !== 4) {
+            if (removeInvalid === true && kontaktinfoPostnummer && kontaktinfoPostnummer.length !== 4) {
                 this.set('kontaktinfoPostnummer', '');
                 delete primaryKontaktinfo.postnummer;
             } else if (kontaktinfoPostnummer) {

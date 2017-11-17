@@ -21,7 +21,7 @@ module.exports = function (app, options) {
 
     var authenticate = function (req, res, next) {
 
-        var nonSecurePaths = ['/images', '/javascripts', '/lib', '/scripts', '/stylesheets', '/upload', '/connect', '/login', '/restProxy'];
+        var nonSecurePaths = ['/images', '/javascripts', '/lib', '/scripts', '/stylesheets', '/upload', '/connect', '/login', '/restProxy', '/logout'];
 
         if (underscore.contains(nonSecurePaths, underscore.first(req.path.match(/[^\/]*\/[^\/]*/)))) {
             // Path starts with a non-secure path
@@ -121,7 +121,12 @@ module.exports = function (app, options) {
 
     var getLogout = function (req, res) {
         req.session = null;
-        res.redirect('/');
+
+        if (req.query.next) {
+            res.redirect(req.query.next);
+        } else {
+            res.redirect('/');
+        }
     };
 
     app.all('*', authenticate);
