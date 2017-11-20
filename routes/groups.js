@@ -185,6 +185,8 @@ module.exports = function (app, options) {
                     res.json(status);
                 })
                 .catch(function (err) {
+                    sentry.captureMessage('Sending invite using Sendgrid failed', { extra: { err: err }});
+
                     status.processed = true;
 
                     res.json(status);
