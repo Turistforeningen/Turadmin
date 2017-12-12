@@ -85,13 +85,6 @@ define(function (require, exports, module) {
                     if (!value || !/\S+@\S+\.\S+/.test(value)) {
                         return 'Dette feltet må fylles ut med en epostadresse.';
                     }
-
-                    var existingInvites = json.privat.invitasjoner || [];
-                    var emailAlreadyInvited = !!_.findWhere(existingInvites, {epost: value});
-
-                    if (emailAlreadyInvited) {
-                        return 'En invitasjon er allerede sendt til denne epostadressen.';
-                    }
                 }
             }
         },
