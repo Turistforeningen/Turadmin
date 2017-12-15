@@ -374,26 +374,23 @@ define(function (require, exports, module) {
                 attribution: '<a href="http://kartverket.no/">Kartverket</a>'
             });
 
-            summer = L.tileLayer('http://mt3.turistforeningen.no/prod/trail_summer/{z}/{x}/{y}.png', {
-                maxZoom: 16,
-                attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
+            summer = L.tileLayer.wms('https://wms.geonorge.no/skwms1/wms.friluftsruter2?', {
+                layers: 'Fotrute',
+                format: 'image/png',
+                transparent: true,
             });
 
-            winter = L.tileLayer('http://mt3.turistforeningen.no/prod/trail_winter/{z}/{x}/{y}.png', {
-                maxZoom: 16,
-                attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
-            });
-
-            cabin = L.tileLayer('http://mt3.turistforeningen.no/prod/cabin/{z}/{x}/{y}.png', {
-                maxZoom: 16,
-                attribution: '<a href="http://www.turistforeningen.no/">DNT</a>'
+            winter = L.tileLayer.wms('https://wms.geonorge.no/skwms1/wms.friluftsruter2?', {
+                layers: 'Skiloype',
+                format: 'image/png',
+                transparent: true
             });
 
             baseLayerConf = {'Kartdata 2': kartdata, 'Topo 2': topo};
+
             overlayConf = {
-                'DNTs merkede stier': summer,
-                'DNTs merkede vinterruter': winter,
-                'DNTs turisthytter': cabin
+                'Sommerstier': summer,
+                'Vinterløyper': winter
             };
 
             return {
