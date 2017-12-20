@@ -148,9 +148,6 @@ define(function (require, exports, module) {
 
                         if (defaultGroup) {
                             this.set('gruppe', defaultGroup.object_id);
-
-                        } else {
-                            Raven.captureMessage('DNT Connect user did not belong to group of type "sentral", "forening", "turlag" or "turgruppe".', {extra: {user: this.toJSON()}});
                         }
 
                     } else if (externalUserGroups.length > 0) {
