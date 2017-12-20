@@ -131,10 +131,12 @@ define(function (require, exports, module) {
 
         setDefaultGroup: function () {
             var provider = this.get('provider');
+            var defaultGroup;
 
             switch (provider) {
                 case 'DNT Connect':
                     var userGroups = this.get('grupper');
+                    var externalUserGroups = this.get('eksterne_grupper');
 
                     if (userGroups.length > 0) {
                         var sentralGroup = _.findWhere(userGroups, {type: 'sentral'});
@@ -142,7 +144,7 @@ define(function (require, exports, module) {
                         var turlagGroup = _.findWhere(userGroups, {type: 'turlag'});
                         var turgruppeGroup = _.findWhere(userGroups, {type: 'turgruppe'});
 
-                        var defaultGroup = sentralGroup || foreningGroup || turlagGroup || turgruppeGroup;
+                        defaultGroup = sentralGroup || foreningGroup || turlagGroup || turgruppeGroup;
 
                         if (defaultGroup) {
                             this.set('gruppe', defaultGroup.object_id);
@@ -151,6 +153,10 @@ define(function (require, exports, module) {
                             Raven.captureMessage('DNT Connect user did not belong to group of type "sentral", "forening", "turlag" or "turgruppe".', {extra: {user: this.toJSON()}});
                         }
 
+                    } else if (externalUserGroups.length > 0) {
+                        defaultGroup = externalUserGroups[0];
+
+                        this.set('gruppe', defaultGroup._id);
                     }
 
                     break;
