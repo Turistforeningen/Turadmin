@@ -33,7 +33,13 @@ module.exports = function (app, options) {
                 next();
             } else {
                 // User requests a secure path and is not authenticated. Redirect to login
-                res.redirect('/login');
+                var nextRedirect = '';
+
+                if (req.originalUrl) {
+                    nextRedirect = '?next=' + encodeURIComponent(process.env.APP_URL + req.originalUrl);
+                }
+
+                res.redirect('/login' + nextRedirect);
             }
         }
     };
@@ -42,16 +48,26 @@ module.exports = function (app, options) {
         if (req.session && req.session.isAuthenticated === true) {
             res.redirect('/');
         } else {
-            var options = {error: req.query.error, title: 'Logg inn'};
+            var nextRedirect = req.query.next;
+            var options = {
+                error: req.query.error,
+                title: 'Logg inn',
+                next: encodeURIComponent(nextRedirect)
+            };
+
             res.render('login', options);
         }
     };
 
     var getLoginDntConnect = function (req, res) {
+        var nextRedirect = req.query.next;
+
         if (req && req.auth && req.auth.isAuthenticated) {
             res.redirect('/');
-        } else {
+        } else if (!nextRedirect) {
             res.redirect(dntConnectClient.signon(BASE_URL + '/login/dnt/verify'));
+        } else {
+            res.redirect(dntConnectClient.signon(BASE_URL + '/login/dnt/verify/next/' + encodeURIComponent(nextRedirect)));
         }
     };
 
@@ -78,7 +94,7 @@ module.exports = function (app, options) {
                 req.session.user.provider = 'DNT Connect';
                 req.session.user._id = 'sherpa3:' + data.sherpa_id;
                 req.session.userId = 'sherpa3:' + data.sherpa_id;
-                res.redirect('/');
+                res.redirect(req.params.redirect ? decodeURIComponent(req.params.redirect) : '/');
 
             } else {
                 sentry.captureMessage('DNT Connect verification failed', { extra: { data: data }});
@@ -133,6 +149,7 @@ module.exports = function (app, options) {
     app.get('*', userGroupsFetcher);
     app.get('/login/dnt/connect', getLoginDntConnect);
     app.get('/login/dnt/verify', getLoginDntVerify);
+    app.get('/login/dnt/verify/next/:redirect', getLoginDntVerify);
     app.get('/login/turbasen', getLoginTurbasenAuth);
     app.post('/login/turbasen', postLoginTurbasenAuth);
     app.get('/login', getLogin);
