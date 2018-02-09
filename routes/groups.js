@@ -25,18 +25,14 @@ module.exports = function (app, options) {
      */
     var getGroupsAll = function (req, res, next) {
 
-        if (req.session.user.er_admin) {
-            req.renderOptions = req.renderOptions || {};
-            req.renderOptions.userData = JSON.stringify(req.session.user);
-            req.renderOptions.userGroups = JSON.stringify(req.userGroups || []);
-            req.renderOptions.routeApiUri = options.routeApiUri;
-            req.renderOptions.authType = req.session.authType;
-            req.renderOptions.isAdmin = req.session.user.er_admin;
-            next();
-
-        } else {
-            res.redirect(401, '/turer');
-        }
+        req.renderOptions = req.renderOptions || {};
+        req.renderOptions.userData = JSON.stringify(req.session.user);
+        req.renderOptions.userGroups = JSON.stringify(req.userGroups || []);
+        req.renderOptions.userExternalGroups = JSON.stringify(req.userExternalGroups || []);
+        req.renderOptions.routeApiUri = options.routeApiUri;
+        req.renderOptions.authType = req.session.authType;
+        req.renderOptions.isAdmin = req.session.user.er_admin;
+        next();
 
     };
 
@@ -61,6 +57,7 @@ module.exports = function (app, options) {
                 userData: JSON.stringify(req.session.user),
                 userGroups: JSON.stringify(userGroups),
                 externalGroups: JSON.stringify(groups),
+                userExternalGroups: req.renderOptions.userExternalGroups,
                 authType: req.session.authType,
                 itemType: 'grupper',
                 isAdmin: req.session.user.er_admin
@@ -88,7 +85,18 @@ module.exports = function (app, options) {
 
             var groupData = data;
 
-            if ((typeof groupData.tags === 'undefined') || (groupData.tags.indexOf('Hytte') > -1) || (groupData.tags.indexOf('DNT') === -1)) {
+            var groupUserIds = groupData.privat && groupData.privat.brukere
+                ? groupData.privat.brukere.map(function (bruker) {
+                    return bruker.id;
+                })
+                : [];
+
+
+            var userHasAccess = req.session.user.er_admin || groupUserIds.indexOf('sherpa3:' + req.session.user.sherpa_id) !== -1;
+
+            if (!userHasAccess) {
+                res.redirect(403, '/grupper');
+            } else if ((typeof groupData.tags === 'undefined') || (groupData.tags.indexOf('Hytte') > -1) || (groupData.tags.indexOf('DNT') === -1)) {
 
                 req.renderOptions = req.renderOptions || {};
                 req.renderOptions.title = groupData.navn;

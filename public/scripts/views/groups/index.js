@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
+        User = require('models/user'),
         NtbIndexView = require('views/ntb/index'),
         ListItemView = require('views/groups/listitem'),
         GroupCollection = require('collections/groups');
@@ -18,9 +19,17 @@ define(function (require, exports, module) {
     // Module
     return NtbIndexView.extend({
         collection: new GroupCollection(),
-        defaultFetchQuery: {
-            sort: 'navn'
-        },
+        defaultFetchQuery: (function() {
+            var query = {sort: 'navn'};
+            var user = new User();
+
+            if (user.get('er_admin')) {
+            } else {
+                query['privat.brukere.id'] = user.get('id');
+            }
+
+            return query;
+        })(),
 
         renderListItem: function (group) {
             var itemView = new ListItemView({model: group, path: this.itemType});

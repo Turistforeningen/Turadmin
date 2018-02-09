@@ -9,6 +9,8 @@ append head
             | appData.userGroups = !{userGroups};
         - if (typeof externalGroups !== 'undefined')
             | appData.externalGroups = !{externalGroups};
+        - if (typeof userExternalGroups !== 'undefined')
+            | appData.userExternalGroups = !{userExternalGroups};
         - if (typeof areas !== 'undefined')
             | appData.areas = !{areas};
         - if (typeof userData !== 'undefined')
@@ -43,7 +45,7 @@ block content
 
         div.item-list.item-list-routes(data-container-for="items")
             // TODO: Move styles to CSS-file
-            p(style="margin-bottom: 30px;") Her er alle grupper.
+            p(style="margin-bottom: 30px;") Her finner du gruppene du har tilgang til.
                 a.btn.btn-primary.pull-right(href="/grupper/ny") Ny gruppe
 
             div.filters-and-search.well

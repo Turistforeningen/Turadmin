@@ -50,10 +50,14 @@ define(function (require, exports, module) {
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
+                externalGroups = user.get('eksterne_grupper') || [],
                 group;
 
             if (provider == 'DNT Connect' && groups.length) {
                 this.groups = groups;
+                this.collection.fetchQuery = urlFetchQuery || options.userDefaultRouteFetchQuery || this.defaultFetchQuery;
+
+            } else if (provider == 'DNT Connect' && externalGroups.length) {
                 this.collection.fetchQuery = urlFetchQuery || options.userDefaultRouteFetchQuery || this.defaultFetchQuery;
 
             } else if (provider == 'Innholdspartner') {
