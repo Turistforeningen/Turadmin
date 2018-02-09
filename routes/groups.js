@@ -85,12 +85,10 @@ module.exports = function (app, options) {
 
             var groupData = data;
 
-            var groupUserIds = groupData.privat && groupData.privat.brukere
-                ? groupData.privat.brukere.map(function (bruker) {
+            var groupUserIds = groupData.privat && groupData.privat.brukere ?
+                groupData.privat.brukere.map(function (bruker) {
                     return bruker.id;
-                })
-                : [];
-
+                }) : [];
 
             var userHasAccess = req.session.user.er_admin || groupUserIds.indexOf('sherpa3:' + req.session.user.sherpa_id) !== -1;
 
