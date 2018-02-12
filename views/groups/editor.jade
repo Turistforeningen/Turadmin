@@ -37,6 +37,14 @@ block navbarCollapse
     // Right side navigation
     ul.nav.navbar-nav.navbar-right
 
+        if isAdmin
+            li.action-do-switch-published-state
+                a(data-action="do-publish").group-publish
+                    span.glyphicon.glyphicon-cloud-upload
+                    | &nbsp;Publiser
+                a(data-action="do-unpublish").group-unpublish
+                    span.glyphicon.glyphicon-cloud-download
+                    | &nbsp;Avpubliser
         li.action-do-save
             a(data-action="do-save" data-toggle="tooltip" data-placement="bottom").group-save
                 span.glyphicon.glyphicon-floppy-disk

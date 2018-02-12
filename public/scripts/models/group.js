@@ -32,10 +32,6 @@ define(function (require, exports, module) {
             privat: {}
         },
 
-        forced: {
-            status: 'Offentlig'
-        },
-
         serverAttrs: [
             // '_id', 'tilbyder', 'endret', 'checksum' // Legges automatisk inn av Nasjonal Turbase
             'lisens',
