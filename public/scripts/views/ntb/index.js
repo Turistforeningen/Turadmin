@@ -29,6 +29,7 @@ define(function (require, exports, module) {
             'click [data-paginator]': 'paginate',
             'click [data-action="search"]': 'doSearch',
             'click [data-action="filters-and-search-clear"]': 'clearFiltersAndSearch',
+            'click [data-action="sort-by-changed"]': 'sortByChanged',
             'change [data-filter="type"]': 'onFilterTypeChange',
             'change [data-filter="omrade"]': 'onFilterOmraderChange',
             'keypress [name="search-term"]': 'onSearchTermFieldKeyPress'
@@ -46,7 +47,7 @@ define(function (require, exports, module) {
 
             this.collection.on('reset', this.onItemsFetched, this);
 
-            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch', 'onSearchTermFieldKeyPress');
+            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch', 'onSearchTermFieldKeyPress', 'sortByChanged');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -70,6 +71,11 @@ define(function (require, exports, module) {
 
             this.fetchItems();
             this.render();
+        },
+
+        sortByChanged: function () {
+            this.collection.setSort('-endret');
+            this.fetchItems();
         },
 
         onSearchTermFieldKeyPress: function (e) {

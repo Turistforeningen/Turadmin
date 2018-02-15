@@ -198,6 +198,14 @@ define(function (require, exports, module) {
             this.trigger('change:filter');
         },
 
+        setSort: function (property) {
+            this.fetchQuery = this.fetchQuery || {};
+
+            this.fetchQuery['sort'] = property;
+
+            this.trigger('change:filter');
+        },
+
         setFilterNavn: function (term) {
             this.fetchQuery = this.fetchQuery || {};
 
