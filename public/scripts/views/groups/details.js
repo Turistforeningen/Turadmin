@@ -34,7 +34,6 @@ define(function (require, exports, module) {
             'Fotballag',
             'Idrettslag',
             'Interesseorganisasjon',
-            'Kommune',
             'Nasjonalpark',
             'Orienteringslag',
             'Skole',
