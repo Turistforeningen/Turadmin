@@ -29,7 +29,7 @@ define(function (require, exports, module) {
             'click [data-paginator]': 'paginate',
             'click [data-action="search"]': 'doSearch',
             'click [data-action="filters-and-search-clear"]': 'clearFiltersAndSearch',
-            'click [data-action="sort-by-changed"]': 'sortByChanged',
+            'click [data-action="sortable-toggle"]': 'sortByChanged',
             'change [data-filter="type"]': 'onFilterTypeChange',
             'change [data-filter="omrade"]': 'onFilterOmraderChange',
             'keypress [name="search-term"]': 'onSearchTermFieldKeyPress'
@@ -74,7 +74,12 @@ define(function (require, exports, module) {
         },
 
         sortByChanged: function () {
-            this.collection.setSort('-endret');
+            if (/endret/.test(this.collection.fetchQuery.sort)) {
+                this.collection.setSort('navn');
+            } else {
+                this.collection.setSort('-endret');
+            }
+
             this.fetchItems();
         },
 
@@ -199,7 +204,25 @@ define(function (require, exports, module) {
             this.$el.find('[data-container-for="item-rows"]').append(itemView.render().el);
         },
 
+        renderSortable: function () {
+            var sort = this.collection.fetchQuery.sort;
+            var direction = 'asc';
+            var sortProperty = sort;
+
+            if (sort[0] === '-') {
+                direction = 'desc';
+                sortProperty = sort.slice(1);
+            }
+
+            if (/endret/.test(sortProperty)) {
+                this.$el.find('[data-sortable-name="endret"] [data-action="sortable-toggle"]').text('Fjern sortering');
+            } else {
+                this.$el.find('[data-sortable-name="endret"] [data-action="sortable-toggle"]').text('Sorter synkende');
+            }
+        },
+
         render: function () {
+            this.renderSortable();
 
             var userGroups = this.user.get('grupper');
             var userExternalGroups = this.user.get('eksterne_grupper');
