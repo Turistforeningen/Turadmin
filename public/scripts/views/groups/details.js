@@ -29,17 +29,16 @@ define(function (require, exports, module) {
         availableTags: [
             'Kommune',
             'Fylkeskommune',
+            'Friluftsråd',
             'Turlag',
-            'Bedrift',
-            'Fotballag',
+            'Turgruppe',
             'Idrettslag',
             'Interesseorganisasjon',
-            'Nasjonalpark',
-            'Orienteringslag',
-            'Skole',
+            'Velforening',
             'Turistinformasjon',
             'Destinasjonsselskap',
-            'Speidergruppe'
+            'Bedrift',
+            'Annet'
         ],
 
         el: '[data-view="group-details"]',
