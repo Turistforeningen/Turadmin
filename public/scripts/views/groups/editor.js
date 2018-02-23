@@ -61,7 +61,15 @@ define(function (require, exports, module) {
 
             if (isValid === true) {
                 this.model.set('status', 'Offentlig', {silent: true});
-                this.save();
+                this.save(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/grupper/' + this.model.get('id') + '/godkjenn',
+                        data: JSON.stringify(this.model.toJSON()),
+                        dataType: 'json',
+                        contentType: 'application/json'
+                    });
+                }.bind(this));
 
             } else {
 

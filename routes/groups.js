@@ -267,6 +267,45 @@ module.exports = function (app, options) {
         );
     };
 
+    var postGroupsAccept = function (req, res, next) {
+        var groupId = req.params.id;
+        var groupUri = '/grupper/' + groupId;
+
+        var cc = req.body.privat.brukere.map(function (u) {
+            return u.epost;
+        });
+
+        var email = {
+            to: req.body.kontaktinfoEpost,
+            cc: cc,
+            from: 'UT.no / Den Norske Turistforening <ut@dnt.no>',
+            subject: req.body.navn + ' er nå på godkjent på UT.no',
+            html: [
+                '<h2>Hei,</h2>',
+                '<p>' + req.body.navn + ' er nå godkjent som innholdspartner på',
+                'UT.no</p>',
+                '<p><a href="https://www.ut.no/gruppe/' + req.body._id + '">',
+                'Klikk her for å se gruppa på UT.no',
+                '</a>.</p>',
+                '<p>Vennlig hilsen<br>',
+                '<a href="https://www.ut.no">UT.no</a> /',
+                '<a href="https://www.dnt.no">Den Norske Turistforening</a></p>'
+            ].join(' ')
+        };
+
+        sendgrid.send(email)
+            .then(function (response) {
+                var result = response[0];
+                var body = response[1];
+                res.status(200).send();
+            })
+            .catch(function (err) {
+                sentry.captureMessage('Sending group approved email using Sendgrid failed', { extra: { err: err }});
+                res.status(500).send();
+            });
+
+    };
+
     var deleteUser = function (req, res, next) {
         var groupId = req.params.id;
         var groupUri = '/grupper/' + groupId;
@@ -317,6 +356,7 @@ module.exports = function (app, options) {
     app.get('/grupper', getGroupsIndex);
     app.get('/grupper/ny', getGroupsNew);
     app.get('/grupper/:id', getGroupsEdit);
+    app.post('/grupper/:id/godkjenn', postGroupsAccept);
 
     app.post('/grupper/:id/invitasjoner', inviteUser);
     app.delete('/grupper/:id/invitasjoner/:code', deleteInvite);
