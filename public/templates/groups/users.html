@@ -64,6 +64,8 @@
                 <span><%= unusedInvites[i].navn %></span>
                 <button class="btn btn-xs btn-danger pull-right" data-dnt-action="remove-invite" data-dnt-index="<%= i %>" data-dnt-code="<%= unusedInvites[i].kode %>">Slett</button>
                 <a style="margin-right: 5px;" class="btn btn-xs btn-info pull-right" href="<%= unusedInvites[i].url%>">Lenke</a>
+                <button style="margin-right: 5px;" class="btn btn-xs btn-success pull-right" data-dnt-action="resend-invite"
+                  data-dnt-index="<%= i %>" data-dnt-code="<%= unusedInvites[i].kode %>">Send invitasjon</button>
               </h5>
               <dl>
                 <dt>Epost:</dt>

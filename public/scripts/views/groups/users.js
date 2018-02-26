@@ -50,6 +50,7 @@ define(function (require, exports, module) {
         events: {
             'click [data-dnt-action="create-invite"]': 'createInvite',
             'click [data-dnt-action="send-invite"]': 'sendInvite',
+            'click [data-dnt-action="resend-invite"]': 'resendInvite',
             'click [data-dnt-action="save-group"]': 'saveGroup',
             'click [data-dnt-action="set-random-password"]': 'setRandomPassword',
             'click [data-dnt-action="remove-user"]': 'removeUser',
@@ -63,7 +64,7 @@ define(function (require, exports, module) {
             this.editor = options.editor;
 
             // Bind these methods to this scope
-            _.bindAll(this, 'onStatusChange', 'createInvite', 'validateInvite', 'saveGroup', 'removeUser', 'render', 'toggleSendButton');
+            _.bindAll(this, 'onStatusChange', 'createInvite', 'validateInvite', 'saveGroup', 'removeUser', 'render', 'toggleSendButton', 'resendInvite');
 
             this.model.on('change:_invite_disable_send', this.toggleSendButton);
             this.model.on('change:_invite_name', this.validateInvite);
@@ -94,6 +95,33 @@ define(function (require, exports, module) {
         validateInvite: function () {
             var isValid = this.model.isValid(['_invite_name', '_invite_email']);
             this.model.set('_invite_is_valid', isValid);
+        },
+
+        resendInvite: function (e) {
+            var inviteCode = e.target.getAttribute('data-dnt-code');
+            var invites = this.model.get('privat.invitasjoner') || [];
+            var invite = invites.find(function (invite) {
+                return invite.kode === inviteCode;
+            });
+
+            $.ajax({
+                url: '/grupper/' + this.model.get('id') + '/invitasjoner/' + invite.kode + '/send',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    invitasjon: invite,
+                    gruppe: this.model.toJSON()
+                }),
+                complete: function (jqXhr, textStatus) {
+                    if (jqXhr.status === 200) {
+                        alert('Invitasjonen ble sendt.');
+                    } else {
+                        alert('Sending av invitasjon feilet.\n' + jqXhr.responseJSON.message);
+                    }
+                }.bind(this)
+            });
+
         },
 
         toggleSendButton: function () {

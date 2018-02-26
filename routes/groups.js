@@ -19,6 +19,26 @@ module.exports = function (app, options) {
 
     var turbasenAuthClient = new TurbasenAuth('Turadmin', process.env.NTB_API_KEY, {env: process.env.NTB_API_ENV || 'dev'});
 
+    var composeEmail = function (options) {
+
+        return {
+            to: options.to,
+            from: 'UT.no / Den Norske Turistforening <ut@dnt.no>',
+            subject: 'Bli medlem av gruppa ' + options.groupName + ' på UT.no',
+            html: [
+                '<h2>Hei ' + options.inviteeName + ',</h2>',
+                '<p>' + options.groupName + ' er registrert som innholdspartner på',
+                'UT.no, og du er invitert til å bidra med innhold.</p>',
+                '<p><a href="' + options.url + '">Klikk her for å bli medlem',
+                'av gruppa</a>.</p>',
+                '<p>Vennlig hilsen<br>',
+                '<a href="https://www.ut.no">UT.no</a> /',
+                '<a href="https://www.dnt.no">Den Norske Turistforening</a></p>'
+            ].join(' ')
+        };
+
+    };
+
 
     /*
      * All GET requests to /grupper
@@ -151,6 +171,31 @@ module.exports = function (app, options) {
 
     };
 
+    var sendInvite = function (req, res, next) {
+
+        var email = composeEmail({
+            to: req.body.invitasjon.epost,
+            groupName: req.body.gruppe.navn,
+            inviteeName: req.body.invitasjon.navn,
+            url: req.body.invitasjon.url
+        });
+
+        sendgrid.send(email)
+            .then(function (response) {
+                var result = response[0];
+                var body = response[1];
+
+                res.json({sent: true});
+            })
+            .catch(function (err) {
+                sentry.captureMessage('Sending invite using Sendgrid failed', { extra: { err: err }});
+                console.log(err);
+
+                res.status(500).json({sent: false, message: err.message || 'Ukjent feil.'});
+            });
+
+    };
+
     var inviteUser = function (req, res, next) {
         var invite = req.body.invitasjon;
         var groupId = req.params.id;
@@ -165,21 +210,12 @@ module.exports = function (app, options) {
         var afterSave = function (data) {
             status.saved = true;
 
-            var email = {
+            var email = composeEmail({
                 to: req.body.epost,
-                from: 'UT.no / Den Norske Turistforening <ut@dnt.no>',
-                subject: 'Bli medlem av gruppa ' + req.body.gruppe + ' på UT.no',
-                html: [
-                    '<h2>Hei ' + req.body.navn + ',</h2>',
-                    '<p>' + req.body.gruppe + ' er registrert som innholdspartner på',
-                    'UT.no, og du er invitert til å bidra med innhold.</p>',
-                    '<p><a href="' + req.body.url + '">Klikk her for å bli medlem',
-                    'av gruppa</a>.</p>',
-                    '<p>Vennlig hilsen<br>',
-                    '<a href="https://www.ut.no">UT.no</a> /',
-                    '<a href="https://www.dnt.no">Den Norske Turistforening</a></p>'
-                ].join(' ')
-            };
+                groupName: req.body.gruppe,
+                inviteeName: req.body.navn,
+                url: req.body.url
+            });
 
             sendgrid.send(email)
                 .then(function (response) {
@@ -359,6 +395,7 @@ module.exports = function (app, options) {
     app.post('/grupper/:id/godkjenn', postGroupsAccept);
 
     app.post('/grupper/:id/invitasjoner', inviteUser);
+    app.post('/grupper/:id/invitasjoner/:code/send', sendInvite);
     app.delete('/grupper/:id/invitasjoner/:code', deleteInvite);
     app.delete('/grupper/:id/brukere/:user', deleteUser);
 
