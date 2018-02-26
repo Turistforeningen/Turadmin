@@ -115,9 +115,9 @@ define(function (require, exports, module) {
                 }),
                 complete: function (jqXhr, textStatus) {
                     if (jqXhr.status === 200) {
-                        alert('Invitasjonen ble sendt.');
+                        window.alert('Invitasjonen ble sendt.');
                     } else {
-                        alert('Sending av invitasjon feilet.\n' + jqXhr.responseJSON.message);
+                        window.alert('Sending av invitasjon feilet.\n' + jqXhr.responseJSON.message);
                     }
                 }.bind(this)
             });
