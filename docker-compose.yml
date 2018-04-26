@@ -17,4 +17,5 @@ services:
       - APP_URL=http://tur.app.dnt.local
       - NTB_API_ENV=dev
       - NTB_API_URL=https://dev.nasjonalturbase.no
+      - LISTS_ADMIN_URL=https://sjekkut.app.dnt.no/admin/lister
     command: npm start

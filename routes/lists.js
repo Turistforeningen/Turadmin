@@ -28,20 +28,22 @@ module.exports = function (app, options) {
      * All GET requests to /grupper
      */
     var getListsAll = function (req, res, next) {
-
+        // NOTE: "Permanently" redirect all users looking for lists admin to SjekkUT admin
         if (req.session.isDntGroupMember) {
-            req.renderOptions = req.renderOptions || {};
-            req.renderOptions.userData = JSON.stringify(req.session.user);
-            req.renderOptions.userGroups = JSON.stringify(req.userGroups || []);
-            req.renderOptions.routeApiUri = options.routeApiUri;
-            req.renderOptions.authType = req.session.authType;
-            req.renderOptions.isAdmin = req.session.user.er_admin;
-            next();
-
+            if (process.env.LISTS_ADMIN_URL) {
+                res.redirect(301, process.env.LISTS_ADMIN_URL);
+            } else {
+                req.renderOptions = req.renderOptions || {};
+                req.renderOptions.userData = JSON.stringify(req.session.user);
+                req.renderOptions.userGroups = JSON.stringify(req.userGroups || []);
+                req.renderOptions.routeApiUri = options.routeApiUri;
+                req.renderOptions.authType = req.session.authType;
+                req.renderOptions.isAdmin = req.session.user.er_admin;
+                next();
+            }
         } else {
             res.redirect(401, '/turer');
         }
-
     };
 
     /**
