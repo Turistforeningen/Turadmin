@@ -3,6 +3,11 @@ box: node:7.8.0
 build:
   steps:
     - script:
+        name: create tag
+        code: |
+            export BUILD_TAG=${WERCKER_GIT_COMMIT:0:9}
+
+    - script:
         name: echo nodejs information
         code: |
           echo "node version $(node -v) running"
@@ -14,28 +19,21 @@ build:
         name: lint
         code: npm run lint
 
+    - script:
+        name: write .build-tag file
+        code: |
+            echo $BUILD_TAG > .build-tag
+
     - npm-test
+
+    - internal/docker-push:
+        username: $DOCKER_REGISTRY_USERNAME
+        password: $DOCKER_REGISTRY_PASSWORD
+        repository: turistforeningen/turadmin
+        registry: https://registry.hub.docker.com/v2
+        tag: $BUILD_TAG
+        working-dir: /pipeline/source
 
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
-
-deploy:
-    steps:
-        # Rebuild npm dependencies to fix broken symlinks
-        # https://github.com/wercker/docs/issues/310
-        - script:
-            name: npm rebuild
-            code: npm rebuild
-
-        - script:
-            name: docker hub build
-            code: |
-                curl --verbose \
-                    -H "Content-Type: application/json" \
-                    -d "{\"source_type\": \"Branch\", \"source_name\": \"$WERCKER_GIT_BRANCH\"}" \
-                    -X POST $DOCKER_TRIGGER_URL
-
-    after-steps:
-        - turistforeningen/slack-notifier:
-            url: $SLACK_WEBHOOK_URL
