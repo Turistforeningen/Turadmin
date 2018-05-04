@@ -145,7 +145,7 @@ define(function (require, exports, module) {
                 var queryParamsArray = queryParamsString.split('&');
                 for (var i = 0; i < queryParamsArray.length; i++) {
                     var param = queryParamsArray[i].split('=');
-                    fetchQuery[param[0]] = param[1];
+                    fetchQuery[decodeURIComponent(param[0])] = decodeURIComponent(param[1]);
                 }
                 return fetchQuery;
             }
