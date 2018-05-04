@@ -1,8 +1,40 @@
-<td class="route-title">
-    <a href="<%= url %>">
-        <% if (typeof navn != 'undefined') { %><%= navn %><% } else { %><em>Uten navn</em><% } %>
-    </a>
-</td>
+<% if (erRute) { %>
+    <td class="route-title description-hidden">
+        <div>
+            <a href="<%= url %>">
+                <% if (typeof navn != 'undefined') { %>
+                    <%= navn %>
+                <% } else { %>
+                    <em>Uten navn</em>
+                <% } %>
+            </a>
+            <button data-action="show-description" class="btn btn-xs pull-right show-description">
+                Vis beskrivelse
+            </button>
+            <button data-action="hide-description" class="btn btn-xs pull-right hide-description">
+                Skjul beskrivelse
+            </button>
+        </div>
+        <div class="description">
+            <%= beskrivelse %>
+        </div>
+    </td>
+    <td>
+        <span>
+            <%= rute && rute.kode ? rute.kode : '' %>
+        </span>
+    </td>
+<% } else { %>
+    <td class="route-title">
+        <a href="<%= url %>">
+            <% if (typeof navn != 'undefined') { %>
+                <%= navn %>
+            <% } else { %>
+                <em>Uten navn</em>
+            <% } %>
+        </a>
+    </td>
+<% } %>
 <td>
     <%if (userIsAdmin === true) { %>
         <div class="btn-group">

@@ -50,14 +50,14 @@ define(function (require, exports, module) {
 
                 case 'Sommer':
                     this.fetchQuery['rute.type'] = 'Sommer';
-                    this.fetchQuery['fields'] = 'rute,endret,navn,status';
+                    this.fetchQuery['fields'] = 'rute,endret,navn,status,beskrivelse';
                     delete this.fetchQuery['rute'];
 
                     break;
 
                 case 'Vinter':
                     this.fetchQuery['rute.type'] = 'Vinter';
-                    this.fetchQuery['fields'] = 'rute,endret,navn,status';
+                    this.fetchQuery['fields'] = 'rute,endret,navn,status,beskrivelse';
                     delete this.fetchQuery['rute'];
 
                     break;

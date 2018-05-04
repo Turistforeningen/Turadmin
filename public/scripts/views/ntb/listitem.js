@@ -26,18 +26,28 @@ define(function (require, exports, module) {
         tagName: 'tr',
 
         events: {
-            'click td.route-title': 'loadRoute',
-            'click td.actions a.edit': 'loadRoute',
             'click [data-action="route-delete"]': 'deleteRoute',
             'click [data-action="route-delete-modal-open"]': 'openDeleteModal',
             'click [data-action="publish"]': 'publish',
-            'click [data-action="unpublish"]': 'unpublish'
+            'click [data-action="unpublish"]': 'unpublish',
+            'click [data-action="show-description"]': 'showDescription',
+            'click [data-action="hide-description"]': 'hideDescription'
         },
 
-        initialize : function (options) {
+        initialize: function (options) {
             this.path = options.path;
             this.model.on('destroy', this.removeItemView, this);
-            _.bindAll(this, 'publish', 'unpublish');
+            _.bindAll(this, 'publish', 'unpublish', 'showDescription', 'hideDescription');
+        },
+
+        showDescription: function () {
+            this.$('td.route-title').toggleClass('description-visible');
+            this.$('td.route-title').toggleClass('description-hidden');
+        },
+
+        hideDescription: function () {
+            this.$('td.route-title').toggleClass('description-visible');
+            this.$('td.route-title').toggleClass('description-hidden');
         },
 
         getItemEditUrl: function () {
@@ -90,10 +100,16 @@ define(function (require, exports, module) {
             var json = this.model.toJSON();
 
             var publisert = 'Nei';
+
             if (this.model.get('status') === 'Offentlig') {
                 publisert = 'Ja';
             }
+
+            json.beskrivelse = json.beskrivelse || '';
+
             json.erPublisert = publisert;
+            json.erRute = !!json.rute;
+            // json.harGeometri = (json.geojson && json.geojson.coordinates && json.geojson.coordinates.length);
 
             if (!!json.endret) {
                 json.endret = moment(json.endret).format('DD.MM.YYYY [kl.] HH.mm');

@@ -227,6 +227,12 @@ define(function (require, exports, module) {
             var userGroups = this.user.get('grupper');
             var userExternalGroups = this.user.get('eksterne_grupper');
 
+            if (this.collection.fetchQuery['rute.type']) {
+                this.$('table').attr('data-contains-routes', true);
+            } else {
+                this.$('table').removeAttr('data-contains-routes');
+            }
+
             if (this.user.get('provider') === 'DNT Connect') {
 
                 if (this.user.get('er_dnt_gruppe_medlem') === true) {
