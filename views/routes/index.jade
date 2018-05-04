@@ -112,10 +112,15 @@ block content
                     strong(data-placeholder-for="search-term")
 
             div(class="hidden" data-container-for="items-table")
-                table.table.table-bordered.table-hover
+                table.table.table-bordered.table-hover.description-hidden
                     thead
                         tr
-                            th.col-md-4 Tittel
+                            th.col-md-4
+                                |Tittel
+                                button.btn.btn-xs.pull-right(data-action="show-all-descriptions")
+                                    |Vis alle beskrivelser
+                                button.btn.btn-xs.pull-right(data-action="hide-all-descriptions")
+                                    |Skjul alle beskrivelser
                             th.routeOnly Rutekode
                             th Publisert
                             th Opprettet av

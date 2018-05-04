@@ -30,6 +30,8 @@ define(function (require, exports, module) {
             'click [data-action="search"]': 'doSearch',
             'click [data-action="filters-and-search-clear"]': 'clearFiltersAndSearch',
             'click [data-action="sortable-toggle"]': 'sortByChanged',
+            'click [data-action="show-all-descriptions"]': 'showAllDescriptions',
+            'click [data-action="hide-all-descriptions"]': 'hideAllDescriptions',
             'change [data-filter="type"]': 'onFilterTypeChange',
             'change [data-filter="omrade"]': 'onFilterOmraderChange',
             'keypress [name="search-term"]': 'onSearchTermFieldKeyPress'
@@ -47,7 +49,7 @@ define(function (require, exports, module) {
 
             this.collection.on('reset', this.onItemsFetched, this);
 
-            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch', 'onSearchTermFieldKeyPress', 'sortByChanged');
+            _.bindAll(this, 'paginate', 'doSearch', 'onFilterTypeChange', 'onFilterOmraderChange', 'clearFiltersAndSearch', 'onSearchTermFieldKeyPress', 'sortByChanged', 'showAllDescriptions', 'hideAllDescriptions');
 
             var provider = user.get('provider'),
                 groups = user.get('grupper') || [],
@@ -71,6 +73,20 @@ define(function (require, exports, module) {
 
             this.fetchItems();
             this.render();
+        },
+
+        showAllDescriptions: function (e) {
+            this.$('table').addClass('description-visible');
+            this.$('table').removeClass('description-hidden');
+            this.$('table tr td.route-title').addClass('description-visible');
+            this.$('table tr td.route-title').removeClass('description-hidden');
+        },
+
+        hideAllDescriptions: function (e) {
+            this.$('table').addClass('description-hidden');
+            this.$('table').removeClass('description-visible');
+            this.$('table tr td.route-title').removeClass('description-visible');
+            this.$('table tr td.route-title').addClass('description-hidden');
         },
 
         sortByChanged: function () {

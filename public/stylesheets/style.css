@@ -13,6 +13,14 @@ table:not([data-contains-routes]) .routeOnly {
   display: none;
 }
 
+table.description-hidden thead button[data-action="hide-all-descriptions"] {
+  display: none;
+}
+
+table.description-visible thead button[data-action="show-all-descriptions"] {
+  display: none;
+}
+
 table td.description-hidden button.hide-description,
 table td.description-hidden div.description {
   display: none !important;
