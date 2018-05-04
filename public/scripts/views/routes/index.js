@@ -24,6 +24,11 @@ define(function (require, exports, module) {
                 $selectType.val(this.collection.fetchQuery['rute'] || this.collection.fetchQuery['rute.type']);
             }
 
+            var $selectArea = this.$('select[data-filter="omrade"]');
+            if ($selectArea.length && (this.collection.fetchQuery['områder'])) {
+                $selectArea.val(this.collection.fetchQuery['områder']);
+            }
+
             NtbIndexView.prototype.render.call(this);
         }
 
