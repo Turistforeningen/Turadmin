@@ -15,6 +15,7 @@ results
 node_modules/
 public/uploads/
 .env
+*.env
 
 .DS_Store
 .idea
