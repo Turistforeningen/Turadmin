@@ -60,6 +60,7 @@ if (app.get('env') === 'development') {
 /**
  * Routes and middleware
  */
+
 var restProxy = require('./routes/restProxy')(app, {ntbApiUri: ntbApiUri, ntbApiKey: ntbApiKey});
 var userGroupsFetcher = require('./routes/userGroupsFetcher')(app, express, {api: new DNT('Turadmin/1.0', dntApiKey), restProxy: restProxy});
 
