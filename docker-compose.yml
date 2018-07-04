@@ -18,4 +18,5 @@ services:
       - NTB_API_ENV=dev
       - NTB_API_URL=https://dev.nasjonalturbase.no
       - LISTS_ADMIN_URL=https://sjekkut.app.dnt.no/admin/lister
+      - NODE_ENV=development
     command: npm start
