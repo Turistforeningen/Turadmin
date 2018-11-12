@@ -369,7 +369,7 @@ define(function (require, exports, module) {
                 attribution: '<a href="http://kartverket.no/">Kartverket</a>'
             });
 
-            topo =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}', {
+            topo =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}', {
                 maxZoom: 16,
                 attribution: '<a href="http://kartverket.no/">Kartverket</a>'
             });
@@ -386,7 +386,7 @@ define(function (require, exports, module) {
                 transparent: true
             });
 
-            baseLayerConf = {'Kartdata 2': kartdata, 'Topo 2': topo};
+            baseLayerConf = {'Kartdata 2': kartdata, 'Topo 4': topo};
 
             overlayConf = {
                 'Sommerstier': summer,
