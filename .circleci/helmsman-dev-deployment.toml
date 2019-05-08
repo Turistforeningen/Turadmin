@@ -17,8 +17,7 @@ password = "$DEV_CLUSTER_PASSWORD" # admin user password
 clusterURI = "$DEV_CLUSTER_URI" # cluster API
 slackWebhook = "$SLACK_WEBHOOK_HELMSMAN"
 
-
-# define your environments and thier k8s namespaces
+# define your environments and their k8s namespaces
 # syntax: (whitespaces don't matter)
 # [namespaces]
 # [namespaces.<your namespace>]

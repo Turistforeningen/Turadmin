@@ -5,12 +5,14 @@ jobs:
       - image: node:7.8.0
     steps:
       - checkout
+
       - run:
            name: echo nodejs information
            command: |
              echo "node version $(node -v) running"
              echo "npm version $(npm -v) running"
              echo "npm registry $(npm config get registry)"
+
       - run:
           name: install
           command: npm install
@@ -36,7 +38,6 @@ jobs:
            command: |
              chmod +x .circleci/notify-slack.sh
              ./.circleci/notify-slack.sh Turadmin build-publish-deploy true
-
 
   build-image:
     docker:
@@ -81,15 +82,15 @@ jobs:
             chmod +x .circleci/notify-slack.sh
             ./.circleci/notify-slack.sh Turadmin build-publish-deploy false
 
-  # deploy-to-dev:
-  #   docker:
-  #     - image: praqma/helmsman:v1.3.0-helm-v2.8.1
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: run helmsman
-  #         command: |
-  #           helmsman -debug -apply -f .circleci/helmsman-dev-deployment.toml
+  deploy-to-dev:
+    docker:
+      - image: praqma/helmsman:v1.3.0-helm-v2.8.1
+    steps:
+      - checkout
+      - run:
+          name: run helmsman
+          command: |
+            helmsman -debug -apply -f .circleci/helmsman-dev-deployment.toml
 
   # deploy-to-beta:
   #   docker:
@@ -117,6 +118,7 @@ workflows:
     jobs:
       - build-code:
           context: dnt-k8s-dev-beta
+
       - build-image:
           requires:
             - build-code
@@ -125,20 +127,23 @@ workflows:
             branches:
               only:
                 - master
-      # - deploy-to-dev:
-      #     requires:
-      #       - build-image
-      #     context: dnt-k8s-dev-beta
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
+
+      - deploy-to-dev:
+          requires:
+            - build-image
+          context: dnt-k8s-dev-beta
+          filters:
+            branches:
+              only:
+                - master
+
       # - deploy-to-beta:
       #     context: dnt-k8s-dev-beta
       #     filters:
       #       branches:
       #         only:
       #           - deploy-beta
+
       # - deploy-to-prod:
       #     context: dnt-k8s-prod
       #     filters:
