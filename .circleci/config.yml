@@ -49,7 +49,7 @@ jobs:
       - run:
           name: authenticate with gcloud
           command: |
-            echo $GCLOUD_DOCKER_CREDENTIALS > ${HOME}/gcloud-service-key.json
+            echo $GCLOUD_DOCKER_PRIVATE_CREDENTIALS > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
       # if authentication succeeded - checkout code
       - checkout
@@ -63,10 +63,10 @@ jobs:
             gcloud auth configure-docker --quiet
             TAG=${CIRCLE_SHA1:0:9}
             docker build -t turadmin .
-            docker tag turadmin eu.gcr.io/dnt-docker-registry-public/turadmin:latest
-            docker tag turadmin eu.gcr.io/dnt-docker-registry-public/turadmin:$TAG
-            docker push eu.gcr.io/dnt-docker-registry-public/turadmin:latest
-            docker push eu.gcr.io/dnt-docker-registry-public/turadmin:$TAG
+            docker tag turadmin eu.gcr.io/dnt-docker-registry-private/turadmin:latest
+            docker tag turadmin eu.gcr.io/dnt-docker-registry-private/turadmin:$TAG
+            docker push eu.gcr.io/dnt-docker-registry-private/turadmin:latest
+            docker push eu.gcr.io/dnt-docker-registry-private/turadmin:$TAG
 
       - run:
           name: notify slack on sucess
