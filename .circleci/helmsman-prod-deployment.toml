@@ -47,7 +47,7 @@ dnt = "gs://dnt-helm-repo"
   enabled = true
   chart = "dnt/web-app"
   version = "0.7.0"
-  valuesFile = "turadmin-production-values.yaml"
+  valuesFile = ".circleci/turadmin-production-values.yaml"
   [apps.turadmin.set]
   "containers[0].tag" = "$IMAGE_TAG"
   "containers[0].environment.DNT_CONNECT_KEY" = "$DNT_CONNECT_KEY"
