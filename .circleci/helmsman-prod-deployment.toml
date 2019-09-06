@@ -50,6 +50,7 @@ dnt = "gs://dnt-helm-repo"
      valuesFile = "turadmin-production-values.yaml"
      protected = true
      [apps.turadmin.set]
+        "containers[0].tag" = "$IMAGE_TAG"
         "containers[0].environment.DNT_CONNECT_KEY" = "$TURADMIN_DNT_CONNECT_KEY"
         "containers[0].environment.NEW_RELIC_LICENSE_KEY" = "$TURADMIN_NEW_RELIC_LICENSE_KEY"
         "containers[0].environment.NTB_API_KEY" = "$TURADMIN_NTB_API_KEY"

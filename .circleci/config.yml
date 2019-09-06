@@ -7,11 +7,11 @@ jobs:
       - checkout
 
       - run:
-           name: echo nodejs information
-           command: |
-             echo "node version $(node -v) running"
-             echo "npm version $(npm -v) running"
-             echo "npm registry $(npm config get registry)"
+          name: echo nodejs information
+          command: |
+            echo "node version $(node -v) running"
+            echo "npm version $(npm -v) running"
+            echo "npm registry $(npm config get registry)"
 
       - run:
           name: install
@@ -26,18 +26,18 @@ jobs:
           command: npm test
 
       - run:
-           name: notify slack on failure
-           when: on_fail
-           command: |
-             chmod +x .circleci/notify-slack.sh
-             ./.circleci/notify-slack.sh Turadmin build-publish-deploy false
+          name: notify slack on failure
+          when: on_fail
+          command: |
+            chmod +x .circleci/notify-slack.sh
+            ./.circleci/notify-slack.sh Turadmin build-publish-deploy false
 
       - run:
-           name: notify slack on sucess
-           when: on_success
-           command: |
-             chmod +x .circleci/notify-slack.sh
-             ./.circleci/notify-slack.sh Turadmin build-publish-deploy true
+          name: notify slack on sucess
+          when: on_success
+          command: |
+            chmod +x .circleci/notify-slack.sh
+            ./.circleci/notify-slack.sh Turadmin build-publish-deploy true
 
   build-image:
     docker:
@@ -61,7 +61,7 @@ jobs:
           name: build Turadmin docker image and push image to GCR
           command: |
             gcloud auth configure-docker --quiet
-            TAG=${CIRCLE_SHA1:0:9}
+            TAG=$(git describe --tags)
             docker build -t turadmin .
             docker tag turadmin eu.gcr.io/dnt-docker-registry-private/turadmin:latest
             docker tag turadmin eu.gcr.io/dnt-docker-registry-private/turadmin:$TAG
@@ -84,33 +84,25 @@ jobs:
 
   deploy-to-dev:
     docker:
+      - image: praqma/helmsman:v1.12.0-helm-v2.14.3
+    steps:
+      - checkout
+      - run:
+          name: run helmsman
+          command: |
+            export IMAGE_TAG=$(git describe --tags)
+            helmsman --apply -f .circleci/helmsman-dev-deployment.toml --keep-untracked-releases
+
+  deploy-to-prod:
+    docker:
       - image: praqma/helmsman:v1.3.0-helm-v2.8.1
     steps:
       - checkout
       - run:
           name: run helmsman
           command: |
-            helmsman -debug -apply -f .circleci/helmsman-dev-deployment.toml
-
-  # deploy-to-beta:
-  #   docker:
-  #     - image: praqma/helmsman:v1.3.0-helm-v2.8.1
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: run helmsman
-  #         command: |
-  #           helmsman -debug -apply -f .circleci/helmsman-beta-deployment.toml
-
-  # deploy-to-prod:
-  #   docker:
-  #     - image: praqma/helmsman:v1.3.0-helm-v2.8.1
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: run helmsman
-  #         command: |
-  #           helmsman -debug -apply -f .circleci/helmsman-prod-deployment.toml
+            export IMAGE_TAG=$(git describe --tags)
+            helmsman -debug -apply -f .circleci/helmsman-prod-deployment.toml
 
 workflows:
   version: 2
@@ -118,7 +110,6 @@ workflows:
     jobs:
       - build-code:
           context: dnt-k8s-dev-beta
-
       - build-image:
           requires:
             - build-code
@@ -126,8 +117,8 @@ workflows:
           filters:
             branches:
               only:
+                - develop
                 - master
-
       - deploy-to-dev:
           requires:
             - build-image
@@ -135,18 +126,13 @@ workflows:
           filters:
             branches:
               only:
+                - develop
+
+      - deploy-to-prod:
+          requires:
+            - build-image
+          context: dnt-k8s-prod
+          filters:
+            branches:
+              only:
                 - master
-
-      # - deploy-to-beta:
-      #     context: dnt-k8s-dev-beta
-      #     filters:
-      #       branches:
-      #         only:
-      #           - deploy-beta
-
-      # - deploy-to-prod:
-      #     context: dnt-k8s-prod
-      #     filters:
-      #       branches:
-      #         only:
-      #           - deploy-prod
