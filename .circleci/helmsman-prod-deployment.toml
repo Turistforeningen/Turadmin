@@ -12,8 +12,8 @@ maintainer = "Roar Skår  & Sami Alajrami (sami@praqma.com)"
 # paths to the certificate for connecting to the cluster
 # You can skip this if you use Helmsman on a machine with kubectl already connected to your k8s cluster.
 [certificates]
-caCrt    = "$PROD_CLUSTER_CA_CERT"
-caKey    = "$PROD_CLUSTER_CA_KEY"
+caCrt    = "$PROD_CLUSTER_CERT"
+caKey    = "$PROD_CLUSTER_CLIENT_KEY"
 caClient = "$PROD_CLUSTER_CLIENT_CERT"
 
 [settings]
