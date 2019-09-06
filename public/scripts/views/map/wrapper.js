@@ -139,7 +139,7 @@ define(function (require, exports, module) {
             this.$el.html(html);
 
             var mapOptions = {
-                layers: [this.mapLayers.baseLayerConf['Kartdata 2']],
+                layers: [this.mapLayers.baseLayerConf['Kartdata 3']],
                 scrollWheelZoom: false,
                 center: this.mapCenter,
                 zoom: this.mapZoom
@@ -364,7 +364,7 @@ define(function (require, exports, module) {
         createMapLayers: function () {
             var kartdata, topo, summer, winter, cabin, baseLayerConf, overlayConf;
 
-            kartdata =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=kartdata2&zoom={z}&x={x}&y={y}', {
+            kartdata =  L.tileLayer('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=kartdata3&zoom={z}&x={x}&y={y}', {
                 maxZoom: 16,
                 attribution: '<a href="http://kartverket.no/">Kartverket</a>'
             });
@@ -386,7 +386,7 @@ define(function (require, exports, module) {
                 transparent: true
             });
 
-            baseLayerConf = {'Kartdata 2': kartdata, 'Topo 2': topo};
+            baseLayerConf = {'Kartdata 3': kartdata, 'Topo 2': topo};
 
             overlayConf = {
                 'Sommerstier': summer,
