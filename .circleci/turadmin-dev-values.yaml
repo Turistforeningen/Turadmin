@@ -35,18 +35,18 @@ containers:
       APP_PORT: 8080
       APP_URL: "https://tur.beta.dnt.org"
       LISTS_ADMIN_URL: "https://sjekkut.app.dnt.no/admin/lister"
-      DNT_CONNECT_KEY: ""
-      DNT_CONNECT_USER: turadmin
+      DNT_CONNECT_KEY: "$DNT_CONNECT_KEY"
+      DNT_CONNECT_USER: "$DNT_CONNECT_USER"
       FORCE_SSL: true
       NODE_ENV: production
       NTB_ADMIN_URL: "https://admin.nasjonalturbase.no"
       NTB_API_ENV: api
-      NTB_API_KEY: ""
+      NTB_API_KEY: "$NTB_API_KEY"
       NTB_API_URL: "https://api.nasjonalturbase.no"
       ROUTING_API_URL: "https://raido.app.dnt.no"
-      SENDGRID_API_KEY: ""
-      SENTRY_DNS: ""
-      SENTRY_DSN: ""
+      SENDGRID_API_KEY: "$SENDGRID_API_KEY"
+      SENTRY_DNS: "$SENTRY_DNS"
+      SENTRY_DSN: "$SENTRY_DSN"
       VIRTUAL_HOST: "https://tur.app.dnt.no,http://tur.app.dnt.no"
       VIRTUAL_HOST_WEIGHT: 20
       VIRTUAL_PORT: 8080
