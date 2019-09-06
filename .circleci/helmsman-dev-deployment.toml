@@ -44,7 +44,6 @@ dnt = "gs://dnt-helm-repo"
     chart = "dnt/web-app"
     version = "0.7.0"
     valuesFile = "turadmin-dev-values.yaml"
-    protected = true
     [apps.turadmin.set]
     "containers[0].environment.DNT_CONNECT_KEY" = "$TURADMIN_DNT_CONNECT_KEY"
     "containers[0].environment.NEW_RELIC_LICENSE_KEY" = "$TURADMIN_NEW_RELIC_LICENSE_KEY"
