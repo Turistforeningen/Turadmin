@@ -37,16 +37,10 @@ dnt = "gs://dnt-helm-repo"
 
 [apps]
   [apps.turadmin]
-    name = "turadmin"
-    description = "Turadmin Dev App."
-    namespace = "dev"
-    enabled = true
-    chart = "dnt/web-app"
-    version = "0.7.0"
-    valuesFile = "turadmin-dev-values.yaml"
-    [apps.turadmin.set]
-    "containers[0].environment.DNT_CONNECT_KEY" = "$TURADMIN_DNT_CONNECT_KEY"
-    "containers[0].environment.NTB_API_KEY" = "$TURADMIN_NTB_API_KEY"
-    "containers[0].environment.SENDGRID_API_KEY" = "$TURADMIN_SENDGRID_API_KEY"
-    "containers[0].environment.SENTRY_DNS" = "$TURADMIN_SENTRY_DNS"
-    "containers[0].environment.SENTRY_DSN" = "$TURADMIN_SENTRY_DSN"
+  name = "turadmin"
+  description = "Turadmin Dev App."
+  namespace = "dev"
+  enabled = true
+  chart = "dnt/web-app"
+  version = "0.7.0"
+  valuesFile = "turadmin-dev-values.yaml"
