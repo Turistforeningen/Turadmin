@@ -33,7 +33,7 @@ containers:
       - node app.js
     environment:
       APP_PORT: 8080
-      APP_URL: "https://tur.beta.dnt.org"
+      APP_URL: "https://tur.dev.dnt.org"
       LISTS_ADMIN_URL: "https://sjekkut.app.dnt.no/admin/lister"
       DNT_CONNECT_KEY: "$DNT_CONNECT_KEY"
       DNT_CONNECT_USER: "$DNT_CONNECT_USER"
