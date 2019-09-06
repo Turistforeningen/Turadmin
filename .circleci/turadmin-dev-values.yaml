@@ -10,7 +10,7 @@ replicaCount: 1
 restartPolicy: Always
 
 # autoscaling
-autoscaling: 
+autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 2
@@ -24,8 +24,8 @@ disruptionBudget:
 # containers
 containers:
   - name: turadmin
-    image: eu.gcr.io/dnt-docker-registry-public/turadmin
-    tag: "latest"
+    image: eu.gcr.io/dnt-docker-registry-private/turadmin
+    tag: "$IMAGE_TAG"
     pullPolicy: Always
     args:
       - /bin/sh
@@ -33,24 +33,20 @@ containers:
       - node app.js
     environment:
       APP_PORT: 8080
-      APP_URL: "https://tur.beta.dnt.org"
+      APP_URL: "https://tur.dev.dnt.org"
       LISTS_ADMIN_URL: "https://sjekkut.app.dnt.no/admin/lister"
-      DNT_CONNECT_KEY: ""
-      DNT_CONNECT_USER: turadmin
+      DNT_CONNECT_KEY: "$DNT_CONNECT_KEY"
+      DNT_CONNECT_USER: "$DNT_CONNECT_USER"
       FORCE_SSL: true
-      NEW_RELIC_APP_NAME: Turadmin
-      NEW_RELIC_LICENSE_KEY: ""
-      NEW_RELIC_LOG: stdout
-      NEW_RELIC_NO_CONFIG_FILE: true
       NODE_ENV: production
       NTB_ADMIN_URL: "https://admin.nasjonalturbase.no"
       NTB_API_ENV: api
-      NTB_API_KEY: ""
+      NTB_API_KEY: "$NTB_API_KEY"
       NTB_API_URL: "https://api.nasjonalturbase.no"
       ROUTING_API_URL: "https://raido.app.dnt.no"
-      SENDGRID_API_KEY: ""
-      SENTRY_DNS: ""
-      SENTRY_DSN: ""
+      SENDGRID_API_KEY: "$SENDGRID_API_KEY"
+      SENTRY_DNS: "$SENTRY_DNS"
+      SENTRY_DSN: "$SENTRY_DSN"
       VIRTUAL_HOST: "https://tur.app.dnt.no,http://tur.app.dnt.no"
       VIRTUAL_HOST_WEIGHT: 20
       VIRTUAL_PORT: 8080
@@ -73,12 +69,11 @@ containers:
     #   path:
     #   port:
 
-
 nodeSelector: {}
 
 affinity: {}
 
-tolerations: []      
+tolerations: []
 
 # services
 services:
@@ -105,5 +100,5 @@ ingress:
       hosts:
         - tur.dev.dnt.org
 cert:
-  enabled: false
+  enabled: true
   issuer: "letsencrypt-production"

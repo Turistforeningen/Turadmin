@@ -29,7 +29,7 @@ define(function (require, exports, module) {
         draw: false,
         routeModel: undefined,
         modelToPosition: undefined,
-        routingEnabled: true,
+        routingEnabled: true, // Routing is disabled in render method
         snappingEnabled: true,
 
         events: {
@@ -84,9 +84,12 @@ define(function (require, exports, module) {
             var gpxUploadView = new GpxUploadView({callback: $.proxy(this.onGpxUpload, this)}).render();
 
             this.updateRoutingToggle();
-            // Will disable routing and snapping on render
-            // this.toggleRouting();
-            // this.toggleSnapping();
+
+            // Disable routing and snapping on render
+            this.toggleRouting();
+            this.toggleSnapping();
+            // Enable tooltip with disabled routing message
+            $('div.toggleRouting').tooltip();
 
             this.updateRouteDirectionSelect();
             this.renderDrawButton();

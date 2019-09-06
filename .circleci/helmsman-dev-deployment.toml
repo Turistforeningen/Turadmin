@@ -23,6 +23,8 @@ slackWebhook = "$SLACK_WEBHOOK_HELMSMAN"
 # [namespaces.<your namespace>]
 #  protected = <true/false> # default is false
 [namespaces]
+[namespaces.kube-system]
+ useTiller = true
 [namespaces.dev]
 
 # define any private/public helm charts repos you would like to get charts from
@@ -34,20 +36,11 @@ dnt = "gs://dnt-helm-repo"
 # each contains the following:
 
 [apps]
-
-[apps.turadmin]
-     name = "turadmin"
-     description = "Turadmin Dev App."
-     namespace = "dev"
-     enabled = true
-     chart = "dnt/web-app"
-     version = "0.7.0"
-     valuesFile = "turadmin-dev-values.yaml"
-     protected = true
-     [apps.turadmin.set]
-        "containers[0].environment.DNT_CONNECT_KEY" = "$TURADMIN_DNT_CONNECT_KEY"
-        "containers[0].environment.NEW_RELIC_LICENSE_KEY" = "$TURADMIN_NEW_RELIC_LICENSE_KEY"
-        "containers[0].environment.NTB_API_KEY" = "$TURADMIN_NTB_API_KEY"
-        "containers[0].environment.SENDGRID_API_KEY" = "$TURADMIN_SENDGRID_API_KEY"
-        "containers[0].environment.SENTRY_DNS" = "$TURADMIN_SENTRY_DNS"
-        "containers[0].environment.SENTRY_DSN" = "$TURADMIN_SENTRY_DSN"
+  [apps.turadmin]
+  name = "turadmin"
+  description = "Turadmin Dev App."
+  namespace = "dev"
+  enabled = true
+  chart = "dnt/web-app"
+  version = "0.7.0"
+  valuesFile = "turadmin-dev-values.yaml"

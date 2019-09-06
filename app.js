@@ -1,8 +1,3 @@
-if (process.env.NODE_ENV === 'production') {
-  console.log('Starting newrelic application monitoring');
-  require('newrelic');
-}
-
 /**
  * Set keys and URL's
  */

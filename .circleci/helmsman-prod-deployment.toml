@@ -40,19 +40,18 @@ dnt = "gs://dnt-helm-repo"
 # each contains the following:
 
 [apps]
-    [apps.turadmin]
-     name = "turadmin"
-     description = "Turadmin Production App."
-     namespace = "production"
-     enabled = true
-     chart = "dnt/web-app"
-     version = "0.7.0"
-     valuesFile = "turadmin-production-values.yaml"
-     protected = true
-     [apps.turadmin.set]
-        "containers[0].environment.DNT_CONNECT_KEY" = "$TURADMIN_DNT_CONNECT_KEY"
-        "containers[0].environment.NEW_RELIC_LICENSE_KEY" = "$TURADMIN_NEW_RELIC_LICENSE_KEY"
-        "containers[0].environment.NTB_API_KEY" = "$TURADMIN_NTB_API_KEY"
-        "containers[0].environment.SENDGRID_API_KEY" = "$TURADMIN_SENDGRID_API_KEY"
-        "containers[0].environment.SENTRY_DNS" = "$TURADMIN_SENTRY_DNS"
-        "containers[0].environment.SENTRY_DSN" = "$TURADMIN_SENTRY_DSN"
+  [apps.turadmin]
+  name = "turadmin"
+  description = "Turadmin Production App."
+  namespace = "production"
+  enabled = true
+  chart = "dnt/web-app"
+  version = "0.7.0"
+  valuesFile = ".circleci/turadmin-production-values.yaml"
+  [apps.turadmin.set]
+  "containers[0].tag" = "$IMAGE_TAG"
+  "containers[0].environment.DNT_CONNECT_KEY" = "$DNT_CONNECT_KEY"
+  "containers[0].environment.NTB_API_KEY" = "$NTB_API_KEY"
+  "containers[0].environment.SENDGRID_API_KEY" = "$SENDGRID_API_KEY"
+  "containers[0].environment.SENTRY_DNS" = "$SENTRY_DNS"
+  "containers[0].environment.SENTRY_DSN" = "$SENTRY_DSN"
