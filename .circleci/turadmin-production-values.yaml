@@ -38,10 +38,6 @@ containers:
       DNT_CONNECT_KEY: ""
       DNT_CONNECT_USER: turadmin
       FORCE_SSL: true
-      NEW_RELIC_APP_NAME: Turadmin
-      NEW_RELIC_LICENSE_KEY: ""
-      NEW_RELIC_LOG: stdout
-      NEW_RELIC_NO_CONFIG_FILE: true
       NODE_ENV: production
       NTB_ADMIN_URL: "https://admin.nasjonalturbase.no"
       NTB_API_ENV: api

@@ -46,7 +46,6 @@ dnt = "gs://dnt-helm-repo"
     valuesFile = "turadmin-dev-values.yaml"
     [apps.turadmin.set]
     "containers[0].environment.DNT_CONNECT_KEY" = "$TURADMIN_DNT_CONNECT_KEY"
-    "containers[0].environment.NEW_RELIC_LICENSE_KEY" = "$TURADMIN_NEW_RELIC_LICENSE_KEY"
     "containers[0].environment.NTB_API_KEY" = "$TURADMIN_NTB_API_KEY"
     "containers[0].environment.SENDGRID_API_KEY" = "$TURADMIN_SENDGRID_API_KEY"
     "containers[0].environment.SENTRY_DNS" = "$TURADMIN_SENTRY_DNS"
