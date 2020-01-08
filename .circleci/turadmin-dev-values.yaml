@@ -100,5 +100,5 @@ ingress:
       hosts:
         - tur.dev.dnt.org
 cert:
-  enabled: true
+  enabled: false
   issuer: "letsencrypt-production"
