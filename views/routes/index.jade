@@ -68,7 +68,7 @@ block content
                                 | &nbsp;Filter
 
                     div.row
-                        div.col-md-4
+                        div.col-md-6
                             div.area
                                 label Område
                                 select.form-control(data-filter="omrade")
@@ -77,19 +77,20 @@ block content
                                         each val in JSON.parse(areas)
                                             option(value=val._id)= val.navn
 
-                        div.col-md-4
+                        div.col-md-6
                             div.owner
                                 label Eier
                                 div(data-placeholder-for="group-select")
 
-                        div.col-md-4
-                            div.type
-                                label Type
-                                select.form-control(data-filter="type")
-                                    option(value="") Alle
-                                    option(value="!") Turforslag
-                                    option(value="Sommer") Sommerrute
-                                    option(value="Vinter") Vinterløype
+                        //  // Deactivated code as route functionality are being moved to new admin
+                        //- div.col-md-4
+                        //-     div.type
+                        //-         label Type
+                        //-         select.form-control(data-filter="type")
+                        //-             option(value="") Alle
+                        //-             option(value="!") Turforslag
+                        //-             option(value="Sommer") Sommerrute
+                        //-             option(value="Vinter") Vinterløype
                 div.row
                     div.col-sm-12
                         h4
