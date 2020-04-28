@@ -148,9 +148,15 @@ define(function (require, exports, module) {
                     // console.log('Saving ' + relatedCollection.field);
 
                     relatedCollection.collection.save(
+                        // Should rename this argument, but not touching it now
                         function (relatedCollection) {
                             if (!!relatedCollection) {
                                 // console.log('All ' + relatedCollection.field + ' synced with server');
+                                // Some bug(?) causes arrays with items not to be
+                                // replaced by another array with items. But it is
+                                // replaced by an empty array. And then the empty
+                                // array can be replaced with the array with IDs
+                                this.model.set(relatedCollection.field, []);
                                 this.model.set(relatedCollection.field, relatedCollection.collection.pluck('_id'));
 
                             } else {
