@@ -20,7 +20,7 @@
     "jade": "^1.11.0",
     "method-override": "^2.3.6",
     "node-cache": "^2.1.1",
-    "node-fetch": "^1.6.3",
+    "node-fetch": "^2.6.1",
     "raven": "^0.11.0",
     "restler": "^3.4.0",
     "turbasen-auth": "^1.2.0",
